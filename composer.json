@@ -1,0 +1,21 @@
+{
+	"name": "aimeos/ai-client-jsonapi",
+	"description": "Aimeos JSON API extension",
+	"keywords": ["aimeos", "extension", "json", "api"],
+	"type": "aimeos-extension",
+	"license": "LGPL-3.0",
+	"prefer-stable": true,
+	"minimum-stability": "dev",
+	"require": {
+		"php": ">=5.3.3",
+		"composer/installers": "^1.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Aimeos\\Client\\Jsonapi\\": "client/jsonapi/src/Client/Jsonapi/"
+		},
+		"classmap": [
+			"client/jsonapi/src"
+		]
+	}
+}
