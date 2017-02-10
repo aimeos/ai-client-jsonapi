@@ -6,7 +6,7 @@
  */
 
 
-class TestHelperJsonapi
+class TestHelperJapi
 {
 	private static $aimeos;
 	private static $context = array();

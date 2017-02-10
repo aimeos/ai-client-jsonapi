@@ -17,5 +17,5 @@ setlocale( LC_NUMERIC, 'POSIX' );
 setlocale( LC_TIME, 'POSIX' );
 
 
-require_once 'TestHelperJsonapi.php';
+require_once 'TestHelperJapi.php';
 \TestHelperHtml::bootstrap();
