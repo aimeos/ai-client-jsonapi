@@ -26,15 +26,16 @@ class TestHelperJapi
 	{
 		if( !isset( self::$context[$site] ) ) {
 			self::$context[$site] = self::createContext( $site );
+			self::$context[$site]->setView( self::getView( self::$context[$site]->getConfig() ) );
 		}
 
 		return clone self::$context[$site];
 	}
 
 
-	public static function getView()
+	public static function getView( \Aimeos\MW\Config\Iface $config )
 	{
-		$view = new \Aimeos\MW\View\Standard( self::getHtmlTemplatePaths() );
+		$view = new \Aimeos\MW\View\Standard( self::getTemplatePaths() );
 
 		$trans = new \Aimeos\MW\Translation\None( 'en' );
 		$helper = new \Aimeos\MW\View\Helper\Translate\Standard( $view, $trans );
@@ -49,14 +50,20 @@ class TestHelperJapi
 		$helper = new \Aimeos\MW\View\Helper\Date\Standard( $view, 'Y-m-d' );
 		$view->addHelper( 'date', $helper );
 
-		$helper = new \Aimeos\MW\View\Helper\Config\Standard( $view, self::getContext()->getConfig() );
+		$helper = new \Aimeos\MW\View\Helper\Config\Standard( $view, $config );
 		$view->addHelper( 'config', $helper );
+
+		$helper = new \Aimeos\MW\View\Helper\Request\Standard( $view, new \Zend\Diactoros\ServerRequest() );
+		$view->addHelper( 'request', $helper );
+
+		$helper = new \Aimeos\MW\View\Helper\Response\Standard( $view, new \Zend\Diactoros\Response() );
+		$view->addHelper( 'response', $helper );
 
 		return $view;
 	}
 
 
-	public static function getHtmlTemplatePaths()
+	public static function getTemplatePaths()
 	{
 		return self::getAimeos()->getCustomPaths( 'client/jsonapi/templates' );
 	}

@@ -1,6 +1,6 @@
 {
 <?php if( isset( $this->errors ) ) : ?>
-	"errors": <?php echo $this->partial( $this->config( 'admin/jsonadm/partials/template-errors', 'partials/errors-standard.php' ), array( 'errors' => $this->errors ) ); ?>
+	"errors": <?php echo json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
 <?php endif; ?>
 
 }

@@ -18,4 +18,4 @@ setlocale( LC_TIME, 'POSIX' );
 
 
 require_once 'TestHelperJapi.php';
-\TestHelperHtml::bootstrap();
+\TestHelperJapi::bootstrap();
