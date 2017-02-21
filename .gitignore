@@ -1,0 +1,4 @@
+*.junit.xml
+*.log
+*.ser
+
