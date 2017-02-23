@@ -111,7 +111,7 @@ class Standard
 		}
 
 		$context = $this->getContext();
-		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $context, 'index' );
+		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $context, 'product' );
 
 		$view->items = $cntl->getItem( $view->param( 'id' ), $ref );
 		$view->total = 1;
@@ -168,7 +168,7 @@ class Standard
 
 
 		$context = $this->getContext();
-		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $context, 'index' );
+		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $context, 'product' );
 
 		$filter = $cntl->createFilter( $sort, $direction, $start, $size, $listtype );
 		$filter = $cntl->addFilterAttribute( $filter, $attrIds, $optIds, $oneIds );
