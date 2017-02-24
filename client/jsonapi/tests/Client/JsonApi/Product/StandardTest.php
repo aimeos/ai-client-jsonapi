@@ -64,7 +64,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	}
 
 
-	public function testGetItemsFields()
+	public function testGetItems()
 	{
 		$catId = \Aimeos\MShop\Factory::createManager( $this->context, 'catalog' )->findItem( 'cafe' )->getId();
 		$params = array(

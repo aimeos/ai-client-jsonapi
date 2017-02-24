@@ -79,39 +79,6 @@ $action = $this->config( 'client/jsonapi/url/action', 'get' );
 $config = $this->config( 'client/jsonapi/url/config', array() );
 
 
-/** client/jsonapi/partials/template-errors
- * Relative path to the error partial template file
- *
- * Partials are templates which are reused in other templates and generate
- * reoccuring blocks filled with data from the assigned values. The error
- * partial creates the "error" part for the JSON API response.
- *
- * The partial template files are usually stored in the templates/partials/ folder
- * of the core or the extensions. The configured path to the partial file must
- * be relative to the templates/ folder, e.g. "partials/error-default.php".
- *
- * @param string Relative path to the template file
- * @since 2017.03
- * @category Developer
- */
-
-/** client/jsonapi/partials/template-included
- * Relative path to the "included" partial template file
- *
- * Partials are templates which are reused in other templates and generate
- * reoccuring blocks filled with data from the assigned values. The "included"
- * partial creates the "included" part for the JSON API response.
- *
- * The partial template files are usually stored in the templates/partials/ folder
- * of the core or the extensions. The configured path to the partial file must
- * be relative to the templates/ folder, e.g. "partials/included-default.php".
- *
- * @param string Relative path to the template file
- * @since 2017.03
- * @category Developer
- */
-
-
 $view = $this;
 $enc = $this->encoder();
 
@@ -192,7 +159,7 @@ $entryFcn = function( \Aimeos\MShop\Common\Item\Iface $item ) use ( $fields, $vi
 };
 
 
-$refFcn = function( \Aimeos\MShop\Common\Item\Iface $item, $level ) use ( $entryFcn, &$refFcn, &$map )
+$refFcn = function( \Aimeos\MShop\Common\Item\Iface $item, $level ) use ( $map, $entryFcn, &$refFcn )
 {
 	$list = array();
 
