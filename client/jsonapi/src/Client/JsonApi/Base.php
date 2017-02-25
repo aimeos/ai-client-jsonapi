@@ -241,18 +241,19 @@ class Base
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $criteria Criteria object
 	 * @param array $params List of criteria data with condition, sorting and paging
+	 * @return \Aimeos\MW\Criteria\Iface Initialized criteria object
 	 */
 	protected function initCriteriaConditions( \Aimeos\MW\Criteria\Iface $criteria, array $params )
 	{
 		if( !isset( $params['filter'] ) ) {
-			return;
+			return $criteria;
 		}
 
 		$existing = $criteria->getConditions();
 		$criteria->setConditions( $criteria->toConditions( (array) $params['filter'] ) );
 
 		$expr = array( $criteria->getConditions(), $existing );
-		$criteria->setConditions( $criteria->combine( '&&', $expr ) );
+		return $criteria->setConditions( $criteria->combine( '&&', $expr ) );
 	}
 
 
@@ -261,13 +262,14 @@ class Base
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $criteria Criteria object
 	 * @param array $params List of criteria data with condition, sorting and paging
+	 * @return \Aimeos\MW\Criteria\Iface Initialized criteria object
 	 */
 	protected function initCriteriaSlice( \Aimeos\MW\Criteria\Iface $criteria, array $params )
 	{
 		$start = ( isset( $params['page']['offset'] ) ? (int) $params['page']['offset'] : 0 );
 		$size = ( isset( $params['page']['limit'] ) ? (int) $params['page']['limit'] : 25 );
 
-		$criteria->setSlice( $start, $size );
+		return $criteria->setSlice( $start, $size );
 	}
 
 
@@ -276,6 +278,7 @@ class Base
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $criteria Criteria object
 	 * @param array $params List of criteria data with condition, sorting and paging
+	 * @return \Aimeos\MW\Criteria\Iface Initialized criteria object
 	 */
 	protected function initCriteriaSortations( \Aimeos\MW\Criteria\Iface $criteria, array $params )
 	{
@@ -294,6 +297,6 @@ class Base
 			}
 		}
 
-		$criteria->setSortations( $sortation );
+		return $criteria->setSortations( $sortation );
 	}
 }
