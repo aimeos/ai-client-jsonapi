@@ -96,4 +96,26 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
+
+
+	public function testGetItemsCriteria()
+	{
+		$catId = \Aimeos\MShop\Factory::createManager( $this->context, 'catalog' )->findItem( 'cafe' )->getId();
+		$params = array(
+			'filter' => array(
+				'f_catid' => $catId,
+				'==' => array( 'product.type.code' => 'default' ),
+			),
+			'sort' => 'product.id',
+		);
+		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 2, $result['meta']['total'] );
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
 }

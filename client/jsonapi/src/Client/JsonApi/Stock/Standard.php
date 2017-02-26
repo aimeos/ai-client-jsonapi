@@ -124,13 +124,13 @@ class Standard
 	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response )
 	{
 		$total = 0;
-		$params = $view->param( 'filter' );
+		$params = $view->param( 'filter', [] );
 		unset( $params['s_prodcode'], $params['s_typecode'] );
 
 		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'stock' );
 
 		$filter = $cntl->createFilter();
-		$filter = $this->initCriteria( $filter, $params );
+		$filter = $this->initCriteria( $filter, ['filter' => $params] );
 		$filter = $cntl->addFilterCodes( $filter, $view->param( 'filter/s_prodcode', array() ) );
 		$filter = $cntl->addFilterTypes( $filter, $view->param( 'filter/s_typecode', array() ) );
 

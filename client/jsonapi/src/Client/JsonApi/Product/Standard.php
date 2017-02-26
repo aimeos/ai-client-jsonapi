@@ -166,7 +166,6 @@ class Standard
 		$optIds = $view->param( 'filter/f_optid', array() );
 		$oneIds = $view->param( 'filter/f_oneid', array() );
 
-
 		$context = $this->getContext();
 		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $context, 'product' );
 
@@ -210,6 +209,11 @@ class Standard
 		if( ( $search = $view->param( 'filter/f_search' ) ) !== null ) {
 			$filter = $cntl->addFilterText( $filter, $search, $sort, $direction, $listtype );
 		}
+
+		$params = $view->param( 'filter', [] );
+		unset( $params['f_attrid'], $params['f_optid'], $params['f_oneid'] );
+		unset( $params['f_listtype'], $params['f_catid'], $params['f_search'] );
+		$filter = $this->initCriteriaConditions( $filter, ['filter' => $params] );
 
 		$view->items = $cntl->searchItems( $filter, $ref, $total );
 		$view->total = $total;
