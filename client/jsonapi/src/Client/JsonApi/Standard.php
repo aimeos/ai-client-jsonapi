@@ -39,6 +39,27 @@ class Standard
 
 		try
 		{
+			/** client/jsonapi/resources
+			 * A list of resource names whose clients are available for the JSON API
+			 *
+			 * The HTTP OPTIONS method returns a list of resources known by the
+			 * JSON API including their URLs. The list of available resources
+			 * can be exteded dynamically be implementing a new Jsonadm client
+			 * class handling request for this new domain.
+			 *
+			 * To add the new domain client to the list of resources returned
+			 * by the HTTP OPTIONS method, you have to add its name in lower case
+			 * to the existing configuration.
+			 *
+			 * @param array List of resource names
+			 * @since 2017.03
+			 * @category Developer
+			 */
+			$default = ['attribute', 'catalog', 'product', 'stock'];
+			$resources = $this->getContext()->getConfig()->get( 'client/jsonapi/resources', $default );
+
+			$view->resources = (array) $resources;
+			$view->prefix = $prefix;
 			$status = 200;
 		}
 		catch( \Exception $e )
