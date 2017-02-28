@@ -131,7 +131,7 @@ class Factory
 
 		if( class_exists( $factory ) === true )
 		{
-			$args = array( $context, $view, $templatePaths, $path, $name );
+			$args = array( $context, $templatePaths, $path, $name );
 
 			if( ( $client = @call_user_func_array( array( $factory, 'createClient' ), $args ) ) === false ) {
 				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid factory "%1$s"', $factory ), 400 );
