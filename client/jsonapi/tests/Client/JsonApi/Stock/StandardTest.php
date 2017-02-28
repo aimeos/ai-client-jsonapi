@@ -80,4 +80,48 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
+
+
+	public function testGetMShopException()
+	{
+		$templatePaths = \TestHelperJapi::getTemplatePaths();
+
+		$object = $this->getMockBuilder( '\Aimeos\Client\JsonApi\Stock\Standard' )
+			->setConstructorArgs( [$this->context, $this->view, $templatePaths, 'stock'] )
+			->setMethods( ['getItems'] )
+			->getMock();
+
+		$object->expects( $this->once() )->method( 'getItems' )
+			->will( $this->throwException( new \Aimeos\MShop\Exception() ) );
+
+
+		$response = $object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+
+		$this->assertEquals( 404, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testGetException()
+	{
+		$templatePaths = \TestHelperJapi::getTemplatePaths();
+
+		$object = $this->getMockBuilder( '\Aimeos\Client\JsonApi\Stock\Standard' )
+			->setConstructorArgs( [$this->context, $this->view, $templatePaths, 'stock'] )
+			->setMethods( ['getItems'] )
+			->getMock();
+
+		$object->expects( $this->once() )->method( 'getItems' )
+			->will( $this->throwException( new \Exception() ) );
+
+
+		$response = $object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+
+		$this->assertEquals( 500, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
 }

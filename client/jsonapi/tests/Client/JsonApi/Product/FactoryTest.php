@@ -16,7 +16,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 		$context = \TestHelperJapi::getContext();
 		$templatePaths = \TestHelperJapi::getTemplatePaths();
 
-		$client = \Aimeos\Client\JsonApi\Product\Factory::createClient( $context, $templatePaths, 'attribute' );
+		$client = \Aimeos\Client\JsonApi\Product\Factory::createClient( $context, $templatePaths, 'product' );
 		$this->assertInstanceOf( '\Aimeos\Client\JsonApi\Iface', $client );
 	}
 
@@ -47,6 +47,6 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 		$templatePaths = \TestHelperJapi::getTemplatePaths();
 
 		$this->setExpectedException( '\Aimeos\Client\JsonApi\Exception' );
-		\Aimeos\Client\JsonApi\Product\Factory::createClient( $context, $templatePaths, '', '%^' );
+		\Aimeos\Client\JsonApi\Product\Factory::createClient( $context, $templatePaths, 'product', '%^' );
 	}
 }

@@ -68,9 +68,12 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 			'fields' => array(
 				'attribute' => 'attribute.id,attribute.label'
 			),
+			'include' => 'media,price,text'
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
+
+		$this->context->getConfig()->set( 'client/jsonapi/attribute/types', ['size', 'length', 'width'] );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -83,7 +86,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 24, $result['meta']['total'] );
 		$this->assertEquals( 24, count( $result['data'] ) );
 		$this->assertEquals( 'attribute', $result['data'][0]['type'] );
-		$this->assertEquals( 2, count( $result['data'][0]['attributes'] ) );
+		$this->assertEquals( 5, count( $result['data'][0]['attributes'] ) );
 		$this->assertEquals( 0, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -104,8 +107,53 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
+
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 6, $result['meta']['total'] );
 		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
+	public function testGetMShopException()
+	{
+		$templatePaths = \TestHelperJapi::getTemplatePaths();
+
+		$object = $this->getMockBuilder( '\Aimeos\Client\JsonApi\Attribute\Standard' )
+			->setConstructorArgs( [$this->context, $this->view, $templatePaths, 'attribute'] )
+			->setMethods( ['getItems'] )
+			->getMock();
+
+		$object->expects( $this->once() )->method( 'getItems' )
+			->will( $this->throwException( new \Aimeos\MShop\Exception() ) );
+
+
+		$response = $object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+
+		$this->assertEquals( 404, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testGetException()
+	{
+		$templatePaths = \TestHelperJapi::getTemplatePaths();
+
+		$object = $this->getMockBuilder( '\Aimeos\Client\JsonApi\Attribute\Standard' )
+			->setConstructorArgs( [$this->context, $this->view, $templatePaths, 'attribute'] )
+			->setMethods( ['getItems'] )
+			->getMock();
+
+		$object->expects( $this->once() )->method( 'getItems' )
+			->will( $this->throwException( new \Exception() ) );
+
+
+		$response = $object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+
+		$this->assertEquals( 500, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
 	}
 }

@@ -18,11 +18,17 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	protected function setUp()
 	{
-		$this->context = \TestHelperJapi::getContext();
 		$templatePaths = \TestHelperJapi::getTemplatePaths();
+		$this->context = \TestHelperJapi::getContext();
 		$this->view = $this->context->getView();
 
 		$this->object = new \Aimeos\Client\JsonApi\Catalog\Standard( $this->context, $this->view, $templatePaths, 'catalog' );
+	}
+
+
+	protected function tearDown()
+	{
+		unset( $this->object, $this->context, $this->view );
 	}
 
 
@@ -85,5 +91,49 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertArrayHaskey( 'self', $result['included'][0]['links'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
+	public function testGetMShopException()
+	{
+		$templatePaths = \TestHelperJapi::getTemplatePaths();
+
+		$object = $this->getMockBuilder( '\Aimeos\Client\JsonApi\Catalog\Standard' )
+			->setConstructorArgs( [$this->context, $this->view, $templatePaths, 'catalog'] )
+			->setMethods( ['getItem'] )
+			->getMock();
+
+		$object->expects( $this->once() )->method( 'getItem' )
+			->will( $this->throwException( new \Aimeos\MShop\Exception() ) );
+
+
+		$response = $object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+
+		$this->assertEquals( 404, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testGetException()
+	{
+		$templatePaths = \TestHelperJapi::getTemplatePaths();
+
+		$object = $this->getMockBuilder( '\Aimeos\Client\JsonApi\Catalog\Standard' )
+			->setConstructorArgs( [$this->context, $this->view, $templatePaths, 'catalog'] )
+			->setMethods( ['getItem'] )
+			->getMock();
+
+		$object->expects( $this->once() )->method( 'getItem' )
+			->will( $this->throwException( new \Exception() ) );
+
+
+		$response = $object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+
+		$this->assertEquals( 500, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
 	}
 }

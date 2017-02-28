@@ -120,8 +120,8 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 			'fields' => array(
 				'product' => 'product.id,product.label'
 			),
-			'sort' => 'product.id',
-			'include' => 'text,product,product/property'
+			'sort' => '-product.id',
+			'include' => 'attribute,text,product,product/property'
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
@@ -139,8 +139,9 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 4, count( $result['data'][0]['attributes'] ) );
 		$this->assertEquals( 6, count( $result['data'][0]['attributes']['text'] ) );
 		$this->assertEquals( 4, count( $result['data'][0]['attributes']['product/property'] ) );
+		$this->assertEquals( 5, count( $result['data'][0]['relationships']['attribute']['data'] ) );
 		$this->assertEquals( 5, count( $result['data'][0]['relationships']['product']['data'] ) );
-		$this->assertEquals( 12, count( $result['included'] ) );
+		$this->assertEquals( 24, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -152,6 +153,8 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$params = array(
 			'filter' => array(
 				'f_catid' => $catId,
+				'f_search' => 'Cafe',
+				'f_listtype' => ['unittype13', 'unittype19'],
 				'==' => array( 'product.type.code' => 'default' ),
 			),
 			'sort' => 'product.id',
@@ -165,5 +168,49 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 2, $result['meta']['total'] );
 		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
+	public function testGetMShopException()
+	{
+		$templatePaths = \TestHelperJapi::getTemplatePaths();
+
+		$object = $this->getMockBuilder( '\Aimeos\Client\JsonApi\Product\Standard' )
+			->setConstructorArgs( [$this->context, $this->view, $templatePaths, 'product'] )
+			->setMethods( ['getItems'] )
+			->getMock();
+
+		$object->expects( $this->once() )->method( 'getItems' )
+			->will( $this->throwException( new \Aimeos\MShop\Exception() ) );
+
+
+		$response = $object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+
+		$this->assertEquals( 404, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testGetException()
+	{
+		$templatePaths = \TestHelperJapi::getTemplatePaths();
+
+		$object = $this->getMockBuilder( '\Aimeos\Client\JsonApi\Product\Standard' )
+			->setConstructorArgs( [$this->context, $this->view, $templatePaths, 'product'] )
+			->setMethods( ['getItems'] )
+			->getMock();
+
+		$object->expects( $this->once() )->method( 'getItems' )
+			->will( $this->throwException( new \Exception() ) );
+
+
+		$response = $object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+
+		$this->assertEquals( 500, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
 	}
 }
