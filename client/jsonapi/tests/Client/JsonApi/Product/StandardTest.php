@@ -26,6 +26,54 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	}
 
 
+	public function testAggregateAttribute()
+	{
+		$params = array( 'aggregate' => 'index.attribute.id' );
+		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
+		$this->assertEquals( 13, $result['meta']['total'] );
+		$this->assertEquals( 13, count( $result['data'] ) );
+		$this->assertGreaterThan( 0, $result['data'][0]['id'] );
+		$this->assertGreaterThan( 0, $result['data'][0]['attributes'] );
+		$this->assertEquals( 'index.attribute.id', $result['data'][0]['type'] );
+
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
+	public function testAggregateCatalog()
+	{
+		$params = array( 'aggregate' => 'index.catalog.id' );
+		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
+		$this->assertEquals( 4, $result['meta']['total'] );
+		$this->assertEquals( 4, count( $result['data'] ) );
+		$this->assertGreaterThan( 0, $result['data'][0]['id'] );
+		$this->assertGreaterThan( 0, $result['data'][0]['attributes'] );
+		$this->assertEquals( 'index.catalog.id', $result['data'][0]['type'] );
+
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
 	public function testGetItem()
 	{
 		$prodId = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'CNE' )->getId();
