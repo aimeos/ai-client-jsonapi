@@ -20,7 +20,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @package Client
  * @subpackage JsonApi
  */
-class Base
+abstract class Base
 {
 	private $view;
 	private $context;
