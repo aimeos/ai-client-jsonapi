@@ -12,6 +12,6 @@
 		</whitelist>
 	</filter>
 	<logging>
-		<log type="junit" target="ai-client-jsonapi_client-jsonapi_test.junit.xml" />
+		<log type="junit" target="core_client-jsonapi_test.junit.xml" />
 	</logging>
 </phpunit>
