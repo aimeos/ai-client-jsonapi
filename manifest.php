@@ -10,7 +10,7 @@ return array(
 		'client/jsonapi/src',
 	),
 	'i18n' => array(
-		'client' => 'client/jsonapi/i18n',
+		'client/jsonapi' => 'client/jsonapi/i18n',
 	),
 	'custom' => array(
 		'client/jsonapi/templates' => array(
