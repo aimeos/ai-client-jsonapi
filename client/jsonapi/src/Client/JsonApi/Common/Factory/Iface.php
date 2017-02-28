@@ -24,7 +24,7 @@ interface Iface
 	 *
 	 * @param \Aimeos\MShop\Context\Item\Iface $context MShop context object
 	 * @param array $templatePaths List of file system paths where the templates are stored
-	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
+	 * @param string $path Name of the client separated by slashes, e.g "product"
 	 * @param string|null $name Name of the client implementation ("Standard" if null)
 	 * @return \Aimeos\Admin\JsonAdm\Iface Client Interface
 	 */
