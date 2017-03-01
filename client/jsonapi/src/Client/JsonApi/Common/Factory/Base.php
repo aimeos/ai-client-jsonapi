@@ -44,8 +44,8 @@ class Base
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Context instance with necessary objects
 	 * @param \Aimeos\MW\View\Iface $view View object
 	 * @param array $templatePaths List of file system paths where the templates are stored
-	 * @param string $path Name of the client separated by slashes, e.g "product/property"
-	 * @return \Aimeos\Client\JsonApi\Common\Iface Client object
+	 * @param string $path Name of the client, e.g "product"
+	 * @return \Aimeos\Client\JsonApi\Iface Client object
 	 */
 	protected static function addClientDecorators( \Aimeos\Client\JsonApi\Iface $client,
 		\Aimeos\MShop\Context\Item\Iface $context, \Aimeos\MW\View\Iface $view, array $templatePaths, $path )
@@ -122,7 +122,7 @@ class Base
 	 * @param \Aimeos\MW\View\Iface $view View object
 	 * @param array $templatePaths List of file system paths where the templates are stored
 	 * @param string $path Name of the client, e.g "product"
-	 * @return \Aimeos\Client\JsonApi\Common\Iface Client object
+	 * @return \Aimeos\Client\JsonApi\Iface Client object
 	 */
 	protected static function addDecorators( \Aimeos\Client\JsonApi\Iface $client, array $decorators, $classprefix,
 			\Aimeos\MShop\Context\Item\Iface $context, \Aimeos\MW\View\Iface $view, $templatePaths, $path )
@@ -162,8 +162,8 @@ class Base
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object
 	 * @param \Aimeos\MW\View\Iface $view View object
 	 * @param array $templatePaths List of file system paths where the templates are stored
-	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
-	 * @return \Aimeos\Client\JsonApi\Common\Iface Client object
+	 * @param string $path Name of the client, e.g "product"
+	 * @return \Aimeos\Client\JsonApi\Iface Client object
 	 */
 	protected static function createClientBase( $classname, $interface, \Aimeos\MShop\Context\Item\Iface $context,
 		\Aimeos\MW\View\Iface $view, array $templatePaths, $path )
