@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2015-2016
+ * @copyright Aimeos (aimeos.org), 2017
  * @package Client
  * @subpackage JsonApi
  */
@@ -76,9 +76,6 @@ class Base
 		 */
 		$decorators = $config->get( 'client/jsonapi/common/decorators/default', array() );
 
-		$classprefix = '\\Aimeos\\Client\\JsonApi\\Common\\Decorator\\';
-		$client = self::addDecorators( $client, $decorators, $classprefix, $context, $view, $templatePaths, $path );
-
 		if( $path !== null && is_string( $path ) )
 		{
 			$dpath = trim( $path, '/' );
@@ -105,6 +102,11 @@ class Base
 				$client = self::addDecorators( $client, $decorators, $classprefix, $context, $view, $templatePaths, $path );
 			}
 		}
+		else
+		{
+			$classprefix = '\\Aimeos\\Client\\JsonApi\\Common\\Decorator\\';
+			$client = self::addDecorators( $client, $decorators, $classprefix, $context, $view, $templatePaths, $path );
+		}
 
 		return $client;
 	}
@@ -119,7 +121,7 @@ class Base
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Context instance with necessary objects
 	 * @param \Aimeos\MW\View\Iface $view View object
 	 * @param array $templatePaths List of file system paths where the templates are stored
-	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
+	 * @param string $path Name of the client, e.g "product"
 	 * @return \Aimeos\Client\JsonApi\Common\Iface Client object
 	 */
 	protected static function addDecorators( \Aimeos\Client\JsonApi\Iface $client, array $decorators, $classprefix,

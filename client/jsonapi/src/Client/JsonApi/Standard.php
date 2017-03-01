@@ -34,7 +34,6 @@ class Standard
 	 */
 	public function options( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
 	{
-		$context = $this->getContext();
 		$view = $this->getView();
 
 		try
