@@ -30,7 +30,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
 	public function testinjectClient()
 	{
-		$this->object::injectClient( 'test', $this->client );
+		$this->object->injectClient( 'test', $this->client );
 	}
 
 
