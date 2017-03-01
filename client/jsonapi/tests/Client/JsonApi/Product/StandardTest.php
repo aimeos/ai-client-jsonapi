@@ -157,7 +157,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 				'f_listtype' => ['unittype13', 'unittype19'],
 				'==' => array( 'product.type.code' => 'default' ),
 			),
-			'sort' => 'product.id',
+			'sort' => '-product.id',
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );

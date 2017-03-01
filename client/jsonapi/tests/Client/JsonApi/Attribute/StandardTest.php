@@ -64,30 +64,36 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testGetItems()
 	{
+		$this->context->getConfig()->set( 'client/jsonapi/attribute/types', ['size', 'length', 'width'] );
+
 		$params = array(
 			'fields' => array(
-				'attribute' => 'attribute.id,attribute.label'
+				'attribute' => 'attribute.id,attribute.type,attribute.code'
 			),
-			'include' => 'media,price,text'
+			'include' => 'media,price,text',
+			'sort' => 'attribute.position',
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$this->context->getConfig()->set( 'client/jsonapi/attribute/types', ['size', 'length', 'width'] );
-
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
-
 
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
-		$this->assertEquals( 24, $result['meta']['total'] );
-		$this->assertEquals( 24, count( $result['data'] ) );
+		$this->assertEquals( 17, $result['meta']['total'] );
+		$this->assertEquals( 17, count( $result['data'] ) );
 		$this->assertEquals( 'attribute', $result['data'][0]['type'] );
-		$this->assertEquals( 5, count( $result['data'][0]['attributes'] ) );
+		$this->assertEquals( 6, count( $result['data'][0]['attributes'] ) );
+		$this->assertEquals( 'size', $result['data'][0]['attributes']['attribute.type'] );
+		$this->assertEquals( 'xs', $result['data'][0]['attributes']['attribute.code'] );
 		$this->assertEquals( 0, count( $result['included'] ) );
+
+		foreach( $result['data'] as $entry ) {
+			$this->assertContains( $entry['attributes']['attribute.type'], ['size', 'length', 'width'] );
+		}
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
