@@ -20,6 +20,11 @@ $enc = $this->encoder();
 $ref = array( 'id', 'resource', 'filter', 'page', 'sort', 'include', 'fields' );
 $params = array_intersect_key( $this->param(), array_flip( $ref ) );
 
+if( !isset( $params['id'] ) ) {
+	$params['id'] = '';
+}
+
+
 $offset = max( $this->param( 'page/offset', 0 ), 0 );
 $limit = max( $this->param( 'page/limit', 100 ), 1 );
 
