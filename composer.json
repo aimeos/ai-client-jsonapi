@@ -9,7 +9,7 @@
 	"require": {
 		"php": ">=5.4.0",
 		"composer/installers": "^1.0",
-		"aimeos/aimeos-core": "dev-master",
+		"aimeos/aimeos-core": "2017.03.x-dev",
 		"aimeos/ai-controller-frontend": "dev-master"
 	},
 	"autoload": {
