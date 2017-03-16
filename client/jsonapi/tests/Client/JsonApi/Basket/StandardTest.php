@@ -104,6 +104,9 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testGetById()
 	{
+		$user = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' )->findItem( 'UTC001' );
+		$this->context->setUserId( $user->getId() );
+
 		$params = array(
 			'id' => $this->getOrderBaseItem()->getId(),
 			'fields' => array(
@@ -122,7 +125,34 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
+		$this->assertNotNull( $result['data']['id'] );
 		$this->assertEquals( 2, count( $result['data']['attributes'] ) );
+		$this->assertEquals( 'This is another comment.', $result['data']['attributes']['order.base.comment'] );
+
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
+	public function testGetNoAccess()
+	{
+		$this->context->setUserId( null );
+
+		$params = array(
+			'id' => $this->getOrderBaseItem()->getId(),
+		);
+		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
+		$this->assertEquals( 1, $result['meta']['total'] );
+		$this->assertEquals( 'basket', $result['data']['type'] );
+		$this->assertNull( $result['data']['id'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}

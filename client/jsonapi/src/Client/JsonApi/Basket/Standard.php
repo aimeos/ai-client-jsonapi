@@ -57,7 +57,7 @@ class Standard
 		try
 		{
 			$status = 200;
-			$type = $view->param( 'b_type', 'default' );
+			$type = $view->param( 'id', 'default' );
 			$view->items = $this->controller->setType( $type )->clear()->get();
 			$view->total = 1;
 		}
@@ -91,19 +91,20 @@ class Standard
 	 */
 	public function get( ServerRequestInterface $request, ResponseInterface $response )
 	{
-		$allow = true;
+		$allow = false;
 		$view = $this->getView();
+		$id = $view->param( 'id', 'default' );
 
 		try
 		{
-			if( ( $id = $view->param( 'id' ) ) != '' )
+			try
 			{
 				$view->items = $this->controller->load( $id, $this->getParts( $view ) );
-				$allow = false;
 			}
-			else
+			catch( \Aimeos\MShop\Exception $e )
 			{
-				$view->items = $this->controller->setType( $view->param( 'b_type', 'default' ) )->get();
+				$view->items = $this->controller->setType( $id )->get();
+				$allow = true;
 			}
 
 			$view->total = 1;
@@ -149,7 +150,7 @@ class Standard
 				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
 			}
 
-			$basket = $this->controller->setType( $view->param( 'b_type', 'default' ) )->get();
+			$basket = $this->controller->setType( $view->param( 'id', 'default' ) )->get();
 			$basket->fromArray( (array) $payload->data->attributes );
 
 			$view->items = $basket;
@@ -191,7 +192,7 @@ class Standard
 
 		try
 		{
-			$this->controller->setType( $view->param( 'b_type', 'default' ) );
+			$this->controller->setType( $view->param( 'id', 'default' ) );
 
 			$view->items = $this->controller->store();
 			$view->total = 1;
