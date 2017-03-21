@@ -38,7 +38,7 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $fields,
 	$id = $item->getId();
 	$attributes = $item->toArray();
 	$params = array( 'resource' => 'basket', 'id' => $id );
-	$allow = array( 'DELETE', 'GET', 'PATCH', 'POST', 'PUT' );
+	$allow = array( 'DELETE', 'GET', 'PATCH', 'POST' );
 
 	if( ( $filter = $view->param( 'filter', [] ) ) !== [] ) {
 		$params['filter'] = $filter;
@@ -63,6 +63,17 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $fields,
 		),
 		'attributes' => $attributes,
 	);
+
+
+	foreach( $item->getProducts() as $orderProduct )
+	{
+		$productEntry = $orderProduct->toArray();
+
+		foreach( $orderProduct->getProducts() as $subProduct ) {
+			$productEntry['products'][] = $subProduct->toArray();
+		}
+		$entry['attributes']['products'][] = $productEntry;
+	}
 
 	return $entry;
 };
