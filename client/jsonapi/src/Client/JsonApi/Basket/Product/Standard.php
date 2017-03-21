@@ -252,7 +252,7 @@ class Standard
 			$view->items = $this->controller->get();
 			$view->total = 1;
 
-		$status = 200;
+			$status = 200;
 		}
 		catch( \Aimeos\MShop\Exception $e )
 		{

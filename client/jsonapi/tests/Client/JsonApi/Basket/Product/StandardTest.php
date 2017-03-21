@@ -161,6 +161,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
+
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
@@ -211,6 +212,8 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 1, count( $result['data']['attributes']['products'] ) );
 
 
 		$body = '{"data": {"type": "basket/product", "id": 0, "attributes": {"quantity": 2}}}';
