@@ -75,6 +75,10 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $fields,
 		$entry['attributes']['products'][] = $productEntry;
 	}
 
+	foreach( $item->getAddresses() as $type => $address ) {
+		$entry['attributes']['addresses'][$type] = $address->toArray();
+	}
+
 	foreach( $item->getCoupons() as $code => $list ) {
 		$entry['attributes']['coupons'][] = $code;
 	}
