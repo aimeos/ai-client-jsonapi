@@ -143,7 +143,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertArrayHasKey( 'product', $result['data']['relationships'] );
+		$this->assertArrayHasKey( 'basket/product', $result['data']['relationships'] );
 		$this->assertEquals( 1, count( $result['data']['relationships']['basket/product']['data'] ) );
 		$this->assertEquals( 2, $result['included'][0]['attributes']['order.base.product.quantity'] );
 
