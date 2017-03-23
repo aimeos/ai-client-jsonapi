@@ -58,8 +58,7 @@ class Standard
 		{
 			$status = 200;
 			$type = $view->param( 'id', 'default' );
-			$view->items = $this->controller->setType( $type )->clear()->get();
-			$view->total = 1;
+			$view->item = $this->controller->setType( $type )->clear()->get();
 		}
 		catch( \Aimeos\MShop\Exception $e )
 		{
@@ -99,15 +98,14 @@ class Standard
 		{
 			try
 			{
-				$view->items = $this->controller->load( $id, $this->getParts( $view ) );
+				$view->item = $this->controller->load( $id, $this->getParts( $view ) );
 			}
 			catch( \Aimeos\MShop\Exception $e )
 			{
-				$view->items = $this->controller->setType( $id )->get();
+				$view->item = $this->controller->setType( $id )->get();
 				$allow = true;
 			}
 
-			$view->total = 1;
 			$status = 200;
 		}
 		catch( \Aimeos\MShop\Exception $e )
@@ -153,9 +151,7 @@ class Standard
 			$basket = $this->controller->setType( $view->param( 'id', 'default' ) )->get();
 			$basket->fromArray( (array) $payload->data->attributes );
 
-			$view->items = $basket;
-			$view->total = 1;
-
+			$view->item = $basket;
 			$status = 200;
 		}
 		catch( \Aimeos\MShop\Exception $e )
@@ -194,9 +190,7 @@ class Standard
 		{
 			$this->controller->setType( $view->param( 'id', 'default' ) );
 
-			$view->items = $this->controller->store();
-			$view->total = 1;
-
+			$view->item = $this->controller->store();
 			$status = 200;
 		}
 		catch( \Aimeos\MShop\Exception $e )
@@ -229,13 +223,13 @@ class Standard
 	protected function getParts( \Aimeos\MW\View\Iface $view )
 	{
 		$available = array(
-			'address' => \Aimeos\MShop\Order\Manager\Base\Base::PARTS_ADDRESS,
-			'coupon' => \Aimeos\MShop\Order\Manager\Base\Base::PARTS_COUPON,
-			'product' => \Aimeos\MShop\Order\Manager\Base\Base::PARTS_PRODUCT,
-			'service' => \Aimeos\MShop\Order\Manager\Base\Base::PARTS_SERVICE,
+			'basket/address' => \Aimeos\MShop\Order\Manager\Base\Base::PARTS_ADDRESS,
+			'basket/coupon' => \Aimeos\MShop\Order\Manager\Base\Base::PARTS_COUPON,
+			'basket/product' => \Aimeos\MShop\Order\Manager\Base\Base::PARTS_PRODUCT,
+			'basket/service' => \Aimeos\MShop\Order\Manager\Base\Base::PARTS_SERVICE,
 		);
 
-		$included = explode( ',', $view->param( 'included', 'address,coupon,product,service' ) );
+		$included = explode( ',', $view->param( 'included', 'basket/address,basket/coupon,basket/product,basket/service' ) );
 
 		$parts = \Aimeos\MShop\Order\Manager\Base\Base::PARTS_NONE;
 		foreach( $included as $type )

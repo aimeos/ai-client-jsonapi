@@ -73,7 +73,7 @@ class Standard
 				foreach( $payload->data as $entry )
 				{
 					if( !isset( $entry->id ) ) {
-						throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Position (ID) is missing' ) );
+						throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Type (ID) is missing' ) );
 					}
 
 					$this->controller->deleteCoupon( $entry->id );
@@ -85,9 +85,7 @@ class Standard
 			}
 
 
-			$view->items = $this->controller->get();
-			$view->total = 1;
-
+			$view->item = $this->controller->get();
 			$status = 200;
 		}
 		catch( \Aimeos\MShop\Exception $e )
@@ -145,9 +143,7 @@ class Standard
 			}
 
 
-			$view->items = $this->controller->get();
-			$view->total = 1;
-
+			$view->item = $this->controller->get();
 			$status = 201;
 		}
 		catch( \Aimeos\MShop\Exception $e )

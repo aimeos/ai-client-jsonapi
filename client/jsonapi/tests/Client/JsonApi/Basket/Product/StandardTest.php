@@ -41,7 +41,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 1, count( $result['data']['attributes']['products'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket/product']['data'] ) );
 
 
 		$body = '{"data": {"type": "basket/product", "id": 0}}';
@@ -56,7 +56,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertArrayNotHasKey( 'product', $result['data']['attributes'] );
+		$this->assertArrayNotHasKey( 'basket/product', $result['data']['relationships'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -71,7 +71,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 1, count( $result['data']['attributes']['products'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket/product']['data'] ) );
 
 
 		$params = array( 'id' => 'default', 'relatedid' => 0 );
@@ -87,7 +87,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertArrayNotHasKey( 'product', $result['data']['attributes'] );
+		$this->assertArrayNotHasKey( 'basket/product', $result['data']['relationships'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -119,91 +119,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	}
 
 
-	public function testGet()
-	{
-		$prodId = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'CNC' )->getId();
-		$body = '{"data": {"type": "basket/product", "attributes": {"productid": ' . $prodId . '}}}';
-		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
-
-		$response = $this->object->post( $request, $this->view->response() );
-		$result = json_decode( (string) $response->getBody(), true );
-
-		$this->assertEquals( 1, count( $result['data']['attributes']['products'] ) );
-
-
-		$response = $this->object->get( $this->view->request(), $this->view->response() );
-		$result = json_decode( (string) $response->getBody(), true );
-
-		$this->assertEquals( 200, $response->getStatusCode() );
-		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
-		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
-
-		$this->assertEquals( 1, $result['meta']['total'] );
-		$this->assertEquals( 1, count( $result['data'] ) );
-		$this->assertEquals( 'basket/product', $result['data'][0]['type'] );
-		$this->assertEquals( $prodId, $result['data'][0]['attributes']['order.base.product.productid'] );
-
-		$this->assertArrayNotHasKey( 'errors', $result );
-	}
-
-
-	public function testGetById()
-	{
-		$user = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' )->findItem( 'UTC001' );
-		$this->context->setUserId( $user->getId() );
-
-		$orderProduct = $this->getOrderProductItem();
-		$params = array(
-			'id' => $orderProduct->getBaseId(),
-			'related' => 'product',
-			'relatedid' => $orderProduct->getId(),
-		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
-		$this->view->addHelper( 'param', $helper );
-
-
-		$response = $this->object->get( $this->view->request(), $this->view->response() );
-		$result = json_decode( (string) $response->getBody(), true );
-
-		$this->assertEquals( 200, $response->getStatusCode() );
-		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
-		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
-
-		$this->assertEquals( 1, $result['meta']['total'] );
-		$this->assertEquals( 'basket/product', $result['data']['type'] );
-		$this->assertNotNull( $result['data']['id'] );
-		$this->assertGreaterThan( 21, count( $result['data']['attributes'] ) );
-
-		$this->assertArrayNotHasKey( 'errors', $result );
-	}
-
-
-	public function testGetMShopException()
-	{
-		$object = $this->getObject( 'setType', $this->throwException( new \Aimeos\MShop\Exception() ) );
-
-		$response = $object->get( $this->view->request(), $this->view->response() );
-		$result = json_decode( (string) $response->getBody(), true );
-
-
-		$this->assertEquals( 404, $response->getStatusCode() );
-		$this->assertArrayHasKey( 'errors', $result );
-	}
-
-
-	public function testGetException()
-	{
-		$object = $this->getObject( 'setType', $this->throwException( new \Exception() ) );
-
-		$response = $object->get( $this->view->request(), $this->view->response() );
-		$result = json_decode( (string) $response->getBody(), true );
-
-
-		$this->assertEquals( 500, $response->getStatusCode() );
-		$this->assertArrayHasKey( 'errors', $result );
-	}
-
-
 	public function testPatch()
 	{
 		$prodId = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'CNC' )->getId();
@@ -213,7 +128,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 1, count( $result['data']['attributes']['products'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket/product']['data'] ) );
 
 
 		$body = '{"data": {"type": "basket/product", "id": 0, "attributes": {"quantity": 2}}}';
@@ -228,9 +143,9 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertArrayHasKey( 'products', $result['data']['attributes'] );
-		$this->assertEquals( 1, count( $result['data']['attributes']['products'] ) );
-		$this->assertEquals( 2, $result['data']['attributes']['products'][0]['order.base.product.quantity'] );
+		$this->assertArrayHasKey( 'product', $result['data']['relationships'] );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket/product']['data'] ) );
+		$this->assertEquals( 2, $result['included'][0]['attributes']['order.base.product.quantity'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -284,8 +199,8 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertEquals( 1, count( $result['data']['attributes']['products'] ) );
-		$this->assertEquals( $prodId, $result['data']['attributes']['products'][0]['order.base.product.productid'] );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket/product']['data'] ) );
+		$this->assertEquals( $prodId, $result['included'][0]['attributes']['order.base.product.productid'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -313,9 +228,9 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertEquals( 2, count( $result['data']['attributes']['products'] ) );
-		$this->assertEquals( $prodId, $result['data']['attributes']['products'][0]['order.base.product.productid'] );
-		$this->assertEquals( $prodId2, $result['data']['attributes']['products'][1]['order.base.product.productid'] );
+		$this->assertEquals( 2, count( $result['data']['relationships']['basket/product']['data'] ) );
+		$this->assertEquals( $prodId, $result['included'][0]['attributes']['order.base.product.productid'] );
+		$this->assertEquals( $prodId2, $result['included'][1]['attributes']['order.base.product.productid'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}

@@ -41,7 +41,8 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
-		$this->assertEquals( 1, count( $result['data']['attributes']['coupons'] ) );
+
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket/coupon']['data'] ) );
 
 
 		$body = '{"data": {"type": "basket/coupon", "id": "GHIJ"}}';
@@ -56,7 +57,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertArrayNotHasKey( 'coupon', $result['data']['attributes'] );
+		$this->assertArrayNotHasKey( 'basket/coupon', $result['data']['relationships'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -72,7 +73,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 1, count( $result['data']['attributes']['coupons'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket/coupon']['data'] ) );
 
 
 		$params = array( 'id' => 'default', 'relatedid' => 'GHIJ' );
@@ -88,7 +89,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertArrayNotHasKey( 'coupon', $result['data']['attributes'] );
+		$this->assertArrayNotHasKey( 'basket/coupon', $result['data']['relationships'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -137,8 +138,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertEquals( 1, count( $result['data']['attributes']['coupons'] ) );
-		$this->assertEquals( 'GHIJ', $result['data']['attributes']['coupons'][0] );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket/coupon']['data'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -158,16 +158,13 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-
 		$this->assertEquals( 201, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertEquals( 2, count( $result['data']['attributes']['coupons'] ) );
-		$this->assertEquals( '90AB', $result['data']['attributes']['coupons'][0] );
-		$this->assertEquals( 'GHIJ', $result['data']['attributes']['coupons'][1] );
+		$this->assertEquals( 2, count( $result['data']['relationships']['basket/coupon']['data'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
