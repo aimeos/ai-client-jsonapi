@@ -178,7 +178,7 @@ abstract class Base
 		 * @see client/jsonapi/standard/template-options
 		 */
 		$tplconf = 'client/jsonapi/standard/template-error';
-		$default = 'error-default.php';
+		$default = 'error-standard.php';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 

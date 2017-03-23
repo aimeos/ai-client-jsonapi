@@ -76,7 +76,7 @@ class Standard
 			 *
 			 * You can overwrite the template file configuration in extensions and
 			 * provide alternative templates. These alternative templates should be
-			 * named like the default one but with the string "default" replaced by
+			 * named like the default one but with the string "standard" replaced by
 			 * an unique name. You may use the name of your project for this. If
 			 * you've implemented an alternative client class as well, "standard"
 			 * should be replaced by the name of the new class.
@@ -86,12 +86,12 @@ class Standard
 			 * @category Developer
 			 */
 			$tplconf = 'client/jsonapi/product/standard/template-aggregate';
-			$default = 'aggregate-default.php';
+			$default = 'aggregate-standard.php';
 		}
 		else
 		{
-			/** client/jsonapi/product/standard/template-get
-			 * Relative path to the product JSON API template for GET requests
+			/** client/jsonapi/product/standard/template
+			 * Relative path to the product JSON API template
 			 *
 			 * The template file contains the code and processing instructions
 			 * to generate the result shown in the JSON API body. The
@@ -100,7 +100,7 @@ class Standard
 			 *
 			 * You can overwrite the template file configuration in extensions and
 			 * provide alternative templates. These alternative templates should be
-			 * named like the default one but with the string "default" replaced by
+			 * named like the default one but with the string "standard" replaced by
 			 * an unique name. You may use the name of your project for this. If
 			 * you've implemented an alternative client class as well, "standard"
 			 * should be replaced by the name of the new class.
@@ -109,8 +109,8 @@ class Standard
 			 * @since 2017.03
 			 * @category Developer
 			 */
-			$tplconf = 'client/jsonapi/product/standard/template-get';
-			$default = 'product/get-default.php';
+			$tplconf = 'client/jsonapi/product/standard/template';
+			$default = 'product/standard.php';
 		}
 
 		$body = $view->render( $view->config( $tplconf, $default ) );

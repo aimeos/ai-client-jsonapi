@@ -54,7 +54,7 @@ $cntl = $this->config( 'client/jsonapi/url/controller', 'jsonapi' );
  * @see client/jsonapi/url/controller
  * @see client/jsonapi/url/config
  */
-$action = $this->config( 'client/jsonapi/url/action', 'get' );
+$action = $this->config( 'client/jsonapi/url/action', 'index' );
 
 /** client/jsonapi/url/config
  * Associative list of configuration options used for generating the URL

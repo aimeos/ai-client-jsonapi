@@ -2,7 +2,7 @@
 
 $target = $this->config( 'admin/jsonadm/url/target' );
 $cntl = $this->config( 'admin/jsonadm/url/controller', 'jsonapi' );
-$action = $this->config( 'admin/jsonadm/url/action', 'get' );
+$action = $this->config( 'admin/jsonadm/url/action', 'index' );
 $config = $this->config( 'admin/jsonadm/url/config', [] );
 
 $resources = [];

@@ -10,7 +10,7 @@
 
 $target = $this->config( 'client/jsonapi/url/target' );
 $cntl = $this->config( 'client/jsonapi/url/controller', 'jsonapi' );
-$action = $this->config( 'client/jsonapi/url/action', 'get' );
+$action = $this->config( 'client/jsonapi/url/action', 'index' );
 $config = $this->config( 'client/jsonapi/url/config', array() );
 
 
@@ -29,6 +29,7 @@ $offset = max( $this->param( 'page/offset', 0 ), 0 );
 $limit = max( $this->param( 'page/limit', 100 ), 1 );
 
 
+$map = $this->get( 'itemMap', array() );
 $fields = $this->param( 'fields', array() );
 
 foreach( (array) $fields as $resource => $list ) {
@@ -36,7 +37,7 @@ foreach( (array) $fields as $resource => $list ) {
 }
 
 
-$entryFcn = function( \Aimeos\MShop\Locale\Item\Iface $item ) use ( $fields, $view, $target, $cntl, $action, $config )
+$entryFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item ) use ( $fields, $view, $target, $cntl, $action, $config )
 {
 	$attributes = $item->toArray();
 	$type = $item->getResourceType();
@@ -58,6 +59,23 @@ $entryFcn = function( \Aimeos\MShop\Locale\Item\Iface $item ) use ( $fields, $vi
 		'attributes' => $attributes,
 	);
 
+	foreach( $item->getChildren() as $catItem ) {
+		$entry['relationships']['catalog']['data'][] = array( 'id' => $catItem->getId(), 'type' => 'catalog' );
+	}
+
+	if( $item instanceof \Aimeos\MShop\Common\Item\ListRef\Iface )
+	{
+		foreach( $item->getListItems() as $listItem )
+		{
+			$domain = $listItem->getDomain();
+
+			if( ( $refItem = $listItem->getRefItem() ) !== null ) {
+				$entry['attributes'][$domain][] = $refItem->toArray() + $listItem->toArray();
+			}
+
+		}
+	}
+
 	return $entry;
 };
 
@@ -65,7 +83,7 @@ $entryFcn = function( \Aimeos\MShop\Locale\Item\Iface $item ) use ( $fields, $vi
 ?>
 {
 	"meta": {
-		"total": <?php echo $this->get( 'total', 0 ); ?>
+		"total": <?php echo ( isset( $this->items ) ? 1 : 0 ); ?>
 
 	},
 
@@ -80,22 +98,16 @@ $entryFcn = function( \Aimeos\MShop\Locale\Item\Iface $item ) use ( $fields, $vi
 	<?php elseif( isset( $this->items ) ) : ?>
 
 		<?php
-			$data = [];
-			$items = $this->get( 'items', [] );
+			$included = array();
 
-			if( is_array( $items ) )
-			{
-				foreach( $items as $localeItem ) {
-					$data[] = $entryFcn( $localeItem );
-				}
-			}
-			else
-			{
-				$data = $entryFcn( $items );
+			foreach( $this->items->getChildren() as $catItem ) {
+				$included[] = $entryFcn( $catItem );
 			}
 		 ?>
 
-		"data": <?php echo json_encode( $data ); ?>
+		"data": <?php echo json_encode( $entryFcn( $this->items ) ); ?>,
+
+		"included": <?php echo json_encode( $included ); ?>
 
 	<?php endif; ?>
 

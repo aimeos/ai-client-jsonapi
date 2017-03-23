@@ -10,7 +10,7 @@
 
 $target = $this->config( 'client/jsonapi/url/target' );
 $cntl = $this->config( 'client/jsonapi/url/controller', 'jsonapi' );
-$action = $this->config( 'client/jsonapi/url/action', 'get' );
+$action = $this->config( 'client/jsonapi/url/action', 'index' );
 $config = $this->config( 'client/jsonapi/url/config', array() );
 
 

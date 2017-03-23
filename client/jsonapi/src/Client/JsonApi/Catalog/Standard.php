@@ -57,8 +57,8 @@ class Standard
 			) );
 		}
 
-		/** client/jsonapi/catalog/standard/template-get
-		 * Relative path to the catalog lists JSON API template for GET requests
+		/** client/jsonapi/catalog/standard/template
+		 * Relative path to the catalog lists JSON API template
 		 *
 		 * The template file contains the code and processing instructions
 		 * to generate the result shown in the JSON API body. The
@@ -76,8 +76,8 @@ class Standard
 		 * @since 2017.03
 		 * @category Developer
 		 */
-		$tplconf = 'client/jsonapi/catalog/standard/template-get';
-		$default = 'catalog/get-default.php';
+		$tplconf = 'client/jsonapi/catalog/standard/template';
+		$default = 'catalog/standard.php';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 

@@ -178,7 +178,7 @@ class Standard
 	protected function render( ResponseInterface $response, \Aimeos\MW\View\Iface $view, $status )
 	{
 		$tplconf = 'client/jsonapi/basket/standard/template';
-		$default = 'basket/default.php';
+		$default = 'basket/standard.php';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 

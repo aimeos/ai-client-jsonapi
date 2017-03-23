@@ -10,7 +10,7 @@
 
 $target = $this->config( 'client/jsonapi/url/target' );
 $cntl = $this->config( 'client/jsonapi/url/controller', 'jsonapi' );
-$action = $this->config( 'client/jsonapi/url/action', 'get' );
+$action = $this->config( 'client/jsonapi/url/action', 'index' );
 $config = $this->config( 'client/jsonapi/url/config', array() );
 
 $enc = $this->encoder();
@@ -95,8 +95,6 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $fields,
 		'attributes' => $attributes,
 		'relationships' => $relationships,
 	);
-
-	return $entry;
 };
 
 
@@ -107,8 +105,7 @@ $productFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $field
 
 	foreach( $item->getProducts() as $position => $orderProduct )
 	{
-		$entry['id'] = $position;
-		$entry['type'] = 'basket/product';
+		$entry = ['id' => $position, 'type' => 'basket/product'];
 		$entry['attributes'] = $orderProduct->toArray();
 
 		if( $item->getId() === null )
@@ -151,8 +148,7 @@ $serviceFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $field
 
 	foreach( $item->getServices() as $type => $service )
 	{
-		$entry['id'] = $type;
-		$entry['type'] = 'basket/service';
+		$entry = ['id' => $type, 'type' => 'basket/service'];
 		$entry['attributes'] = $service->toArray();
 
 		if( $item->getId() === null )
@@ -184,8 +180,7 @@ $addressFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $field
 
 	foreach( $item->getAddresses() as $type => $address )
 	{
-		$entry['id'] = $type;
-		$entry['type'] = 'basket/address';
+		$entry = ['id' => $type, 'type' => 'basket/address'];
 		$entry['attributes'] = $address->toArray();
 
 		if( $item->getId() === null )
@@ -213,8 +208,7 @@ $couponFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $fields
 
 	foreach( $item->getCoupons() as $code => $list )
 	{
-		$entry['id'] = $code;
-		$entry['type'] = 'basket/coupon';
+		$entry = ['id' => $code, 'type' => 'basket/coupon'];
 
 		if( $item->getId() === null )
 		{

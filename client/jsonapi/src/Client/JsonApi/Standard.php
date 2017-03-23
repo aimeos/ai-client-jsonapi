@@ -54,7 +54,7 @@ class Standard
 			 * @since 2017.03
 			 * @category Developer
 			 */
-			$default = ['attribute', 'catalog', 'product', 'stock'];
+			$default = ['attribute', 'basket', 'catalog', 'locale', 'product', 'stock'];
 			$resources = $this->getContext()->getConfig()->get( 'client/jsonapi/resources', $default );
 
 			$view->resources = (array) $resources;
@@ -95,7 +95,7 @@ class Standard
 		 * @see client/jsonapi/standard/template-put
 		 */
 		$tplconf = 'client/jsonapi/standard/template-options';
-		$default = 'options-default.php';
+		$default = 'options-standard.php';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 
