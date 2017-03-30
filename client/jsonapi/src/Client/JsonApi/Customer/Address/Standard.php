@@ -236,7 +236,6 @@ class Standard
 		try
 		{
 			$list = [];
-			$id = $view->param( 'id' );
 			$body = (string) $request->getBody();
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
