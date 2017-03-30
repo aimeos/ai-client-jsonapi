@@ -30,6 +30,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	{
 		$localeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'locale' );
 		$search = $localeManager->createSearch();
+		$search->setConditions( $search->compare( '==', 'locale.status', 1 ) );
 		$search->setSortations( [$search->sort( '+', 'locale.position' )] );
 		$search->setSlice( 0, 1 );
 		$localeItems = $localeManager->searchItems( $search );
@@ -60,7 +61,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'locale', $result['data']['type'] );
 		$this->assertGreaterThan( 0, $result['data']['attributes']['locale.id'] );
-		$this->assertEquals( 'de', $result['data']['attributes']['locale.languageid'] );
+		$this->assertEquals( 'en', $result['data']['attributes']['locale.languageid'] );
 		$this->assertEquals( 'EUR', $result['data']['attributes']['locale.currencyid'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );

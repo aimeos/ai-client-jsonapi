@@ -8,6 +8,9 @@
  */
 
 
+$enc = $this->encoder();
+
+
 /** client/jsonapi/url/target
  * Destination of the URL where the client specified in the URL is known
  *
@@ -79,10 +82,6 @@ $action = $this->config( 'client/jsonapi/url/action', 'index' );
 $config = $this->config( 'client/jsonapi/url/config', array() );
 
 
-$view = $this;
-$enc = $this->encoder();
-
-
 $ref = array( 'id', 'resource', 'filter', 'page', 'sort', 'include', 'fields' );
 $params = array_intersect_key( $this->param(), array_flip( $ref ) );
 
@@ -109,7 +108,7 @@ foreach( (array) $fields as $resource => $list ) {
 }
 
 
-$entryFcn = function( \Aimeos\MShop\Common\Item\Iface $item ) use ( $fields, $view, $target, $cntl, $action, $config )
+$entryFcn = function( \Aimeos\MShop\Common\Item\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
 {
 	$attributes = $item->toArray();
 	$type = $item->getResourceType();
@@ -124,7 +123,7 @@ $entryFcn = function( \Aimeos\MShop\Common\Item\Iface $item ) use ( $fields, $vi
 		'type' => $item->getResourceType(),
 		'links' => array(
 			'self' => array(
-				'href' => $view->url( $target, $cntl, $action, $params, array(), $config ),
+				'href' => $this->url( $target, $cntl, $action, $params, array(), $config ),
 				'allow' => array( 'GET' ),
 			),
 		),

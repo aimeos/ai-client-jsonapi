@@ -156,22 +156,13 @@ class Standard
 	protected function getDomainItems( array $productItems, array $ref, $domain )
 	{
 		$ids = array();
+		$context = $this->getContext();
 
 		foreach( $productItems as $item ) {
 			$ids = array_merge( $ids, array_keys( $item->getRefItems( $domain ) ) );
 		}
 
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), $domain );
-
-		$search = $manager->createSearch( true );
-		$expr = array(
-			$search->compare( '==', $domain . '.id', $ids ),
-			$search->getConditions(),
-		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
-		$search->setSlice( 0, 0x7fffffff );
-
-		return $manager->searchItems( $search, $ref );
+		return \Aimeos\Controller\Frontend\Factory::createController( $context, $domain )->getItems( $ids, $ref );
 	}
 
 
