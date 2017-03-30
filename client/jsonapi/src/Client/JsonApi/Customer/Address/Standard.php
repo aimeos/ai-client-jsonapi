@@ -85,6 +85,14 @@ class Standard
 
 			$status = 200;
 		}
+		catch( \Aimeos\Controller\Frontend\Customer\Exception $e )
+		{
+			$status = 403;
+			$view->errors = array( array(
+				'title' => $this->getContext()->getI18n()->dt( 'mshop', $e->getMessage() ),
+				'detail' => $e->getTraceAsString(),
+			) );
+		}
 		catch( \Aimeos\MShop\Exception $e )
 		{
 			$status = 404;
@@ -119,15 +127,16 @@ class Standard
 
 		try
 		{
-			$relId = $view->param( 'relid' );
+			$relId = $view->param( 'relatedid' );
 			$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'customer' );
 
-			if( $relId === null ) {
-				$view->items = $cntl->getItem( $view->param( 'id' ) )->getAddressItems();
+			if( $relId == null ) {
+				$view->items = $cntl->getItem( $view->param( 'id' ), ['customer/address'] )->getAddressItems();
 			} else {
 				$view->items = $cntl->getAddressItem( $relId );
 			}
 
+			$view->total = count( $view->items );
 			$status = 200;
 		}
 		catch( \Aimeos\Controller\Frontend\Customer\Exception $e )
@@ -180,7 +189,8 @@ class Standard
 
 			$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'customer' );
 
-			$view->items = $cntl->editAddressItem( $view->param( 'relid' ), (array) $payload->data->attributes );
+			$view->items = $cntl->editAddressItem( $view->param( 'relatedid' ), (array) $payload->data->attributes );
+			$view->total = 1;
 			$status = 200;
 		}
 		catch( \Aimeos\Controller\Frontend\Customer\Exception $e )
@@ -243,12 +253,21 @@ class Standard
 					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Attributes are missing' ) );
 				}
 
-				$list[] = $this->controller->addAddressItem( $id, (array) $entry->attributes );
+				$list[] = $this->controller->addAddressItem( (array) $entry->attributes );
 			}
 
 
+			$view->total = count( $list );
 			$view->items = $list;
 			$status = 201;
+		}
+		catch( \Aimeos\Controller\Frontend\Customer\Exception $e )
+		{
+			$status = 403;
+			$view->errors = array( array(
+				'title' => $this->getContext()->getI18n()->dt( 'mshop', $e->getMessage() ),
+				'detail' => $e->getTraceAsString(),
+			) );
 		}
 		catch( \Aimeos\MShop\Exception $e )
 		{
