@@ -61,7 +61,7 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Iface $item ) use ( $fields, $
 	foreach( $item->getListItems() as $listItem )
 	{
 		$domain = $listItem->getDomain();
-		$basic = array( 'id' => $refItem->getId(), 'type' => $domain );
+		$basic = array( 'id' => $listItem->getRefId(), 'type' => $domain );
 		$entry['relationships'][$domain]['data'][] = $basic + $listItem->toArray();
 	}
 
@@ -73,12 +73,11 @@ $refFcn = function( \Aimeos\MShop\Customer\Item\Iface $item ) use ( $fields, $ta
 {
 	$list = array();
 
-	foreach( $item->getListItems() as $listItem )
+	foreach( $item->getRefItems() as $refItem )
 	{
-		$domain = $listItem->getDomain();
-
 		$attributes = $refItem->toArray();
-		$params = array( 'resource' => $item->getResourceType(), 'id' => $refItem->getId() );
+		$type = $refItem->getResourceType();
+		$params = array( 'resource' => $type, 'id' => $refItem->getId() );
 
 		if( isset( $fields[$type] ) ) {
 			$attributes = array_intersect_key( $attributes, $fields[$type] );
