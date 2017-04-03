@@ -188,9 +188,10 @@ class Standard
 
 		try
 		{
-			$this->controller->setType( $view->param( 'id', 'default' ) );
+			$item = $this->controller->setType( $view->param( 'id', 'default' ) )->store();
+			$this->getContext()->getSession()->set( 'aimeos/order.baseid', $item->getId() );
 
-			$view->item = $this->controller->store();
+			$view->item = $item;
 			$status = 200;
 		}
 		catch( \Aimeos\MShop\Exception $e )
