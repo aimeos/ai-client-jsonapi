@@ -173,7 +173,7 @@ class Standard
 	/**
 	 * Returns the basket object for the given ID
 	 *
-	 * @param string $baseId Unique order base ID
+	 * @param string $basketId Unique order base ID
 	 * @return \Aimeos\MShop\Order\Item\Base\Iface Basket object including only the services
 	 * @throws \Aimeos\Client\JsonApi\Exception If basket ID is not the same as stored before in the current session
 	 */
