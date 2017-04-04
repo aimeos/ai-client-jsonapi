@@ -75,18 +75,11 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Iface $item, \Aimeos\MShop\Common
 	"meta": {
 		"total": <?php echo $this->get( 'total', 0 ); ?>
 
+	},
+	"links": {
+		"self": "<?php echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>"
 	}
 
-	<?php if( isset( $this->item ) ) : ?>
-
-		,"links": {
-			"self": {
-				"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'order', 'id' => $params['id']], [], $config ); ?>",
-				"allow": ["GET"]
-			}
-		}
-
-	<?php endif; ?>
 	<?php if( isset( $this->errors ) ) : ?>
 
 		,"errors": <?php echo json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>

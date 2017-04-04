@@ -128,26 +128,19 @@ $refFcn = function( \Aimeos\MShop\Customer\Item\Iface $item ) use ( $fields, $ta
 	"meta": {
 		"total": <?php echo ( isset( $this->item ) ? 1 : 0 ); ?>
 
+	},
+
+	"links": {
+		"self": "<?php echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>"
+
+		<?php if( isset( $this->item ) ) : ?>
+			,"customer/address": {
+				"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'customer', 'id' => $this->item->getId(), 'related' => 'address'], [], $config ); ?>",
+				"allow": ["GET","POST"]
+			}
+		<?php endif; ?>
 	}
 
-	<?php if( isset( $this->item ) ) : ?>
-
-		,"links": {
-			"self": {
-				"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'customer', 'id' => $this->item->getId()], [], $config ); ?>",
-				"allow": ["DELETE","GET","PATCH"]
-
-			},
-			"related": {
-				"customer/address": {
-					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'customer', 'id' => $this->item->getId(), 'related' => 'address'], [], $config ); ?>",
-					"allow": ["DELETE","GET","PATCH","POST"]
-
-				}
-			}
-		}
-
-	<?php endif; ?>
 	<?php if( isset( $this->errors ) ) : ?>
 
 		,"errors": <?php echo json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>

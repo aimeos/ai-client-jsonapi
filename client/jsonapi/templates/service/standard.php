@@ -115,26 +115,15 @@ $refFcn = function( \Aimeos\MShop\Common\Item\ListRef\Iface $item ) use ( $field
 	"meta": {
 		"total": <?php echo $this->get( 'total', 0 ); ?>
 
+	},
+	"links": {
+		"self": "<?php echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
+		"basket/service": {
+			"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => 'default', 'related' => 'service'], [], $config ); ?>",
+			"allow": ["POST"]
+		}
 	}
 
-	<?php if( isset( $this->items ) ) : ?>
-
-		,"links": {
-			"self": {
-				"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'service', 'id' => $params['id']], [], $config ); ?>",
-				"allow": ["GET"]
-
-			},
-			"related": {
-				"basket/service": {
-					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => 'default', 'related' => 'service'], [], $config ); ?>",
-					"allow": ["POST"]
-
-				}
-			}
-		}
-
-	<?php endif; ?>
 	<?php if( isset( $this->errors ) ) : ?>
 
 		,"errors": <?php echo json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>

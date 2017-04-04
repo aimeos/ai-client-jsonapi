@@ -220,15 +220,10 @@ $refFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, $map
 				"last": "<?php $params['page']['offset'] = $last; echo $this->url( $target, $cntl, $action, $params, array(), $config ); ?>",
 			<?php endif; ?>
 		<?php endif; ?>
-		"self": {
-			"href": "<?php $params['page']['offset'] = $offset; echo $this->url( $target, $cntl, $action, $params, array(), $config ); ?>",
-			"allow": ["GET"]
-		},
-		"related": {
-			"basket/product": {
-				"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => 'default', 'related' => 'product'], [], $config ); ?>",
-				"allow": ["POST"]
-			}
+		"self": "<?php $params['page']['offset'] = $offset; echo $this->url( $target, $cntl, $action, $params, array(), $config ); ?>",
+		"basket/product": {
+			"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => 'default', 'related' => 'product'], [], $config ); ?>",
+			"allow": ["POST"]
 		}
 	},
 

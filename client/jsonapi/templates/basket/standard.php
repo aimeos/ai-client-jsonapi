@@ -236,36 +236,33 @@ $couponFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $fields
 	},
 	"links": {
 		"self": {
-			"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $params['id']], [], $config ); ?>",
+			"href": "<?php echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
 			"allow": <?php echo ( isset( $this->item ) && $this->item->getId() === null ? '["DELETE","GET","PATCH","POST"]' : '["GET"]' ); ?>
 
 		}
 
 		<?php if( isset( $this->item ) && $this->item->getId() === null ) : ?>
+			,
+			"basket/product": {
+				"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $params['id'], 'related' => 'product'], [], $config ); ?>",
+				"allow": ["POST"]
 
-			,"related": {
-				"basket/product": {
-					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $params['id'], 'related' => 'product'], [], $config ); ?>",
-					"allow": <?php echo ( isset( $this->item ) && $this->item->getId() === null ? '["POST"]' : '[]' ); ?>
+			},
+			"basket/service": {
+				"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $params['id'], 'related' => 'service'], [], $config ); ?>",
+				"allow": ["POST"]
 
-				},
-				"basket/service": {
-					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $params['id'], 'related' => 'service'], [], $config ); ?>",
-					"allow": <?php echo ( isset( $this->item ) && $this->item->getId() === null ? '["POST"]' : '[]' ); ?>
+			},
+			"basket/address": {
+				"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $params['id'], 'related' => 'address'], [], $config ); ?>",
+				"allow": ["POST"]
 
-				},
-				"basket/address": {
-					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $params['id'], 'related' => 'address'], [], $config ); ?>",
-					"allow": <?php echo ( isset( $this->item ) && $this->item->getId() === null ? '["POST"]' : '[]' ); ?>
+			},
+			"basket/coupon": {
+				"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $params['id'], 'related' => 'coupon'], [], $config ); ?>",
+				"allow": ["POST"]
 
-				},
-				"basket/coupon": {
-					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $params['id'], 'related' => 'coupon'], [], $config ); ?>",
-					"allow": <?php echo ( isset( $this->item ) && $this->item->getId() === null ? '["POST"]' : '[]' ); ?>
-
-				}
 			}
-
 		<?php endif; ?>
 
 	},

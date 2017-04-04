@@ -64,18 +64,11 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item ) use ( $f
 	"meta": {
 		"total": <?php echo $this->get( 'total', 0 ); ?>
 
+	},
+	"links": {
+		"self": "<?php echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>"
 	}
 
-	<?php if( isset( $this->items ) ) : ?>
-
-		,"links": {
-			"self": {
-				"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'customer', 'id' => $params['id'], 'related' => 'address'], [], $config ); ?>",
-				"allow": ["DELETE","GET","PATCH"]
-			}
-		}
-
-	<?php endif; ?>
 	<?php if( isset( $this->errors ) ) : ?>
 
 		,"errors": <?php echo json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
