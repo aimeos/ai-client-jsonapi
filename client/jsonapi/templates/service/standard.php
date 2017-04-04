@@ -89,20 +89,14 @@ $refFcn = function( \Aimeos\MShop\Common\Item\ListRef\Iface $item ) use ( $field
 	{
 		if( ( $refItem = $listItem->getRefItem() ) !== null )
 		{
-			$id = $refItem->getId();
-			$type = $refItem->getResourceType();
-			$params = array( 'resource' => $item->getResourceType(), 'id' => $item->getId(), 'related' => $type, 'realatedid' => $id );
 			$attributes = $refItem->toArray();
+			$type = $refItem->getResourceType();
 
 			if( isset( $fields[$type] ) ) {
 				$attributes = array_intersect_key( $attributes, $fields[$type] );
 			}
 
-			$list[] = array(
-				'id' => $id,
-				'type' => $type,
-				'attributes' => $attributes,
-			);
+			$list[] = array( 'id' => $refItem->getId(), 'type' => $type, 'attributes' => $attributes );
 		}
 	}
 

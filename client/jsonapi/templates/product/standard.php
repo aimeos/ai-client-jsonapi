@@ -176,14 +176,15 @@ $refFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, $map
 		{
 			$id = $refItem->getId();
 			$type = $refItem->getResourceType();
+
+			if( isset( $map[$type][$id] ) ) {
+				$refItem = $map[$type][$id];
+			}
+
 			$attributes = $refItem->toArray();
 
 			if( isset( $fields[$type] ) ) {
 				$attributes = array_intersect_key( $attributes, $fields[$type] );
-			}
-
-			if( isset( $map[$type][$id] ) ) {
-				$refItem = $map[$type][$id];
 			}
 
 			$list[] = array(
