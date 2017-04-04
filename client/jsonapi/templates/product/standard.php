@@ -110,20 +110,21 @@ foreach( (array) $fields as $resource => $list ) {
 
 $entryFcn = function( \Aimeos\MShop\Common\Item\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
 {
-	$attributes = $item->toArray();
+	$id = $item->getId();
 	$type = $item->getResourceType();
-	$params = array( 'resource' => $type, 'id' => $item->getId() );
+	$params = array( 'resource' => $type, 'id' => $id );
+	$attributes = $item->toArray();
 
 	if( isset( $fields[$type] ) ) {
 		$attributes = array_intersect_key( $attributes, $fields[$type] );
 	}
 
 	$entry = array(
-		'id' => $item->getId(),
-		'type' => $item->getResourceType(),
+		'id' => $id,
+		'type' => $type,
 		'links' => array(
 			'self' => array(
-				'href' => $this->url( $target, $cntl, $action, $params, array(), $config ),
+				'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
 				'allow' => array( 'GET' ),
 			),
 		),
@@ -132,8 +133,10 @@ $entryFcn = function( \Aimeos\MShop\Common\Item\Iface $item ) use ( $fields, $ta
 
 	if( $item instanceof \Aimeos\MShop\Product\Item\Iface )
 	{
-		foreach( $item->getPropertyItems() as $propertyItem ) {
-			$entry['attributes']['product/property'][] = $propertyItem->toArray();
+		foreach( $item->getPropertyItems() as $propertyItem )
+		{
+			$type = $propertyItem->getResourceType();
+			$entry['relationships'][$type]['data'][] = array( 'id' => $propertyItem->getId(), 'type' => $type );
 		}
 	}
 
@@ -141,19 +144,11 @@ $entryFcn = function( \Aimeos\MShop\Common\Item\Iface $item ) use ( $fields, $ta
 	{
 		foreach( $item->getListItems() as $listItem )
 		{
-			$domain = $listItem->getDomain();
-
-			if( in_array( $domain, array( 'media', 'price', 'text' ), true )
-				&& ( $refItem = $listItem->getRefItem() ) !== null
-			) {
-				$entry['attributes'][$domain][] = $refItem->toArray() + $listItem->toArray();
-			}
-
-			if( !in_array( $domain, array( 'media', 'price', 'text' ), true )
-				&& ( $refItem = $listItem->getRefItem() ) !== null
-			) {
-				$basic = array( 'id' => $refItem->getId(), 'type' => $domain );
-				$entry['relationships'][$domain]['data'][] = $basic + $listItem->toArray();
+			if( ( $refItem = $listItem->getRefItem() ) !== null )
+			{
+				$type = $refItem->getResourceType();
+				$data = array( 'id' => $refItem->getId(), 'type' => $type, 'attributes' => $listItem->toArray() );
+				$entry['relationships'][$type]['data'][] = $data;
 			}
 		}
 	}
@@ -162,29 +157,40 @@ $entryFcn = function( \Aimeos\MShop\Common\Item\Iface $item ) use ( $fields, $ta
 };
 
 
-$refFcn = function( \Aimeos\MShop\Common\Item\Iface $item, $level ) use ( $map, $entryFcn, &$refFcn )
+$refFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, $map )
 {
-	$list = array();
+	$list = [];
 
-	if( !( $item instanceof \Aimeos\MShop\Common\Item\ListRef\Iface ) || $level > 1 ) {
-		return $list;
+	foreach( $item->getPropertyItems() as $propertyItem )
+	{
+		$list[] = array(
+			'id' => $propertyItem->getId(),
+			'type' => $propertyItem->getResourceType(),
+			'attributes' => $propertyItem->toArray(),
+		);
 	}
 
 	foreach( $item->getListItems() as $listItem )
 	{
-		$domain = $listItem->getDomain();
-
-		if( !in_array( $domain, array( 'media', 'price', 'text' ), true )
-			&& ( $refItem = $listItem->getRefItem() ) !== null
-		) {
+		if( ( $refItem = $listItem->getRefItem() ) !== null )
+		{
 			$id = $refItem->getId();
+			$type = $refItem->getResourceType();
+			$attributes = $refItem->toArray();
 
-			if( isset( $map[$domain][$id] ) ) {
-				$refItem = $map[$domain][$id];
+			if( isset( $fields[$type] ) ) {
+				$attributes = array_intersect_key( $attributes, $fields[$type] );
 			}
 
-			$list[] = $entryFcn( $refItem );
-			$list = array_merge( $list, $refFcn( $refItem, ++$level ) );
+			if( isset( $map[$type][$id] ) ) {
+				$refItem = $map[$type][$id];
+			}
+
+			$list[] = array(
+				'id' => $id,
+				'type' => $type,
+				'attributes' => $attributes,
+			);
 		}
 	}
 
@@ -214,7 +220,16 @@ $refFcn = function( \Aimeos\MShop\Common\Item\Iface $item, $level ) use ( $map, 
 				"last": "<?php $params['page']['offset'] = $last; echo $this->url( $target, $cntl, $action, $params, array(), $config ); ?>",
 			<?php endif; ?>
 		<?php endif; ?>
-		"self": "<?php $params['page']['offset'] = $offset; echo $this->url( $target, $cntl, $action, $params, array(), $config ); ?>"
+		"self": {
+			"href": "<?php $params['page']['offset'] = $offset; echo $this->url( $target, $cntl, $action, $params, array(), $config ); ?>",
+			"allow": ["GET"]
+		},
+		"related": {
+			"basket/product": {
+				"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => 'default', 'related' => 'product'], [], $config ); ?>",
+				"allow": ["POST"]
+			}
+		}
 	},
 
 	<?php if( isset( $this->errors ) ) : ?>
@@ -229,22 +244,22 @@ $refFcn = function( \Aimeos\MShop\Common\Item\Iface $item, $level ) use ( $map, 
 
 			if( is_array( $items ) )
 			{
-				foreach( $items as $prodId => $productItem )
+				foreach( $items as $item )
 				{
-					$data[] = $entryFcn( $productItem );
-					$included = array_merge( $included, $refFcn( $productItem, 0 ) );
+					$data[] = $entryFcn( $item );
+					$included = array_merge( $included, $refFcn( $item ) );
 				}
 			}
 			else
 			{
 				$data = $entryFcn( $items );
-				$included = $refFcn( $items, 0 );
+				$included = $refFcn( $items );
 			}
 		 ?>
 
-		"data": <?php echo json_encode( $data ); ?>,
+		"data": <?php echo json_encode( $data, JSON_PRETTY_PRINT ); ?>,
 
-		"included": <?php echo json_encode( $included ); ?>
+		"included": <?php echo json_encode( $included, JSON_PRETTY_PRINT ); ?>
 
 	<?php endif; ?>
 

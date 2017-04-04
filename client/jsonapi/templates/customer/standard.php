@@ -34,35 +34,40 @@ foreach( (array) $fields as $resource => $list ) {
 
 $entryFcn = function( \Aimeos\MShop\Customer\Item\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
 {
-	$attributes = $item->toArray();
+	$id = $item->getId();
 	$type = $item->getResourceType();
-	$params = array( 'resource' => $type, 'id' => $item->getId() );
+	$params = array( 'resource' => $type, 'id' => $id );
+	$attributes = $item->toArray();
 
 	if( isset( $fields[$type] ) ) {
 		$attributes = array_intersect_key( $attributes, $fields[$type] );
 	}
 
 	$entry = array(
-		'id' => $item->getId(),
-		'type' => $item->getResourceType(),
+		'id' => $id,
+		'type' => $type,
 		'links' => array(
 			'self' => array(
 				'href' => $this->url( $target, $cntl, $action, $params, array(), $config ),
-				'allow' => array( 'DELETE', 'GET', 'PATCH', 'POST' ),
+				'allow' => array( 'DELETE', 'GET', 'PATCH' ),
 			),
 		),
 		'attributes' => $attributes,
 	);
 
-	foreach( $item->getAddressItems() as $addrItem ) {
-		$entry['attributes']['customer/address'][] = $addrItem->toArray();
+	foreach( $item->getAddressItems() as $addrItem )
+	{
+		$type = $addrItem->getResourceType();
+		$entry['relationships'][$type]['data'][] = array( 'id' => $addrItem->getId(), 'type' => $type );
 	}
 
 	foreach( $item->getListItems() as $listItem )
 	{
-		$domain = $listItem->getDomain();
-		$basic = array( 'id' => $listItem->getRefId(), 'type' => $domain );
-		$entry['relationships'][$domain]['data'][] = $basic + $listItem->toArray();
+		if( ( $refItem = $listItem->getRefItem() ) !== null )
+		{
+			$type = $refItem->getResourceType();
+			$entry['relationships'][$type]['data'][] = array( 'id' => $refItem->getId(), 'type' => $type );
+		}
 	}
 
 	return $entry;
@@ -73,25 +78,43 @@ $refFcn = function( \Aimeos\MShop\Customer\Item\Iface $item ) use ( $fields, $ta
 {
 	$list = array();
 
-	foreach( $item->getRefItems() as $refItem )
+	foreach( $item->getAddressItems() as $addrItem )
 	{
-		$attributes = $refItem->toArray();
-		$type = $refItem->getResourceType();
-		$params = array( 'resource' => $type, 'id' => $refItem->getId() );
+		$id = $addrItem->getId();
+		$type = $addrItem->getResourceType();
+		$params = array( 'resource' => 'customer', 'id' => $item->getId(), 'related' => $type, 'relatedid' => $id );
+		$attributes = $addrItem->toArray();
 
 		if( isset( $fields[$type] ) ) {
 			$attributes = array_intersect_key( $attributes, $fields[$type] );
 		}
 
 		$list[] = array(
-			'id' => $refItem->getId(),
-			'type' => $refItem->getResourceType(),
+			'id' => $id,
+			'type' => $type,
 			'links' => array(
 				'self' => array(
-					'href' => $this->url( $target, $cntl, $action, $params, array(), $config ),
-					'allow' => array( 'DELETE', 'GET', 'PATCH', 'POST' ),
+					'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
+					'allow' => array( 'DELETE', 'GET', 'PATCH' ),
 				),
 			),
+			'attributes' => $attributes,
+		);
+	}
+
+	foreach( $item->getRefItems() as $refItem )
+	{
+		$id = $refItem->getId();
+		$type = $refItem->getResourceType();
+		$attributes = $refItem->toArray();
+
+		if( isset( $fields[$type] ) ) {
+			$attributes = array_intersect_key( $attributes, $fields[$type] );
+		}
+
+		$list[] = array(
+			'id' => $id,
+			'type' => $type,
 			'attributes' => $attributes,
 		);
 	}
@@ -111,13 +134,13 @@ $refFcn = function( \Aimeos\MShop\Customer\Item\Iface $item ) use ( $fields, $ta
 
 		,"links": {
 			"self": {
-				"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'customer', 'id' => $params['id']], [], $config ); ?>",
-				"allow": ["DELETE","GET","PATCH","POST"]
+				"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'customer', 'id' => $this->item->getId()], [], $config ); ?>",
+				"allow": ["DELETE","GET","PATCH"]
 
 			},
 			"related": {
 				"customer/address": {
-					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'customer', 'id' => $params['id'], 'related' => 'address'], [], $config ); ?>",
+					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'customer', 'id' => $this->item->getId(), 'related' => 'address'], [], $config ); ?>",
 					"allow": ["DELETE","GET","PATCH","POST"]
 
 				}
@@ -131,9 +154,9 @@ $refFcn = function( \Aimeos\MShop\Customer\Item\Iface $item ) use ( $fields, $ta
 
 	<?php elseif( isset( $this->item ) ) : ?>
 
-		,"data": <?php echo json_encode( $entryFcn( $this->item ) ); ?>
+		,"data": <?php echo json_encode( $entryFcn( $this->item ), JSON_PRETTY_PRINT ); ?>
 
-		,"included": <?php echo json_encode( $refFcn( $this->item ) ); ?>
+		,"included": <?php echo json_encode( $refFcn( $this->item ), JSON_PRETTY_PRINT ); ?>
 
 	<?php endif; ?>
 

@@ -8,14 +8,13 @@
  */
 
 
+$enc = $this->encoder();
+
 $target = $this->config( 'client/jsonapi/url/target' );
 $cntl = $this->config( 'client/jsonapi/url/controller', 'jsonapi' );
 $action = $this->config( 'client/jsonapi/url/action', 'index' );
 $config = $this->config( 'client/jsonapi/url/config', array() );
 
-
-$view = $this;
-$enc = $this->encoder();
 
 $ref = array( 'id', 'resource', 'filter', 'page', 'sort', 'include', 'fields' );
 $params = array_intersect_key( $this->param(), array_flip( $ref ) );
@@ -36,22 +35,23 @@ foreach( (array) $fields as $resource => $list ) {
 }
 
 
-$entryFcn = function( \Aimeos\MShop\Locale\Item\Iface $item ) use ( $fields, $view, $target, $cntl, $action, $config )
+$entryFcn = function( \Aimeos\MShop\Locale\Item\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
 {
+	$id = $item->getId();
 	$attributes = $item->toArray();
 	$type = $item->getResourceType();
-	$params = array( 'resource' => $type, 'id' => $item->getId() );
+	$params = array( 'resource' => $type, 'id' => $id );
 
 	if( isset( $fields[$type] ) ) {
 		$attributes = array_intersect_key( $attributes, $fields[$type] );
 	}
 
 	$entry = array(
-		'id' => $item->getId(),
-		'type' => $item->getResourceType(),
+		'id' => $id,
+		'type' => $type,
 		'links' => array(
 			'self' => array(
-				'href' => $view->url( $target, $cntl, $action, $params, array(), $config ),
+				'href' => $this->url( $target, $cntl, $action, $params, array(), $config ),
 				'allow' => array( 'GET' ),
 			),
 		),
@@ -95,7 +95,7 @@ $entryFcn = function( \Aimeos\MShop\Locale\Item\Iface $item ) use ( $fields, $vi
 			}
 		 ?>
 
-		"data": <?php echo json_encode( $data ); ?>
+		"data": <?php echo json_encode( $data, JSON_PRETTY_PRINT ); ?>
 
 	<?php endif; ?>
 

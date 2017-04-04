@@ -70,12 +70,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testGetItems()
 	{
-		$params = array(
-			'fields' => array(
-				'locale' => 'locale.id,locale.languageid,locale.currencyid'
-			),
-			'sort' => 'locale.position',
-		);
+		$params = array( 'sort' => 'locale.position' );
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
@@ -90,7 +85,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 1, count( $result['data'] ) );
 		$this->assertEquals( 'locale', $result['data'][0]['type'] );
-		$this->assertEquals( 3, count( $result['data'][0]['attributes'] ) );
+		$this->assertEquals( 9, count( $result['data'][0]['attributes'] ) );
 		$this->assertEquals( 'en', $result['data'][0]['attributes']['locale.languageid'] );
 		$this->assertEquals( 'EUR', $result['data'][0]['attributes']['locale.currencyid'] );
 

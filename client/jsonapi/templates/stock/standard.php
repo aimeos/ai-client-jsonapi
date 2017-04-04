@@ -8,14 +8,12 @@
  */
 
 
+$enc = $this->encoder();
+
 $target = $this->config( 'client/jsonapi/url/target' );
 $cntl = $this->config( 'client/jsonapi/url/controller', 'jsonapi' );
 $action = $this->config( 'client/jsonapi/url/action', 'get' );
 $config = $this->config( 'client/jsonapi/url/config', array() );
-
-
-$view = $this;
-$enc = $this->encoder();
 
 
 $ref = array( 'id', 'resource', 'filter', 'page', 'sort', 'include', 'fields' );
@@ -43,22 +41,23 @@ foreach( (array) $fields as $resource => $list ) {
 }
 
 
-$entryFcn = function( \Aimeos\MShop\Stock\Item\Iface $item ) use ( $fields, $view, $target, $cntl, $action, $config )
+$entryFcn = function( \Aimeos\MShop\Stock\Item\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
 {
-	$attributes = $item->toArray();
+	$id = $item->getId();
 	$type = $item->getResourceType();
-	$params = array( 'resource' => $type, 'id' => $item->getId() );
+	$params = array( 'resource' => $type, 'id' => $id );
+	$attributes = $item->toArray();
 
 	if( isset( $fields[$type] ) ) {
 		$attributes = array_intersect_key( $attributes, $fields[$type] );
 	}
 
 	$entry = array(
-		'id' => $item->getId(),
-		'type' => $item->getResourceType(),
+		'id' => $id,
+		'type' => $type,
 		'links' => array(
 			'self' => array(
-				'href' => $view->url( $target, $cntl, $action, $params, array(), $config ),
+				'href' => $this->url( $target, $cntl, $action, $params, array(), $config ),
 				'allow' => array( 'GET' ),
 			),
 		),
@@ -101,13 +100,13 @@ $entryFcn = function( \Aimeos\MShop\Stock\Item\Iface $item ) use ( $fields, $vie
 	<?php elseif( isset( $this->items ) ) : ?>
 
 		<?php
-			$data = $included = array();
-			$items = $this->get( 'items', array() );
+			$data = $included = [];
+			$items = $this->get( 'items', [] );
 
 			if( is_array( $items ) )
 			{
-				foreach( $items as $stockId => $stockItem ) {
-					$data[] = $entryFcn( $stockItem );
+				foreach( $items as $item ) {
+					$data[] = $entryFcn( $item );
 				}
 			}
 			else
@@ -116,7 +115,7 @@ $entryFcn = function( \Aimeos\MShop\Stock\Item\Iface $item ) use ( $fields, $vie
 			}
 		 ?>
 
-		"data": <?php echo json_encode( $data ); ?>
+		"data": <?php echo json_encode( $data, JSON_PRETTY_PRINT ); ?>
 
 	<?php endif; ?>
 

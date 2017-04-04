@@ -57,9 +57,9 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'catalog', $result['data']['type'] );
-		$this->assertEquals( 1, count( $result['data']['attributes']['text'] ) );
-		$this->assertEquals( 2, count( $result['data']['attributes']['media'] ) );
-		$this->assertEquals( 0, count( $result['included'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['text']['data'] ) );
+		$this->assertEquals( 2, count( $result['data']['relationships']['media']['data'] ) );
+		$this->assertEquals( 3, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -69,13 +69,14 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	{
 		$params = array(
 			'filter' => array( '>=' => array( 'catalog.level' => 0 ) ),
-			'include' => 'catalog'
+			'include' => 'catalog,media'
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
+
 
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
@@ -87,7 +88,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 'Root', $result['data']['attributes']['catalog.label'] );
 		$this->assertEquals( 2, count( $result['data']['relationships']['catalog']['data'] ) );
 		$this->assertEquals( 'catalog', $result['data']['relationships']['catalog']['data'][0]['type'] );
-		$this->assertEquals( 2, count( $result['included'] ) );
+		$this->assertEquals( 3, count( $result['included'] ) );
 		$this->assertArrayHaskey( 'self', $result['included'][0]['links'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );

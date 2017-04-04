@@ -14,7 +14,6 @@ $action = $this->config( 'client/jsonapi/url/action', 'index' );
 $config = $this->config( 'client/jsonapi/url/config', array() );
 
 
-$view = $this;
 $enc = $this->encoder();
 
 $ref = array( 'id', 'resource', 'filter', 'page', 'sort', 'include', 'fields' );
@@ -29,7 +28,6 @@ $offset = max( $this->param( 'page/offset', 0 ), 0 );
 $limit = max( $this->param( 'page/limit', 100 ), 1 );
 
 
-$map = $this->get( 'itemMap', array() );
 $fields = $this->param( 'fields', array() );
 
 foreach( (array) $fields as $resource => $list ) {
@@ -37,7 +35,7 @@ foreach( (array) $fields as $resource => $list ) {
 }
 
 
-$entryFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item ) use ( $fields, $view, $target, $cntl, $action, $config )
+$entryFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
 {
 	$attributes = $item->toArray();
 	$type = $item->getResourceType();
@@ -52,7 +50,7 @@ $entryFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item ) use ( $fields, $v
 		'type' => $item->getResourceType(),
 		'links' => array(
 			'self' => array(
-				'href' => $view->url( $target, $cntl, $action, $params, array(), $config ),
+				'href' => $this->url( $target, $cntl, $action, $params, array(), $config ),
 				'allow' => array( 'GET' ),
 			),
 		),
@@ -63,16 +61,12 @@ $entryFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item ) use ( $fields, $v
 		$entry['relationships']['catalog']['data'][] = array( 'id' => $catItem->getId(), 'type' => 'catalog' );
 	}
 
-	if( $item instanceof \Aimeos\MShop\Common\Item\ListRef\Iface )
+	foreach( $item->getListItems() as $listItem )
 	{
-		foreach( $item->getListItems() as $listItem )
+		if( ( $refItem = $listItem->getRefItem() ) !== null )
 		{
 			$domain = $listItem->getDomain();
-
-			if( ( $refItem = $listItem->getRefItem() ) !== null ) {
-				$entry['attributes'][$domain][] = $refItem->toArray() + $listItem->toArray();
-			}
-
+			$entry['relationships'][$domain]['data'][] = ['id' => $refItem->getId(), 'type' => $refItem->getResourceType()];
 		}
 	}
 
@@ -80,10 +74,35 @@ $entryFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item ) use ( $fields, $v
 };
 
 
+$refFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
+{
+	$list = array();
+
+	foreach( $item->getListItems() as $listItem )
+	{
+		if( ( $refItem = $listItem->getRefItem() ) !== null )
+		{
+			$refId = $refItem->getId();
+			$type = $refItem->getResourceType();
+			$params = array( 'resource' => 'catalog', 'id' => $item->getId(), 'related' => $type, 'relatedid' => $refId );
+			$attributes = $refItem->toArray();
+
+			if( isset( $fields[$type] ) ) {
+				$attributes = array_intersect_key( $attributes, $fields[$type] );
+			}
+
+			$list[] = array( 'id' => $refId, 'type' => $type, 'attributes' => $attributes );
+		}
+	}
+
+	return $list;
+};
+
+
 ?>
 {
 	"meta": {
-		"total": <?php echo ( isset( $this->items ) ? 1 : 0 ); ?>
+		"total": <?php echo ( isset( $this->item ) ? 1 : 0 ); ?>
 
 	},
 
@@ -95,19 +114,20 @@ $entryFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item ) use ( $fields, $v
 
 		"errors": <?php echo json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
 
-	<?php elseif( isset( $this->items ) ) : ?>
-
+	<?php elseif( isset( $this->item ) ) : ?>
 		<?php
-			$included = array();
+			$included = $refFcn( $this->item );
 
-			foreach( $this->items->getChildren() as $catItem ) {
+			foreach( $this->item->getChildren() as $catItem )
+			{
 				$included[] = $entryFcn( $catItem );
+				$included = array_merge( $included, $refFcn( $catItem ) );
 			}
 		 ?>
 
-		"data": <?php echo json_encode( $entryFcn( $this->items ) ); ?>,
+		"data": <?php echo json_encode( $entryFcn( $this->item ), JSON_PRETTY_PRINT ); ?>,
 
-		"included": <?php echo json_encode( $included ); ?>
+		"included": <?php echo json_encode( $included, JSON_PRETTY_PRINT ); ?>
 
 	<?php endif; ?>
 

@@ -99,14 +99,13 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'product', $result['data']['type'] );
-		$this->assertEquals( 6, count( $result['data']['attributes']['text'] ) );
-		$this->assertEquals( 2, count( $result['data']['attributes']['price'] ) );
-		$this->assertEquals( 4, count( $result['data']['attributes']['media'] ) );
-		$this->assertEquals( 4, count( $result['data']['attributes']['product/property'] ) );
+		$this->assertEquals( 6, count( $result['data']['relationships']['text']['data'] ) );
+		$this->assertEquals( 2, count( $result['data']['relationships']['price']['data'] ) );
+		$this->assertEquals( 4, count( $result['data']['relationships']['media']['data'] ) );
+		$this->assertEquals( 4, count( $result['data']['relationships']['product/property']['data'] ) );
 		$this->assertEquals( 5, count( $result['data']['relationships']['product']['data'] ) );
 		$this->assertEquals( 5, count( $result['data']['relationships']['attribute']['data'] ) );
-		$this->assertEquals( 12, count( $result['included'] ) );
-		$this->assertArrayHaskey( 'self', $result['included'][0]['links'] );
+		$this->assertEquals( 26, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -136,12 +135,12 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 2, $result['meta']['total'] );
 		$this->assertEquals( 2, count( $result['data'] ) );
 		$this->assertEquals( 'product', $result['data'][0]['type'] );
-		$this->assertEquals( 4, count( $result['data'][0]['attributes'] ) );
-		$this->assertEquals( 6, count( $result['data'][0]['attributes']['text'] ) );
-		$this->assertEquals( 4, count( $result['data'][0]['attributes']['product/property'] ) );
+		$this->assertEquals( 2, count( $result['data'][0]['attributes'] ) );
+		$this->assertEquals( 6, count( $result['data'][0]['relationships']['text']['data'] ) );
+		$this->assertEquals( 4, count( $result['data'][0]['relationships']['product/property']['data'] ) );
 		$this->assertEquals( 5, count( $result['data'][0]['relationships']['attribute']['data'] ) );
 		$this->assertEquals( 5, count( $result['data'][0]['relationships']['product']['data'] ) );
-		$this->assertEquals( 24, count( $result['included'] ) );
+		$this->assertEquals( 32, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}

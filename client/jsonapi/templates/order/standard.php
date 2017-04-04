@@ -34,17 +34,18 @@ foreach( (array) $fields as $resource => $list ) {
 
 $entryFcn = function( \Aimeos\MShop\Order\Item\Iface $item, \Aimeos\MShop\Common\Item\Helper\Form\Iface $form = null ) use ( $fields, $target, $cntl, $action, $config )
 {
-	$attributes = $item->toArray();
+	$id = $item->getId();
 	$type = $item->getResourceType();
-	$params = array( 'resource' => $type, 'id' => $item->getId() );
+	$params = array( 'resource' => $type, 'id' => $id );
+	$attributes = $item->toArray();
 
 	if( isset( $fields[$type] ) ) {
 		$attributes = array_intersect_key( $attributes, $fields[$type] );
 	}
 
 	$entry = array(
-		'id' => $item->getId(),
-		'type' => $item->getResourceType(),
+		'id' => $id,
+		'type' => $type,
 		'links' => array(
 			'self' => array(
 				'href' => $this->url( $target, $cntl, $action, $params, array(), $config ),

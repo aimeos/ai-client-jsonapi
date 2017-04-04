@@ -108,9 +108,9 @@ $productFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $field
 		$entry = ['id' => $position, 'type' => 'basket/product'];
 		$entry['attributes'] = $orderProduct->toArray();
 
-		if( $item->getId() === null )
+		if( $item->getId() === null && $orderProduct->getFlags() !== \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
 		{
-			$params = ['resource' => 'basket', 'id' => $id, 'related' => 'product', 'relid' => $position];
+			$params = ['resource' => 'basket', 'id' => $id, 'related' => 'product', 'relatedid' => $position];
 			$entry['links'] = array(
 				'self' => array(
 					'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
@@ -153,7 +153,7 @@ $serviceFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $field
 
 		if( $item->getId() === null )
 		{
-			$params = ['resource' => 'basket', 'id' => $id, 'related' => 'service', 'relid' => $type];
+			$params = ['resource' => 'basket', 'id' => $id, 'related' => 'service', 'relatedid' => $type];
 			$entry['links'] = array(
 				'self' => array(
 					'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
@@ -185,7 +185,7 @@ $addressFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $field
 
 		if( $item->getId() === null )
 		{
-			$params = ['resource' => 'basket', 'id' => $id, 'related' => 'address', 'relid' => $type];
+			$params = ['resource' => 'basket', 'id' => $id, 'related' => 'address', 'relatedid' => $type];
 			$entry['links'] = array(
 				'self' => array(
 					'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
@@ -212,7 +212,7 @@ $couponFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $fields
 
 		if( $item->getId() === null )
 		{
-			$params = ['resource' => 'basket', 'id' => $id, 'related' => 'coupon', 'relid' => $code];
+			$params = ['resource' => 'basket', 'id' => $id, 'related' => 'coupon', 'relatedid' => $code];
 			$entry['links'] = array(
 				'self' => array(
 					'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
@@ -239,29 +239,35 @@ $couponFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $fields
 			"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $params['id']], [], $config ); ?>",
 			"allow": <?php echo ( isset( $this->item ) && $this->item->getId() === null ? '["DELETE","GET","PATCH","POST"]' : '["GET"]' ); ?>
 
-		},
-		"related": {
-			"basket/product": {
-				"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $params['id'], 'related' => 'product'], [], $config ); ?>",
-				"allow": <?php echo ( isset( $this->item ) && $this->item->getId() === null ? '["POST"]' : '[]' ); ?>
-
-			},
-			"basket/service": {
-				"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $params['id'], 'related' => 'service'], [], $config ); ?>",
-				"allow": <?php echo ( isset( $this->item ) && $this->item->getId() === null ? '["POST"]' : '[]' ); ?>
-
-			},
-			"basket/address": {
-				"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $params['id'], 'related' => 'address'], [], $config ); ?>",
-				"allow": <?php echo ( isset( $this->item ) && $this->item->getId() === null ? '["POST"]' : '[]' ); ?>
-
-			},
-			"basket/coupon": {
-				"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $params['id'], 'related' => 'coupon'], [], $config ); ?>",
-				"allow": <?php echo ( isset( $this->item ) && $this->item->getId() === null ? '["POST"]' : '[]' ); ?>
-
-			}
 		}
+
+		<?php if( isset( $this->item ) && $this->item->getId() === null ) : ?>
+
+			,"related": {
+				"basket/product": {
+					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $params['id'], 'related' => 'product'], [], $config ); ?>",
+					"allow": <?php echo ( isset( $this->item ) && $this->item->getId() === null ? '["POST"]' : '[]' ); ?>
+
+				},
+				"basket/service": {
+					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $params['id'], 'related' => 'service'], [], $config ); ?>",
+					"allow": <?php echo ( isset( $this->item ) && $this->item->getId() === null ? '["POST"]' : '[]' ); ?>
+
+				},
+				"basket/address": {
+					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $params['id'], 'related' => 'address'], [], $config ); ?>",
+					"allow": <?php echo ( isset( $this->item ) && $this->item->getId() === null ? '["POST"]' : '[]' ); ?>
+
+				},
+				"basket/coupon": {
+					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $params['id'], 'related' => 'coupon'], [], $config ); ?>",
+					"allow": <?php echo ( isset( $this->item ) && $this->item->getId() === null ? '["POST"]' : '[]' ); ?>
+
+				}
+			}
+
+		<?php endif; ?>
+
 	},
 
 	<?php if( isset( $this->errors ) ) : ?>
@@ -290,9 +296,9 @@ $couponFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $fields
 			}
 		?>
 
-		"data": <?php echo json_encode( $entryFcn( $this->item ) ); ?>,
+		"data": <?php echo json_encode( $entryFcn( $this->item ), JSON_PRETTY_PRINT ); ?>,
 
-		"included": <?php echo json_encode( $included ); ?>
+		"included": <?php echo json_encode( $included, JSON_PRETTY_PRINT ); ?>
 
 	<?php endif; ?>
 

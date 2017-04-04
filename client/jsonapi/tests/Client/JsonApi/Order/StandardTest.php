@@ -67,8 +67,8 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$search->setConditions( $search->compare( '==', 'order.base.customerid', $user->getId() ) );
 		$items = $manager->searchItems( $search );
 
-		if( ( $item = reset( $items ) ) !== false ) {
-			return $item;
+		if( ( $item = reset( $items ) ) === false ) {
+			throw new \RuntimeException( 'No order item found' );
 		}
 
 		$params = array( 'id' => $item->getId() );
@@ -85,7 +85,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'order', $result['data']['type'] );
-		$this->assertGreaterThan( 13, count( $result['data']['attributes'] ) );
+		$this->assertGreaterThan( 11, count( $result['data']['attributes'] ) );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 

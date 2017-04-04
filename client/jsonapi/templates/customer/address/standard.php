@@ -49,7 +49,7 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item ) use ( $f
 		'links' => array(
 			'self' => array(
 				'href' => $this->url( $target, $cntl, $action, $params, array(), $config ),
-				'allow' => array( 'DELETE', 'GET', 'PATCH', 'POST' ),
+				'allow' => array( 'DELETE', 'GET', 'PATCH' ),
 			),
 		),
 		'attributes' => $attributes,
@@ -71,7 +71,7 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item ) use ( $f
 		,"links": {
 			"self": {
 				"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'customer', 'id' => $params['id'], 'related' => 'address'], [], $config ); ?>",
-				"allow": ["DELETE","GET","PATCH","POST"]
+				"allow": ["DELETE","GET","PATCH"]
 			}
 		}
 
@@ -98,7 +98,7 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item ) use ( $f
 			}
 		 ?>
 
-		,"data": <?php echo json_encode( $data ); ?>
+		,"data": <?php echo json_encode( $data, JSON_PRETTY_PRINT ); ?>
 
 	<?php endif; ?>
 

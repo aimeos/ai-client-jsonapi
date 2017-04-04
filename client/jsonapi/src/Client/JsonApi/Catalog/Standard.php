@@ -121,7 +121,7 @@ class Standard
 		$filter = $cntl->createFilter();
 		$filter = $this->initCriteria( $filter, $view->param() );
 
-		$view->items = $cntl->getTree( $catId, $ref, $level, $filter );
+		$view->item = $cntl->getTree( $catId, $ref, $level, $filter );
 
 		return $response;
 	}

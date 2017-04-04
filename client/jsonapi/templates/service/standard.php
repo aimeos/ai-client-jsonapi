@@ -38,6 +38,7 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, array $prices, arr
 	$params = array( 'resource' => $type, 'id' => $id );
 
 	$attributes = $item->toArray();
+	unset( $attributes['service.config'] ); // don't expose private information
 
 	if( isset( $fields[$type] ) ) {
 		$attributes = array_intersect_key( $attributes, $fields[$type] );
@@ -55,8 +56,8 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, array $prices, arr
 	}
 
 	$entry = array(
-		'id' => $item->getId(),
-		'type' => $item->getResourceType(),
+		'id' => $id,
+		'type' => $type,
 		'links' => array(
 			'self' => array(
 				'href' => $this->url( $target, $cntl, $action, $params, array(), $config ),
@@ -68,11 +69,11 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, array $prices, arr
 
 	foreach( $item->getListItems() as $listItem )
 	{
-		if( $listItem->getRefItem() !== null )
+		if( ( $refItem = $listItem->getRefItem() ) !== null )
 		{
-			$domain = $listItem->getDomain();
-			$basic = array( 'id' => $listItem->getRefId(), 'type' => $domain );
-			$entry['relationships'][$domain]['data'][] = $basic + $listItem->toArray();
+			$type = $refItem->getResourceType();
+			$data = array( 'id' => $listItem->getRefId(), 'type' => $type, 'attributes' => $listItem->toArray() );
+			$entry['relationships'][$type]['data'][] = $data;
 		}
 	}
 
@@ -84,27 +85,22 @@ $refFcn = function( \Aimeos\MShop\Common\Item\ListRef\Iface $item ) use ( $field
 {
 	$list = array();
 
-	foreach( $item->getRefItems() as $refItems )
+	foreach( $item->getListItems() as $listItem )
 	{
-		foreach( $refItems as $refId => $refItem )
+		if( ( $refItem = $listItem->getRefItem() ) !== null )
 		{
-			$attributes = $refItem->toArray();
+			$id = $refItem->getId();
 			$type = $refItem->getResourceType();
-			$params = array( 'resource' => $item->getResourceType(), 'id' => $item->getId(), 'related' => $type, 'realatedid' => $refId );
+			$params = array( 'resource' => $item->getResourceType(), 'id' => $item->getId(), 'related' => $type, 'realatedid' => $id );
+			$attributes = $refItem->toArray();
 
 			if( isset( $fields[$type] ) ) {
 				$attributes = array_intersect_key( $attributes, $fields[$type] );
 			}
 
 			$list[] = array(
-				'id' => $refId,
+				'id' => $id,
 				'type' => $type,
-				'links' => array(
-					'self' => array(
-						'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
-						'allow' => [],
-					),
-				),
 				'attributes' => $attributes,
 			);
 		}
@@ -121,7 +117,7 @@ $refFcn = function( \Aimeos\MShop\Common\Item\ListRef\Iface $item ) use ( $field
 
 	}
 
-	<?php if( isset( $this->item ) ) : ?>
+	<?php if( isset( $this->items ) ) : ?>
 
 		,"links": {
 			"self": {
@@ -130,8 +126,8 @@ $refFcn = function( \Aimeos\MShop\Common\Item\ListRef\Iface $item ) use ( $field
 
 			},
 			"related": {
-				"basket/address": {
-					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => 'default', 'related' => 'address'], [], $config ); ?>",
+				"basket/service": {
+					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => 'default', 'related' => 'service'], [], $config ); ?>",
 					"allow": ["POST"]
 
 				}

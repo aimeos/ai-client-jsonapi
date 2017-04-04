@@ -46,17 +46,16 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'attribute', $result['data']['type'] );
-		$this->assertEquals( 3, count( $result['data']['attributes']['text'] ) );
-		$this->assertEquals( 1, count( $result['data']['attributes']['price'] ) );
-		$this->assertEquals( 1, count( $result['data']['attributes']['media'] ) );
-		$this->assertEquals( 0, count( $result['included'] ) );
+		$this->assertEquals( 3, count( $result['data']['relationships']['text']['data'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['price']['data'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['media']['data'] ) );
+		$this->assertEquals( 5, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -86,10 +85,10 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 17, $result['meta']['total'] );
 		$this->assertEquals( 17, count( $result['data'] ) );
 		$this->assertEquals( 'attribute', $result['data'][0]['type'] );
-		$this->assertEquals( 6, count( $result['data'][0]['attributes'] ) );
+		$this->assertEquals( 3, count( $result['data'][0]['attributes'] ) );
 		$this->assertEquals( 'size', $result['data'][0]['attributes']['attribute.type'] );
 		$this->assertEquals( 'xs', $result['data'][0]['attributes']['attribute.code'] );
-		$this->assertEquals( 0, count( $result['included'] ) );
+		$this->assertEquals( 21, count( $result['included'] ) );
 
 		foreach( $result['data'] as $entry ) {
 			$this->assertContains( $entry['attributes']['attribute.type'], ['size', 'length', 'width'] );
