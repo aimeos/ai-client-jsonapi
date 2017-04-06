@@ -40,7 +40,9 @@ $entryFcn = function( \Aimeos\MShop\Locale\Item\Iface $item ) use ( $fields, $ta
 	$id = $item->getId();
 	$attributes = $item->toArray();
 	$type = $item->getResourceType();
+
 	$params = array( 'resource' => $type, 'id' => $id );
+	$resourceParams = ['locale' => $item->getLanguageId(), 'currency' => $item->getCurrencyId()];
 
 	if( isset( $fields[$type] ) ) {
 		$attributes = array_intersect_key( $attributes, $fields[$type] );
@@ -53,6 +55,10 @@ $entryFcn = function( \Aimeos\MShop\Locale\Item\Iface $item ) use ( $fields, $ta
 			'self' => array(
 				'href' => $this->url( $target, $cntl, $action, $params, array(), $config ),
 				'allow' => array( 'GET' ),
+			),
+			'resources' => array(
+				'href' => $this->url( $target, $cntl, $action, $resourceParams, array(), $config ),
+				'allow' => array( 'OPTIONS' ),
 			),
 		),
 		'attributes' => $attributes,

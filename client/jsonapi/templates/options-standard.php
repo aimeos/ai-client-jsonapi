@@ -6,9 +6,16 @@ $action = $this->config( 'admin/jsonadm/url/action', 'index' );
 $config = $this->config( 'admin/jsonadm/url/config', [] );
 
 $resources = [];
+$default = [
+	'currency' => $this->param( 'currency' ),
+	'locale' => $this->param( 'locale' ),
+	'id' => ''
+];
+
 foreach( $this->get( 'resources', [] ) as $resource ) {
-	$resources[$resource] = $this->url( $target, $cntl, $action, array( 'resource' => $resource, 'id' => '' ), [], $config );
+	$resources[$resource] = $this->url( $target, $cntl, $action, ['resource' => $resource] + $default, [], $config );
 }
+
 
 ?>
 {
