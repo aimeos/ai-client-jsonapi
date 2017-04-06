@@ -30,7 +30,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	{
 		$response = $this->object->options( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
-print_r( $result );
 
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
