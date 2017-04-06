@@ -111,9 +111,11 @@ foreach( (array) $fields as $resource => $list ) {
 $entryFcn = function( \Aimeos\MShop\Common\Item\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
 {
 	$id = $item->getId();
-	$type = $item->getResourceType();
-	$params = array( 'resource' => $type, 'id' => $id );
 	$attributes = $item->toArray();
+	$type = $item->getResourceType();
+
+	$params = array( 'resource' => $type, 'id' => $id );
+	$basketParams = [ 'resource' => 'basket', 'id' => 'default', 'related' => 'product' ];
 
 	if( isset( $fields[$type] ) ) {
 		$attributes = array_intersect_key( $attributes, $fields[$type] );
@@ -126,6 +128,10 @@ $entryFcn = function( \Aimeos\MShop\Common\Item\Iface $item ) use ( $fields, $ta
 			'self' => array(
 				'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
 				'allow' => array( 'GET' ),
+			),
+			'basket/product' => array(
+				'href' => $this->url( $target, $cntl, $action, $basketParams, [], $config ),
+				'allow' => ['POST'],
 			),
 		),
 		'attributes' => $attributes,
@@ -221,11 +227,7 @@ $refFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, $map
 				"last": "<?php $params['page']['offset'] = $last; echo $this->url( $target, $cntl, $action, $params, array(), $config ); ?>",
 			<?php endif; ?>
 		<?php endif; ?>
-		"self": "<?php $params['page']['offset'] = $offset; echo $this->url( $target, $cntl, $action, $params, array(), $config ); ?>",
-		"basket/product": {
-			"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => 'default', 'related' => 'product'], [], $config ); ?>",
-			"allow": ["POST"]
-		}
+		"self": "<?php $params['page']['offset'] = $offset; echo $this->url( $target, $cntl, $action, $params, array(), $config ); ?>"
 	},
 
 	<?php if( isset( $this->errors ) ) : ?>

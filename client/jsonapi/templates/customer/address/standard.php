@@ -37,7 +37,9 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item ) use ( $f
 	$id = $item->getId();
 	$attributes = $item->toArray();
 	$type = $item->getResourceType();
+
 	$params = array( 'resource' => 'customer', 'id' => $item->getParentId(), 'related' => 'address', 'relatedid' => $id );
+	$basketParams = array( 'resource' => 'basket', 'id' => 'default', 'related' => 'address', 'relatedid' => 'delivery' );
 
 	if( isset( $fields[$type] ) ) {
 		$attributes = array_intersect_key( $attributes, $fields[$type] );
@@ -50,6 +52,10 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item ) use ( $f
 			'self' => array(
 				'href' => $this->url( $target, $cntl, $action, $params, array(), $config ),
 				'allow' => array( 'DELETE', 'GET', 'PATCH' ),
+			),
+			'basket/address' => array(
+				'href' => $this->url( $target, $cntl, $action, $basketParams, [], $config ),
+				'allow' => ['POST'],
 			),
 		),
 		'attributes' => $attributes,

@@ -33,12 +33,15 @@ foreach( (array) $fields as $resource => $list ) {
 
 $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, array $prices, array $feConfig ) use ( $fields, $target, $cntl, $action, $config )
 {
+	$metadata = [];
 	$id = $item->getId();
 	$type = $item->getResourceType();
-	$params = array( 'resource' => $type, 'id' => $id );
 
 	$attributes = $item->toArray();
 	unset( $attributes['service.config'] ); // don't expose private information
+
+	$params = array( 'resource' => $type, 'id' => $id );
+	$basketParams = [ 'resource' => 'basket', 'id' => 'default', 'related' => 'service', 'relatedid' => $item->getType() ];
 
 	if( isset( $fields[$type] ) ) {
 		$attributes = array_intersect_key( $attributes, $fields[$type] );
@@ -51,7 +54,7 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, array $prices, arr
 	if( isset( $feConfig[$id] ) )
 	{
 		foreach( $feConfig[$id] as $code => $attr ) {
-			$attributes['config'][$code] = $attr->toArray();
+			$metadata[$code] = $attr->toArray();
 		}
 	}
 
@@ -60,8 +63,13 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, array $prices, arr
 		'type' => $type,
 		'links' => array(
 			'self' => array(
-				'href' => $this->url( $target, $cntl, $action, $params, array(), $config ),
+				'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
 				'allow' => ['GET'],
+			),
+			'basket/service' => array(
+				'href' => $this->url( $target, $cntl, $action, $basketParams, [], $config ),
+				'allow' => ['POST'],
+				'meta' => $metadata,
 			),
 		),
 		'attributes' => $attributes,
@@ -111,11 +119,7 @@ $refFcn = function( \Aimeos\MShop\Common\Item\ListRef\Iface $item ) use ( $field
 
 	},
 	"links": {
-		"self": "<?php echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
-		"basket/service": {
-			"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => 'default', 'related' => 'service'], [], $config ); ?>",
-			"allow": ["POST"]
-		}
+		"self": "<?php echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>"
 	}
 
 	<?php if( isset( $this->errors ) ) : ?>

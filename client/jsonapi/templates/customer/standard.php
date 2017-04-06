@@ -81,9 +81,11 @@ $refFcn = function( \Aimeos\MShop\Customer\Item\Iface $item ) use ( $fields, $ta
 	foreach( $item->getAddressItems() as $addrItem )
 	{
 		$id = $addrItem->getId();
-		$type = $addrItem->getResourceType();
-		$params = array( 'resource' => 'customer', 'id' => $item->getId(), 'related' => $type, 'relatedid' => $id );
 		$attributes = $addrItem->toArray();
+		$type = $addrItem->getResourceType();
+
+		$params = array( 'resource' => 'customer', 'id' => $item->getId(), 'related' => $type, 'relatedid' => $id );
+		$basketParams = array( 'resource' => 'basket', 'id' => 'default', 'related' => 'address', 'relatedid' => 'payment' );
 
 		if( isset( $fields[$type] ) ) {
 			$attributes = array_intersect_key( $attributes, $fields[$type] );
@@ -96,6 +98,10 @@ $refFcn = function( \Aimeos\MShop\Customer\Item\Iface $item ) use ( $fields, $ta
 				'self' => array(
 					'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
 					'allow' => array( 'DELETE', 'GET', 'PATCH' ),
+				),
+				'basket/address' => array(
+					'href' => $this->url( $target, $cntl, $action, $basketParams, [], $config ),
+					'allow' => ['POST'],
 				),
 			),
 			'attributes' => $attributes,

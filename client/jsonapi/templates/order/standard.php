@@ -35,9 +35,9 @@ foreach( (array) $fields as $resource => $list ) {
 $entryFcn = function( \Aimeos\MShop\Order\Item\Iface $item, \Aimeos\MShop\Common\Item\Helper\Form\Iface $form = null ) use ( $fields, $target, $cntl, $action, $config )
 {
 	$id = $item->getId();
+	$attributes = $item->toArray();
 	$type = $item->getResourceType();
 	$params = array( 'resource' => $type, 'id' => $id );
-	$attributes = $item->toArray();
 
 	if( isset( $fields[$type] ) ) {
 		$attributes = array_intersect_key( $attributes, $fields[$type] );
@@ -57,12 +57,12 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Iface $item, \Aimeos\MShop\Common
 
 	if( $form !== null )
 	{
-		$entry['links']['related']['href'] = $form->getUrl();
-		$entry['links']['related']['allow'] = ( $form->getMethod() !== 'REDIRECT' ? $form->getMethod() : 'GET' );
-		$entry['links']['related']['meta'] = [];
+		$entry['links']['process']['href'] = $form->getUrl();
+		$entry['links']['process']['allow'] = ( $form->getMethod() !== 'REDIRECT' ? $form->getMethod() : 'GET' );
+		$entry['links']['process']['meta'] = [];
 
-		foreach( $form->getValues() as $attr ) {
-			$entry['links']['related']['meta'][] = $attr->toArray();
+		foreach( $form->getValues() as $key => $attr ) {
+			$entry['links']['process']['meta'][$key] = $attr->toArray();
 		}
 	}
 
