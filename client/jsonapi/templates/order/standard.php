@@ -7,14 +7,12 @@
  * @subpackage JsonApi
  */
 
+$enc = $this->encoder();
 
 $target = $this->config( 'client/jsonapi/url/target' );
 $cntl = $this->config( 'client/jsonapi/url/controller', 'jsonapi' );
 $action = $this->config( 'client/jsonapi/url/action', 'index' );
 $config = $this->config( 'client/jsonapi/url/config', array() );
-
-
-$enc = $this->encoder();
 
 
 $ref = array( 'id', 'resource', 'filter', 'page', 'sort', 'include', 'fields' );
@@ -58,7 +56,7 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Iface $item, \Aimeos\MShop\Common
 	if( $form !== null )
 	{
 		$entry['links']['process']['href'] = $form->getUrl();
-		$entry['links']['process']['allow'] = ( $form->getMethod() !== 'REDIRECT' ? $form->getMethod() : 'GET' );
+		$entry['links']['process']['allow'] = [( $form->getMethod() !== 'REDIRECT' ? $form->getMethod() : 'GET' )];
 		$entry['links']['process']['meta'] = [];
 
 		foreach( $form->getValues() as $key => $attr ) {
