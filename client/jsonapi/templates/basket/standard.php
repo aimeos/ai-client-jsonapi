@@ -11,7 +11,7 @@
 $target = $this->config( 'client/jsonapi/url/target' );
 $cntl = $this->config( 'client/jsonapi/url/controller', 'jsonapi' );
 $action = $this->config( 'client/jsonapi/url/action', 'index' );
-$config = $this->config( 'client/jsonapi/url/config', array() );
+$config = $this->config( 'client/jsonapi/url/config', [] );
 
 $enc = $this->encoder();
 
@@ -24,7 +24,7 @@ if( !isset( $params['id'] ) ) {
 }
 
 
-$fields = $this->param( 'fields', array() );
+$fields = $this->param( 'fields', [] );
 
 foreach( (array) $fields as $resource => $list ) {
 	$fields[$resource] = array_flip( explode( ',', $list ) );

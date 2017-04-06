@@ -11,7 +11,7 @@
 $target = $this->config( 'client/jsonapi/url/target' );
 $cntl = $this->config( 'client/jsonapi/url/controller', 'jsonapi' );
 $action = $this->config( 'client/jsonapi/url/action', 'index' );
-$config = $this->config( 'client/jsonapi/url/config', array() );
+$config = $this->config( 'client/jsonapi/url/config', [] );
 
 
 $enc = $this->encoder();
@@ -25,7 +25,7 @@ if( !isset( $params['id'] ) ) {
 }
 
 
-$fields = $this->param( 'fields', array() );
+$fields = $this->param( 'fields', [] );
 
 foreach( (array) $fields as $resource => $list ) {
 	$fields[$resource] = array_flip( explode( ',', $list ) );
@@ -50,7 +50,7 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item ) use ( $f
 		'type' => $type,
 		'links' => array(
 			'self' => array(
-				'href' => $this->url( $target, $cntl, $action, $params, array(), $config ),
+				'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
 				'allow' => array( 'DELETE', 'GET', 'PATCH' ),
 			),
 			'basket/address' => array(
@@ -82,7 +82,7 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item ) use ( $f
 	<?php elseif( isset( $this->items ) ) : ?>
 
 		<?php
-			$data = array();
+			$data = [];
 			$items = $this->get( 'items', [] );
 
 			if( is_array( $items ) )

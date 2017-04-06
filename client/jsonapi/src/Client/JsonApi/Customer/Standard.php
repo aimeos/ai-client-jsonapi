@@ -83,7 +83,7 @@ class Standard
 
 		try
 		{
-			$ref = $view->param( 'include', array() );
+			$ref = $view->param( 'include', [] );
 
 			if( is_string( $ref ) ) {
 				$ref = explode( ',', $ref );

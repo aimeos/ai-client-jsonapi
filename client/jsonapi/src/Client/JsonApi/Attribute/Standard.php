@@ -103,7 +103,7 @@ class Standard
 	 */
 	protected function getItem( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response )
 	{
-		$ref = $view->param( 'include', array() );
+		$ref = $view->param( 'include', [] );
 
 		if( is_string( $ref ) ) {
 			$ref = explode( ',', $ref );
@@ -146,12 +146,12 @@ class Standard
 		 * @since 2017.03
 		 * @category Developer
 		 */
-		$attrTypes = $this->getContext()->getConfig()->get( 'client/jsonapi/attribute/types', array() );
+		$attrTypes = $this->getContext()->getConfig()->get( 'client/jsonapi/attribute/types', [] );
 
 		$total = 0;
 		$attrMap = [];
 
-		$ref = $view->param( 'include', array() );
+		$ref = $view->param( 'include', [] );
 
 		if( is_string( $ref ) ) {
 			$ref = explode( ',', $ref );

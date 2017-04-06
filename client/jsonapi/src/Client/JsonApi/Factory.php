@@ -22,7 +22,7 @@ class Factory
 	implements \Aimeos\Client\JsonApi\Common\Factory\Iface
 {
 	static private $cache = true;
-	static private $clients = array();
+	static private $clients = [];
 
 
 	/**
@@ -40,13 +40,13 @@ class Factory
 			if( $path !== null ) {
 				self::$clients[$id][$path] = null;
 			} else {
-				self::$clients[$id] = array();
+				self::$clients[$id] = [];
 			}
 
 			return;
 		}
 
-		self::$clients = array();
+		self::$clients = [];
 	}
 
 

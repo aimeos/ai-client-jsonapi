@@ -299,7 +299,7 @@ abstract class Base
 			return;
 		}
 
-		$sortation = array();
+		$sortation = [];
 
 		foreach( explode( ',', $params['sort'] ) as $sort )
 		{

@@ -1,6 +1,6 @@
 <?php
 
-$entries = array();
+$entries = [];
 $data = $this->get( 'data', [] );
 $type = $this->param( 'aggregate' );
 

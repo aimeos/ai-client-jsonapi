@@ -155,7 +155,7 @@ class Standard
 	 */
 	protected function getDomainItems( array $productItems, array $ref, $domain )
 	{
-		$ids = array();
+		$ids = [];
 		$context = $this->getContext();
 
 		foreach( $productItems as $item ) {
@@ -179,9 +179,9 @@ class Standard
 	protected function getFilter( \Aimeos\MW\View\Iface $view, $sort, $direction, $start, $size )
 	{
 		$listtype = $view->param( 'filter/f_listtype', 'default' );
-		$attrIds = $view->param( 'filter/f_attrid', array() );
-		$optIds = $view->param( 'filter/f_optid', array() );
-		$oneIds = $view->param( 'filter/f_oneid', array() );
+		$attrIds = $view->param( 'filter/f_attrid', [] );
+		$optIds = $view->param( 'filter/f_optid', [] );
+		$oneIds = $view->param( 'filter/f_oneid', [] );
 
 		$context = $this->getContext();
 		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $context, 'product' );
@@ -247,8 +247,8 @@ class Standard
 	 */
 	protected function getItem( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response )
 	{
-		$map = array();
-		$ref = $view->param( 'include', array() );
+		$map = [];
+		$ref = $view->param( 'include', [] );
 
 		if( is_string( $ref ) ) {
 			$ref = explode( ',', $ref );
@@ -265,7 +265,7 @@ class Standard
 
 		if( in_array( 'attribute', $ref, true ) )
 		{
-			$productItems = ( isset( $map['product'] ) ? array_merge( array( $view->items ), $map['product'] ) : array() );
+			$productItems = ( isset( $map['product'] ) ? array_merge( array( $view->items ), $map['product'] ) : [] );
 			$map['attribute'] = $this->getDomainItems( $productItems, $ref, 'attribute' );
 		}
 
@@ -286,10 +286,10 @@ class Standard
 	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response )
 	{
 		$total = 0;
-		$map = array();
+		$map = [];
 		$direction  = '+';
 
-		$ref = $view->param( 'include', array() );
+		$ref = $view->param( 'include', [] );
 		$size = $view->param( 'page/limit', 48 );
 		$start = $view->param( 'page/offset', 0 );
 		$sort = $view->param( 'sort', 'relevance' );
@@ -316,7 +316,7 @@ class Standard
 
 		if( in_array( 'attribute', $ref, true ) )
 		{
-			$productItems = ( isset( $map['product'] ) ? array_merge( $view->items, $map['product'] ) : array() );
+			$productItems = ( isset( $map['product'] ) ? array_merge( $view->items, $map['product'] ) : [] );
 			$map['attribute'] = $this->getDomainItems( $productItems, $ref, 'attribute' );
 		}
 

@@ -19,7 +19,7 @@ namespace Aimeos\Client\JsonApi\Common\Factory;
  */
 class Base
 {
-	private static $objects = array();
+	private static $objects = [];
 
 
 	/**
@@ -74,14 +74,14 @@ class Base
 		 * @since 2015.12
 		 * @category Developer
 		 */
-		$decorators = $config->get( 'client/jsonapi/common/decorators/default', array() );
+		$decorators = $config->get( 'client/jsonapi/common/decorators/default', [] );
 
 		if( $path !== null && is_string( $path ) )
 		{
 			$dpath = trim( $path, '/' );
 			$dpath = ( $dpath !== '' ? $dpath . '/' : $dpath );
 
-			$excludes = $config->get( 'client/jsonapi/' . $dpath . 'decorators/excludes', array() );
+			$excludes = $config->get( 'client/jsonapi/' . $dpath . 'decorators/excludes', [] );
 			$localClass = str_replace( ' ', '\\', ucwords( str_replace( '/', ' ', $path ) ) );
 
 			foreach( $decorators as $key => $name )
@@ -92,13 +92,13 @@ class Base
 			}
 
 			$classprefix = '\\Aimeos\\Client\\JsonApi\\Common\\Decorator\\';
-			$decorators = $config->get( 'client/jsonapi/' . $dpath . 'decorators/global', array() );
+			$decorators = $config->get( 'client/jsonapi/' . $dpath . 'decorators/global', [] );
 			$client = self::addDecorators( $client, $decorators, $classprefix, $context, $view, $templatePaths, $path );
 
 			if( !empty( $path ) )
 			{
 				$classprefix = '\\Aimeos\\Client\\JsonApi\\' . ucfirst( $localClass ) . '\\Decorator\\';
-				$decorators = $config->get( 'client/jsonapi/' . $dpath . 'decorators/local', array() );
+				$decorators = $config->get( 'client/jsonapi/' . $dpath . 'decorators/local', [] );
 				$client = self::addDecorators( $client, $decorators, $classprefix, $context, $view, $templatePaths, $path );
 			}
 		}

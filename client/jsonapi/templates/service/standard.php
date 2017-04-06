@@ -11,7 +11,7 @@
 $target = $this->config( 'client/jsonapi/url/target' );
 $cntl = $this->config( 'client/jsonapi/url/controller', 'jsonapi' );
 $action = $this->config( 'client/jsonapi/url/action', 'index' );
-$config = $this->config( 'client/jsonapi/url/config', array() );
+$config = $this->config( 'client/jsonapi/url/config', [] );
 
 $enc = $this->encoder();
 
@@ -24,7 +24,7 @@ if( !isset( $params['id'] ) ) {
 }
 
 
-$fields = $this->param( 'fields', array() );
+$fields = $this->param( 'fields', [] );
 
 foreach( (array) $fields as $resource => $list ) {
 	$fields[$resource] = array_flip( explode( ',', $list ) );
@@ -91,7 +91,7 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, array $prices, arr
 
 $refFcn = function( \Aimeos\MShop\Common\Item\ListRef\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
 {
-	$list = array();
+	$list = [];
 
 	foreach( $item->getListItems() as $listItem )
 	{

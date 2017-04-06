@@ -131,8 +131,8 @@ class Standard
 
 		$filter = $cntl->createFilter();
 		$filter = $this->initCriteria( $filter, ['filter' => $params] );
-		$filter = $cntl->addFilterCodes( $filter, $view->param( 'filter/s_prodcode', array() ) );
-		$filter = $cntl->addFilterTypes( $filter, $view->param( 'filter/s_typecode', array() ) );
+		$filter = $cntl->addFilterCodes( $filter, $view->param( 'filter/s_prodcode', [] ) );
+		$filter = $cntl->addFilterTypes( $filter, $view->param( 'filter/s_typecode', [] ) );
 
 		$view->items = $cntl->searchItems( $filter, $total );
 		$view->total = $total;

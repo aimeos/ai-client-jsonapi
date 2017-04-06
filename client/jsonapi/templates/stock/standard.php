@@ -13,7 +13,7 @@ $enc = $this->encoder();
 $target = $this->config( 'client/jsonapi/url/target' );
 $cntl = $this->config( 'client/jsonapi/url/controller', 'jsonapi' );
 $action = $this->config( 'client/jsonapi/url/action', 'get' );
-$config = $this->config( 'client/jsonapi/url/config', array() );
+$config = $this->config( 'client/jsonapi/url/config', [] );
 
 
 $ref = array( 'id', 'resource', 'filter', 'page', 'sort', 'include', 'fields' );
@@ -34,7 +34,7 @@ $next = ( $offset + $limit < $total ? $offset + $limit : null );
 $last = ( ((int) ($total / $limit)) * $limit > $offset ? ((int) ($total / $limit)) * $limit : null );
 
 
-$fields = $this->param( 'fields', array() );
+$fields = $this->param( 'fields', [] );
 
 foreach( (array) $fields as $resource => $list ) {
 	$fields[$resource] = array_flip( explode( ',', $list ) );
@@ -57,7 +57,7 @@ $entryFcn = function( \Aimeos\MShop\Stock\Item\Iface $item ) use ( $fields, $tar
 		'type' => $type,
 		'links' => array(
 			'self' => array(
-				'href' => $this->url( $target, $cntl, $action, $params, array(), $config ),
+				'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
 				'allow' => array( 'GET' ),
 			),
 		),
@@ -78,19 +78,19 @@ $entryFcn = function( \Aimeos\MShop\Stock\Item\Iface $item ) use ( $fields, $tar
 	"links": {
 		<?php if( is_array( $this->get( 'items' ) ) ) : ?>
 			<?php if( $first !== null ) : ?>
-				"first": "<?php $params['page']['offset'] = $first; echo $this->url( $target, $cntl, $action, $params, array(), $config ); ?>",
+				"first": "<?php $params['page']['offset'] = $first; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
 			<?php endif; ?>
 			<?php if( $prev !== null ) : ?>
-				"prev": "<?php $params['page']['offset'] = $prev; echo $this->url( $target, $cntl, $action, $params, array(), $config ); ?>",
+				"prev": "<?php $params['page']['offset'] = $prev; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
 			<?php endif; ?>
 			<?php if( $next !== null ) : ?>
-				"next": "<?php $params['page']['offset'] = $next; echo $this->url( $target, $cntl, $action, $params, array(), $config ); ?>",
+				"next": "<?php $params['page']['offset'] = $next; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
 			<?php endif; ?>
 			<?php if( $last !== null ) : ?>
-				"last": "<?php $params['page']['offset'] = $last; echo $this->url( $target, $cntl, $action, $params, array(), $config ); ?>",
+				"last": "<?php $params['page']['offset'] = $last; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
 			<?php endif; ?>
 		<?php endif; ?>
-		"self": "<?php $params['page']['offset'] = $offset; echo $this->url( $target, $cntl, $action, $params, array(), $config ); ?>"
+		"self": "<?php $params['page']['offset'] = $offset; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>"
 	},
 
 	<?php if( isset( $this->errors ) ) : ?>

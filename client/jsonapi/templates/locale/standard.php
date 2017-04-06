@@ -13,7 +13,7 @@ $enc = $this->encoder();
 $target = $this->config( 'client/jsonapi/url/target' );
 $cntl = $this->config( 'client/jsonapi/url/controller', 'jsonapi' );
 $action = $this->config( 'client/jsonapi/url/action', 'index' );
-$config = $this->config( 'client/jsonapi/url/config', array() );
+$config = $this->config( 'client/jsonapi/url/config', [] );
 
 
 $ref = array( 'id', 'resource', 'filter', 'page', 'sort', 'include', 'fields' );
@@ -28,7 +28,7 @@ $offset = max( $this->param( 'page/offset', 0 ), 0 );
 $limit = max( $this->param( 'page/limit', 100 ), 1 );
 
 
-$fields = $this->param( 'fields', array() );
+$fields = $this->param( 'fields', [] );
 
 foreach( (array) $fields as $resource => $list ) {
 	$fields[$resource] = array_flip( explode( ',', $list ) );
@@ -53,11 +53,11 @@ $entryFcn = function( \Aimeos\MShop\Locale\Item\Iface $item ) use ( $fields, $ta
 		'type' => $type,
 		'links' => array(
 			'self' => array(
-				'href' => $this->url( $target, $cntl, $action, $params, array(), $config ),
+				'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
 				'allow' => array( 'GET' ),
 			),
 			'resources' => array(
-				'href' => $this->url( $target, $cntl, $action, $resourceParams, array(), $config ),
+				'href' => $this->url( $target, $cntl, $action, $resourceParams, [], $config ),
 				'allow' => array( 'OPTIONS' ),
 			),
 		),
@@ -76,7 +76,7 @@ $entryFcn = function( \Aimeos\MShop\Locale\Item\Iface $item ) use ( $fields, $ta
 	},
 
 	"links": {
-		"self": "<?php echo $this->url( $target, $cntl, $action, $params, array(), $config ); ?>"
+		"self": "<?php echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>"
 	},
 
 	<?php if( isset( $this->errors ) ) : ?>

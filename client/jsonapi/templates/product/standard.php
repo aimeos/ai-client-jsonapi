@@ -79,7 +79,7 @@ $action = $this->config( 'client/jsonapi/url/action', 'index' );
  * @see client/jsonapi/url/controller
  * @see client/jsonapi/url/action
  */
-$config = $this->config( 'client/jsonapi/url/config', array() );
+$config = $this->config( 'client/jsonapi/url/config', [] );
 
 
 $ref = array( 'id', 'resource', 'filter', 'page', 'sort', 'include', 'fields' );
@@ -100,8 +100,8 @@ $next = ( $offset + $limit < $total ? $offset + $limit : null );
 $last = ( ((int) ($total / $limit)) * $limit > $offset ? ((int) ($total / $limit)) * $limit : null );
 
 
-$map = $this->get( 'itemMap', array() );
-$fields = $this->param( 'fields', array() );
+$map = $this->get( 'itemMap', [] );
+$fields = $this->param( 'fields', [] );
 
 foreach( (array) $fields as $resource => $list ) {
 	$fields[$resource] = array_flip( explode( ',', $list ) );
@@ -215,19 +215,19 @@ $refFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, $map
 	"links": {
 		<?php if( is_array( $this->get( 'items' ) ) ) : ?>
 			<?php if( $first !== null ) : ?>
-				"first": "<?php $params['page']['offset'] = $first; echo $this->url( $target, $cntl, $action, $params, array(), $config ); ?>",
+				"first": "<?php $params['page']['offset'] = $first; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
 			<?php endif; ?>
 			<?php if( $prev !== null ) : ?>
-				"prev": "<?php $params['page']['offset'] = $prev; echo $this->url( $target, $cntl, $action, $params, array(), $config ); ?>",
+				"prev": "<?php $params['page']['offset'] = $prev; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
 			<?php endif; ?>
 			<?php if( $next !== null ) : ?>
-				"next": "<?php $params['page']['offset'] = $next; echo $this->url( $target, $cntl, $action, $params, array(), $config ); ?>",
+				"next": "<?php $params['page']['offset'] = $next; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
 			<?php endif; ?>
 			<?php if( $last !== null ) : ?>
-				"last": "<?php $params['page']['offset'] = $last; echo $this->url( $target, $cntl, $action, $params, array(), $config ); ?>",
+				"last": "<?php $params['page']['offset'] = $last; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
 			<?php endif; ?>
 		<?php endif; ?>
-		"self": "<?php $params['page']['offset'] = $offset; echo $this->url( $target, $cntl, $action, $params, array(), $config ); ?>"
+		"self": "<?php $params['page']['offset'] = $offset; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>"
 	},
 
 	<?php if( isset( $this->errors ) ) : ?>
@@ -237,8 +237,8 @@ $refFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, $map
 	<?php elseif( isset( $this->items ) ) : ?>
 
 		<?php
-			$data = $included = array();
-			$items = $this->get( 'items', array() );
+			$data = $included = [];
+			$items = $this->get( 'items', [] );
 
 			if( is_array( $items ) )
 			{

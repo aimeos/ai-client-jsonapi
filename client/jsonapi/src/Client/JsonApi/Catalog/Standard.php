@@ -98,9 +98,9 @@ class Standard
 	 */
 	protected function getItem( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response )
 	{
-		$map = array();
+		$map = [];
 		$catId = $view->param( 'id' );
-		$ref = $view->param( 'include', array() );
+		$ref = $view->param( 'include', [] );
 		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE;
 
 		if( $catId == '' ) {

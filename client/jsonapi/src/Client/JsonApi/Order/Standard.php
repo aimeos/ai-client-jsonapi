@@ -241,7 +241,7 @@ class Standard
 		$action = $view->config( 'client/html/checkout/confirm/url/action', 'confirm' );
 		$config = $view->config( 'client/html/checkout/confirm/url/config', $config );
 
-		return $view->url( $target, $cntl, $action, $params, array(), $config );
+		return $view->url( $target, $cntl, $action, $params, [], $config );
 	}
 
 
@@ -260,7 +260,7 @@ class Standard
 		$action = $view->config( 'client/html/checkout/update/url/action', 'update' );
 		$config = $view->config( 'client/html/checkout/update/url/config', $config );
 
-		return $view->url( $target, $cntl, $action, $params, array(), $config );
+		return $view->url( $target, $cntl, $action, $params, [], $config );
 	}
 
 
