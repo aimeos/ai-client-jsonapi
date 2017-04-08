@@ -35,7 +35,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testDelete()
 	{
 		$prodId = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'CNC' )->getId();
-		$body = '{"data": {"type": "basket/product", "attributes": {"productid": ' . $prodId . '}}}';
+		$body = '{"data": {"type": "basket/product", "attributes": {"product.id": ' . $prodId . '}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $this->object->post( $request, $this->view->response() );
@@ -65,7 +65,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testDeleteById()
 	{
 		$prodId = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'CNC' )->getId();
-		$body = '{"data": {"type": "basket/product", "attributes": {"productid": ' . $prodId . '}}}';
+		$body = '{"data": {"type": "basket/product", "attributes": {"product.id": ' . $prodId . '}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $this->object->post( $request, $this->view->response() );
@@ -122,7 +122,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testPatch()
 	{
 		$prodId = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'CNC' )->getId();
-		$body = '{"data": {"type": "basket/product", "attributes": {"productid": ' . $prodId . '}}}';
+		$body = '{"data": {"type": "basket/product", "attributes": {"product.id": ' . $prodId . '}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $this->object->post( $request, $this->view->response() );
@@ -186,7 +186,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testPost()
 	{
 		$prodId = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'CNC' )->getId();
-		$body = '{"data": {"type": "basket/product", "attributes": {"productid": ' . $prodId . '}}}';
+		$body = '{"data": {"type": "basket/product", "attributes": {"product.id": ' . $prodId . '}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $this->object->post( $request, $this->view->response() );
@@ -212,9 +212,9 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$prodId2 = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'CNE' )->getId();
 
 		$body = '{"data": [{
-			"type": "basket/product", "attributes": {"productid": ' . $prodId . '}
+			"type": "basket/product", "attributes": {"product.id": ' . $prodId . '}
 		}, {
-			"type": "basket/product", "attributes": {"productid": ' . $prodId2 . '}
+			"type": "basket/product", "attributes": {"product.id": ' . $prodId2 . '}
 		}]}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
