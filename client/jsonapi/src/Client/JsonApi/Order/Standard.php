@@ -181,7 +181,7 @@ class Standard
 	{
 		$baseId = $this->getContext()->getSession()->get( 'aimeos/order.baseid' );
 
-		$parts = \Aimeos\MShop\Order\Item\Base\Base::PARTS_SERVICE;
+		$parts = \Aimeos\MShop\Order\Manager\Base\Base::PARTS_SERVICE;
 		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'basket' );
 		$basket = $cntl->load( $basketId, $parts, false );
 

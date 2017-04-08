@@ -179,9 +179,9 @@ class Standard
 	protected function getFilter( \Aimeos\MW\View\Iface $view, $sort, $direction, $start, $size )
 	{
 		$listtype = $view->param( 'filter/f_listtype', 'default' );
-		$attrIds = $view->param( 'filter/f_attrid', [] );
-		$optIds = $view->param( 'filter/f_optid', [] );
-		$oneIds = $view->param( 'filter/f_oneid', [] );
+		$attrIds = (array) $view->param( 'filter/f_attrid', [] );
+		$optIds = (array) $view->param( 'filter/f_optid', [] );
+		$oneIds = (array) $view->param( 'filter/f_oneid', [] );
 
 		$context = $this->getContext();
 		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $context, 'product' );

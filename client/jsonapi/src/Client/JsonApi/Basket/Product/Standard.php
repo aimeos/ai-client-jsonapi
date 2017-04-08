@@ -200,7 +200,7 @@ class Standard
 
 			foreach( $payload->data as $entry )
 			{
-				if( !isset( $entry->attributes ) || !isset( $entry->attributes->productid ) ) {
+				if( !isset( $entry->attributes ) || !isset( $entry->attributes->{'product.id'} ) ) {
 					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Product ID is missing' ) );
 				}
 
@@ -211,7 +211,7 @@ class Standard
 				$hiddenAttrIds = ( isset( $entry->attributes->hidden ) ? (array) $entry->attributes->hidden : [] );
 				$customAttrIds = ( isset( $entry->attributes->custom ) ? (array) $entry->attributes->custom : [] );
 
-				$this->controller->addProduct( $entry->attributes->productid, $qty, [],
+				$this->controller->addProduct( $entry->attributes->{'product.id'}, $qty, [],
 					$variantAttrIds, $configAttrIds, $hiddenAttrIds, $customAttrIds, $stocktype );
 			}
 

@@ -40,6 +40,7 @@ $entryFcn = function( \Aimeos\MShop\Locale\Item\Iface $item ) use ( $fields, $ta
 	$id = $item->getId();
 	$attributes = $item->toArray();
 	$type = $item->getResourceType();
+	$optTarget = $this->config( 'client/jsonapi/url/options/target' );
 
 	$params = array( 'resource' => $type, 'id' => $id );
 	$resourceParams = ['locale' => $item->getLanguageId(), 'currency' => $item->getCurrencyId()];
@@ -57,7 +58,7 @@ $entryFcn = function( \Aimeos\MShop\Locale\Item\Iface $item ) use ( $fields, $ta
 				'allow' => array( 'GET' ),
 			),
 			'resources' => array(
-				'href' => $this->url( $target, $cntl, $action, $resourceParams, [], $config ),
+				'href' => $this->url( $optTarget, $cntl, $action, $resourceParams, [], $config ),
 				'allow' => array( 'OPTIONS' ),
 			),
 		),

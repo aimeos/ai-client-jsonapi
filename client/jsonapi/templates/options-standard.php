@@ -1,9 +1,9 @@
 <?php
 
-$target = $this->config( 'admin/jsonadm/url/target' );
-$cntl = $this->config( 'admin/jsonadm/url/controller', 'jsonapi' );
-$action = $this->config( 'admin/jsonadm/url/action', 'index' );
-$config = $this->config( 'admin/jsonadm/url/config', [] );
+$target = $this->config( 'client/jsonapi/url/target' );
+$cntl = $this->config( 'client/jsonapi/url/controller', 'jsonapi' );
+$action = $this->config( 'client/jsonapi/url/action', 'index' );
+$config = $this->config( 'client/jsonapi/url/config', [] );
 
 $resources = [];
 $default = [

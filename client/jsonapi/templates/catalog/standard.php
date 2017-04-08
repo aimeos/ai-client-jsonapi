@@ -37,20 +37,25 @@ foreach( (array) $fields as $resource => $list ) {
 
 $entryFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
 {
-	$attributes = $item->toArray();
+	$id = $item->getId();
 	$type = $item->getResourceType();
 	$params = array( 'resource' => $type, 'id' => $item->getId() );
+	$attributes = $item->toArray();
 
 	if( isset( $fields[$type] ) ) {
 		$attributes = array_intersect_key( $attributes, $fields[$type] );
 	}
 
 	$entry = array(
-		'id' => $item->getId(),
-		'type' => $item->getResourceType(),
+		'id' => $id,
+		'type' => $type,
 		'links' => array(
 			'self' => array(
 				'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
+				'allow' => array( 'GET' ),
+			),
+			'product' => array(
+				'href' => $this->url( $target, $cntl, $action, ['resource' => 'product', 'filter' => ['f_catid' => $id]], [], $config ),
 				'allow' => array( 'GET' ),
 			),
 		),
@@ -66,7 +71,11 @@ $entryFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item ) use ( $fields, $t
 		if( ( $refItem = $listItem->getRefItem() ) !== null )
 		{
 			$domain = $listItem->getDomain();
-			$entry['relationships'][$domain]['data'][] = ['id' => $refItem->getId(), 'type' => $refItem->getResourceType()];
+			$entry['relationships'][$domain]['data'][] = [
+				'id' => $refItem->getId(),
+				'type' => $refItem->getResourceType(),
+				'attributes' => $listItem->toArray(),
+			];
 		}
 	}
 
