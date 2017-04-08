@@ -200,7 +200,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	{
 		$prodId = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( $code )->getId();
 
-		$body = '{"data": {"type": "basket/product", "attributes": {"productid": ' . $prodId . '}}}';
+		$body = '{"data": {"type": "basket/product", "attributes": {"product.id": ' . $prodId . '}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$templatePaths = \TestHelperJapi::getTemplatePaths();
