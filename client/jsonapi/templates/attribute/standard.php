@@ -63,7 +63,11 @@ $entryFcn = function( \Aimeos\MShop\Attribute\Item\Iface $item ) use ( $fields, 
 		if( ( $refItem = $listItem->getRefItem() ) !== null )
 		{
 			$domain = $listItem->getDomain();
-			$entry['relationships'][$domain]['data'][] = array( 'id' => $refItem->getId(), 'type' => $domain );
+			$entry['relationships'][$domain]['data'][] = [
+				'id' => $refItem->getId(),
+				'type' => $refItem->getResourceType(),
+				'attributes' => $listItem->toArray(),
+			];
 		}
 	}
 

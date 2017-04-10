@@ -74,8 +74,11 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, array $prices, arr
 		if( ( $refItem = $listItem->getRefItem() ) !== null )
 		{
 			$type = $refItem->getResourceType();
-			$data = array( 'id' => $listItem->getRefId(), 'type' => $type, 'attributes' => $listItem->toArray() );
-			$entry['relationships'][$type]['data'][] = $data;
+			$entry['relationships'][$type]['data'][] = [
+				'id' => $refItem->getId(),
+				'type' => $type,
+				'attributes' => $listItem->toArray(),
+			];
 		}
 	}
 
