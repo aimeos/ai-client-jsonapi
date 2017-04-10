@@ -52,7 +52,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertGreaterThan( 13, count( $result['data']['attributes'] ) );
+		$this->assertGreaterThan( 9, count( $result['data']['attributes'] ) );
 		$this->assertEquals( '', $result['data']['attributes']['order.base.comment'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -95,7 +95,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertGreaterThan( 13, count( $result['data']['attributes'] ) );
+		$this->assertGreaterThan( 9, count( $result['data']['attributes'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -258,7 +258,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertGreaterThan( 13, count( $result['data']['attributes'] ) );
+		$this->assertGreaterThan( 9, count( $result['data']['attributes'] ) );
 		$this->assertEquals( 'test', $result['data']['attributes']['order.base.comment'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -315,7 +315,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertNotNull( $result['data']['id'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertGreaterThan( 13, count( $result['data']['attributes'] ) );
+		$this->assertGreaterThan( 9, count( $result['data']['attributes'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}

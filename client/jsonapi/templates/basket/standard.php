@@ -8,22 +8,17 @@
  */
 
 
-$target = $this->config( 'client/jsonapi/url/target' );
-$cntl = $this->config( 'client/jsonapi/url/controller', 'jsonapi' );
-$action = $this->config( 'client/jsonapi/url/action', 'index' );
-$config = $this->config( 'client/jsonapi/url/config', [] );
-
 $enc = $this->encoder();
 
+$target = $this->config( 'client/jsonapi/url/target' );
+$cntl = $this->config( 'client/jsonapi/url/controller', 'jsonapi' );
+$action = $this->config( 'client/jsonapi/url/action', 'get' );
+$config = $this->config( 'client/jsonapi/url/config', [] );
 
-$ref = array( 'id', 'resource', 'filter', 'page', 'sort', 'include', 'fields' );
+
+$basketId = ( isset( $this->item ) && $this->item->getId() ? $this->item->getId() : ( $this->param( 'id' ) ?: 'default' ) );
+$ref = array( 'resource', 'id', 'related', 'relatedid', 'filter', 'page', 'sort', 'include', 'fields' );
 $params = array_intersect_key( $this->param(), array_flip( $ref ) );
-
-if( !isset( $params['id'] ) ) {
-	$params['id'] = 'default';
-}
-
-
 $fields = $this->param( 'fields', [] );
 
 foreach( (array) $fields as $resource => $list ) {
@@ -31,12 +26,11 @@ foreach( (array) $fields as $resource => $list ) {
 }
 
 
-$entryFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
+$entryFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) use ( $fields, $target, $cntl, $action, $config )
 {
 	$allow = array( 'GET' );
 	$attributes = $item->toArray();
-	$id = ( $item->getId() !== null ? $item->getId() : $this->param( 'id', 'default' ) );
-	$params = ['resource' => 'basket', 'id' => $id];
+	$params = ['resource' => 'basket', 'id' => $basketId];
 
 	if( ( $filter = $this->param( 'filter', [] ) ) !== [] ) {
 		$params['filter'] = $filter;
@@ -84,7 +78,7 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $fields,
 
 
 	return array(
-		'id' => $id,
+		'id' => $basketId,
 		'type' => 'basket',
 		'links' => array(
 			'self' => array(
@@ -98,10 +92,9 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $fields,
 };
 
 
-$productFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
+$productFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) use ( $fields, $target, $cntl, $action, $config )
 {
 	$products = [];
-	$id = ( $item->getId() !== null ? $item->getId() : $this->param( 'id', 'default' ) );
 
 	foreach( $item->getProducts() as $position => $orderProduct )
 	{
@@ -110,7 +103,7 @@ $productFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $field
 
 		if( $item->getId() === null && $orderProduct->getFlags() !== \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
 		{
-			$params = ['resource' => 'basket', 'id' => $id, 'related' => 'product', 'relatedid' => $position];
+			$params = ['resource' => 'basket', 'id' => $basketId, 'related' => 'product', 'relatedid' => $position];
 			$entry['links'] = array(
 				'self' => array(
 					'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
@@ -141,10 +134,9 @@ $productFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $field
 };
 
 
-$serviceFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
+$serviceFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) use ( $fields, $target, $cntl, $action, $config )
 {
 	$services = [];
-	$id = ( $item->getId() !== null ? $item->getId() : $this->param( 'id', 'default' ) );
 
 	foreach( $item->getServices() as $type => $service )
 	{
@@ -153,7 +145,7 @@ $serviceFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $field
 
 		if( $item->getId() === null )
 		{
-			$params = ['resource' => 'basket', 'id' => $id, 'related' => 'service', 'relatedid' => $type];
+			$params = ['resource' => 'basket', 'id' => $basketId, 'related' => 'service', 'relatedid' => $type];
 			$entry['links'] = array(
 				'self' => array(
 					'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
@@ -173,10 +165,9 @@ $serviceFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $field
 };
 
 
-$addressFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
+$addressFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) use ( $fields, $target, $cntl, $action, $config )
 {
 	$addresses = [];
-	$id = ( $item->getId() !== null ? $item->getId() : $this->param( 'id', 'default' ) );
 
 	foreach( $item->getAddresses() as $type => $address )
 	{
@@ -185,7 +176,7 @@ $addressFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $field
 
 		if( $item->getId() === null )
 		{
-			$params = ['resource' => 'basket', 'id' => $id, 'related' => 'address', 'relatedid' => $type];
+			$params = ['resource' => 'basket', 'id' => $basketId, 'related' => 'address', 'relatedid' => $type];
 			$entry['links'] = array(
 				'self' => array(
 					'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
@@ -201,10 +192,9 @@ $addressFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $field
 };
 
 
-$couponFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
+$couponFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) use ( $fields, $target, $cntl, $action, $config )
 {
 	$coupons = [];
-	$id = ( $item->getId() !== null ? $item->getId() : $this->param( 'id', 'default' ) );
 
 	foreach( $item->getCoupons() as $code => $list )
 	{
@@ -212,7 +202,7 @@ $couponFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $fields
 
 		if( $item->getId() === null )
 		{
-			$params = ['resource' => 'basket', 'id' => $id, 'related' => 'coupon', 'relatedid' => $code];
+			$params = ['resource' => 'basket', 'id' => $basketId, 'related' => 'coupon', 'relatedid' => $code];
 			$entry['links'] = array(
 				'self' => array(
 					'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
@@ -257,19 +247,19 @@ if( isset( $this->item ) && $this->item->getId() === null )
 			<?php if( $this->item->getId() === null ) : ?>
 				,
 				"basket/product": {
-					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $params['id'], 'related' => 'product'], [], $config ); ?>",
+					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $basketId, 'related' => 'product'], [], $config ); ?>",
 					"allow": ["POST"]
 				},
 				"basket/service": {
-					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $params['id'], 'related' => 'service'], [], $config ); ?>",
+					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $basketId, 'related' => 'service'], [], $config ); ?>",
 					"allow": ["POST"]
 				},
 				"basket/address": {
-					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $params['id'], 'related' => 'address'], [], $config ); ?>",
+					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $basketId, 'related' => 'address'], [], $config ); ?>",
 					"allow": ["POST"]
 				},
 				"basket/coupon": {
-					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $params['id'], 'related' => 'coupon'], [], $config ); ?>",
+					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $basketId, 'related' => 'coupon'], [], $config ); ?>",
 					"allow": ["POST"]
 				}
 			<?php else : ?>
@@ -293,23 +283,23 @@ if( isset( $this->item ) && $this->item->getId() === null )
 			$types = explode( ',', $this->param( 'included', 'basket/product,basket/service,basket/address,basket/coupon' ) );
 
 			if( in_array( 'basket/product', $types ) ) {
-				$included = array_merge( $included, $productFcn( $this->item ) );
+				$included = array_merge( $included, $productFcn( $this->item, $basketId ) );
 			}
 
 			if( in_array( 'basket/service', $types ) ) {
-				$included = array_merge( $included, $serviceFcn( $this->item ) );
+				$included = array_merge( $included, $serviceFcn( $this->item, $basketId ) );
 			}
 
 			if( in_array( 'basket/address', $types ) ) {
-				$included = array_merge( $included, $addressFcn( $this->item ) );
+				$included = array_merge( $included, $addressFcn( $this->item, $basketId ) );
 			}
 
 			if( in_array( 'basket/coupon', $types ) ) {
-				$included = array_merge( $included, $couponFcn( $this->item ) );
+				$included = array_merge( $included, $couponFcn( $this->item, $basketId ) );
 			}
 		?>
 
-		"data": <?php echo json_encode( $entryFcn( $this->item ), JSON_PRETTY_PRINT ); ?>,
+		"data": <?php echo json_encode( $entryFcn( $this->item, $basketId ), JSON_PRETTY_PRINT ); ?>,
 
 		"included": <?php echo json_encode( $included, JSON_PRETTY_PRINT ); ?>
 

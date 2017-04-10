@@ -57,7 +57,7 @@ $cntl = $this->config( 'client/jsonapi/url/controller', 'jsonapi' );
  * @see client/jsonapi/url/controller
  * @see client/jsonapi/url/config
  */
-$action = $this->config( 'client/jsonapi/url/action', 'index' );
+$action = $this->config( 'client/jsonapi/url/action', 'get' );
 
 /** client/jsonapi/url/config
  * Associative list of configuration options used for generating the URL
@@ -82,14 +82,6 @@ $action = $this->config( 'client/jsonapi/url/action', 'index' );
 $config = $this->config( 'client/jsonapi/url/config', [] );
 
 
-$ref = array( 'id', 'resource', 'filter', 'page', 'sort', 'include', 'fields' );
-$params = array_intersect_key( $this->param(), array_flip( $ref ) );
-
-if( !isset( $params['id'] ) ) {
-	$params['id'] = '';
-}
-
-
 $total = $this->get( 'total', 0 );
 $offset = max( $this->param( 'page/offset', 0 ), 0 );
 $limit = max( $this->param( 'page/limit', 48 ), 1 );
@@ -100,8 +92,10 @@ $next = ( $offset + $limit < $total ? $offset + $limit : null );
 $last = ( ((int) ($total / $limit)) * $limit > $offset ? ((int) ($total / $limit)) * $limit : null );
 
 
-$map = $this->get( 'itemMap', [] );
+$ref = array( 'resource', 'id', 'related', 'relatedid', 'filter', 'page', 'sort', 'include', 'fields' );
+$params = array_intersect_key( $this->param(), array_flip( $ref ) );
 $fields = $this->param( 'fields', [] );
+$map = $this->get( 'itemMap', [] );
 
 foreach( (array) $fields as $resource => $list ) {
 	$fields[$resource] = array_flip( explode( ',', $list ) );
