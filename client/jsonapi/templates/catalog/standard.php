@@ -48,10 +48,6 @@ $entryFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item ) use ( $fields, $t
 				'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
 				'allow' => array( 'GET' ),
 			),
-			'product' => array(
-				'href' => $this->url( $target, $cntl, $action, ['resource' => 'product', 'filter' => ['f_catid' => $id]], [], $config ),
-				'allow' => array( 'GET' ),
-			),
 		),
 		'attributes' => $attributes,
 	);
