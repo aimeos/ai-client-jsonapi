@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
+ * @copyright Aimeos (aimeos.org), 2017
+ * @package Client
+ * @subpackage JsonApi
+ */
+
+
 $entries = [];
 $data = $this->get( 'data', [] );
 $type = $this->param( 'aggregate' );

@@ -16,14 +16,6 @@ $action = $this->config( 'client/jsonapi/url/action', 'get' );
 $config = $this->config( 'client/jsonapi/url/config', [] );
 
 
-$ref = array( 'id', 'resource', 'filter', 'page', 'sort', 'include', 'fields' );
-$params = array_intersect_key( $this->param(), array_flip( $ref ) );
-
-if( !isset( $params['id'] ) ) {
-	$params['id'] = '';
-}
-
-
 $total = $this->get( 'total', 0 );
 $offset = max( $this->param( 'page/offset', 0 ), 0 );
 $limit = max( $this->param( 'page/limit', 100 ), 1 );
@@ -34,6 +26,8 @@ $next = ( $offset + $limit < $total ? $offset + $limit : null );
 $last = ( ((int) ($total / $limit)) * $limit > $offset ? ((int) ($total / $limit)) * $limit : null );
 
 
+$ref = array( 'resource', 'id', 'related', 'relatedid', 'filter', 'page', 'sort', 'include', 'fields' );
+$params = array_intersect_key( $this->param(), array_flip( $ref ) );
 $fields = $this->param( 'fields', [] );
 
 foreach( (array) $fields as $resource => $list ) {

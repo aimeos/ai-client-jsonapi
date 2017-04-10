@@ -296,7 +296,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'customer', $result['data']['type'] );
-		$this->assertGreaterThan( 31, count( $result['data']['attributes'] ) );
+		$this->assertGreaterThan( 24, count( $result['data']['attributes'] ) );
 		$this->assertEquals( 'unittest-japi', $result['data']['attributes']['customer.code'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -367,7 +367,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertNotNull( $result['data']['id'] );
 		$this->assertEquals( 'customer', $result['data']['type'] );
-		$this->assertGreaterThan( 31, count( $result['data']['attributes'] ) );
+		$this->assertGreaterThan( 24, count( $result['data']['attributes'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 

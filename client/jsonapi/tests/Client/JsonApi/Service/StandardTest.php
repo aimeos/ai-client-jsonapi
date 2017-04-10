@@ -49,7 +49,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals( 3, $result['meta']['total'] );
 		$this->assertEquals( 'service', $result['data'][0]['type'] );
-		$this->assertGreaterThan( 13, count( $result['data'][0]['attributes'] ) );
+		$this->assertGreaterThan( 8, count( $result['data'][0]['attributes'] ) );
 		$this->assertArrayHasKey( 'price.costs', $result['data'][0]['attributes']['price'] );
 		$this->assertArrayNotHasKey( 'config', $result['data'][0]['attributes'] );
 		$this->assertEquals( 0, count( $result['included'] ) );
