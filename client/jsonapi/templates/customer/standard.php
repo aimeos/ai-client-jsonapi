@@ -59,9 +59,9 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Iface $item ) use ( $fields, $
 		if( ( $refItem = $listItem->getRefItem() ) !== null )
 		{
 			$type = $refItem->getResourceType();
-			$entry['relationships'][$domain]['data'][] = [
+			$entry['relationships'][$type]['data'][] = [
 				'id' => $refItem->getId(),
-				'type' => $refItem->getResourceType(),
+				'type' => $type,
 				'attributes' => $listItem->toArray(),
 			];
 		}
