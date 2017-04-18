@@ -9,7 +9,7 @@
 namespace Aimeos\Client\JsonApi\Basket\Coupon;
 
 
-class FactoryTest extends \PHPUnit_Framework_TestCase
+class FactoryTest extends \PHPUnit\Framework\TestCase
 {
 	public function testCreateClient()
 	{
