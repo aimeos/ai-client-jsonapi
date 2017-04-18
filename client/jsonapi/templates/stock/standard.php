@@ -65,7 +65,7 @@ $entryFcn = function( \Aimeos\MShop\Stock\Item\Iface $item ) use ( $fields, $tar
 ?>
 {
 	"meta": {
-		"total": <?php echo $total; ?>
+		"total": <?= $total; ?>
 
 	},
 
@@ -89,7 +89,7 @@ $entryFcn = function( \Aimeos\MShop\Stock\Item\Iface $item ) use ( $fields, $tar
 
 	<?php if( isset( $this->errors ) ) : ?>
 
-		"errors": <?php echo json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
+		"errors": <?= json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
 
 	<?php elseif( isset( $this->items ) ) : ?>
 
@@ -109,7 +109,7 @@ $entryFcn = function( \Aimeos\MShop\Stock\Item\Iface $item ) use ( $fields, $tar
 			}
 		 ?>
 
-		"data": <?php echo json_encode( $data, JSON_PRETTY_PRINT ); ?>
+		"data": <?= json_encode( $data, JSON_PRETTY_PRINT ); ?>
 
 	<?php endif; ?>
 

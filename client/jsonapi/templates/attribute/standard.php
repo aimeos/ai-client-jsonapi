@@ -101,7 +101,7 @@ $refFcn = function( \Aimeos\MShop\Attribute\Item\Iface $item ) use ( $fields, $t
 ?>
 {
 	"meta": {
-		"total": <?php echo $total; ?>
+		"total": <?= $total; ?>
 
 	},
 
@@ -125,7 +125,7 @@ $refFcn = function( \Aimeos\MShop\Attribute\Item\Iface $item ) use ( $fields, $t
 
 	<?php if( isset( $this->errors ) ) : ?>
 
-		"errors": <?php echo json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
+		"errors": <?= json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
 
 	<?php elseif( isset( $this->items ) ) : ?>
 
@@ -148,9 +148,9 @@ $refFcn = function( \Aimeos\MShop\Attribute\Item\Iface $item ) use ( $fields, $t
 			}
 		 ?>
 
-		"data": <?php echo json_encode( $data, JSON_PRETTY_PRINT ); ?>,
+		"data": <?= json_encode( $data, JSON_PRETTY_PRINT ); ?>,
 
-		"included": <?php echo json_encode( $included, JSON_PRETTY_PRINT ); ?>
+		"included": <?= json_encode( $included, JSON_PRETTY_PRINT ); ?>
 
 	<?php endif; ?>
 

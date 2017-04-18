@@ -61,16 +61,16 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item ) use ( $f
 ?>
 {
 	"meta": {
-		"total": <?php echo $this->get( 'total', 0 ); ?>
+		"total": <?= $this->get( 'total', 0 ); ?>
 
 	},
 	"links": {
-		"self": "<?php echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>"
+		"self": "<?= $this->url( $target, $cntl, $action, $params, [], $config ); ?>"
 	}
 
 	<?php if( isset( $this->errors ) ) : ?>
 
-		,"errors": <?php echo json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
+		,"errors": <?= json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
 
 	<?php elseif( isset( $this->items ) ) : ?>
 
@@ -90,7 +90,7 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item ) use ( $f
 			}
 		 ?>
 
-		,"data": <?php echo json_encode( $data, JSON_PRETTY_PRINT ); ?>
+		,"data": <?= json_encode( $data, JSON_PRETTY_PRINT ); ?>
 
 	<?php endif; ?>
 

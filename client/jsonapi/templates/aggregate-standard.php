@@ -20,17 +20,17 @@ foreach( $data as $key => $value ) {
 ?>
 {
 	"meta": {
-		"total": <?php echo count( $data ); ?>
+		"total": <?= count( $data ); ?>
 
 	},
 
 	<?php if( isset( $this->errors ) ) : ?>
 
-		"errors": <?php echo json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
+		"errors": <?= json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
 
 	<?php else : ?>
 
-		"data": <?php echo json_encode( $entries ); ?>
+		"data": <?= json_encode( $entries ); ?>
 
 	<?php endif; ?>
 }

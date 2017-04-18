@@ -233,13 +233,13 @@ if( isset( $this->item ) && $this->item->getId() === null )
 ?>
 {
 	"meta": {
-		"total": <?php echo ( isset( $this->item ) ? 1 : 0 ); ?>
+		"total": <?= ( isset( $this->item ) ? 1 : 0 ); ?>
 
 	},
 	"links": {
 		"self": {
-			"href": "<?php echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
-			"allow": <?php echo $allowed; ?>
+			"href": "<?= $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
+			"allow": <?= $allowed; ?>
 
 		}
 
@@ -247,25 +247,25 @@ if( isset( $this->item ) && $this->item->getId() === null )
 			<?php if( $this->item->getId() === null ) : ?>
 				,
 				"basket/product": {
-					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $basketId, 'related' => 'product'], [], $config ); ?>",
+					"href": "<?= $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $basketId, 'related' => 'product'], [], $config ); ?>",
 					"allow": ["POST"]
 				},
 				"basket/service": {
-					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $basketId, 'related' => 'service'], [], $config ); ?>",
+					"href": "<?= $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $basketId, 'related' => 'service'], [], $config ); ?>",
 					"allow": ["POST"]
 				},
 				"basket/address": {
-					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $basketId, 'related' => 'address'], [], $config ); ?>",
+					"href": "<?= $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $basketId, 'related' => 'address'], [], $config ); ?>",
 					"allow": ["POST"]
 				},
 				"basket/coupon": {
-					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $basketId, 'related' => 'coupon'], [], $config ); ?>",
+					"href": "<?= $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $basketId, 'related' => 'coupon'], [], $config ); ?>",
 					"allow": ["POST"]
 				}
 			<?php else : ?>
 				,
 				"order": {
-					"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'order'], [], $config ); ?>",
+					"href": "<?= $this->url( $target, $cntl, $action, ['resource' => 'order'], [], $config ); ?>",
 					"allow": ["POST"]
 				}
 			<?php endif; ?>
@@ -275,7 +275,7 @@ if( isset( $this->item ) && $this->item->getId() === null )
 
 	<?php if( isset( $this->errors ) ) : ?>
 
-		"errors": <?php echo json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
+		"errors": <?= json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
 
 	<?php elseif( isset( $this->item ) ) : ?>
 		<?php
@@ -299,9 +299,9 @@ if( isset( $this->item ) && $this->item->getId() === null )
 			}
 		?>
 
-		"data": <?php echo json_encode( $entryFcn( $this->item, $basketId ), JSON_PRETTY_PRINT ); ?>,
+		"data": <?= json_encode( $entryFcn( $this->item, $basketId ), JSON_PRETTY_PRINT ); ?>,
 
-		"included": <?php echo json_encode( $included, JSON_PRETTY_PRINT ); ?>
+		"included": <?= json_encode( $included, JSON_PRETTY_PRINT ); ?>
 
 	<?php endif; ?>
 

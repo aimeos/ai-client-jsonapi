@@ -27,14 +27,14 @@ foreach( $this->get( 'resources', [] ) as $resource ) {
 ?>
 {
 	"meta": {
-		"prefix": <?php echo json_encode( $this->get( 'prefix' ) ); ?>,
-		"resources": <?php echo json_encode( $resources ); ?>
+		"prefix": <?= json_encode( $this->get( 'prefix' ) ); ?>,
+		"resources": <?= json_encode( $resources ); ?>
 
 	}
 
 	<?php if( isset( $this->errors ) ) : ?>
 
-		, "errors": <?php echo json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
+		, "errors": <?= json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
 
 	<?php endif; ?>
 }

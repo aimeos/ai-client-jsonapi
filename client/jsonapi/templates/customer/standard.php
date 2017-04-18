@@ -129,16 +129,16 @@ $refFcn = function( \Aimeos\MShop\Customer\Item\Iface $item ) use ( $fields, $ta
 ?>
 {
 	"meta": {
-		"total": <?php echo ( isset( $this->item ) ? 1 : 0 ); ?>
+		"total": <?= ( isset( $this->item ) ? 1 : 0 ); ?>
 
 	},
 
 	"links": {
-		"self": "<?php echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>"
+		"self": "<?= $this->url( $target, $cntl, $action, $params, [], $config ); ?>"
 
 		<?php if( isset( $this->item ) ) : ?>
 			,"customer/address": {
-				"href": "<?php echo $this->url( $target, $cntl, $action, ['resource' => 'customer', 'id' => $this->item->getId(), 'related' => 'address'], [], $config ); ?>",
+				"href": "<?= $this->url( $target, $cntl, $action, ['resource' => 'customer', 'id' => $this->item->getId(), 'related' => 'address'], [], $config ); ?>",
 				"allow": ["GET","POST"]
 			}
 		<?php endif; ?>
@@ -146,13 +146,13 @@ $refFcn = function( \Aimeos\MShop\Customer\Item\Iface $item ) use ( $fields, $ta
 
 	<?php if( isset( $this->errors ) ) : ?>
 
-		,"errors": <?php echo json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
+		,"errors": <?= json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
 
 	<?php elseif( isset( $this->item ) ) : ?>
 
-		,"data": <?php echo json_encode( $entryFcn( $this->item ), JSON_PRETTY_PRINT ); ?>
+		,"data": <?= json_encode( $entryFcn( $this->item ), JSON_PRETTY_PRINT ); ?>
 
-		,"included": <?php echo json_encode( $refFcn( $this->item ), JSON_PRETTY_PRINT ); ?>
+		,"included": <?= json_encode( $refFcn( $this->item ), JSON_PRETTY_PRINT ); ?>
 
 	<?php endif; ?>
 
