@@ -107,10 +107,7 @@ class Standard
 		catch( \Exception $e )
 		{
 			$status = 500;
-			$view->errors = array( array(
-				'title' => $e->getMessage(),
-				'detail' => $e->getTraceAsString(),
-			) );
+			$view->errors = $this->getErrorDetails( $e );
 		}
 
 		/** client/jsonapi/standard/template-options

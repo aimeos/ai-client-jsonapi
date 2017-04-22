@@ -91,18 +91,12 @@ class Standard
 		catch( \Aimeos\MShop\Exception $e )
 		{
 			$status = 404;
-			$view->errors = array( array(
-				'title' => $this->getContext()->getI18n()->dt( 'mshop', $e->getMessage() ),
-				'detail' => $e->getTraceAsString(),
-			) );
+			$view->errors = $this->getErrorDetails( $e, 'mshop' );
 		}
 		catch( \Exception $e )
 		{
 			$status = 500;
-			$view->errors = array( array(
-				'title' => $e->getMessage(),
-				'detail' => $e->getTraceAsString(),
-			) );
+			$view->errors = $this->getErrorDetails( $e );
 		}
 
 		return $this->render( $response, $view, $status );
@@ -149,18 +143,12 @@ class Standard
 		catch( \Aimeos\MShop\Exception $e )
 		{
 			$status = 404;
-			$view->errors = array( array(
-				'title' => $this->getContext()->getI18n()->dt( 'mshop', $e->getMessage() ),
-				'detail' => $e->getTraceAsString(),
-			) );
+			$view->errors = $this->getErrorDetails( $e, 'mshop' );
 		}
 		catch( \Exception $e )
 		{
 			$status = 500;
-			$view->errors = array( array(
-				'title' => $e->getMessage(),
-				'detail' => $e->getTraceAsString(),
-			) );
+			$view->errors = $this->getErrorDetails( $e );
 		}
 
 		return $this->render( $response, $view, $status );

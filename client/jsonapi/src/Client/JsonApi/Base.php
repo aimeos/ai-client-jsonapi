@@ -200,6 +200,31 @@ abstract class Base
 
 
 	/**
+	 * Returns the translated title and the details of the error
+	 *
+	 * @param \Exception $e Thrown exception
+	 * @param string|null $domain Translation domain
+	 * @return array Associative list with "title" and "detail" key (if debug config is enabled)
+	 */
+	protected function getErrorDetails( \Exception $e, $domain = null )
+	{
+		$details = [];
+
+		if( $domain !== null ) {
+			$details['title'] = $this->context->getI18n()->dt( $domain, $e->getMessage() );
+		} else {
+			$details['title'] = $e->getMessage();
+		}
+
+		if( $this->context->getConfig()->get( 'client/jsonapi/debug', false ) == true ) {
+			$details['detail'] = $e->getTraceAsString();
+		}
+
+		return $details;
+	}
+
+
+	/**
 	 * Returns the path to the client
 	 *
 	 * @return string Client path, e.g. "product/property"
