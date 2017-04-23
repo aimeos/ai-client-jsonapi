@@ -36,7 +36,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 		$context = \TestHelperJapi::getContext();
 		$templatePaths = \TestHelperJapi::getTemplatePaths();
 
-		$this->expectException( '\Aimeos\Client\JsonApi\Exception' );
+		$this->setExpectedException( '\Aimeos\Client\JsonApi\Exception' );
 		\Aimeos\Client\JsonApi\Factory::createClient( $context, $templatePaths, '%^' );
 	}
 
@@ -46,7 +46,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 		$context = \TestHelperJapi::getContext();
 		$templatePaths = \TestHelperJapi::getTemplatePaths();
 
-		$this->expectException( '\Aimeos\Client\JsonApi\Exception' );
+		$this->setExpectedException( '\Aimeos\Client\JsonApi\Exception' );
 		\Aimeos\Client\JsonApi\Factory::createClient( $context, $templatePaths, '', '%^' );
 	}
 

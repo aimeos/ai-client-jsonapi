@@ -56,7 +56,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 0, $result['meta']['total'] );
 		$this->assertArrayNotHasKey( 'errors', $result );
 
-		$this->expectException( '\Aimeos\MShop\Exception' );
+		$this->setExpectedException( '\Aimeos\MShop\Exception' );
 		$manager->findItem( 'unittest-japi' );
 	}
 
