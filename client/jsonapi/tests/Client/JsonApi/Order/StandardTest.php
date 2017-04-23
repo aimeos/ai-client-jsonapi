@@ -287,7 +287,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$basketId = $this->getOrderBaseItem()->getId();
 
-		$this->setExpectedException( '\Aimeos\Client\JsonApi\Exception' );
+		$this->expectException( '\Aimeos\Client\JsonApi\Exception' );
 		$this->access( 'getBasket' )->invokeArgs( $this->object, [$basketId] );
 	}
 
