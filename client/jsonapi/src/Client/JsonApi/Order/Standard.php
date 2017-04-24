@@ -134,6 +134,36 @@ class Standard
 
 
 	/**
+	 * Returns the available REST verbs and the available parameters
+	 *
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
+	 */
+	public function options( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
+	{
+		$view = $this->getView();
+		$view->attributes = [
+			'order.baseid' => [
+				'label' => 'ID of the stored basket (POST only)',
+				'type' => 'string', 'default' => '', 'required' => true,
+			],
+		];
+
+		$tplconf = 'client/jsonapi/standard/template-options';
+		$default = 'options-standard.php';
+
+		$body = $view->render( $view->config( $tplconf, $default ) );
+
+		return $response->withHeader( 'Allow', 'GET,OPTIONS,POST' )
+			->withHeader( 'Content-Type', 'application/vnd.api+json' )
+			->withBody( $view->response()->createStreamFromString( $body ) )
+			->withStatus( 200 );
+	}
+
+
+	/**
 	 * Adds and returns a new order item for the given order base ID
 	 *
 	 * @param string $baseId Unique order base ID
@@ -277,7 +307,7 @@ class Standard
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 
-		return $response->withHeader( 'Allow', 'GET,POST' )
+		return $response->withHeader( 'Allow', 'GET,OPTIONS,POST' )
 			->withHeader( 'Content-Type', 'application/vnd.api+json' )
 			->withBody( $view->response()->createStreamFromString( $body ) )
 			->withStatus( $status );

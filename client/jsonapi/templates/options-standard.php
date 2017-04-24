@@ -13,11 +13,15 @@ $cntl = $this->config( 'client/jsonapi/url/options/controller', 'jsonapi' );
 $action = $this->config( 'client/jsonapi/url/options/action', 'options' );
 $config = $this->config( 'client/jsonapi/url/options/config', [] );
 
-$resources = [];
-$default = [
-	'currency' => $this->param( 'currency' ),
-	'locale' => $this->param( 'locale' ),
-];
+$resources = $default = [];
+
+if( ( $currency = $this->param( 'currency' ) ) != null ) {
+	$default['currency'] = $currency;
+}
+
+if( ( $locale = $this->param( 'locale' ) ) != null ) {
+	$default['locale'] = $locale;
+}
 
 foreach( $this->get( 'resources', [] ) as $resource ) {
 	$resources[$resource] = $this->url( $target, $cntl, $action, ['resource' => $resource] + $default, [], $config );
@@ -27,9 +31,28 @@ foreach( $this->get( 'resources', [] ) as $resource ) {
 ?>
 {
 	"meta": {
-		"prefix": <?= json_encode( $this->get( 'prefix' ) ); ?>,
-		"resources": <?= json_encode( $resources ); ?>
+		"prefix": <?= json_encode( $this->get( 'prefix' ) ); ?>
 
+		<?php if( !empty( $resources ) ) : ?>
+
+			, "resources": <?= json_encode( $resources ); ?>
+
+		<?php endif; ?>
+		<?php if( isset( $this->filter ) ) : ?>
+
+			, "filter": <?= json_encode( $this->filter, JSON_PRETTY_PRINT ); ?>
+
+		<?php endif; ?>
+		<?php if( isset( $this->sort ) ) : ?>
+
+			, "sort": <?= json_encode( $this->sort, JSON_PRETTY_PRINT ); ?>
+
+		<?php endif; ?>
+		<?php if( isset( $this->attributes ) ) : ?>
+
+			, "attributes": <?= json_encode( $this->attributes, JSON_PRETTY_PRINT ); ?>
+
+		<?php endif; ?>
 	}
 
 	<?php if( isset( $this->errors ) ) : ?>

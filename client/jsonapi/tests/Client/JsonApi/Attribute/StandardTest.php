@@ -161,4 +161,21 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 500, $response->getStatusCode() );
 		$this->assertArrayHasKey( 'errors', $result );
 	}
+
+
+	public function testOptions()
+	{
+		$response = $this->object->options( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
+		$this->assertEquals( null, $result['meta']['prefix'] );
+		$this->assertArrayNotHasKey( 'attributes', $result['meta'] );
+		$this->assertArrayNotHasKey( 'filter', $result['meta'] );
+		$this->assertArrayNotHasKey( 'sort', $result['meta'] );
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
 }

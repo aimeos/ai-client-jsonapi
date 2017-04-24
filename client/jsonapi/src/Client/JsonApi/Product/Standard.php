@@ -109,10 +109,76 @@ class Standard
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 
-		return $response->withHeader( 'Allow', 'GET' )
+		return $response->withHeader( 'Allow', 'GET,OPTIONS' )
 			->withHeader( 'Content-Type', 'application/vnd.api+json' )
 			->withBody( $view->response()->createStreamFromString( $body ) )
 			->withStatus( $status );
+	}
+
+
+	/**
+	 * Returns the available REST verbs and the available parameters
+	 *
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
+	 */
+	public function options( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
+	{
+		$view = $this->getView();
+
+		$view->filter = [
+			'f_listtype' => [
+				'label' => 'Return products whose associated texts uses this list type',
+				'type' => 'string', 'default' => 'default', 'required' => false,
+			],
+			'f_search' => [
+				'label' => 'Return products whose text matches the user input',
+				'type' => 'string', 'default' => '', 'required' => false,
+			],
+			'f_catid' => [
+				'label' => 'Return products associated to this category ID',
+				'type' => 'string|array', 'default' => '', 'required' => false,
+			],
+			'f_attrid' => [
+				'label' => 'Return products that reference all attribute IDs',
+				'type' => 'array', 'default' => '[]', 'required' => false,
+			],
+			'f_optid' => [
+				'label' => 'Return products that reference at least one of the attribute IDs',
+				'type' => 'array', 'default' => '[]', 'required' => false,
+			],
+			'f_oneid' => [
+				'label' => 'Return products that reference at least one of the attribute IDs per attribute type',
+				'type' => 'array[<typecode>]', 'default' => '[]', 'required' => false,
+			],
+		];
+
+		$view->sort = [
+			'relevance' => [
+				'label' => 'Sort products by their category position',
+				'type' => 'string', 'default' => true, 'required' => false,
+			],
+			'name' => [
+				'label' => 'Sort products by their name (ascending, "-name" for descending)',
+				'type' => 'string', 'default' => false, 'required' => false,
+			],
+			'price' => [
+				'label' => 'Sort products by their price (ascending, "-price" for descending)',
+				'type' => 'string', 'default' => false, 'required' => false,
+			],
+		];
+
+		$tplconf = 'client/jsonapi/standard/template-options';
+		$default = 'options-standard.php';
+
+		$body = $view->render( $view->config( $tplconf, $default ) );
+
+		return $response->withHeader( 'Allow', 'GET,OPTIONS' )
+			->withHeader( 'Content-Type', 'application/vnd.api+json' )
+			->withBody( $view->response()->createStreamFromString( $body ) )
+			->withStatus( 200 );
 	}
 
 

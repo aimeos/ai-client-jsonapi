@@ -337,4 +337,30 @@ abstract class Base
 
 		return $criteria->setSortations( $sortation );
 	}
+
+
+	/**
+	 * Returns the available REST verbs and the available parameters
+	 *
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
+	 * @param string $allow Allowed HTTP methods
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
+	 */
+	public function getOptionsResponse( ServerRequestInterface $request, ResponseInterface $response, $prefix, $allow )
+	{
+		$view = $this->getView();
+		$view->prefix = $prefix;
+
+		$tplconf = 'client/jsonapi/standard/template-options';
+		$default = 'options-standard.php';
+
+		$body = $view->render( $view->config( $tplconf, $default ) );
+
+		return $response->withHeader( 'Allow', $allow )
+			->withHeader( 'Content-Type', 'application/vnd.api+json' )
+			->withBody( $view->response()->createStreamFromString( $body ) )
+			->withStatus( 200 );
+	}
 }

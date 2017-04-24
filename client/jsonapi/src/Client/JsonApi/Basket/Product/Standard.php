@@ -223,6 +223,64 @@ class Standard
 
 
 	/**
+	 * Returns the available REST verbs and the available parameters
+	 *
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
+	 */
+	public function options( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
+	{
+		$view = $this->getView();
+		$view->attributes = [
+			'product.id' => [
+				'label' => 'Product ID from article, bundle or selection product (POST only)',
+				'type' => 'string', 'default' => '', 'required' => true,
+			],
+			'quantity' => [
+				'label' => 'Number of product items (POST only)',
+				'type' => 'string', 'default' => '1', 'required' => false,
+			],
+			'stocktype' => [
+				'label' => 'Code of the warehouse/location type (POST only)',
+				'type' => 'string', 'default' => 'default', 'required' => false,
+			],
+			'variant' => [
+				'label' => 'List of attribute IDs of the selected variant attributes (POST only)',
+				'type' => 'array', 'default' => '[]', 'required' => false,
+			],
+			'config' => [
+				'label' => 'List of attribute IDs of the selected config attributes (POST only)',
+				'type' => 'array', 'default' => '[]', 'required' => false,
+			],
+			'hidden' => [
+				'label' => 'List of attribute IDs of the hidden product attributes that will be added but should be invisible (POST only)',
+				'type' => 'array', 'default' => '[]', 'required' => false,
+			],
+			'custom' => [
+				'label' => 'List of values entered by the user for the custom attributes with the attribute IDs as keys (POST only)',
+				'type' => 'array[<attrid>]', 'default' => '[]', 'required' => false,
+			],
+			'codes' => [
+				'label' => 'List of product options (added via "config") that should be removed (PATCH only)',
+				'type' => 'array', '' => '[]', 'required' => false,
+			],
+		];
+
+		$tplconf = 'client/jsonapi/standard/template-options';
+		$default = 'options-standard.php';
+
+		$body = $view->render( $view->config( $tplconf, $default ) );
+
+		return $response->withHeader( 'Allow', 'DELETE,GET,OPTIONS,PATCH,POST' )
+			->withHeader( 'Content-Type', 'application/vnd.api+json' )
+			->withBody( $view->response()->createStreamFromString( $body ) )
+			->withStatus( 200 );
+	}
+
+
+	/**
 	 * Returns the response object with the rendered header and body
 	 *
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
@@ -237,7 +295,7 @@ class Standard
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 
-		return $response->withHeader( 'Allow', 'DELETE,GET,PATCH,POST' )
+		return $response->withHeader( 'Allow', 'DELETE,GET,OPTIONS,PATCH,POST' )
 			->withHeader( 'Content-Type', 'application/vnd.api+json' )
 			->withBody( $view->response()->createStreamFromString( $body ) )
 			->withStatus( $status );

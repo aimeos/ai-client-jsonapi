@@ -137,7 +137,10 @@ class Standard
 			}
 
 			$basket = $this->controller->setType( $view->param( 'id', 'default' ) )->get();
-			$basket->fromArray( (array) $payload->data->attributes );
+
+			if( isset( $payload->data->attributes->{'order.base.comment'} ) ) {
+				$basket->setComment( $payload->data->attributes->{'order.base.comment'} );
+			}
 
 			$view->item = $basket;
 			$status = 200;
@@ -188,6 +191,36 @@ class Standard
 		}
 
 		return $this->render( $response, $view, $status );
+	}
+
+
+	/**
+	 * Returns the available REST verbs and the available parameters
+	 *
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
+	 */
+	public function options( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
+	{
+		$view = $this->getView();
+		$view->attributes = [
+			'order.base.comment' => [
+				'label' => 'Customer comment for the order',
+				'type' => 'string', 'default' => '', 'required' => false,
+			],
+		];
+
+		$tplconf = 'client/jsonapi/standard/template-options';
+		$default = 'options-standard.php';
+
+		$body = $view->render( $view->config( $tplconf, $default ) );
+
+		return $response->withHeader( 'Allow', 'DELETE,GET,OPTIONS,PATCH,POST' )
+			->withHeader( 'Content-Type', 'application/vnd.api+json' )
+			->withBody( $view->response()->createStreamFromString( $body ) )
+			->withStatus( 200 );
 	}
 
 
@@ -256,7 +289,7 @@ class Standard
 		$body = $view->render( $view->config( $tplconf, $default ) );
 
 		if( $allow === true ) {
-			$methods = 'DELETE,GET,PATCH,POST';
+			$methods = 'DELETE,GET,OPTIONS,PATCH,POST';
 		} else {
 			$methods = 'GET';
 		}

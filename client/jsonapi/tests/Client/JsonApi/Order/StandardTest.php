@@ -253,6 +253,23 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testOptions()
+	{
+		$response = $this->object->options( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
+		$this->assertEquals( null, $result['meta']['prefix'] );
+		$this->assertEquals( 1, count( $result['meta']['attributes'] ) );
+		$this->assertArrayNotHasKey( 'filter', $result['meta'] );
+		$this->assertArrayNotHasKey( 'sort', $result['meta'] );
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
 	public function testCreateOrder()
 	{
 		$order = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();

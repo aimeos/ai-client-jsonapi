@@ -156,6 +156,20 @@ class Standard
 
 
 	/**
+	 * Returns the available REST verbs and the available parameters
+	 *
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
+	 */
+	public function options( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
+	{
+		return $this->getOptionsResponse( $request, $response, $prefix, 'DELETE,GET,OPTIONS,PATCH,POST' );
+	}
+
+
+	/**
 	 * Returns the response object with the rendered header and body
 	 *
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
@@ -170,7 +184,7 @@ class Standard
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 
-		return $response->withHeader( 'Allow', 'DELETE,GET,PATCH,POST' )
+		return $response->withHeader( 'Allow', 'DELETE,GET,OPTIONS,PATCH,POST' )
 			->withHeader( 'Content-Type', 'application/vnd.api+json' )
 			->withBody( $view->response()->createStreamFromString( $body ) )
 			->withStatus( $status );
