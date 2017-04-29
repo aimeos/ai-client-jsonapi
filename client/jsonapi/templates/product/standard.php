@@ -202,6 +202,7 @@ $refFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, $map
 ?>
 {
 	"meta": {
+		"content-baseurl": "<?= $this->config( 'client/html/common/content/baseurl' ) ?>",
 		"total": <?= $total; ?>
 
 	},

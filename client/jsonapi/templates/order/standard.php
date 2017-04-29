@@ -65,6 +65,7 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Iface $item, \Aimeos\MShop\Common
 ?>
 {
 	"meta": {
+		"content-baseurl": "<?= $this->config( 'client/html/common/content/baseurl' ) ?>",
 		"total": <?= $this->get( 'total', 0 ); ?>
 
 	},

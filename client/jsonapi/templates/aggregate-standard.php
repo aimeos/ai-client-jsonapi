@@ -20,6 +20,7 @@ foreach( $data as $key => $value ) {
 ?>
 {
 	"meta": {
+		"content-baseurl": "<?= $this->config( 'client/html/common/content/baseurl' ) ?>",
 		"total": <?= count( $data ); ?>
 
 	},

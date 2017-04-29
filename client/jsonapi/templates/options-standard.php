@@ -31,6 +31,7 @@ foreach( $this->get( 'resources', [] ) as $resource ) {
 ?>
 {
 	"meta": {
+		"content-baseurl": "<?= $this->config( 'client/html/common/content/baseurl' ) ?>",
 		"prefix": <?= json_encode( $this->get( 'prefix' ) ); ?>
 
 		<?php if( !empty( $resources ) ) : ?>

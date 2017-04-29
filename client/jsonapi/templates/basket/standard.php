@@ -233,6 +233,7 @@ if( isset( $this->item ) && $this->item->getId() === null )
 ?>
 {
 	"meta": {
+		"content-baseurl": "<?= $this->config( 'client/html/common/content/baseurl' ) ?>",
 		"total": <?= ( isset( $this->item ) ? 1 : 0 ); ?>
 
 	},
