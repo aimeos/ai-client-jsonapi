@@ -188,19 +188,19 @@ class Standard
 	 */
 	protected function getBasket( $basketId )
 	{
-		$baseId = $this->getContext()->getSession()->get( 'aimeos/order.baseid' );
+		$context = $this->getContext();
+		$baseId = $context->getSession()->get( 'aimeos/order.baseid' );
 
-		$parts = \Aimeos\MShop\Order\Manager\Base\Base::PARTS_SERVICE;
-		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'basket' );
-		$basket = $cntl->load( $basketId, $parts, false );
-
-		if( $baseId != $basket->getId() )
+		if( $baseId != $basketId )
 		{
-			$msg = sprintf( 'No basket for the "order.baseid" ("%1$s") found', $baseId );
+			$msg = sprintf( 'No basket for the "order.baseid" ("%1$s") found', $basketId );
 			throw new \Aimeos\Client\JsonApi\Exception( $msg, 403 );
 		}
 
-		return $basket;
+		$parts = \Aimeos\MShop\Order\Manager\Base\Base::PARTS_SERVICE;
+		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $context, 'basket' );
+
+		return $cntl->load( $baseId, $parts, false );
 	}
 
 
