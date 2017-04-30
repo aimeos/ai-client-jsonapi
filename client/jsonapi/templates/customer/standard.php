@@ -132,7 +132,7 @@ $refFcn = function( \Aimeos\MShop\Customer\Item\Iface $item ) use ( $fields, $ta
 		"total": <?= ( isset( $this->item ) ? 1 : 0 ); ?>,
 		"content-baseurl": "<?= $this->config( 'client/html/common/content/baseurl' ); ?>"
 
-		<?php if( !empty( $this->csrf()->name() ) ) : ?>
+		<?php if( $this->csrf()->name() != '' ) : ?>
 			, "csrf": {
 				"name": "<?= $this->csrf()->name(); ?>",
 				"value": "<?= $this->csrf()->value(); ?>"

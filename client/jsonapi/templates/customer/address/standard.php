@@ -64,7 +64,7 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item ) use ( $f
 		"total": <?= $this->get( 'total', 0 ); ?>,
 		"content-baseurl": "<?= $this->config( 'client/html/common/content/baseurl' ); ?>"
 
-		<?php if( !empty( $this->csrf()->name() ) ) : ?>
+		<?php if( $this->csrf()->name() != '' ) : ?>
 			, "csrf": {
 				"name": "<?= $this->csrf()->name(); ?>",
 				"value": "<?= $this->csrf()->value(); ?>"
