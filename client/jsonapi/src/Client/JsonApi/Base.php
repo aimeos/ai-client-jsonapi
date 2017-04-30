@@ -359,6 +359,7 @@ abstract class Base
 		$body = $view->render( $view->config( $tplconf, $default ) );
 
 		return $response->withHeader( 'Allow', $allow )
+			->withHeader( 'Cache-Control', 'max-age=300' )
 			->withHeader( 'Content-Type', 'application/vnd.api+json' )
 			->withBody( $view->response()->createStreamFromString( $body ) )
 			->withStatus( 200 );

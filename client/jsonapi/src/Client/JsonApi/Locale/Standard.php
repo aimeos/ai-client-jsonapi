@@ -81,6 +81,7 @@ class Standard
 		$body = $view->render( $view->config( $tplconf, $default ) );
 
 		return $response->withHeader( 'Allow', 'GET,OPTIONS' )
+			->withHeader( 'Cache-Control', 'max-age=300' )
 			->withHeader( 'Content-Type', 'application/vnd.api+json' )
 			->withBody( $view->response()->createStreamFromString( $body ) )
 			->withStatus( $status );
