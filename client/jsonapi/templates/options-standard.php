@@ -35,7 +35,7 @@ foreach( $this->get( 'resources', [] ) as $resource ) {
 		"content-baseurl": "<?= $this->config( 'client/html/common/content/baseurl' ); ?>"
 
 		<?php if( $this->csrf()->name() != '' ) : ?>
-			"csrf": {
+			, "csrf": {
 				"name": "<?= $this->csrf()->name(); ?>",
 				"value": "<?= $this->csrf()->value(); ?>"
 			}
