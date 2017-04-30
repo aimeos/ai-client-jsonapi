@@ -23,7 +23,7 @@ foreach( $data as $key => $value ) {
 		"total": <?= count( $data ); ?>,
 		"content-baseurl": "<?= $this->config( 'client/html/common/content/baseurl' ); ?>"
 
-		<?php if( !empty( $this->csrf()->name() ) ) : ?>
+		<?php if( $this->csrf()->name() != '' ) : ?>
 			, "csrf": {
 				"name": "<?= $this->csrf()->name(); ?>",
 				"value": "<?= $this->csrf()->value(); ?>"
