@@ -99,8 +99,15 @@ $refFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item ) use ( $fields, $tar
 ?>
 {
 	"meta": {
-		"content-baseurl": "<?= $this->config( 'client/html/common/content/baseurl' ) ?>",
-		"total": <?= ( isset( $this->item ) ? 1 : 0 ); ?>
+		"total": <?= ( isset( $this->item ) ? 1 : 0 ); ?>,
+		"content-baseurl": "<?= $this->config( 'client/html/common/content/baseurl' ); ?>"
+
+		<?php if( !empty( $this->csrf()->name() ) ) : ?>
+			, "csrf": {
+				"name": "<?= $this->csrf()->name(); ?>",
+				"value": "<?= $this->csrf()->value(); ?>"
+			}
+		<?php endif; ?>
 
 	},
 

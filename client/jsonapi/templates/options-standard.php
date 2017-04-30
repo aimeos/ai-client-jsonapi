@@ -31,9 +31,15 @@ foreach( $this->get( 'resources', [] ) as $resource ) {
 ?>
 {
 	"meta": {
-		"content-baseurl": "<?= $this->config( 'client/html/common/content/baseurl' ) ?>",
-		"prefix": <?= json_encode( $this->get( 'prefix' ) ); ?>
+		"prefix": <?= json_encode( $this->get( 'prefix' ) ); ?>,
+		"content-baseurl": "<?= $this->config( 'client/html/common/content/baseurl' ); ?>"
 
+		<?php if( !empty( $this->csrf()->name() ) ) : ?>
+			"csrf": {
+				"name": "<?= $this->csrf()->name(); ?>",
+				"value": "<?= $this->csrf()->value(); ?>"
+			}
+		<?php endif; ?>
 		<?php if( !empty( $resources ) ) : ?>
 
 			, "resources": <?= json_encode( $resources ); ?>

@@ -61,8 +61,15 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item ) use ( $f
 ?>
 {
 	"meta": {
-		"content-baseurl": "<?= $this->config( 'client/html/common/content/baseurl' ) ?>",
-		"total": <?= $this->get( 'total', 0 ); ?>
+		"total": <?= $this->get( 'total', 0 ); ?>,
+		"content-baseurl": "<?= $this->config( 'client/html/common/content/baseurl' ); ?>"
+
+		<?php if( !empty( $this->csrf()->name() ) ) : ?>
+			, "csrf": {
+				"name": "<?= $this->csrf()->name(); ?>",
+				"value": "<?= $this->csrf()->value(); ?>"
+			}
+		<?php endif; ?>
 
 	},
 	"links": {

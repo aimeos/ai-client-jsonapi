@@ -233,8 +233,15 @@ if( isset( $this->item ) && $this->item->getId() === null )
 ?>
 {
 	"meta": {
-		"content-baseurl": "<?= $this->config( 'client/html/common/content/baseurl' ) ?>",
-		"total": <?= ( isset( $this->item ) ? 1 : 0 ); ?>
+		"total": <?= ( isset( $this->item ) ? 1 : 0 ); ?>,
+		"content-baseurl": "<?= $this->config( 'client/html/common/content/baseurl' ); ?>"
+
+		<?php if( !empty( $this->csrf()->name() ) ) : ?>
+			, "csrf": {
+				"name": "<?= $this->csrf()->name(); ?>",
+				"value": "<?= $this->csrf()->value(); ?>"
+			}
+		<?php endif; ?>
 
 	},
 	"links": {
