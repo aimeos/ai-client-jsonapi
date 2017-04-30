@@ -20,9 +20,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @package Client
  * @subpackage JsonApi
  */
-class Standard
-	extends \Aimeos\Client\JsonApi\Base
-	implements \Aimeos\Client\JsonApi\Iface
+class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 {
 	private $controller;
 
@@ -56,6 +54,8 @@ class Standard
 
 		try
 		{
+			$this->clearCache();
+
 			$status = 200;
 			$type = $view->param( 'id', 'default' );
 			$view->item = $this->controller->setType( $type )->clear()->get();
@@ -130,6 +130,8 @@ class Standard
 
 		try
 		{
+			$this->clearCache();
+
 			$body = (string) $request->getBody();
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data->attributes ) ) {
@@ -173,6 +175,8 @@ class Standard
 
 		try
 		{
+			$this->clearCache();
+
 			$item = $this->controller->setType( $view->param( 'id', 'default' ) )->store();
 			$this->getContext()->getSession()->set( 'aimeos/order.baseid', $item->getId() );
 

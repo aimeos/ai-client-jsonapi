@@ -21,7 +21,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @subpackage JsonApi
  */
 class Standard
-	extends \Aimeos\Client\JsonApi\Base
+	extends \Aimeos\Client\JsonApi\Basket\Base
 	implements \Aimeos\Client\JsonApi\Iface
 {
 	private $controller;
@@ -56,9 +56,11 @@ class Standard
 
 		try
 		{
+			$this->clearCache();
+			$this->controller->setType( $view->param( 'id', 'default' ) );
+
 			$relId = $view->param( 'relatedid' );
 			$body = (string) $request->getBody();
-			$this->controller->setType( $view->param( 'id', 'default' ) );
 
 			if( $relId === '' || $relId === null )
 			{
@@ -116,8 +118,10 @@ class Standard
 
 		try
 		{
-			$body = (string) $request->getBody();
+			$this->clearCache();
 			$this->controller->setType( $view->param( 'id', 'default' ) );
+
+			$body = (string) $request->getBody();
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
 				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
