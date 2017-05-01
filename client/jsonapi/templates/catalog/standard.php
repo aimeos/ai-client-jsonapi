@@ -100,6 +100,7 @@ $refFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item ) use ( $fields, $tar
 {
 	"meta": {
 		"total": <?= ( isset( $this->item ) ? 1 : 0 ); ?>,
+		"prefix": <?= json_encode( $this->get( 'prefix' ) ); ?>,
 		"content-baseurl": "<?= $this->config( 'client/html/common/content/baseurl' ); ?>"
 
 		<?php if( $this->csrf()->name() != '' ) : ?>

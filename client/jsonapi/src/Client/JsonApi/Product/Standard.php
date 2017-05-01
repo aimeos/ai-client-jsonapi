@@ -29,11 +29,13 @@ class Standard
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function get( ServerRequestInterface $request, ResponseInterface $response )
+	public function get( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
 	{
 		$view = $this->getView();
+		$view->prefix = $prefix;
 
 		try
 		{
@@ -128,6 +130,7 @@ class Standard
 	public function options( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
 	{
 		$view = $this->getView();
+		$view->prefix = $prefix;
 
 		$view->filter = [
 			'f_listtype' => [

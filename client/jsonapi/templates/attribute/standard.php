@@ -102,6 +102,7 @@ $refFcn = function( \Aimeos\MShop\Attribute\Item\Iface $item ) use ( $fields, $t
 {
 	"meta": {
 		"total": <?= $total; ?>,
+		"prefix": <?= json_encode( $this->get( 'prefix' ) ); ?>,
 		"content-baseurl": "<?= $this->config( 'client/html/common/content/baseurl' ); ?>"
 
 		<?php if( $this->csrf()->name() != '' ) : ?>

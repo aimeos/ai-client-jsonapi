@@ -21,6 +21,7 @@ foreach( $data as $key => $value ) {
 {
 	"meta": {
 		"total": <?= count( $data ); ?>,
+		"prefix": <?= json_encode( $this->get( 'prefix' ) ); ?>,
 		"content-baseurl": "<?= $this->config( 'client/html/common/content/baseurl' ); ?>"
 
 		<?php if( $this->csrf()->name() != '' ) : ?>

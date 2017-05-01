@@ -64,11 +64,12 @@ abstract class Base
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function delete( ServerRequestInterface $request, ResponseInterface $response )
+	public function delete( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
 	{
-		return $this->client->delete( $request, $response );
+		return $this->client->delete( $request, $response, $prefix );
 	}
 
 
@@ -77,11 +78,12 @@ abstract class Base
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function get( ServerRequestInterface $request, ResponseInterface $response )
+	public function get( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
 	{
-		return $this->client->get( $request, $response );
+		return $this->client->get( $request, $response, $prefix );
 	}
 
 
@@ -91,11 +93,12 @@ abstract class Base
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function patch( ServerRequestInterface $request, ResponseInterface $response )
+	public function patch( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
 	{
-		return $this->client->patch( $request, $response );
+		return $this->client->patch( $request, $response, $prefix );
 	}
 
 
@@ -105,11 +108,12 @@ abstract class Base
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function post( ServerRequestInterface $request, ResponseInterface $response )
+	public function post( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
 	{
-		return $this->client->post( $request, $response );
+		return $this->client->post( $request, $response, $prefix );
 	}
 
 
@@ -119,11 +123,12 @@ abstract class Base
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function put( ServerRequestInterface $request, ResponseInterface $response )
+	public function put( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
 	{
-		return $this->client->put( $request, $response );
+		return $this->client->put( $request, $response, $prefix );
 	}
 
 

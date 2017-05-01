@@ -46,11 +46,13 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function delete( ServerRequestInterface $request, ResponseInterface $response )
+	public function delete( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
 	{
 		$view = $this->getView();
+		$view->prefix = $prefix;
 
 		try
 		{
@@ -80,12 +82,15 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function get( ServerRequestInterface $request, ResponseInterface $response )
+	public function get( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
 	{
-		$allow = false;
 		$view = $this->getView();
+		$view->prefix = $prefix;
+
+		$allow = false;
 		$id = $view->param( 'id', 'default' );
 
 		try
@@ -122,11 +127,13 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function patch( ServerRequestInterface $request, ResponseInterface $response )
+	public function patch( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
 	{
 		$view = $this->getView();
+		$view->prefix = $prefix;
 
 		try
 		{
@@ -167,11 +174,13 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function post( ServerRequestInterface $request, ResponseInterface $response )
+	public function post( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
 	{
 		$view = $this->getView();
+		$view->prefix = $prefix;
 
 		try
 		{
@@ -209,6 +218,8 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	public function options( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
 	{
 		$view = $this->getView();
+		$view->prefix = $prefix;
+
 		$view->attributes = [
 			'order.base.comment' => [
 				'label' => 'Customer comment for the order',
