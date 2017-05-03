@@ -77,12 +77,12 @@ class Standard
 						throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'ID is missing' ), 400 );
 					}
 
-					$this->controller->deleteListsItem( $entry->id );
+					$this->controller->deleteListItem( $entry->id );
 				}
 			}
 			else
 			{
-				$this->controller->deleteListsItem( $relId );
+				$this->controller->deleteListItem( $relId );
 			}
 
 			$status = 200;
@@ -129,11 +129,11 @@ class Standard
 			if( $relId == null )
 			{
 				$filter = $this->initCriteria( $cntl->createListsFilter(), $view->param( 'filter', [] ) );
-				$view->items = $cntl->searchListsItems( $filter, $total );
+				$view->items = $cntl->searchListItems( $filter, $total );
 			}
 			else
 			{
-				$view->items = $cntl->getListsItem( $relId );
+				$view->items = $cntl->getListItem( $relId );
 			}
 
 			$view->total = $total;
@@ -182,13 +182,12 @@ class Standard
 
 			$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'customer' );
 
-			$view->items = $cntl->editListsItem( $view->param( 'relatedid' ), (array) $payload->data->attributes );
+			$view->items = $cntl->editListItem( $view->param( 'relatedid' ), (array) $payload->data->attributes );
 			$view->total = 1;
 			$status = 200;
 		}
 		catch( \Aimeos\Controller\Frontend\Customer\Exception $e )
 		{
-print_r( $e->getMessage() );
 			$status = 403;
 			$view->errors = $this->getErrorDetails( $e, 'controller/frontend' );
 		}
@@ -239,7 +238,7 @@ print_r( $e->getMessage() );
 					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Attributes are missing' ) );
 				}
 
-				$list[] = $this->controller->addListsItem( (array) $entry->attributes );
+				$list[] = $this->controller->addListItem( (array) $entry->attributes );
 			}
 
 

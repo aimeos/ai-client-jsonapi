@@ -101,7 +101,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteControllerException()
 	{
-		$object = $this->getObject( 'deleteListsItem', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
+		$object = $this->getObject( 'deleteListItem', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
 
 		$params = array( 'relatedid' => -1 );
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
@@ -118,7 +118,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteMShopException()
 	{
-		$object = $this->getObject( 'deleteListsItem', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$object = $this->getObject( 'deleteListItem', $this->throwException( new \Aimeos\MShop\Exception() ) );
 
 		$params = array( 'relatedid' => -1 );
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
@@ -135,7 +135,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteException()
 	{
-		$object = $this->getObject( 'deleteListsItem', $this->throwException( new \Exception() ) );
+		$object = $this->getObject( 'deleteListItem', $this->throwException( new \Exception() ) );
 
 		$params = array( 'relatedid' => -1 );
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
@@ -214,7 +214,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetControllerException()
 	{
-		$object = $this->getObject( 'getListsItem', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
+		$object = $this->getObject( 'getListItem', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
 
 		$params = array( 'relatedid' => -1 );
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
@@ -231,7 +231,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetMShopException()
 	{
-		$object = $this->getObject( 'getListsItem', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$object = $this->getObject( 'getListItem', $this->throwException( new \Aimeos\MShop\Exception() ) );
 
 		$params = array( 'relatedid' => -1 );
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
@@ -248,7 +248,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetException()
 	{
-		$object = $this->getObject( 'getListsItem', $this->throwException( new \Exception() ) );
+		$object = $this->getObject( 'getListItem', $this->throwException( new \Exception() ) );
 
 		$params = array( 'relatedid' => -1 );
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
@@ -307,7 +307,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatchControllerException()
 	{
-		$object = $this->getObject( 'editListsItem', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
+		$object = $this->getObject( 'editListItem', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
 
 		$body = '{"data": {"attributes": []}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -323,7 +323,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatchMShopException()
 	{
-		$object = $this->getObject( 'editListsItem', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$object = $this->getObject( 'editListItem', $this->throwException( new \Aimeos\MShop\Exception() ) );
 
 		$body = '{"data": {"attributes": []}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -339,7 +339,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatchException()
 	{
-		$object = $this->getObject( 'editListsItem', $this->throwException( new \Exception() ) );
+		$object = $this->getObject( 'editListItem', $this->throwException( new \Exception() ) );
 
 		$body = '{"data": {"attributes": []}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -429,7 +429,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostControllerException()
 	{
-		$object = $this->getObject( 'addListsItem', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
+		$object = $this->getObject( 'addListItem', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
 
 		$body = '{"data": {"attributes": []}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -445,7 +445,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostMShopException()
 	{
-		$object = $this->getObject( 'addListsItem', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$object = $this->getObject( 'addListItem', $this->throwException( new \Aimeos\MShop\Exception() ) );
 
 		$body = '{"data": {"attributes": []}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -461,7 +461,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostException()
 	{
-		$object = $this->getObject( 'addListsItem', $this->throwException( new \Exception() ) );
+		$object = $this->getObject( 'addListItem', $this->throwException( new \Exception() ) );
 
 		$body = '{"data": {"attributes": []}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
