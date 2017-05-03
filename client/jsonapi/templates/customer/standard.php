@@ -54,15 +54,23 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Iface $item ) use ( $fields, $
 		$entry['relationships'][$type]['data'][] = array( 'id' => $addrItem->getId(), 'type' => $type );
 	}
 
-	foreach( $item->getListItems() as $listItem )
+	foreach( $item->getListItems() as $listId => $listItem )
 	{
 		if( ( $refItem = $listItem->getRefItem() ) !== null )
 		{
 			$type = $refItem->getResourceType();
+			$params = array( 'resource' => $type, 'id' => $id, 'related' => 'relationships', 'relatedid' => $listId );
+
 			$entry['relationships'][$type]['data'][] = [
 				'id' => $refItem->getId(),
 				'type' => $type,
 				'attributes' => $listItem->toArray(),
+				'links' => [
+					'self' => [
+						'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
+						'allow' => ['DELETE', 'PATCH'],
+					],
+				],
 			];
 		}
 	}
