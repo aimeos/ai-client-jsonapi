@@ -178,9 +178,13 @@ class Standard
 	 */
 	protected function createOrder( $baseId )
 	{
-		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'order' );
+		$context = $this->getContext();
+		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $context, 'order' );
+
 		$item = $cntl->addItem( $baseId, 'jsonapi' );
 		$cntl->block( $item );
+
+		$context->getSession()->set( 'aimeos/orderid', $item->getId() );
 
 		return $item;
 	}

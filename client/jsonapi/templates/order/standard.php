@@ -94,12 +94,12 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Iface $item, \Aimeos\MShop\Common
 			if( is_array( $items ) )
 			{
 				foreach( $items as $item ) {
-					$data[] = $entryFcn( $item );
+					$data[] = $entryFcn( $item, $this->get( 'form' ) );
 				}
 			}
 			else
 			{
-				$data = $entryFcn( $items );
+				$data = $entryFcn( $items, $this->get( 'form' ) );
 			}
 		 ?>
 
