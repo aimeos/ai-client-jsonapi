@@ -59,12 +59,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetById()
 	{
-		$user = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' )->findItem( 'UTC001' );
-		$this->context->setUserId( $user->getId() );
+		$this->context->setEditor( 'core:unittest' );
 
 		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'order' );
 		$search = $manager->createSearch()->setSlice( 0, 1 );
-		$search->setConditions( $search->compare( '==', 'order.base.customerid', $user->getId() ) );
+		$search->setConditions( $search->compare( '==', 'order.type', 'phone' ) );
 		$items = $manager->searchItems( $search );
 
 		if( ( $item = reset( $items ) ) === false ) {
