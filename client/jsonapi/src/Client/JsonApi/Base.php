@@ -225,7 +225,7 @@ abstract class Base
 			$details['detail'] = $e->getTraceAsString();
 		}
 
-		return $details;
+		return [$details]; // jsonapi.org requires a list of error objects
 	}
 
 
