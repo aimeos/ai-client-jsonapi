@@ -44,7 +44,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context->setUserId( $userId );
 		$item = $manager->createItem()->setParentId( $userId );
 		$item->setDomain( 'product' )->setRefId( -1 )->setTypeId( $typeId );
-		$manager->saveItem( $item );
+		$item = $manager->saveItem( $item );
 
 
 		$params = array( 'id' => $userId );
@@ -79,7 +79,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context->setUserId( $userId );
 		$item = $manager->createItem()->setParentId( $userId );
 		$item->setDomain( 'product' )->setRefId( -1 )->setTypeId( $typeId );
-		$manager->saveItem( $item );
+		$item = $manager->saveItem( $item );
 
 
 		$params = array( 'id' => $userId, 'relatedid' => $item->getId() );
@@ -275,7 +275,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context->setUserId( $userId );
 		$item = $manager->createItem()->setParentId( $userId );
 		$item->setDomain( 'product' )->setRefId( -1 )->setTypeId( $typeId );
-		$manager->saveItem( $item );
+		$item = $manager->saveItem( $item );
 
 		$params = array( 'id' => $item->getId(), 'relatedid' => $item->getId() );
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );

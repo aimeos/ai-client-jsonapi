@@ -40,7 +40,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$userId = $custManager->findItem( 'UTC001' )->getId();
 		$this->context->setUserId( $userId );
 		$item = $manager->createItem()->setParentId( $userId );
-		$manager->saveItem( $item );
+		$item = $manager->saveItem( $item );
 
 
 		$params = array( 'id' => $userId );
@@ -71,7 +71,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$userId = $custManager->findItem( 'UTC001' )->getId();
 		$this->context->setUserId( $userId );
 		$item = $manager->createItem()->setParentId( $userId );
-		$manager->saveItem( $item );
+		$item = $manager->saveItem( $item );
 
 
 		$params = array( 'id' => $userId, 'relatedid' => $item->getId() );
@@ -262,7 +262,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$customerId = $custManager->findItem( 'UTC001' )->getId();
 		$item = $manager->createItem()->setParentId( $customerId );
-		$manager->saveItem( $item );
+		$item = $manager->saveItem( $item );
 
 		$this->context->setUserId( $customerId );
 

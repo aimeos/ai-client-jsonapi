@@ -37,7 +37,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' );
 		$item = $manager->createItem()->setCode( 'unittest-japi' );
-		$manager->saveItem( $item );
+		$item = $manager->saveItem( $item );
 
 		$this->context->setUserId( $item->getId() );
 
@@ -273,7 +273,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' );
 		$item = $manager->createItem()->setCode( 'unittest-japi' )->setStatus( 1 );
-		$manager->saveItem( $item );
+		$item = $manager->saveItem( $item );
 
 		$this->context->setUserId( $item->getId() );
 
