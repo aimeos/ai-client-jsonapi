@@ -34,7 +34,7 @@ $entryFcn = function( \Aimeos\MShop\Locale\Item\Iface $item ) use ( $fields, $ta
 	$id = $item->getId();
 	$attributes = $item->toArray();
 	$type = $item->getResourceType();
-	$optTarget = $this->config( 'client/jsonapi/url/options/target' );
+	$optTarget = $this->config( 'client/jsonapi/url/target' );
 
 	$params = array( 'resource' => $type, 'id' => $id );
 	$resourceParams = ['locale' => $item->getLanguageId(), 'currency' => $item->getCurrencyId()];

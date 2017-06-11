@@ -8,10 +8,10 @@
  */
 
 
-$target = $this->config( 'client/jsonapi/url/options/target' );
-$cntl = $this->config( 'client/jsonapi/url/options/controller', 'jsonapi' );
-$action = $this->config( 'client/jsonapi/url/options/action', 'options' );
-$config = $this->config( 'client/jsonapi/url/options/config', [] );
+$target = $this->config( 'client/jsonapi/url/target' );
+$cntl = $this->config( 'client/jsonapi/url/controller', 'jsonapi' );
+$action = $this->config( 'client/jsonapi/url/action', 'options' );
+$config = $this->config( 'client/jsonapi/url/config', [] );
 
 $details = 'This is the Aimeos JSON REST API
 
