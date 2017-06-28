@@ -101,6 +101,10 @@ class TestHelperJapi
 		$ctx->setDatabaseManager( $dbm );
 
 
+		$mq = new \Aimeos\MW\MQueue\Manager\Standard( $conf );
+		$ctx->setMessageQueueManager( $mq );
+
+
 		$logger = new \Aimeos\MW\Logger\File( $site . '.log', \Aimeos\MW\Logger\Base::DEBUG );
 		$ctx->setLogger( $logger );
 

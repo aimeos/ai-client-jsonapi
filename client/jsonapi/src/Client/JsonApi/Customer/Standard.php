@@ -296,19 +296,23 @@ class Standard
 				'type' => 'float', 'default' => '', 'required' => false,
 			],
 			'customer.label' => [
-				'label' => 'Label to identify the customer, usually the full name',
+				'label' => 'Label to identify the customer, will be firstname, lastname and company if empty',
 				'type' => 'string', 'default' => '', 'required' => true,
 			],
 			'customer.code' => [
-				'label' => 'Unique customer identifier, usually e-mail address',
-				'type' => 'string', 'default' => '', 'required' => true,
+				'label' => 'Unique customer identifier, will be the e-mail address if empty',
+				'type' => 'string', 'default' => '', 'required' => false,
+			],
+			'customer.password' => [
+				'label' => 'Password of the customer, generated if emtpy',
+				'type' => 'string', 'default' => '', 'required' => false,
 			],
 			'customer.birthday' => [
 				'label' => 'ISO date in YYYY-MM-DD format of the birthday',
 				'type' => 'string', 'default' => '', 'required' => false,
 			],
 			'customer.status' => [
-				'label' => 'Customer account status, i.e. "0" for disabled, "1" for enabled',
+				'label' => 'Customer account status, i.e. "0" for disabled, "1" for enabled and is enabled by default',
 				'type' => 'integer', 'default' => '1', 'required' => false,
 			],
 		];
