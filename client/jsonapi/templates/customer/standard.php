@@ -45,8 +45,15 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Iface $item ) use ( $fields, $
 				'allow' => array( 'DELETE', 'GET', 'PATCH' ),
 			),
 		),
-		'attributes' => $attributes,
+		'attributes' => ['customer.id' => $id]
 	);
+
+	if( $this->get( 'nodata', false ) == true ) { // don't expose more data to attackers
+		return $entry;
+	}
+
+
+	$entry['attributes'] = $attributes;
 
 	foreach( $item->getAddressItems() as $addrItem )
 	{

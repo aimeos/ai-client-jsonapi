@@ -179,6 +179,7 @@ class Standard
 			$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'customer' );
 
 			$view->item = $cntl->addItem( (array) $payload->data->attributes );
+			$view->nodata = true; // only expose customer ID to attackers
 			$status = 201;
 		}
 		catch( \Aimeos\Controller\Frontend\Customer\Exception $e )

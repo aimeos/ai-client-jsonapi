@@ -367,7 +367,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertNotNull( $result['data']['id'] );
 		$this->assertEquals( 'customer', $result['data']['type'] );
-		$this->assertGreaterThan( 24, count( $result['data']['attributes'] ) );
+		$this->assertEquals( 1, count( $result['data']['attributes'] ) ); // only "customer.id" for POST
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 
