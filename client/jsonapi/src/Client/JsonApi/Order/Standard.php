@@ -229,22 +229,22 @@ class Standard
 	{
 		$view = $this->getView();
 		$context = $this->getContext();
-		$service = $basket->getService( \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_PAYMENT );
 
 		if( $basket->getPrice()->getValue() + $basket->getPrice()->getCosts() <= '0.00' )
 		{
-			$manager = \Aimeos\MShop\Factory::createManager( $context, 'order' );
-
 			$orderItem->setPaymentStatus( \Aimeos\MShop\Order\Item\Base::PAY_RECEIVED );
 			$orderItem->setDatePayment( date( 'Y-m-d H:i:s' ) );
-			$orderItem = $manager->saveItem( $orderItem );
 
-			$config = ['absoluteUri' => true, 'namespace' => false];
-			return new \Aimeos\MShop\Common\Item\Helper\Form\Standard( $this->getUrlConfirm( $view, [], $config ) );
+			$orderCntl = \Aimeos\Controller\Frontend\Factory::createController( $context, 'order' );
+			$orderCntl->saveItem( $orderItem );
+
+			$url = $this->getUrlConfirm( $view, [], ['absoluteUri' => true, 'namespace' => false] );
+			return new \Aimeos\MShop\Common\Item\Helper\Form\Standard( $url, 'GET' );
 		}
 
-		$config = array( 'absoluteUri' => true, 'namespace' => false );
+		$service = $basket->getService( \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_PAYMENT );
 		$args = array( 'code' => $service->getCode(), 'orderid' => $orderItem->getId() );
+		$config = array( 'absoluteUri' => true, 'namespace' => false );
 		$urls = array(
 			'payment.url-success' => $this->getUrlConfirm( $view, $args, $config ),
 			'payment.url-update' => $this->getUrlUpdate( $view, $args, $config ),

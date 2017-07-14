@@ -321,9 +321,29 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$cntl->expects( $this->once() )->method( 'process' )
 			->will( $this->returnValue( new \Aimeos\MShop\Common\Item\Helper\Form\Standard() ) );
 
-		\Aimeos\Controller\Frontend\Order\Factory::injectController( '\Aimeos\Controller\Frontend\Service\Standard', $cntl );
+		\Aimeos\Controller\Frontend\Service\Factory::injectController( '\Aimeos\Controller\Frontend\Service\Standard', $cntl );
 		$result = $this->access( 'getPaymentForm' )->invokeArgs( $this->object, [$basket, $order, []] );
-		\Aimeos\Controller\Frontend\Order\Factory::injectController( '\Aimeos\Controller\Frontend\Service\Standard', null );
+		\Aimeos\Controller\Frontend\Service\Factory::injectController( '\Aimeos\Controller\Frontend\Service\Standard', null );
+
+		$this->assertInstanceOf( '\Aimeos\MShop\Common\Item\Helper\Form\Iface', $result );
+	}
+
+
+	public function testGetPaymentFormNoPayment()
+	{
+		$basket = \Aimeos\MShop\Factory::createManager( $this->context, 'order/base' )->createItem();
+		$order = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
+
+		$cntl = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Order\Standard' )
+			->setConstructorArgs( [$this->context] )
+			->setMethods( ['saveItem'] )
+			->getMock();
+
+		$cntl->expects( $this->once() )->method( 'saveItem' );
+
+		\Aimeos\Controller\Frontend\Order\Factory::injectController( '\Aimeos\Controller\Frontend\Order\Standard', $cntl );
+		$result = $this->access( 'getPaymentForm' )->invokeArgs( $this->object, [$basket, $order, []] );
+		\Aimeos\Controller\Frontend\Order\Factory::injectController( '\Aimeos\Controller\Frontend\Order\Standard', null );
 
 		$this->assertInstanceOf( '\Aimeos\MShop\Common\Item\Helper\Form\Iface', $result );
 	}
