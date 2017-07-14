@@ -228,6 +228,7 @@ class Standard
 		\Aimeos\MShop\Order\Item\Iface $orderItem, array $attributes )
 	{
 		$view = $this->getView();
+		$context = $this->getContext();
 		$service = $basket->getService( \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_PAYMENT );
 
 		if( $basket->getPrice()->getValue() + $basket->getPrice()->getCosts() <= '0.00' )
@@ -253,7 +254,7 @@ class Standard
 			$attributes[$item->getCode()] = $item->getValue();
 		}
 
-		$serviceCntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'service' );
+		$serviceCntl = \Aimeos\Controller\Frontend\Factory::createController( $context, 'service' );
 		return $serviceCntl->process( $orderItem, $service->getServiceId(), $urls, $attributes );
 	}
 
