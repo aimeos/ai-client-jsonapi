@@ -230,6 +230,18 @@ class Standard
 		$view = $this->getView();
 		$service = $basket->getService( \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_PAYMENT );
 
+		if( $basket->getPrice()->getValue() + $basket->getPrice()->getCosts() <= '0.00' )
+		{
+			$manager = \Aimeos\MShop\Factory::createManager( $context, 'order' );
+
+			$orderItem->setPaymentStatus( \Aimeos\MShop\Order\Item\Base::PAY_RECEIVED );
+			$orderItem->setDatePayment( date( 'Y-m-d H:i:s' ) );
+			$orderItem = $manager->saveItem( $orderItem );
+
+			$config = ['absoluteUri' => true, 'namespace' => false];
+			return new \Aimeos\MShop\Common\Item\Helper\Form\Standard( $this->getUrlConfirm( $view, [], $config ) );
+		}
+
 		$config = array( 'absoluteUri' => true, 'namespace' => false );
 		$args = array( 'code' => $service->getCode(), 'orderid' => $orderItem->getId() );
 		$urls = array(
