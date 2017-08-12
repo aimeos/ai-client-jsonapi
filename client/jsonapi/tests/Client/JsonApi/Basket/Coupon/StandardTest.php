@@ -146,6 +146,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostMultiple()
 	{
+		$this->context->getConfig()->set( 'controller/frontend/basket/standard/coupon/allowed', 2 );
 		$this->addProduct( 'CNC' );
 
 		$body = '{"data": [{

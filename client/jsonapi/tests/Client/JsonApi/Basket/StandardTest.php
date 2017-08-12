@@ -109,7 +109,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$params = array(
 			'id' => $this->getOrderBaseItem()->getId(),
 			'fields' => array(
-				'basket' => 'order.base.id,order.base.comment'
+				'basket' => 'order.base.comment'
 			),
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
@@ -125,7 +125,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
 		$this->assertNotNull( $result['data']['id'] );
-		$this->assertGreaterThan( 1, count( $result['data']['attributes'] ) );
+		$this->assertEquals( 1, count( $result['data']['attributes'] ) );
 		$this->assertEquals( 'This is another comment.', $result['data']['attributes']['order.base.comment'] );
 		$this->assertEquals( 8, count( $result['included'] ) );
 
@@ -152,7 +152,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertNull( $result['data']['attributes']['order.base.id'] );
+		$this->assertEquals( '', $result['data']['attributes']['order.base.customerid'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
