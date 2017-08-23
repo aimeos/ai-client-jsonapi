@@ -116,7 +116,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 'service', $result['data']['type'] );
 		$this->assertArrayHasKey( 'relationships', $result['data'] );
 		$this->assertEquals( 3, count( $result['data']['relationships'] ) );
-		$this->assertEquals( 5, count( $result['included'] ) );
+		$this->assertEquals( 8, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
