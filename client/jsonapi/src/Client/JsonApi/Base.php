@@ -221,6 +221,19 @@ abstract class Base
 			$details['title'] = $e->getMessage();
 		}
 
+		/** client/jsonapi/debug
+		 * Send debug information withing responses to clients if an error occurrs
+		 *
+		 * By default, the Aimeos client JSON REST API won't send any details
+		 * besides the error message to the client if an error occurred. This
+		 * prevents leaking sensitive information to attackers. For debugging
+		 * your requests it's helpful to see the stack strace. If you set this
+		 * configuration option to true, the stack trace will be returned too.
+		 *
+		 * @param boolean True to return the stack trace in JSON response, false for error message only
+		 * @since 2017.07
+		 * @category Developer
+		 */
 		if( $this->context->getConfig()->get( 'client/jsonapi/debug', false ) == true ) {
 			$details['detail'] = $e->getTraceAsString();
 		}

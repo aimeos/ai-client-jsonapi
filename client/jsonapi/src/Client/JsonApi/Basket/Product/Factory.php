@@ -86,6 +86,85 @@ class Factory
 
 		$client = self::createClientBase( $classname, $iface, $context, $view, $templatePaths, $path );
 
+
+		/** client/jsonapi/basket/product/decorators/excludes
+		 * Excludes decorators added by the "common" option from the JSON API clients
+		 *
+		 * Decorators extend the functionality of a class by adding new aspects
+		 * (e.g. log what is currently done), executing the methods of the underlying
+		 * class only in certain conditions (e.g. only for logged in users) or
+		 * modify what is returned to the caller.
+		 *
+		 * This option allows you to remove a decorator added via
+		 * "client/jsonapi/common/decorators/default" before they are wrapped
+		 * around the JsonApi client.
+		 *
+		 *  client/jsonapi/decorators/excludes = array( 'decorator1' )
+		 *
+		 * This would remove the decorator named "decorator1" from the list of
+		 * common decorators ("\Aimeos\Client\JsonApi\Common\Decorator\*") added via
+		 * "client/jsonapi/common/decorators/default" for the JSON API client.
+		 *
+		 * @param array List of decorator names
+		 * @since 2017.07
+		 * @category Developer
+		 * @see client/jsonapi/common/decorators/default
+		 * @see client/jsonapi/basket/product/decorators/global
+		 * @see client/jsonapi/basket/product/decorators/local
+		 */
+
+		/** client/jsonapi/basket/product/decorators/global
+		 * Adds a list of globally available decorators only to the JsonApi client
+		 *
+		 * Decorators extend the functionality of a class by adding new aspects
+		 * (e.g. log what is currently done), executing the methods of the underlying
+		 * class only in certain conditions (e.g. only for logged in users) or
+		 * modify what is returned to the caller.
+		 *
+		 * This option allows you to wrap global decorators
+		 * ("\Aimeos\Client\JsonApi\Common\Decorator\*") around the JsonApi
+		 * client.
+		 *
+		 *  client/jsonapi/basket/product/decorators/global = array( 'decorator1' )
+		 *
+		 * This would add the decorator named "decorator1" defined by
+		 * "\Aimeos\Client\JsonApi\Common\Decorator\Decorator1" only to the
+		 * "basket" JsonApi client.
+		 *
+		 * @param array List of decorator names
+		 * @since 2017.07
+		 * @category Developer
+		 * @see client/jsonapi/common/decorators/default
+		 * @see client/jsonapi/basket/product/decorators/excludes
+		 * @see client/jsonapi/basket/product/decorators/local
+		 */
+
+		/** client/jsonapi/basket/product/decorators/local
+		 * Adds a list of local decorators only to the JsonApi client
+		 *
+		 * Decorators extend the functionality of a class by adding new aspects
+		 * (e.g. log what is currently done), executing the methods of the underlying
+		 * class only in certain conditions (e.g. only for logged in users) or
+		 * modify what is returned to the caller.
+		 *
+		 * This option allows you to wrap local decorators
+		 * ("\Aimeos\Client\JsonApi\Basket\Product\Decorator\*") around the JsonApi
+		 * client.
+		 *
+		 *  client/jsonapi/basket/product/decorators/local = array( 'decorator2' )
+		 *
+		 * This would add the decorator named "decorator2" defined by
+		 * "\Aimeos\Client\JsonApi\Basket\Product\Decorator\Decorator2" only to the
+		 * "basket product" JsonApi client.
+		 *
+		 * @param array List of decorator names
+		 * @since 2017.07
+		 * @category Developer
+		 * @see client/jsonapi/common/decorators/default
+		 * @see client/jsonapi/basket/product/decorators/excludes
+		 * @see client/jsonapi/basket/product/decorators/global
+		 */
+
 		return self::addClientDecorators( $client, $context, $view, $templatePaths, $path );
 	}
 
