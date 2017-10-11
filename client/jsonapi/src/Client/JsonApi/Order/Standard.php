@@ -242,7 +242,12 @@ class Standard
 			return new \Aimeos\MShop\Common\Item\Helper\Form\Standard( $url, 'GET' );
 		}
 
-		$service = $basket->getService( \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_PAYMENT );
+		$services = $basket->getService( \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_PAYMENT );
+
+		if( ( $service = reset( $services ) ) === false ) {
+			throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'No payment service available' ), 404 );
+		}
+
 		$args = array( 'code' => $service->getCode(), 'orderid' => $orderItem->getId() );
 		$config = array( 'absoluteUri' => true, 'namespace' => false );
 		$urls = array(

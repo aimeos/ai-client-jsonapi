@@ -80,12 +80,12 @@ class Standard
 						throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Type (ID) is missing' ) );
 					}
 
-					$this->controller->setService( $entry->id, null );
+					$this->controller->deleteService( $entry->id );
 				}
 			}
 			else
 			{
-				$this->controller->setService( $relId, null );
+				$this->controller->deleteService( $relId );
 			}
 
 
@@ -152,7 +152,8 @@ class Standard
 				$serviceId = $entry->attributes->{'service.id'};
 				unset( $entry->attributes->{'service.id'} );
 
-				$this->controller->setService( $entry->id, $serviceId, (array) $entry->attributes );
+				$this->controller->deleteService( $entry->id );
+				$this->controller->addService( $entry->id, $serviceId, (array) $entry->attributes );
 			}
 
 

@@ -57,8 +57,11 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) use
 
 	if( in_array( 'basket/service', $types ) )
 	{
-		foreach( $item->getServices() as $type => $x ) {
-			$relationships['basket/service']['data'][] = ['type' => 'basket/service', 'id' => $type];
+		foreach( $item->getServices() as $type => $list )
+		{
+			if( count( $list ) > 0 ) {
+				$relationships['basket/service']['data'][] = ['type' => 'basket/service', 'id' => $type];
+			}
 		}
 	}
 
@@ -138,27 +141,30 @@ $serviceFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) u
 {
 	$services = [];
 
-	foreach( $item->getServices() as $type => $service )
+	foreach( $item->getServices() as $type => $list )
 	{
-		$entry = ['id' => $type, 'type' => 'basket/service'];
-		$entry['attributes'] = $service->toArray();
-
-		if( $item->getId() === null )
+		foreach( $list as $service )
 		{
-			$params = ['resource' => 'basket', 'id' => $basketId, 'related' => 'service', 'relatedid' => $type];
-			$entry['links'] = array(
-				'self' => array(
-					'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
-					'allow' => ['DELETE'],
-				),
-			);
-		}
+			$entry = ['id' => $type, 'type' => 'basket/service'];
+			$entry['attributes'] = $service->toArray();
 
-		foreach( $service->getAttributes() as $attribute ) {
-			$entry['attributes']['attribute'][] = $attribute->toArray();
-		}
+			if( $item->getId() === null )
+			{
+				$params = ['resource' => 'basket', 'id' => $basketId, 'related' => 'service', 'relatedid' => $type];
+				$entry['links'] = array(
+					'self' => array(
+						'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
+						'allow' => ['DELETE'],
+					),
+				);
+			}
 
-		$services[] = $entry;
+			foreach( $service->getAttributes() as $attribute ) {
+				$entry['attributes']['attribute'][] = $attribute->toArray();
+			}
+
+			$services[] = $entry;
+		}
 	}
 
 	return $services;
