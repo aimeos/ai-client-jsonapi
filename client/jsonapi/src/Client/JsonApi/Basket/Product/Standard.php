@@ -211,8 +211,8 @@ class Standard
 				$configAttrIds = ( isset( $entry->attributes->config ) ? get_object_vars( $entry->attributes->config ) : [] );
 				$customAttrIds = ( isset( $entry->attributes->custom ) ? get_object_vars( $entry->attributes->custom ) : [] );
 
-				$this->controller->addProduct( $entry->attributes->{'product.id'}, $qty, [],
-					$variantAttrIds, $configAttrIds, $hiddenAttrIds, $customAttrIds, $stocktype );
+				$this->controller->addProduct( $entry->attributes->{'product.id'}, $qty, $stocktype,
+					$variantAttrIds, $configAttrIds, $hiddenAttrIds, $customAttrIds );
 			}
 
 
