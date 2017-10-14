@@ -152,7 +152,6 @@ class Standard
 				$serviceId = $entry->attributes->{'service.id'};
 				unset( $entry->attributes->{'service.id'} );
 
-				$this->controller->deleteService( $entry->id );
 				$this->controller->addService( $entry->id, $serviceId, (array) $entry->attributes );
 			}
 
