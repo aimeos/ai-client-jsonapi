@@ -207,9 +207,9 @@ class Standard
 				$qty = ( isset( $entry->attributes->quantity ) ? $entry->attributes->quantity : 1 );
 				$stocktype = ( isset( $entry->attributes->stocktype ) ? $entry->attributes->stocktype : 'default' );
 				$variantAttrIds = ( isset( $entry->attributes->variant ) ? (array) $entry->attributes->variant : [] );
-				$configAttrIds = ( isset( $entry->attributes->config ) ? (array) $entry->attributes->config : [] );
 				$hiddenAttrIds = ( isset( $entry->attributes->hidden ) ? (array) $entry->attributes->hidden : [] );
-				$customAttrIds = ( isset( $entry->attributes->custom ) ? (array) $entry->attributes->custom : [] );
+				$configAttrIds = ( isset( $entry->attributes->config ) ? get_object_vars( $entry->attributes->config ) : [] );
+				$customAttrIds = ( isset( $entry->attributes->custom ) ? get_object_vars( $entry->attributes->custom ) : [] );
 
 				$this->controller->addProduct( $entry->attributes->{'product.id'}, $qty, [],
 					$variantAttrIds, $configAttrIds, $hiddenAttrIds, $customAttrIds, $stocktype );
