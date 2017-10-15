@@ -58,6 +58,14 @@ $entryFcn = function( \Aimeos\MShop\Attribute\Item\Iface $item ) use ( $fields, 
 		'attributes' => $attributes,
 	);
 
+	foreach( $item->getPropertyItems() as $propId => $propItem )
+	{
+		$entry['relationships']['attribute/property']['data'][] = [
+			'id' => $propId,
+			'type' => 'attribute/property',
+		];
+	}
+
 	foreach( $item->getListItems() as $listItem )
 	{
 		if( ( $refItem = $listItem->getRefItem() ) !== null )
@@ -78,6 +86,18 @@ $entryFcn = function( \Aimeos\MShop\Attribute\Item\Iface $item ) use ( $fields, 
 $refFcn = function( \Aimeos\MShop\Attribute\Item\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
 {
 	$list = [];
+
+	foreach( $item->getPropertyItems() as $propId => $propItem )
+	{
+		$type = 'attribute/property';
+		$attributes = $propItem->toArray();
+
+		if( isset( $fields[$type] ) ) {
+			$attributes = array_intersect_key( $attributes, $fields[$type] );
+		}
+
+		$list[] = array( 'id' => $propId, 'type' => $type, 'attributes' => $attributes );
+	}
 
 	foreach( $item->getListItems() as $listItem )
 	{

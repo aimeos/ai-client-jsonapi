@@ -61,6 +61,39 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testGetItemProperties()
+	{
+		$attrManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
+		$attrId = $attrManager->findItem( 'testurl', [], 'product', 'download' )->getId();
+
+		$params = array(
+			'id' => $attrId,
+			'fields' => array(
+				'attribute' => 'attribute.id,attribute.property.value,attribute.property.type.code'
+			),
+			'sort' => 'attribute.id',
+			'include' => 'attribute/property'
+		);
+
+		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
+		$this->assertEquals( 1, $result['meta']['total'] );
+		$this->assertEquals( 'attribute', $result['data']['type'] );
+		$this->assertEquals( 2, count( $result['data']['relationships']['attribute/property']['data'] ) );
+		$this->assertEquals( 2, count( $result['included'] ) );
+
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
 	public function testGetItems()
 	{
 		$this->context->getConfig()->set( 'client/jsonapi/attribute/types', ['size', 'length', 'width'] );
