@@ -229,38 +229,33 @@ class Standard
 	{
 		$view = $this->getView();
 		$context = $this->getContext();
+		$services = $basket->getService( \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_PAYMENT );
 
-		if( $basket->getPrice()->getValue() + $basket->getPrice()->getCosts() <= '0.00' )
+		if( $services === [] || $basket->getPrice()->getValue() + $basket->getPrice()->getCosts() <= '0.00' )
 		{
-			$orderItem->setPaymentStatus( \Aimeos\MShop\Order\Item\Base::PAY_RECEIVED );
-			$orderItem->setDatePayment( date( 'Y-m-d H:i:s' ) );
-
 			$orderCntl = \Aimeos\Controller\Frontend\Factory::createController( $context, 'order' );
-			$orderCntl->saveItem( $orderItem );
+			$orderCntl->saveItem( $orderItem->setPaymentStatus( \Aimeos\MShop\Order\Item\Base::PAY_AUTHORIZED ) );
 
 			$url = $this->getUrlConfirm( $view, [], ['absoluteUri' => true, 'namespace' => false] );
 			return new \Aimeos\MShop\Common\Item\Helper\Form\Standard( $url, 'GET' );
 		}
 
-		$services = $basket->getService( \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_PAYMENT );
+		if( ( $service = reset( $services ) ) !== false )
+		{
+			$args = array( 'code' => $service->getCode(), 'orderid' => $orderItem->getId() );
+			$config = array( 'absoluteUri' => true, 'namespace' => false );
+			$urls = array(
+				'payment.url-success' => $this->getUrlConfirm( $view, $args, $config ),
+				'payment.url-update' => $this->getUrlUpdate( $view, $args, $config ),
+			);
 
-		if( ( $service = reset( $services ) ) === false ) {
-			throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'No payment service available' ), 404 );
+			foreach( $service->getAttributes() as $item ) {
+				$attributes[$item->getCode()] = $item->getValue();
+			}
+
+			$serviceCntl = \Aimeos\Controller\Frontend\Factory::createController( $context, 'service' );
+			return $serviceCntl->process( $orderItem, $service->getServiceId(), $urls, $attributes );
 		}
-
-		$args = array( 'code' => $service->getCode(), 'orderid' => $orderItem->getId() );
-		$config = array( 'absoluteUri' => true, 'namespace' => false );
-		$urls = array(
-			'payment.url-success' => $this->getUrlConfirm( $view, $args, $config ),
-			'payment.url-update' => $this->getUrlUpdate( $view, $args, $config ),
-		);
-
-		foreach( $service->getAttributes() as $item ) {
-			$attributes[$item->getCode()] = $item->getValue();
-		}
-
-		$serviceCntl = \Aimeos\Controller\Frontend\Factory::createController( $context, 'service' );
-		return $serviceCntl->process( $orderItem, $service->getServiceId(), $urls, $attributes );
 	}
 
 
