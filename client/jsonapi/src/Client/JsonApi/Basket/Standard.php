@@ -244,20 +244,20 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 * Returns the integer constant for the basket parts that should be included
 	 *
 	 * @param \Aimeos\MW\View\Iface $view View instance
-	 * @return integer Constant from Aimeos\MShop\Order\Manager\Base\Base
+	 * @return integer Constant from Aimeos\MShop\Order\Item\Base\Base
 	 */
 	protected function getParts( \Aimeos\MW\View\Iface $view )
 	{
 		$available = array(
-			'basket/address' => \Aimeos\MShop\Order\Manager\Base\Base::PARTS_ADDRESS,
-			'basket/coupon' => \Aimeos\MShop\Order\Manager\Base\Base::PARTS_COUPON,
-			'basket/product' => \Aimeos\MShop\Order\Manager\Base\Base::PARTS_PRODUCT,
-			'basket/service' => \Aimeos\MShop\Order\Manager\Base\Base::PARTS_SERVICE,
+			'basket/address' => \Aimeos\MShop\Order\Item\Base\Base::PARTS_ADDRESS,
+			'basket/coupon' => \Aimeos\MShop\Order\Item\Base\Base::PARTS_COUPON,
+			'basket/product' => \Aimeos\MShop\Order\Item\Base\Base::PARTS_PRODUCT,
+			'basket/service' => \Aimeos\MShop\Order\Item\Base\Base::PARTS_SERVICE,
 		);
 
 		$included = explode( ',', $view->param( 'included', 'basket/address,basket/coupon,basket/product,basket/service' ) );
 
-		$parts = \Aimeos\MShop\Order\Manager\Base\Base::PARTS_NONE;
+		$parts = \Aimeos\MShop\Order\Item\Base\Base::PARTS_NONE;
 		foreach( $included as $type )
 		{
 			if( isset( $available[$type] ) ) {

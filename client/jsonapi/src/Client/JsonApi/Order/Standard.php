@@ -208,7 +208,7 @@ class Standard
 			throw new \Aimeos\Client\JsonApi\Exception( $msg, 403 );
 		}
 
-		$parts = \Aimeos\MShop\Order\Manager\Base\Base::PARTS_SERVICE;
+		$parts = \Aimeos\MShop\Order\Item\Base\Base::PARTS_SERVICE;
 		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $context, 'basket' );
 
 		return $cntl->load( $baseId, $parts, false );
