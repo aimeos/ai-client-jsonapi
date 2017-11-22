@@ -7,7 +7,6 @@
 [![Build Status](https://travis-ci.org/aimeos/ai-client-jsonapi.png?branch=master)](https://travis-ci.org/aimeos/ai-client-jsonapi)
 [![Coverage Status](https://coveralls.io/repos/aimeos/ai-client-jsonapi/badge.svg?branch=master)](https://coveralls.io/r/aimeos/ai-client-jsonapi?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/aimeos/ai-client-jsonapi/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/aimeos/ai-client-jsonapi/?branch=master)
-[![HHVM Status](http://hhvm.h4cc.de/badge/aimeos/ai-client-jsonapi.svg)](http://hhvm.h4cc.de/package/aimeos/ai-client-jsonapi)
 [![License](https://poser.pugx.org/aimeos/ai-client-jsonapi/license.svg)](https://packagist.org/packages/aimeos/ai-client-jsonapi)
 
 Aimeos frontend JSON REST API package for e-commerce projects
