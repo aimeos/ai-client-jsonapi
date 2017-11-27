@@ -63,10 +63,9 @@ abstract class Base
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
-	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function delete( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
+	public function delete( ServerRequestInterface $request, ResponseInterface $response )
 	{
 		return $this->defaultAction( $request, $response );
 	}
@@ -77,10 +76,9 @@ abstract class Base
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
-	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function get( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
+	public function get( ServerRequestInterface $request, ResponseInterface $response )
 	{
 		return $this->defaultAction( $request, $response );
 	}
@@ -91,10 +89,9 @@ abstract class Base
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
-	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function patch( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
+	public function patch( ServerRequestInterface $request, ResponseInterface $response )
 	{
 		return $this->defaultAction( $request, $response );
 	}
@@ -105,10 +102,9 @@ abstract class Base
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
-	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function post( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
+	public function post( ServerRequestInterface $request, ResponseInterface $response )
 	{
 		return $this->defaultAction( $request, $response );
 	}
@@ -119,10 +115,9 @@ abstract class Base
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
-	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function put( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
+	public function put( ServerRequestInterface $request, ResponseInterface $response )
 	{
 		return $this->defaultAction( $request, $response );
 	}
@@ -133,10 +128,9 @@ abstract class Base
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
-	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function options( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
+	public function options( ServerRequestInterface $request, ResponseInterface $response )
 	{
 		return $this->defaultAction( $request, $response );
 	}
@@ -362,14 +356,12 @@ abstract class Base
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
-	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
 	 * @param string $allow Allowed HTTP methods
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function getOptionsResponse( ServerRequestInterface $request, ResponseInterface $response, $prefix, $allow )
+	public function getOptionsResponse( ServerRequestInterface $request, ResponseInterface $response, $allow )
 	{
 		$view = $this->getView();
-		$view->prefix = $prefix;
 
 		$tplconf = 'client/jsonapi/standard/template-options';
 		$default = 'options-standard.php';
