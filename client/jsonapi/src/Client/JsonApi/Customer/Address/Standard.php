@@ -121,13 +121,17 @@ class Standard
 			$relId = $view->param( 'relatedid' );
 			$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'customer' );
 
-			if( $relId == null ) {
+			if( $relId == null )
+			{
 				$view->items = $cntl->getItem( $view->param( 'id' ), ['customer/address'] )->getAddressItems();
-			} else {
+				$view->total = count( $view->items );
+			}
+			else
+			{
 				$view->items = $cntl->getAddressItem( $relId );
+				$view->total = 1;
 			}
 
-			$view->total = count( $view->items );
 			$status = 200;
 		}
 		catch( \Aimeos\Controller\Frontend\Customer\Exception $e )
