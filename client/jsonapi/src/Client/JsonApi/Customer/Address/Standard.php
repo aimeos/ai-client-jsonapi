@@ -142,6 +142,8 @@ class Standard
 		}
 		catch( \Exception $e )
 		{
+echo $e->getMessage() . PHP_EOL;
+echo $e->getTraceAsString() . PHP_EOL;
 			$status = 500;
 			$view->errors = $this->getErrorDetails( $e );
 		}
