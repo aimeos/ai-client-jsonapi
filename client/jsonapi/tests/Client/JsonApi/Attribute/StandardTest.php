@@ -121,7 +121,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 3, count( $result['data'][0]['attributes'] ) );
 		$this->assertEquals( 'size', $result['data'][0]['attributes']['attribute.type'] );
 		$this->assertEquals( 'xs', $result['data'][0]['attributes']['attribute.code'] );
-		$this->assertEquals( 21, count( $result['included'] ) );
+		$this->assertEquals( 22, count( $result['included'] ) );
 
 		foreach( $result['data'] as $entry ) {
 			$this->assertContains( $entry['attributes']['attribute.type'], ['size', 'length', 'width'] );
