@@ -14,9 +14,8 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 	public function testCreateClient()
 	{
 		$context = \TestHelperJapi::getContext();
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
 
-		$client = \Aimeos\Client\JsonApi\Factory::createClient( $context, $templatePaths, 'product' );
+		$client = \Aimeos\Client\JsonApi\Factory::createClient( $context, 'product' );
 		$this->assertInstanceOf( '\Aimeos\Client\JsonApi\Iface', $client );
 	}
 
@@ -24,9 +23,8 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 	public function testCreateClientEmpty()
 	{
 		$context = \TestHelperJapi::getContext();
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
 
-		$client = \Aimeos\Client\JsonApi\Factory::createClient( $context, $templatePaths, '' );
+		$client = \Aimeos\Client\JsonApi\Factory::createClient( $context, '' );
 		$this->assertInstanceOf( '\Aimeos\Client\JsonApi\Iface', $client );
 	}
 
@@ -34,20 +32,18 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 	public function testCreateClientInvalidPath()
 	{
 		$context = \TestHelperJapi::getContext();
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
 
 		$this->setExpectedException( '\Aimeos\Client\JsonApi\Exception' );
-		\Aimeos\Client\JsonApi\Factory::createClient( $context, $templatePaths, '%^' );
+		\Aimeos\Client\JsonApi\Factory::createClient( $context, '%^' );
 	}
 
 
 	public function testCreateClientInvalidName()
 	{
 		$context = \TestHelperJapi::getContext();
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
 
 		$this->setExpectedException( '\Aimeos\Client\JsonApi\Exception' );
-		\Aimeos\Client\JsonApi\Factory::createClient( $context, $templatePaths, '', '%^' );
+		\Aimeos\Client\JsonApi\Factory::createClient( $context, '', '%^' );
 	}
 
 
@@ -56,11 +52,10 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 		$cache = \Aimeos\Client\JsonApi\Factory::setCache( true );
 
 		$context = \TestHelperJapi::getContext();
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
 
-		$client1 = \Aimeos\Client\JsonApi\Factory::createClient( $context, $templatePaths, 'product' );
+		$client1 = \Aimeos\Client\JsonApi\Factory::createClient( $context, 'product' );
 		\Aimeos\Client\JsonApi\Factory::clear();
-		$client2 = \Aimeos\Client\JsonApi\Factory::createClient( $context, $templatePaths, 'product' );
+		$client2 = \Aimeos\Client\JsonApi\Factory::createClient( $context, 'product' );
 
 		\Aimeos\Client\JsonApi\Factory::setCache( $cache );
 
@@ -73,14 +68,13 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 		$cache = \Aimeos\Client\JsonApi\Factory::setCache( true );
 
 		$context = \TestHelperJapi::getContext();
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
 
-		$cntlA1 = \Aimeos\Client\JsonApi\Factory::createClient( $context, $templatePaths, 'product' );
-		$cntlB1 = \Aimeos\Client\JsonApi\Factory::createClient( $context, $templatePaths, 'attribute' );
+		$cntlA1 = \Aimeos\Client\JsonApi\Factory::createClient( $context, 'product' );
+		$cntlB1 = \Aimeos\Client\JsonApi\Factory::createClient( $context, 'attribute' );
 		\Aimeos\Client\JsonApi\Factory::clear( (string) $context );
 
-		$cntlA2 = \Aimeos\Client\JsonApi\Factory::createClient( $context, $templatePaths, 'product' );
-		$cntlB2 = \Aimeos\Client\JsonApi\Factory::createClient( $context, $templatePaths, 'attribute' );
+		$cntlA2 = \Aimeos\Client\JsonApi\Factory::createClient( $context, 'product' );
+		$cntlB2 = \Aimeos\Client\JsonApi\Factory::createClient( $context, 'attribute' );
 
 		\Aimeos\Client\JsonApi\Factory::setCache( $cache );
 
@@ -94,15 +88,14 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 		$cache = \Aimeos\Client\JsonApi\Factory::setCache( true );
 
 		$context = \TestHelperJapi::getContext();
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
 
-		$cntlA1 = \Aimeos\Client\JsonApi\Factory::createClient( $context, $templatePaths, 'product' );
-		$cntlB1 = \Aimeos\Client\JsonApi\Factory::createClient( $context, $templatePaths, 'attribute' );
+		$cntlA1 = \Aimeos\Client\JsonApi\Factory::createClient( $context, 'product' );
+		$cntlB1 = \Aimeos\Client\JsonApi\Factory::createClient( $context, 'attribute' );
 
 		\Aimeos\Client\JsonApi\Factory::clear( (string) $context, 'product' );
 
-		$cntlA2 = \Aimeos\Client\JsonApi\Factory::createClient( $context, $templatePaths, 'product' );
-		$cntlB2 = \Aimeos\Client\JsonApi\Factory::createClient( $context, $templatePaths, 'attribute' );
+		$cntlA2 = \Aimeos\Client\JsonApi\Factory::createClient( $context, 'product' );
+		$cntlB2 = \Aimeos\Client\JsonApi\Factory::createClient( $context, 'attribute' );
 
 		\Aimeos\Client\JsonApi\Factory::setCache( $cache );
 

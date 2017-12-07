@@ -31,13 +31,11 @@ class Standard
 	 * Initializes the client
 	 *
 	 * @param \Aimeos\MShop\Context\Item\Iface $context MShop context object
-	 * @param \Aimeos\MW\View\Iface $view View object
-	 * @param array $templatePaths List of file system paths where the templates are stored
 	 * @param string $path Name of the client, e.g "customer/relationships"
 	 */
-	public function __construct( \Aimeos\MShop\Context\Item\Iface $context, \Aimeos\MW\View\Iface $view, array $templatePaths, $path )
+	public function __construct( \Aimeos\MShop\Context\Item\Iface $context, $path )
 	{
-		parent::__construct( $context, $view, $templatePaths, $path );
+		parent::__construct( $context, $path );
 
 		$this->controller = \Aimeos\Controller\Frontend\Customer\Factory::createController( $this->getContext() );
 	}

@@ -24,7 +24,6 @@ abstract class Base
 {
 	private $view;
 	private $context;
-	private $templatePaths;
 	private $path;
 
 
@@ -32,15 +31,11 @@ abstract class Base
 	 * Initializes the client
 	 *
 	 * @param \Aimeos\MShop\Context\Item\Iface $context MShop context object
-	 * @param \Aimeos\MW\View\Iface $view View object
-	 * @param array $templatePaths List of file system paths where the templates are stored
 	 * @param string $path Name of the client separated by slashes, e.g "catalog/lists"
 	 */
-	public function __construct( \Aimeos\MShop\Context\Item\Iface $context, \Aimeos\MW\View\Iface $view, array $templatePaths, $path )
+	public function __construct( \Aimeos\MShop\Context\Item\Iface $context, $path )
 	{
-		$this->view = $view;
 		$this->context = $context;
-		$this->templatePaths = $templatePaths;
 		$this->path = $path;
 	}
 
@@ -133,6 +128,34 @@ abstract class Base
 	public function options( ServerRequestInterface $request, ResponseInterface $response )
 	{
 		return $this->defaultAction( $request, $response );
+	}
+
+
+	/**
+	 * Returns the view object that will generate the admin output.
+	 *
+	 * @return \Aimeos\MW\View\Iface The view object which generates the admin output
+	 */
+	public function getView()
+	{
+		if( !isset( $this->view ) ) {
+			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'No view available' ) );
+		}
+
+		return $this->view;
+	}
+
+
+	/**
+	 * Sets the view object that will generate the admin output.
+	 *
+	 * @param \Aimeos\MW\View\Iface $view The view object which generates the admin output
+	 * @return \Aimeos\Admin\JQAdm\Iface Reference to this object for fluent calls
+	 */
+	public function setView( \Aimeos\MW\View\Iface $view )
+	{
+		$this->view = $view;
+		return $this;
 	}
 
 
@@ -244,28 +267,6 @@ abstract class Base
 	protected function getPath()
 	{
 		return $this->path;
-	}
-
-
-	/**
-	 * Returns the paths to the template files
-	 *
-	 * @return array List of file system paths
-	 */
-	protected function getTemplatePaths()
-	{
-		return $this->templatePaths;
-	}
-
-
-	/**
-	 * Returns the view object
-	 *
-	 * @return \Aimeos\MW\View\Iface View object
-	 */
-	protected function getView()
-	{
-		return $this->view;
 	}
 
 

@@ -19,10 +19,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function setUp()
 	{
 		$this->context = \TestHelperJapi::getContext();
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
 		$this->view = $this->context->getView();
 
-		$this->object = new \Aimeos\Client\JsonApi\Locale\Standard( $this->context, $this->view, $templatePaths, 'locale' );
+		$this->object = new \Aimeos\Client\JsonApi\Locale\Standard( $this->context, 'locale' );
+		$this->object->setView( $this->view );
 	}
 
 
@@ -116,16 +116,16 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetMShopException()
 	{
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
-
 		$object = $this->getMockBuilder( '\Aimeos\Client\JsonApi\Locale\Standard' )
-			->setConstructorArgs( [$this->context, $this->view, $templatePaths, 'locale'] )
+			->setConstructorArgs( [$this->context, 'locale'] )
 			->setMethods( ['getItems'] )
 			->getMock();
 
 		$object->expects( $this->once() )->method( 'getItems' )
 			->will( $this->throwException( new \Aimeos\MShop\Exception() ) );
 
+
+		$object->setView( $this->view );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -138,16 +138,16 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetException()
 	{
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
-
 		$object = $this->getMockBuilder( '\Aimeos\Client\JsonApi\Locale\Standard' )
-			->setConstructorArgs( [$this->context, $this->view, $templatePaths, 'locale'] )
+			->setConstructorArgs( [$this->context, 'locale'] )
 			->setMethods( ['getItems'] )
 			->getMock();
 
 		$object->expects( $this->once() )->method( 'getItems' )
 			->will( $this->throwException( new \Exception() ) );
 
+
+		$object->setView( $this->view );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );

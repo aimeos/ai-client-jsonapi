@@ -25,13 +25,12 @@ class Factory
 	 * Creates a stock client object.
 	 *
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Shop context instance with necessary objects
-	 * @param array $templatePaths List of file system paths where the templates are stored
 	 * @param string $path Name of the client separated by slashes, e.g "product"
 	 * @param string|null $name Client name (default: "Standard")
 	 * @return \Aimeos\Client\JsonApi\Iface JSON API client
 	 * @throws \Aimeos\Client\JsonApi\Exception If requested client implementation couldn't be found or initialisation fails
 	 */
-	public static function createClient( \Aimeos\MShop\Context\Item\Iface $context, array $templatePaths, $path, $name = null )
+	public static function createClient( \Aimeos\MShop\Context\Item\Iface $context, $path, $name = null )
 	{
 		if( ctype_alnum( $path ) === false )
 		{
@@ -82,11 +81,10 @@ class Factory
 			throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid characters in class name "%1$s"', $classname ) );
 		}
 
-		$view = $context->getView();
 		$iface = '\\Aimeos\\Client\\JsonApi\\Iface';
 		$classname = '\\Aimeos\\Client\\JsonApi\\Stock\\' . $name;
 
-		$client = self::createClientBase( $classname, $iface, $context, $view, $templatePaths, $path );
+		$client = self::createClientBase( $classname, $iface, $context, $path );
 
 
 		/** client/jsonapi/stock/decorators/excludes
@@ -167,7 +165,9 @@ class Factory
 		 * @see client/jsonapi/stock/decorators/global
 		 */
 
-		return self::addClientDecorators( $client, $context, $view, $templatePaths, $path );
+		$client = self::addClientDecorators( $client, $context, $path );
+
+		return $client->setView( $context->getView() );
 	}
 
 }

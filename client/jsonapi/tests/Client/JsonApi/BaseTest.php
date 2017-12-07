@@ -19,12 +19,13 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	protected function setUp()
 	{
 		$this->context = \TestHelperJapi::getContext();
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
 		$this->view = $this->context->getView();
 
 		$this->object = $this->getMockBuilder( '\Aimeos\Client\JsonApi\Base' )
-			->setConstructorArgs( [$this->context, $this->view, $templatePaths, 'test'] )
+			->setConstructorArgs( [$this->context, 'test'] )
 			->getMockForAbstractClass();
+
+		$this->object->setView( $this->view );
 	}
 
 
@@ -105,20 +106,6 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$result = $this->access( 'getPath' )->invokeArgs( $this->object, [] );
 		$this->assertEquals( 'test', $result );
-	}
-
-
-	public function testGetTemplatePaths()
-	{
-		$result = $this->access( 'getTemplatePaths' )->invokeArgs( $this->object, [] );
-		$this->assertEquals( 1, count( $result ) );
-	}
-
-
-	public function testGetView()
-	{
-		$result = $this->access( 'getView' )->invokeArgs( $this->object, [] );
-		$this->assertInstanceOf( '\Aimeos\MW\View\Iface', $result );
 	}
 
 

@@ -14,9 +14,8 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 	public function testCreateClient()
 	{
 		$context = \TestHelperJapi::getContext();
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
 
-		$client = \Aimeos\Client\JsonApi\Customer\Address\Factory::createClient( $context, $templatePaths, 'customer/address' );
+		$client = \Aimeos\Client\JsonApi\Customer\Address\Factory::createClient( $context, 'customer/address' );
 		$this->assertInstanceOf( '\Aimeos\Client\JsonApi\Iface', $client );
 	}
 
@@ -24,29 +23,26 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 	public function testCreateClientEmpty()
 	{
 		$context = \TestHelperJapi::getContext();
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
 
 		$this->setExpectedException( '\Aimeos\Client\JsonApi\Exception' );
-		\Aimeos\Client\JsonApi\Customer\Address\Factory::createClient( $context, $templatePaths, '' );
+		\Aimeos\Client\JsonApi\Customer\Address\Factory::createClient( $context, '' );
 	}
 
 
 	public function testCreateClientInvalidPath()
 	{
 		$context = \TestHelperJapi::getContext();
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
 
 		$this->setExpectedException( '\Aimeos\Client\JsonApi\Exception' );
-		\Aimeos\Client\JsonApi\Customer\Address\Factory::createClient( $context, $templatePaths, '%^' );
+		\Aimeos\Client\JsonApi\Customer\Address\Factory::createClient( $context, '%^' );
 	}
 
 
 	public function testCreateClientInvalidName()
 	{
 		$context = \TestHelperJapi::getContext();
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
 
 		$this->setExpectedException( '\Aimeos\Client\JsonApi\Exception' );
-		\Aimeos\Client\JsonApi\Customer\Address\Factory::createClient( $context, $templatePaths, 'customer/address', '%^' );
+		\Aimeos\Client\JsonApi\Customer\Address\Factory::createClient( $context, 'customer/address', '%^' );
 	}
 }

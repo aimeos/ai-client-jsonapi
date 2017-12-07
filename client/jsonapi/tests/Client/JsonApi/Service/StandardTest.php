@@ -19,10 +19,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function setUp()
 	{
 		$this->context = \TestHelperJapi::getContext();
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
 		$this->view = $this->context->getView();
 
-		$this->object = new \Aimeos\Client\JsonApi\Service\Standard( $this->context, $this->view, $templatePaths, 'service' );
+		$this->object = new \Aimeos\Client\JsonApi\Service\Standard( $this->context, 'service' );
+		$this->object->setView( $this->view );
 	}
 
 
@@ -188,8 +188,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		\Aimeos\Controller\Frontend\Service\Factory::injectController( '\Aimeos\Controller\Frontend\Service\Standard', $cntl );
 
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
-		$object = new \Aimeos\Client\JsonApi\Service\Standard( $this->context, $this->view, $templatePaths, 'service' );
+		$object = new \Aimeos\Client\JsonApi\Service\Standard( $this->context, 'service' );
+		$object->setView( $this->view );
 
 		return $object;
 	}

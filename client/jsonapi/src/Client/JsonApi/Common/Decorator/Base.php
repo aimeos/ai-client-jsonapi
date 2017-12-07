@@ -32,14 +32,12 @@ abstract class Base
 	 *
 	 * @param \Aimeos\Client\JsonApi\Iface $client Client object
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object with required objects
-	 * @param \Aimeos\MW\View\Iface $view View object
-	 * @param array $templatePaths List of file system paths where the templates are stored
 	 * @param string $path Name of the client, e.g "product"
 	 */
 	public function __construct( \Aimeos\Client\JsonApi\Iface $client,
-		\Aimeos\MShop\Context\Item\Iface $context, \Aimeos\MW\View\Iface $view, array $templatePaths, $path )
+		\Aimeos\MShop\Context\Item\Iface $context, $path )
 	{
-		parent::__construct( $context, $view, $templatePaths, $path );
+		parent::__construct( $context, $path );
 
 		$this->client = $client;
 	}
@@ -138,6 +136,32 @@ abstract class Base
 	public function options( ServerRequestInterface $request, ResponseInterface $response )
 	{
 		return $this->client->options( $request, $response );
+	}
+
+
+	/**
+	 * Returns the view object that will generate the admin output.
+	 *
+	 * @return \Aimeos\MW\View\Iface The view object which generates the admin output
+	 */
+	public function getView()
+	{
+		return $this->client->getView();
+	}
+
+
+	/**
+	 * Sets the view object that will generate the admin output.
+	 *
+	 * @param \Aimeos\MW\View\Iface $view The view object which generates the admin output
+	 * @return \Aimeos\Admin\JQAdm\Iface Reference to this object for fluent calls
+	 */
+	public function setView( \Aimeos\MW\View\Iface $view )
+	{
+		$this->client->setView( $view );
+		parent::setView( $view );
+
+		return $this;
 	}
 
 

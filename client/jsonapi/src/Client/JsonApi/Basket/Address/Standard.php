@@ -35,9 +35,9 @@ class Standard
 	 * @param array $templatePaths List of file system paths where the templates are stored
 	 * @param string $path Name of the client, e.g "basket/address"
 	 */
-	public function __construct( \Aimeos\MShop\Context\Item\Iface $context, \Aimeos\MW\View\Iface $view, array $templatePaths, $path )
+	public function __construct( \Aimeos\MShop\Context\Item\Iface $context, $path )
 	{
-		parent::__construct( $context, $view, $templatePaths, $path );
+		parent::__construct( $context, $path );
 
 		$this->controller = \Aimeos\Controller\Frontend\Basket\Factory::createController( $this->getContext() );
 	}

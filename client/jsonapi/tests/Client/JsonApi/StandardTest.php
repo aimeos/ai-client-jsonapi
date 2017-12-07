@@ -19,10 +19,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function setUp()
 	{
 		$this->context = \TestHelperJapi::getContext();
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
 		$this->view = $this->context->getView();
 
-		$this->object = new \Aimeos\Client\JsonApi\Standard( $this->context, $this->view, $templatePaths, '' );
+		$this->object = new \Aimeos\Client\JsonApi\Standard( $this->context, '' );
+		$this->object->setView( $this->view );
 	}
 
 
@@ -56,16 +56,16 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testOptionsException()
 	{
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
-
 		$object = $this->getMockBuilder( '\Aimeos\Client\JsonApi\Standard' )
-			->setConstructorArgs( [$this->context, $this->view, $templatePaths, ''] )
+			->setConstructorArgs( [$this->context, $this->view, ''] )
 			->setMethods( ['getContext'] )
 			->getMock();
 
 		$object->expects( $this->once() )->method( 'getContext' )
 			->will( $this->throwException( new \Exception() ) );
 
+
+		$object->setView( $this->view );
 
 		$response = $object->options( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );

@@ -19,10 +19,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function setUp()
 	{
 		$this->context = \TestHelperJapi::getContext();
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
 		$this->view = $this->context->getView();
 
-		$this->object = new \Aimeos\Client\JsonApi\Attribute\Standard( $this->context, $this->view, $templatePaths, 'attribute' );
+		$this->object = new \Aimeos\Client\JsonApi\Attribute\Standard( $this->context, 'attribute' );
+		$this->object->setView( $this->view );
 	}
 
 
@@ -154,16 +154,15 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetMShopException()
 	{
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
-
 		$object = $this->getMockBuilder( '\Aimeos\Client\JsonApi\Attribute\Standard' )
-			->setConstructorArgs( [$this->context, $this->view, $templatePaths, 'attribute'] )
+			->setConstructorArgs( [$this->context, 'attribute'] )
 			->setMethods( ['getItems'] )
 			->getMock();
 
 		$object->expects( $this->once() )->method( 'getItems' )
 			->will( $this->throwException( new \Aimeos\MShop\Exception() ) );
 
+		$object->setView( $this->view );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -176,16 +175,15 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetException()
 	{
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
-
 		$object = $this->getMockBuilder( '\Aimeos\Client\JsonApi\Attribute\Standard' )
-			->setConstructorArgs( [$this->context, $this->view, $templatePaths, 'attribute'] )
+			->setConstructorArgs( [$this->context, 'attribute'] )
 			->setMethods( ['getItems'] )
 			->getMock();
 
 		$object->expects( $this->once() )->method( 'getItems' )
 			->will( $this->throwException( new \Exception() ) );
 
+		$object->setView( $this->view );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );

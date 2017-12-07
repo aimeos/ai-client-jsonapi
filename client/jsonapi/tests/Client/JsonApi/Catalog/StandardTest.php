@@ -18,11 +18,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp()
 	{
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
 		$this->context = \TestHelperJapi::getContext();
 		$this->view = $this->context->getView();
 
-		$this->object = new \Aimeos\Client\JsonApi\Catalog\Standard( $this->context, $this->view, $templatePaths, 'catalog' );
+		$this->object = new \Aimeos\Client\JsonApi\Catalog\Standard( $this->context, 'catalog' );
+		$this->object->setView( $this->view );
 	}
 
 
@@ -97,16 +97,16 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetMShopException()
 	{
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
-
 		$object = $this->getMockBuilder( '\Aimeos\Client\JsonApi\Catalog\Standard' )
-			->setConstructorArgs( [$this->context, $this->view, $templatePaths, 'catalog'] )
+			->setConstructorArgs( [$this->context, 'catalog'] )
 			->setMethods( ['getItem'] )
 			->getMock();
 
 		$object->expects( $this->once() )->method( 'getItem' )
 			->will( $this->throwException( new \Aimeos\MShop\Exception() ) );
 
+
+		$object->setView( $this->view );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -119,16 +119,16 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetException()
 	{
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
-
 		$object = $this->getMockBuilder( '\Aimeos\Client\JsonApi\Catalog\Standard' )
-			->setConstructorArgs( [$this->context, $this->view, $templatePaths, 'catalog'] )
+			->setConstructorArgs( [$this->context, 'catalog'] )
 			->setMethods( ['getItem'] )
 			->getMock();
 
 		$object->expects( $this->once() )->method( 'getItem' )
 			->will( $this->throwException( new \Exception() ) );
 
+
+		$object->setView( $this->view );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );

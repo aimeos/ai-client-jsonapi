@@ -40,7 +40,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$config->set( 'client/jsonapi/common/decorators/default', ['Test'] );
 		$config->set( 'client/jsonapi/product/decorators/excludes', ['Test'] );
 
-		$params = [$this->client, $this->context, $this->view, [], 'product'];
+		$params = [$this->client, $this->context, 'product'];
 		$result = $this->access( 'addClientDecorators' )->invokeArgs( $this->object, $params );
 
 		$this->assertInstanceOf( '\Aimeos\\Client\\JsonApi\\Iface', $result );

@@ -19,10 +19,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function setUp()
 	{
 		$this->context = \TestHelperJapi::getContext();
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
 		$this->view = $this->context->getView();
 
-		$this->object = new \Aimeos\Client\JsonApi\Basket\Coupon\Standard( $this->context, $this->view, $templatePaths, 'basket/coupon' );
+		$this->object = new \Aimeos\Client\JsonApi\Basket\Coupon\Standard( $this->context, 'basket/coupon' );
+		$this->object->setView( $this->view );
 	}
 
 
@@ -221,8 +221,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$body = '{"data": {"type": "basket/product", "attributes": {"product.id": ' . $prodId . '}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
-		$object = new \Aimeos\Client\JsonApi\Basket\Product\Standard( $this->context, $this->view, $templatePaths, 'basket/product' );
+		$object = new \Aimeos\Client\JsonApi\Basket\Product\Standard( $this->context, 'basket/product' );
+		$object->setView( $this->view );
 
 		$object->post( $request, $this->view->response() );
 	}
@@ -245,8 +245,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		\Aimeos\Controller\Frontend\Basket\Factory::injectController( '\Aimeos\Controller\Frontend\Basket\Standard', $cntl );
 
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
-		$object = new \Aimeos\Client\JsonApi\Basket\Coupon\Standard( $this->context, $this->view, $templatePaths, 'basket/coupon' );
+		$object = new \Aimeos\Client\JsonApi\Basket\Coupon\Standard( $this->context, 'basket/coupon' );
+		$object->setView( $this->view );
 
 		return $object;
 	}

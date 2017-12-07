@@ -59,25 +59,23 @@ class Factory
 	 * \Aimeos\Client\JsonApi\Product\Type\Standard client.
 	 *
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object required by clients
-	 * @param array $templatePaths List of file system paths where the templates are stored
-	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
+	 * @param string $path Name of the client separated by slashes, e.g "order/base"
 	 * @param string|null $name Name of the client implementation ("Standard" if null)
 	 * @return \Aimeos\Client\JsonApi\Iface JSON client instance
 	 * @throws \Aimeos\Client\JsonApi\Exception If the given path is invalid
 	 */
-	static public function createClient( \Aimeos\MShop\Context\Item\Iface $context,
-		array $templatePaths, $path, $name = null )
+	static public function createClient( \Aimeos\MShop\Context\Item\Iface $context, $path, $name = null )
 	{
 		$path = strtolower( trim( $path, "/ \n\t\r\0\x0B" ) );
 
 		if( empty( $path ) ) {
-			return self::createClientRoot( $context, $context->getView(), $templatePaths, $path, $name );
+			return self::createClientRoot( $context, $path, $name );
 		}
 
 		$id = (string) $context;
 
 		if( self::$cache === false || !isset( self::$clients[$id][$path] ) ) {
-			self::$clients[$id][$path] = self::createClientNew( $context, $templatePaths, $path, $name );
+			self::$clients[$id][$path] = self::createClientNew( $context, $path, $name );
 		}
 
 		return self::$clients[$id][$path];
@@ -103,14 +101,12 @@ class Factory
 	 * Creates a new client specified by the given path of client names.
 	 *
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object required by clients
-	 * @param array $templatePaths List of file system paths where the templates are stored
 	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
 	 * @param string|null $name Name of the client implementation ("Standard" if null)
 	 * @return \Aimeos\Client\JsonApi\Iface JSON client instance
 	 * @throws \Aimeos\Client\JsonApi\Exception If the given path is invalid
 	 */
-	protected static function createClientNew( \Aimeos\MShop\Context\Item\Iface $context,
-		array $templatePaths, $path, $name )
+	protected static function createClientNew( \Aimeos\MShop\Context\Item\Iface $context, $path, $name )
 	{
 		$parts = explode( '/', $path );
 
@@ -126,12 +122,11 @@ class Factory
 		}
 
 
-		$view = $context->getView();
 		$factory = '\\Aimeos\\Client\\JsonApi\\' . join( '\\', $parts ) . '\\Factory';
 
 		if( class_exists( $factory ) === true )
 		{
-			$args = array( $context, $templatePaths, $path, $name );
+			$args = array( $context, $path, $name );
 
 			if( ( $client = @call_user_func_array( array( $factory, 'createClient' ), $args ) ) === false ) {
 				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid factory "%1$s"', $factory ), 400 );
@@ -139,7 +134,7 @@ class Factory
 		}
 		else
 		{
-			$client = self::createClientRoot( $context, $view, $templatePaths, $path, $name );
+			$client = self::createClientRoot( $context, $path, $name );
 		}
 
 		return $client;
@@ -150,15 +145,12 @@ class Factory
 	 * Creates the top level client
 	 *
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object required by clients
-	 * @param \Aimeos\MW\View\Iface $view View object
-	 * @param array $templatePaths List of file system paths where the templates are stored
-	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
+	 * @param string $path Name of the client separated by slashes, e.g "order/base"
 	 * @param string|null $name Name of the JsonApi client (default: "Standard")
 	 * @return \Aimeos\Client\JsonApi\Iface JSON client instance
 	 * @throws \Aimeos\Client\JsonApi\Exception If the client couldn't be created
 	 */
-	protected static function createClientRoot( \Aimeos\MShop\Context\Item\Iface $context,
-		\Aimeos\MW\View\Iface $view, array $templatePaths, $path, $name = null )
+	protected static function createClientRoot( \Aimeos\MShop\Context\Item\Iface $context, $path, $name = null )
 	{
 		/** client/jsonapi/name
 		 * Class name of the used JSON API client implementation
@@ -206,7 +198,7 @@ class Factory
 		$iface = '\\Aimeos\\Client\\JsonApi\\Iface';
 		$classname = '\\Aimeos\\Client\\JsonApi\\' . $name;
 
-		$client = self::createClientBase( $classname, $iface, $context, $view, $templatePaths, $path );
+		$client = self::createClientBase( $classname, $iface, $context, $path );
 
 		/** client/jsonapi/decorators/excludes
 		 * Excludes decorators added by the "common" option from the JSON API clients
@@ -286,6 +278,8 @@ class Factory
 		 * @see client/jsonapi/decorators/global
 		 */
 
-		return self::addClientDecorators( $client, $context, $view, $templatePaths, $path );
+		$client = self::addClientDecorators( $client, $context, $path );
+
+		return $client->setView( $context->getView() );
 	}
 }

@@ -19,10 +19,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function setUp()
 	{
 		$this->context = \TestHelperJapi::getContext();
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
 		$this->view = $this->context->getView();
 
-		$this->object = new \Aimeos\Client\JsonApi\Order\Standard( $this->context, $this->view, $templatePaths, 'order' );
+		$this->object = new \Aimeos\Client\JsonApi\Order\Standard( $this->context, 'order' );
+		$this->object->setView( $this->view );
 	}
 
 
@@ -133,9 +133,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$templatePaths = \TestHelperJapi::getTemplatePaths();
 
 		$object = $this->getMockBuilder( '\Aimeos\Client\JsonApi\Order\Standard' )
-			->setConstructorArgs( [$this->context, $this->view, $templatePaths, 'order'] )
+			->setConstructorArgs( [$this->context, 'order'] )
 			->setMethods( ['createOrder', 'getBasket', 'getPaymentForm'] )
 			->getMock();
+
+		$object->setView( $this->view );
 
 		$object->expects( $this->once() )->method( 'getBasket' )->will( $this->returnValue( $basket ) );
 		$object->expects( $this->once() )->method( 'createOrder' )->will( $this->returnValue( $order ) );
@@ -376,8 +378,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		\Aimeos\Controller\Frontend\Order\Factory::injectController( '\Aimeos\Controller\Frontend\Order\Standard', $cntl );
 
-		$templatePaths = \TestHelperJapi::getTemplatePaths();
-		$object = new \Aimeos\Client\JsonApi\Order\Standard( $this->context, $this->view, $templatePaths, 'order' );
+		$object = new \Aimeos\Client\JsonApi\Order\Standard( $this->context, 'order' );
+		$object->setView( $this->view );
+
 
 		return $object;
 	}

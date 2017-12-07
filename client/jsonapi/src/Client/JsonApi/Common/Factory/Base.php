@@ -42,13 +42,11 @@ class Base
 	 *
 	 * @param \Aimeos\Client\JsonApi\Common\Iface $client Client object
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Context instance with necessary objects
-	 * @param \Aimeos\MW\View\Iface $view View object
-	 * @param array $templatePaths List of file system paths where the templates are stored
 	 * @param string $path Name of the client, e.g "product"
 	 * @return \Aimeos\Client\JsonApi\Iface Client object
 	 */
 	protected static function addClientDecorators( \Aimeos\Client\JsonApi\Iface $client,
-		\Aimeos\MShop\Context\Item\Iface $context, \Aimeos\MW\View\Iface $view, array $templatePaths, $path )
+		\Aimeos\MShop\Context\Item\Iface $context, $path )
 	{
 		$config = $context->getConfig();
 
@@ -93,19 +91,19 @@ class Base
 
 			$classprefix = '\\Aimeos\\Client\\JsonApi\\Common\\Decorator\\';
 			$decorators = $config->get( 'client/jsonapi/' . $dpath . 'decorators/global', [] );
-			$client = self::addDecorators( $client, $decorators, $classprefix, $context, $view, $templatePaths, $path );
+			$client = self::addDecorators( $client, $decorators, $classprefix, $context, $path );
 
 			if( !empty( $path ) )
 			{
 				$classprefix = '\\Aimeos\\Client\\JsonApi\\' . ucfirst( $localClass ) . '\\Decorator\\';
 				$decorators = $config->get( 'client/jsonapi/' . $dpath . 'decorators/local', [] );
-				$client = self::addDecorators( $client, $decorators, $classprefix, $context, $view, $templatePaths, $path );
+				$client = self::addDecorators( $client, $decorators, $classprefix, $context, $path );
 			}
 		}
 		else
 		{
 			$classprefix = '\\Aimeos\\Client\\JsonApi\\Common\\Decorator\\';
-			$client = self::addDecorators( $client, $decorators, $classprefix, $context, $view, $templatePaths, $path );
+			$client = self::addDecorators( $client, $decorators, $classprefix, $context, $path );
 		}
 
 		return $client;
@@ -119,13 +117,11 @@ class Base
 	 * @param array $decorators List of decorator names
 	 * @param string $classprefix Decorator class prefix, e.g. "\Aimeos\Client\JsonApi\Product\Decorator\"
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Context instance with necessary objects
-	 * @param \Aimeos\MW\View\Iface $view View object
-	 * @param array $templatePaths List of file system paths where the templates are stored
 	 * @param string $path Name of the client, e.g "product"
 	 * @return \Aimeos\Client\JsonApi\Iface Client object
 	 */
 	protected static function addDecorators( \Aimeos\Client\JsonApi\Iface $client, array $decorators, $classprefix,
-			\Aimeos\MShop\Context\Item\Iface $context, \Aimeos\MW\View\Iface $view, $templatePaths, $path )
+			\Aimeos\MShop\Context\Item\Iface $context, $path )
 	{
 		$iface = '\\Aimeos\\Client\\JsonApi\\Common\\Decorator\\Iface';
 
@@ -143,7 +139,7 @@ class Base
 				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Class "%1$s" not found', $classname ), 404 );
 			}
 
-			$client = new $classname( $client, $context, $view, $templatePaths, $path );
+			$client = new $classname( $client, $context, $path );
 
 			if( !( $client instanceof $iface ) ) {
 				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Class "%1$s" does not implement "%2$s"', $classname, $iface ), 404 );
@@ -160,13 +156,10 @@ class Base
 	 * @param string $classname Name of the client class
 	 * @param string $interface Name of the client interface
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object
-	 * @param \Aimeos\MW\View\Iface $view View object
-	 * @param array $templatePaths List of file system paths where the templates are stored
 	 * @param string $path Name of the client, e.g "product"
 	 * @return \Aimeos\Client\JsonApi\Iface Client object
 	 */
-	protected static function createClientBase( $classname, $interface, \Aimeos\MShop\Context\Item\Iface $context,
-		\Aimeos\MW\View\Iface $view, array $templatePaths, $path )
+	protected static function createClientBase( $classname, $interface, \Aimeos\MShop\Context\Item\Iface $context, $path )
 	{
 		if( isset( self::$objects[$classname] ) ) {
 			return self::$objects[$classname];
@@ -176,7 +169,7 @@ class Base
 			throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Class "%1$s" not found', $classname ), 404 );
 		}
 
-		$client = new $classname( $context, $view, $templatePaths, $path );
+		$client = new $classname( $context, $path );
 
 		if( !( $client instanceof $interface ) ) {
 			throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Class "%1$s" does not implement "%2$s"', $classname, $interface ), 500 );
