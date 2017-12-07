@@ -31,8 +31,6 @@ class Standard
 	 * Initializes the client
 	 *
 	 * @param \Aimeos\MShop\Context\Item\Iface $context MShop context object
-	 * @param \Aimeos\MW\View\Iface $view View object
-	 * @param array $templatePaths List of file system paths where the templates are stored
 	 * @param string $path Name of the client, e.g "basket/address"
 	 */
 	public function __construct( \Aimeos\MShop\Context\Item\Iface $context, $path )
