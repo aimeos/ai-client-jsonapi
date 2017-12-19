@@ -3,12 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
+# Translators:
+# alessandro massarelli <alessandro@botteega.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Aimeos\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 17:58+0200\n"
 "PO-Revision-Date: 2017-10-02 17:58+0200\n"
+"Last-Translator: alessandro massarelli <alessandro@botteega.com>, 2017\n"
 "Language-Team: Italian (https://www.transifex.com/aimeos/teams/39015/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,7 +41,7 @@ msgstr ""
 #: src/Client/JsonApi/Common/Factory/Base.php:182
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
-msgstr ""
+msgstr "La classe \"%1$s\" non implementa \"%2$s\""
 
 #: src/Client/JsonApi/Common/Factory/Base.php:141
 #: src/Client/JsonApi/Common/Factory/Base.php:174
