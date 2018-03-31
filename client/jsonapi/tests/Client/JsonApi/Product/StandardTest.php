@@ -53,8 +53,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
-		$this->assertEquals( 14, $result['meta']['total'] );
-		$this->assertEquals( 14, count( $result['data'] ) );
+		$this->assertEquals( 15, $result['meta']['total'] );
+		$this->assertEquals( 15, count( $result['data'] ) );
 		$this->assertGreaterThan( 0, $result['data'][0]['id'] );
 		$this->assertGreaterThan( 0, $result['data'][0]['attributes'] );
 		$this->assertEquals( 'index.attribute.id', $result['data'][0]['type'] );
@@ -117,8 +117,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 4, count( $result['data']['relationships']['media']['data'] ) );
 		$this->assertEquals( 4, count( $result['data']['relationships']['product/property']['data'] ) );
 		$this->assertEquals( 5, count( $result['data']['relationships']['product']['data'] ) );
-		$this->assertEquals( 5, count( $result['data']['relationships']['attribute']['data'] ) );
-		$this->assertEquals( 26, count( $result['included'] ) );
+		$this->assertEquals( 6, count( $result['data']['relationships']['attribute']['data'] ) );
+		$this->assertEquals( 27, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -151,9 +151,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 2, count( $result['data'][0]['attributes'] ) );
 		$this->assertEquals( 6, count( $result['data'][0]['relationships']['text']['data'] ) );
 		$this->assertEquals( 4, count( $result['data'][0]['relationships']['product/property']['data'] ) );
-		$this->assertEquals( 5, count( $result['data'][0]['relationships']['attribute']['data'] ) );
+		$this->assertEquals( 6, count( $result['data'][0]['relationships']['attribute']['data'] ) );
 		$this->assertEquals( 5, count( $result['data'][0]['relationships']['product']['data'] ) );
-		$this->assertEquals( 32, count( $result['included'] ) );
+		$this->assertEquals( 33, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
