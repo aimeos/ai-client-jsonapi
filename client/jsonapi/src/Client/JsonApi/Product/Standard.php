@@ -321,16 +321,10 @@ class Standard
 		$view->total = 1;
 
 		if( in_array( 'product', $ref, true ) ) {
-			$map['product'] = $this->getDomainItems( array( $view->items ), $ref, 'product' );
+			$map = $this->getDomainItems( array( $view->items ), $ref, 'product' );
 		}
 
-		if( in_array( 'attribute', $ref, true ) )
-		{
-			$productItems = ( isset( $map['product'] ) ? array_merge( array( $view->items ), $map['product'] ) : [] );
-			$map['attribute'] = $this->getDomainItems( $productItems, $ref, 'attribute' );
-		}
-
-		$view->itemMap = $map;
+		$view->prodMap = $map;
 
 		return $response;
 	}
@@ -372,16 +366,10 @@ class Standard
 		$view->total = $total;
 
 		if( in_array( 'product', $ref, true ) ) {
-			$map['product'] = $this->getDomainItems( $view->items, $ref, 'product' );
+			$map = $this->getDomainItems( $view->items, $ref, 'product' );
 		}
 
-		if( in_array( 'attribute', $ref, true ) )
-		{
-			$productItems = ( isset( $map['product'] ) ? array_merge( $view->items, $map['product'] ) : [] );
-			$map['attribute'] = $this->getDomainItems( $productItems, $ref, 'attribute' );
-		}
-
-		$view->itemMap = $map;
+		$view->prodMap = $map;
 
 		return $response;
 	}
