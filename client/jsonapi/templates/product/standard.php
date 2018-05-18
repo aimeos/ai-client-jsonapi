@@ -104,7 +104,6 @@ foreach( (array) $fields as $resource => $list ) {
 
 $flatFcn = function( array $map )
 {
-file_put_contents( 'flatten.txt', print_r( $map, true ), FILE_APPEND );
 	$result = [];
 
 	foreach( $map as $list )
