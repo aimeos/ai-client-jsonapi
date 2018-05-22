@@ -118,7 +118,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 4, count( $result['data']['relationships']['product/property']['data'] ) );
 		$this->assertEquals( 5, count( $result['data']['relationships']['product']['data'] ) );
 		$this->assertEquals( 6, count( $result['data']['relationships']['attribute']['data'] ) );
-		$this->assertEquals( 69, count( $result['included'] ) );
+		$this->assertEquals( 57, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -153,7 +153,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 4, count( $result['data'][0]['relationships']['product/property']['data'] ) );
 		$this->assertEquals( 6, count( $result['data'][0]['relationships']['attribute']['data'] ) );
 		$this->assertEquals( 5, count( $result['data'][0]['relationships']['product']['data'] ) );
-		$this->assertEquals( 102, count( $result['included'] ) );
+		$this->assertEquals( 78, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
