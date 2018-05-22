@@ -159,7 +159,7 @@ $refFcn = function( \Aimeos\MShop\Common\Item\Iface $item, array $map ) use ( $f
 	$entry = ['id' => $id, 'type' => $type, 'attributes' => $attributes];
 	$map[$type][$id] = $entry; // first content, avoid infinite loops
 
-	if( $item instanceof \Aimeos\MShop\Common\Item\Address\Iface )
+	if( $item instanceof \Aimeos\MShop\Customer\Item\Address\Iface )
 	{
 		$params = array( 'resource' => 'customer', 'id' => $item->getParentId(), 'related' => $type, 'relatedid' => $id );
 		$basketParams = array( 'resource' => 'basket', 'id' => 'default', 'related' => 'address', 'relatedid' => 'payment' );
