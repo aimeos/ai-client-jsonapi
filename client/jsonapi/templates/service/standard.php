@@ -86,26 +86,92 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, array $prices, arr
 };
 
 
-$refFcn = function( \Aimeos\MShop\Common\Item\ListRef\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
+$refFcn = function( \Aimeos\MShop\Common\Item\Iface $item, array $map ) use ( $fields, $target, $cntl, $action, $config, &$refFcn )
 {
-	$list = [];
+	$id = $item->getId();
+	$type = $item->getResourceType();
 
-	foreach( $item->getListItems() as $listItem )
+	if( isset( $map[$type][$id] ) ) {
+		return $map;
+	}
+
+	$attributes = $item->toArray();
+
+	if( isset( $fields[$type] ) ) {
+		$attributes = array_intersect_key( $attributes, $fields[$type] );
+	}
+
+	$entry = ['id' => $id, 'type' => $type, 'attributes' => $attributes];
+	$map[$type][$id] = $entry; // first content, avoid infinite loops
+
+	if( $item instanceof \Aimeos\MShop\Common\Item\ListRef\Iface )
 	{
-		if( ( $refItem = $listItem->getRefItem() ) !== null )
+		foreach( $item->getListItems() as $listItem )
 		{
-			$attributes = $refItem->toArray();
-			$type = $refItem->getResourceType();
-
-			if( isset( $fields[$type] ) ) {
-				$attributes = array_intersect_key( $attributes, $fields[$type] );
+			if( ( $refItem = $listItem->getRefItem() ) !== null )
+			{
+				$reftype = $refItem->getResourceType();
+				$data = ['id' => $refItem->getId(), 'type' => $reftype, 'attributes' => $listItem->toArray()];
+				$entry['relationships'][$reftype]['data'][] = $data;
+				$map = $refFcn( $refItem, $map );
 			}
-
-			$list[] = array( 'id' => $refItem->getId(), 'type' => $type, 'attributes' => $attributes );
 		}
 	}
 
-	return $list;
+	if( $item instanceof \Aimeos\MShop\Common\Item\PropertyRef\Iface )
+	{
+		foreach( $item->getPropertyItems() as $propItem )
+		{
+			$propId = $propItem->getId();
+			$propType = $propItem->getResourceType();
+			$entry['relationships'][$propType]['data'][] = ['id' => $propId, 'type' => $propType];
+			$map = $refFcn( $propItem, $map );
+		}
+	}
+
+	$map[$type][$id] = $entry; // full content
+
+	return $map;
+};
+
+
+$inclFcn = function( \Aimeos\MShop\Common\Item\Iface $item ) use ( $refFcn )
+{
+	$map = [];
+
+	if( $item instanceof \Aimeos\MShop\Common\Item\ListRef\Iface )
+	{
+		foreach( $item->getListItems() as $listItem )
+		{
+			if( ( $refItem = $listItem->getRefItem() ) !== null ) {
+				$map = $refFcn( $refItem, $map );
+			}
+		}
+	}
+
+	if( $item instanceof \Aimeos\MShop\Common\Item\PropertyRef\Iface )
+	{
+		foreach( $item->getPropertyItems() as $propertyItem ) {
+			$map = $refFcn( $propertyItem, $map );
+		}
+	}
+
+	return $map;
+};
+
+
+$flatFcn = function( array $map )
+{
+	$result = [];
+
+	foreach( $map as $list )
+	{
+		foreach( $list as $entry ) {
+			$result[] = $entry;
+		}
+	}
+
+	return $result;
 };
 
 
@@ -143,14 +209,13 @@ $refFcn = function( \Aimeos\MShop\Common\Item\ListRef\Iface $item ) use ( $field
 				foreach( (array) $this->items as $item )
 				{
 					$data[] = $entryFcn( $item, $prices, $feConfig );
-					$included = array_merge( $included, $refFcn( $item ) );
+					$included = array_merge( $included, $flatFcn( $inclFcn( $item ) ) );
 				}
 			}
 			else
 			{
 				$data = $entryFcn( $this->items, $prices, $feConfig );
-				$included = $refFcn( $this->items );
-
+				$included = $flatFcn( $inclFcn( $this->items ) );
 			}
 		?>
 

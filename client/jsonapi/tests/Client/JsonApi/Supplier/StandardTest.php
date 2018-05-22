@@ -61,7 +61,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testGetItemProperties()
+	public function testGetItemAddress()
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'supplier' );
 		$supId = $manager->findItem( 'unitCode001' )->getId();

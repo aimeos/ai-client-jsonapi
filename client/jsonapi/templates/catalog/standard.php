@@ -73,26 +73,117 @@ $entryFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item ) use ( $fields, $t
 };
 
 
-$refFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
+$refFcn = function( \Aimeos\MShop\Common\Item\Iface $item, array $map ) use ( $fields, $target, $cntl, $action, $config, &$refFcn )
 {
-	$list = [];
+	$id = $item->getId();
+	$type = $item->getResourceType();
 
-	foreach( $item->getListItems() as $listItem )
+	if( isset( $map[$type][$id] ) ) {
+		return $map;
+	}
+
+	$attributes = $item->toArray();
+
+	if( isset( $fields[$type] ) ) {
+		$attributes = array_intersect_key( $attributes, $fields[$type] );
+	}
+
+	$entry = ['id' => $id, 'type' => $type, 'attributes' => $attributes];
+	$map[$type][$id] = $entry; // first content, avoid infinite loops
+
+	if( $item instanceof \Aimeos\MShop\Catalog\Item\Iface )
 	{
-		if( ( $refItem = $listItem->getRefItem() ) !== null )
+		$params = array( 'resource' => $type, 'id' => $id );
+		$entry['links'] = array(
+			'self' => array(
+				'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
+				'allow' => array( 'GET' ),
+			),
+		);
+
+		foreach( $item->getChildren() as $childItem )
 		{
-			$attributes = $refItem->toArray();
-			$type = $refItem->getResourceType();
-
-			if( isset( $fields[$type] ) ) {
-				$attributes = array_intersect_key( $attributes, $fields[$type] );
-			}
-
-			$list[] = array( 'id' => $refItem->getId(), 'type' => $type, 'attributes' => $attributes );
+			$cattype = $childItem->getResourceType();
+			$entry['relationships'][$cattype]['data'][] = ['id' => $childItem->getId(), 'type' => $cattype];
+			$map = $refFcn( $childItem, $map );
 		}
 	}
 
-	return $list;
+	if( $item instanceof \Aimeos\MShop\Common\Item\ListRef\Iface )
+	{
+		foreach( $item->getListItems() as $listItem )
+		{
+			if( ( $refItem = $listItem->getRefItem() ) !== null )
+			{
+				$reftype = $refItem->getResourceType();
+				$data = ['id' => $refItem->getId(), 'type' => $reftype, 'attributes' => $listItem->toArray()];
+				$entry['relationships'][$reftype]['data'][] = $data;
+				$map = $refFcn( $refItem, $map );
+			}
+		}
+	}
+
+	if( $item instanceof \Aimeos\MShop\Common\Item\PropertyRef\Iface )
+	{
+		foreach( $item->getPropertyItems() as $propItem )
+		{
+			$propId = $propItem->getId();
+			$propType = $propItem->getResourceType();
+			$entry['relationships'][$propType]['data'][] = ['id' => $propId, 'type' => $propType];
+			$map = $refFcn( $propItem, $map );
+		}
+	}
+
+	$map[$type][$id] = $entry; // full content
+
+	return $map;
+};
+
+
+$inclFcn = function( \Aimeos\MShop\Common\Item\Iface $item ) use ( $refFcn )
+{
+	$map = [];
+
+	if( $item instanceof \Aimeos\MShop\Catalog\Item\Iface )
+	{
+		foreach( $item->getChildren() as $childItem ) {
+			$map = $refFcn( $childItem, $map );
+		}
+	}
+
+	if( $item instanceof \Aimeos\MShop\Common\Item\ListRef\Iface )
+	{
+		foreach( $item->getListItems() as $listItem )
+		{
+			if( ( $refItem = $listItem->getRefItem() ) !== null ) {
+				$map = $refFcn( $refItem, $map );
+			}
+		}
+	}
+
+	if( $item instanceof \Aimeos\MShop\Common\Item\PropertyRef\Iface )
+	{
+		foreach( $item->getPropertyItems() as $propertyItem ) {
+			$map = $refFcn( $propertyItem, $map );
+		}
+	}
+
+	return $map;
+};
+
+
+$flatFcn = function( array $map )
+{
+	$result = [];
+
+	foreach( $map as $list )
+	{
+		foreach( $list as $entry ) {
+			$result[] = $entry;
+		}
+	}
+
+	return $result;
 };
 
 
@@ -121,19 +212,10 @@ $refFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item ) use ( $fields, $tar
 		"errors": <?= json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
 
 	<?php elseif( isset( $this->item ) ) : ?>
-		<?php
-			$included = $refFcn( $this->item );
-
-			foreach( $this->item->getChildren() as $catItem )
-			{
-				$included[] = $entryFcn( $catItem );
-				$included = array_merge( $included, $refFcn( $catItem ) );
-			}
-		 ?>
 
 		"data": <?= json_encode( $entryFcn( $this->item ), JSON_PRETTY_PRINT ); ?>,
 
-		"included": <?= json_encode( $included, JSON_PRETTY_PRINT ); ?>
+		"included": <?= json_encode( $flatFcn( $inclFcn( $this->item ) ), JSON_PRETTY_PRINT ); ?>
 
 	<?php endif; ?>
 
