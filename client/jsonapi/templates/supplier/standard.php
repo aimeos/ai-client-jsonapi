@@ -83,61 +83,6 @@ $entryFcn = function( \Aimeos\MShop\Supplier\Item\Iface $item ) use ( $fields, $
 };
 
 
-$refFcn = function( \Aimeos\MShop\Customer\Item\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
-{
-	$list = [];
-
-	foreach( $item->getAddressItems() as $addrItem )
-	{
-		$id = $addrItem->getId();
-		$attributes = $addrItem->toArray();
-		$type = $addrItem->getResourceType();
-
-		$params = array( 'resource' => 'customer', 'id' => $item->getId(), 'related' => $type, 'relatedid' => $id );
-		$basketParams = array( 'resource' => 'basket', 'id' => 'default', 'related' => 'address', 'relatedid' => 'payment' );
-
-		if( isset( $fields[$type] ) ) {
-			$attributes = array_intersect_key( $attributes, $fields[$type] );
-		}
-
-		$list[] = array(
-			'id' => $id,
-			'type' => $type,
-			'links' => array(
-				'self' => array(
-					'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
-					'allow' => array( 'DELETE', 'GET', 'PATCH' ),
-				),
-				'basket/address' => array(
-					'href' => $this->url( $target, $cntl, $action, $basketParams, [], $config ),
-					'allow' => ['POST'],
-				),
-			),
-			'attributes' => $attributes,
-		);
-	}
-
-	foreach( $item->getRefItems() as $refItem )
-	{
-		$id = $refItem->getId();
-		$type = $refItem->getResourceType();
-		$attributes = $refItem->toArray();
-
-		if( isset( $fields[$type] ) ) {
-			$attributes = array_intersect_key( $attributes, $fields[$type] );
-		}
-
-		$list[] = array(
-			'id' => $id,
-			'type' => $type,
-			'attributes' => $attributes,
-		);
-	}
-
-	return $list;
-};
-
-
 $refFcn = function( \Aimeos\MShop\Common\Item\Iface $item, array $map ) use ( $fields, $target, $cntl, $action, $config, &$refFcn )
 {
 	$id = $item->getId();
