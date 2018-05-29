@@ -71,7 +71,7 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, array $prices, arr
 
 	foreach( $item->getListItems() as $listItem )
 	{
-		if( ( $refItem = $listItem->getRefItem() ) !== null )
+		if( ( $refItem = $listItem->getRefItem() ) !== null && $refItem->isAvailable() )
 		{
 			$type = $refItem->getResourceType();
 			$entry['relationships'][$type]['data'][] = [
@@ -108,7 +108,7 @@ $refFcn = function( \Aimeos\MShop\Common\Item\Iface $item, array $map ) use ( $f
 	{
 		foreach( $item->getListItems() as $listItem )
 		{
-			if( ( $refItem = $listItem->getRefItem() ) !== null )
+			if( ( $refItem = $listItem->getRefItem() ) !== null && $refItem->isAvailable() )
 			{
 				$reftype = $refItem->getResourceType();
 				$data = ['id' => $refItem->getId(), 'type' => $reftype, 'attributes' => $listItem->toArray()];
@@ -143,7 +143,7 @@ $inclFcn = function( \Aimeos\MShop\Common\Item\Iface $item ) use ( $refFcn )
 	{
 		foreach( $item->getListItems() as $listItem )
 		{
-			if( ( $refItem = $listItem->getRefItem() ) !== null ) {
+			if( ( $refItem = $listItem->getRefItem() ) !== null && $refItem->isAvailable() ) {
 				$map = $refFcn( $refItem, $map );
 			}
 		}
