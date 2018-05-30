@@ -153,6 +153,10 @@ class Standard
 				'label' => 'Return products that reference at least one of the attribute IDs per attribute type',
 				'type' => 'array[<typecode>]', 'default' => '[]', 'required' => false,
 			],
+			'f_supid' => [
+				'label' => 'Return products that reference at least one of the supplier IDs',
+				'type' => 'array', 'default' => '[]', 'required' => false,
+			],
 		];
 
 		$view->sort = [
@@ -166,6 +170,10 @@ class Standard
 			],
 			'price' => [
 				'label' => 'Sort products by their price (ascending, "-price" for descending)',
+				'type' => 'string', 'default' => false, 'required' => false,
+			],
+			'ctime' => [
+				'label' => 'Sort products by their creating date/time (ascending, "-ctime" for descending)',
 				'type' => 'string', 'default' => false, 'required' => false,
 			],
 		];
@@ -243,12 +251,15 @@ class Standard
 		$attrIds = (array) $view->param( 'filter/f_attrid', [] );
 		$optIds = (array) $view->param( 'filter/f_optid', [] );
 		$oneIds = (array) $view->param( 'filter/f_oneid', [] );
+		$supIds = (array) $view->param( 'filter/f_supid', [] );
 
 		$context = $this->getContext();
 		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $context, 'product' );
 
 		$filter = $cntl->createFilter( $sort, $direction, $start, $size, $listtype );
 		$filter = $cntl->addFilterAttribute( $filter, $attrIds, $optIds, $oneIds );
+		$filter = $cntl->addFilterSupplier( $filter, $supIds );
+
 
 		if( ( $catid = $view->param( 'filter/f_catid' ) ) !== null )
 		{
@@ -290,8 +301,11 @@ class Standard
 		}
 
 		$params = $view->param( 'filter', [] );
+
+		unset( $params['f_supid'] );
 		unset( $params['f_attrid'], $params['f_optid'], $params['f_oneid'] );
 		unset( $params['f_listtype'], $params['f_catid'], $params['f_search'] );
+
 		$filter = $this->initCriteriaConditions( $filter, ['filter' => $params] );
 
 		return $filter;
