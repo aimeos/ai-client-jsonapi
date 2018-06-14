@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-08 18:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Aimeos, 2017\n"
+"Last-Translator: CROB Support <support@crob.nl>, 2018\n"
 "Language-Team: Dutch (https://www.transifex.com/aimeos/teams/39015/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 #: src/Client/JsonApi/Basket/Address/Standard.php:135
 #, php-format
 msgid "Address type or attributes are missing"
-msgstr ""
+msgstr "Adrestype of attributen ontbreken"
 
 #: src/Client/JsonApi/Customer/Address/Standard.php:233
 #: src/Client/JsonApi/Customer/Relationships/Standard.php:238
@@ -30,7 +30,7 @@ msgstr ""
 #: src/Client/JsonApi/Customer/Relationships/Standard.php:228
 #, php-format
 msgid "Attributes are missing"
-msgstr ""
+msgstr "Er ontbreken attributen"
 
 #: src/Client/JsonApi/Common/Factory/Base.php:147
 #: src/Client/JsonApi/Common/Factory/Base.php:180
@@ -56,7 +56,7 @@ msgstr "Class \"%1$s\" niet gevonden"
 #: src/Client/JsonApi/Basket/Coupon/Standard.php:135
 #, php-format
 msgid "Coupon code is missing"
-msgstr ""
+msgstr "Couponcode ontbreekt"
 
 #: src/Client/JsonApi/Customer/Address/Standard.php:77
 #: src/Client/JsonApi/Customer/Relationships/Standard.php:77
@@ -64,7 +64,7 @@ msgstr ""
 #: src/Client/JsonApi/Customer/Relationships/Standard.php:73
 #, php-format
 msgid "ID is missing"
-msgstr ""
+msgstr "ID ontbreekt"
 
 #: src/Client/JsonApi/Order/Standard.php:99
 #: src/Client/JsonApi/Customer/Address/Standard.php:67
@@ -185,7 +185,7 @@ msgstr "Niet toegestane class naam \"%1$s\""
 #: src/Client/JsonApi/Locale/Factory.php:38
 #, php-format
 msgid "Invalid client \"%1$s\""
-msgstr ""
+msgstr "Ongeldige client \"%1$s\""
 
 #: src/Client/JsonApi/Factory.php:121 src/Client/JsonApi/Factory.php:117
 #, php-format
@@ -201,7 +201,7 @@ msgstr "Ongeldige Factory \"%1$s\""
 #: src/Client/JsonApi/Order/Standard.php:201
 #, php-format
 msgid "No basket for the \"order.baseid\" (\"%1$s\") found"
-msgstr ""
+msgstr "Geen basket voor de \"order.baseid\" (\"%1$s\") gevonden"
 
 #: src/Client/JsonApi/Base.php:142
 #, php-format
@@ -214,37 +214,37 @@ msgstr "Geen weergave beschikbaar"
 #: src/Client/JsonApi/Basket/Product/Standard.php:140
 #, php-format
 msgid "Position (ID) is missing"
-msgstr ""
+msgstr "Positie (ID) ontbreekt"
 
 #: src/Client/JsonApi/Basket/Product/Standard.php:204
 #: src/Client/JsonApi/Basket/Product/Standard.php:196
 #, php-format
 msgid "Product ID is missing"
-msgstr ""
+msgstr "Product ID ontbreekt"
 
 #: src/Client/JsonApi/Order/Standard.php:103
 #: src/Client/JsonApi/Order/Standard.php:99
 #, php-format
 msgid "Required attribute \"order.baseid\" is missing"
-msgstr ""
+msgstr "Vereiste attribuut \"order.baseid\" ontbreekt"
 
 #: src/Client/JsonApi/Basket/Service/Standard.php:149
 #: src/Client/JsonApi/Basket/Service/Standard.php:143
 #, php-format
 msgid "Service ID in attributes is missing"
-msgstr ""
+msgstr "Service ID in attributen ontbreekt"
 
 #: src/Client/JsonApi/Basket/Service/Standard.php:145
 #: src/Client/JsonApi/Basket/Service/Standard.php:139
 #, php-format
 msgid "Service attributes are missing"
-msgstr ""
+msgstr "Service attributen ontbreken"
 
 #: src/Client/JsonApi/Basket/Service/Standard.php:141
 #: src/Client/JsonApi/Basket/Service/Standard.php:135
 #, php-format
 msgid "Service type (ID) is missing"
-msgstr ""
+msgstr "Service type (ID) ontbreekt"
 
 #: src/Client/JsonApi/Basket/Coupon/Standard.php:80
 #: src/Client/JsonApi/Basket/Service/Standard.php:80
@@ -254,7 +254,7 @@ msgstr ""
 #: src/Client/JsonApi/Basket/Address/Standard.php:76
 #, php-format
 msgid "Type (ID) is missing"
-msgstr ""
+msgstr "Type (ID) ontbreekt"
 
 #: src/Client/JsonApi/Base.php:57 src/Client/JsonApi/Base.php:52
 #, php-format
