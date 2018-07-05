@@ -31,6 +31,10 @@ foreach( (array) $fields as $resource => $list ) {
 
 $entryFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
 {
+	if( $item->isAvailable() === false ) {
+		return [];
+	}
+
 	$id = $item->getId();
 	$type = $item->getResourceType();
 	$params = array( 'resource' => $type, 'id' => $item->getId() );
@@ -52,8 +56,11 @@ $entryFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item ) use ( $fields, $t
 		'attributes' => $attributes,
 	);
 
-	foreach( $item->getChildren() as $catItem ) {
-		$entry['relationships']['catalog']['data'][] = array( 'id' => $catItem->getId(), 'type' => 'catalog' );
+	foreach( $item->getChildren() as $catItem )
+	{
+		if( $catItem->isAvailable() ) {
+			$entry['relationships']['catalog']['data'][] = array( 'id' => $catItem->getId(), 'type' => 'catalog' );
+		}
 	}
 
 	foreach( $item->getListItems() as $listItem )
@@ -103,9 +110,12 @@ $refFcn = function( \Aimeos\MShop\Common\Item\Iface $item, array $map ) use ( $f
 
 		foreach( $item->getChildren() as $childItem )
 		{
-			$cattype = $childItem->getResourceType();
-			$entry['relationships'][$cattype]['data'][] = ['id' => $childItem->getId(), 'type' => $cattype];
-			$map = $refFcn( $childItem, $map );
+			if( $childItem->isAvailable() )
+			{
+				$cattype = $childItem->getResourceType();
+				$entry['relationships'][$cattype]['data'][] = ['id' => $childItem->getId(), 'type' => $cattype];
+				$map = $refFcn( $childItem, $map );
+			}
 		}
 	}
 
@@ -146,8 +156,11 @@ $inclFcn = function( \Aimeos\MShop\Common\Item\Iface $item ) use ( $refFcn )
 
 	if( $item instanceof \Aimeos\MShop\Catalog\Item\Iface )
 	{
-		foreach( $item->getChildren() as $childItem ) {
-			$map = $refFcn( $childItem, $map );
+		foreach( $item->getChildren() as $childItem )
+		{
+			if( $childItem->isAvailable() ) {
+				$map = $refFcn( $childItem, $map );
+			}
 		}
 	}
 
