@@ -135,7 +135,7 @@ msgstr ""
 #: src/Client/JsonApi/Basket/Standard.php:137
 #, php-format
 msgid "Invalid JSON in body"
-msgstr ""
+msgstr "本文に無効なJSONがあります"
 
 #: src/Client/JsonApi/Order/Factory.php:82
 #: src/Client/JsonApi/Customer/Address/Factory.php:80
@@ -188,7 +188,7 @@ msgstr ""
 #: src/Client/JsonApi/Supplier/Factory.php:81
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
-msgstr ""
+msgstr "クラス名 \"1%1$s\"に無効な文字があります"
 
 #: src/Client/JsonApi/Common/Factory/Base.php:135
 #: src/Client/JsonApi/Factory.php:203
@@ -199,7 +199,7 @@ msgstr ""
 #: src/Client/JsonApi/Factory.php:195
 #, php-format
 msgid "Invalid class name \"%1$s\""
-msgstr ""
+msgstr "無効なクラス名 \"1%1$s\""
 
 #: src/Client/JsonApi/Order/Factory.php:39
 #: src/Client/JsonApi/Customer/Address/Factory.php:37
@@ -258,13 +258,13 @@ msgstr ""
 #: src/Client/JsonApi/Factory.php:117
 #, php-format
 msgid "Invalid client \"%1$s\" in \"%2$s\""
-msgstr ""
+msgstr "\"%2$s\"の無効なクライアント \"%1$s\""
 
 #: src/Client/JsonApi/Factory.php:137 src/Client/JsonApi/Factory.php:132
 #: src/Client/JsonApi/Factory.php:132
 #, php-format
 msgid "Invalid factory \"%1$s\""
-msgstr ""
+msgstr "無効なファクトリ \"1%1$s\""
 
 #: src/Client/JsonApi/Order/Standard.php:207
 #: src/Client/JsonApi/Order/Standard.php:201
@@ -276,7 +276,7 @@ msgstr ""
 #: src/Client/JsonApi/Base.php:142 src/Client/JsonApi/Base.php:142
 #, php-format
 msgid "No view available"
-msgstr ""
+msgstr "利用可能なビューがありません"
 
 #: src/Client/JsonApi/Basket/Product/Standard.php:80
 #: src/Client/JsonApi/Basket/Product/Standard.php:146
@@ -340,4 +340,4 @@ msgstr ""
 #: src/Client/JsonApi/Base.php:52
 #, php-format
 msgid "Unable to call method \"%1$s\""
-msgstr ""
+msgstr "メソッド \"1%1$s\"を呼び出すことができません"
