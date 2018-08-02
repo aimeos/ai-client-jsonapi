@@ -123,8 +123,6 @@ class Base
 	protected static function addDecorators( \Aimeos\Client\JsonApi\Iface $client, array $decorators, $classprefix,
 			\Aimeos\MShop\Context\Item\Iface $context, $path )
 	{
-		$iface = '\\Aimeos\\Client\\JsonApi\\Common\\Decorator\\Iface';
-
 		foreach( $decorators as $name )
 		{
 			if( ctype_alnum( $name ) === false )
@@ -141,9 +139,7 @@ class Base
 
 			$client = new $classname( $client, $context, $path );
 
-			if( !( $client instanceof $iface ) ) {
-				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Class "%1$s" does not implement "%2$s"', $classname, $iface ), 404 );
-			}
+			\Aimeos\MW\Common\Base::checkClass( '\\Aimeos\\Client\\JsonApi\\Common\\Decorator\\Iface', $client );
 		}
 
 		return $client;
@@ -171,9 +167,7 @@ class Base
 
 		$client = new $classname( $context, $path );
 
-		if( !( $client instanceof $interface ) ) {
-			throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Class "%1$s" does not implement "%2$s"', $classname, $interface ), 500 );
-		}
+		\Aimeos\MW\Common\Base::checkClass( $interface, $client );
 
 		return $client;
 	}
