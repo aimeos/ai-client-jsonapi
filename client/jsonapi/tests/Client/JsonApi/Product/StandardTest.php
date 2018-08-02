@@ -130,9 +130,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$params = array(
 			'filter' => array( 'f_catid' => $catId ),
 			'fields' => array(
-				'product' => 'product.id,product.label'
+				'product' => 'product.id,product.code,product.label'
 			),
-			'sort' => '-product.id',
+			'sort' => '-code',
 			'include' => 'attribute,text,product,product/property'
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
@@ -148,12 +148,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 2, $result['meta']['total'] );
 		$this->assertEquals( 2, count( $result['data'] ) );
 		$this->assertEquals( 'product', $result['data'][0]['type'] );
-		$this->assertEquals( 2, count( $result['data'][0]['attributes'] ) );
+		$this->assertEquals( 3, count( $result['data'][0]['attributes'] ) );
 		$this->assertEquals( 7, count( $result['data'][0]['relationships']['text']['data'] ) );
 		$this->assertEquals( 4, count( $result['data'][0]['relationships']['product/property']['data'] ) );
 		$this->assertEquals( 6, count( $result['data'][0]['relationships']['attribute']['data'] ) );
 		$this->assertEquals( 5, count( $result['data'][0]['relationships']['product']['data'] ) );
-		$this->assertGreaterThanOrEqual( 100, count( $result['included'] ) );
+		$this->assertGreaterThanOrEqual( 65, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
