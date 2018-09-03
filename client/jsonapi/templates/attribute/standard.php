@@ -58,10 +58,10 @@ $entryFcn = function( \Aimeos\MShop\Attribute\Item\Iface $item ) use ( $fields, 
 		'attributes' => $attributes,
 	);
 
-	foreach( $item->getPropertyItems() as $propId => $propItem )
+	foreach( $item->getPropertyItems() as $propItem )
 	{
 		$entry['relationships']['attribute/property']['data'][] = [
-			'id' => $propId,
+			'id' => $propItem->getId(),
 			'type' => 'attribute/property',
 		];
 	}
