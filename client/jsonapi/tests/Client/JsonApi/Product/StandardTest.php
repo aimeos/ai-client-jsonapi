@@ -118,7 +118,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 4, count( $result['data']['relationships']['product/property']['data'] ) );
 		$this->assertEquals( 5, count( $result['data']['relationships']['product']['data'] ) );
 		$this->assertEquals( 6, count( $result['data']['relationships']['attribute']['data'] ) );
-		$this->assertGreaterThanOrEqual( 67, count( $result['included'] ) );
+		$this->assertGreaterThanOrEqual( 66, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
