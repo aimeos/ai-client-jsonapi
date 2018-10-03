@@ -114,7 +114,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 'product', $result['data']['type'] );
 		$this->assertEquals( 7, count( $result['data']['relationships']['text']['data'] ) );
 		$this->assertEquals( 2, count( $result['data']['relationships']['price']['data'] ) );
-		$this->assertEquals( 4, count( $result['data']['relationships']['media']['data'] ) );
+		$this->assertEquals( 3, count( $result['data']['relationships']['media']['data'] ) );
 		$this->assertEquals( 4, count( $result['data']['relationships']['product/property']['data'] ) );
 		$this->assertEquals( 5, count( $result['data']['relationships']['product']['data'] ) );
 		$this->assertEquals( 6, count( $result['data']['relationships']['attribute']['data'] ) );
