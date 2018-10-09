@@ -16,7 +16,7 @@
 		"php": ">=5.4.0",
 		"composer/installers": "^1.0",
 		"aimeos/aimeos-core": "2018.10.*",
-		"aimeos/ai-controller-frontend": "dev-master"
+		"aimeos/ai-controller-frontend": "2018.10.*"
 	},
 	"autoload": {
 		"psr-4": {
