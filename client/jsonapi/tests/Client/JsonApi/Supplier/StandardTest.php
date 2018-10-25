@@ -37,7 +37,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 				'supplier' => 'supplier.id,supplier.label'
 			),
 			'sort' => 'supplier.id',
-			'include' => 'media,product,text'
+			'include' => 'media,text'
 		);
 
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
@@ -53,9 +53,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'supplier', $result['data']['type'] );
 		$this->assertEquals( 3, count( $result['data']['relationships']['text']['data'] ) );
-		$this->assertEquals( 2, count( $result['data']['relationships']['product']['data'] ) );
 		$this->assertEquals( 1, count( $result['data']['relationships']['media']['data'] ) );
-		$this->assertEquals( 6, count( $result['included'] ) );
+		$this->assertEquals( 4, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -103,7 +102,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'fields' => array(
 				'supplier' => 'supplier.id,supplier.label,supplier.code'
 			),
-			'include' => 'media,product,text,supplier/address',
+			'include' => 'media,text,supplier/address',
 			'sort' => 'supplier.label',
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
@@ -122,7 +121,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 3, count( $result['data'][0]['attributes'] ) );
 		$this->assertEquals( 'unitCode001', $result['data'][0]['attributes']['supplier.code'] );
 		$this->assertEquals( 'unitCode002', $result['data'][1]['attributes']['supplier.code'] );
-		$this->assertEquals( 8, count( $result['included'] ) );
+		$this->assertEquals( 6, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
