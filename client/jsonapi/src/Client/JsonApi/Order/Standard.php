@@ -244,7 +244,7 @@ class Standard
 				'payment.url-update' => $this->getUrlUpdate( $view, $args, $config ),
 			);
 
-			foreach( $service->getAttributes() as $item ) {
+			foreach( $service->getAttributeItems() as $item ) {
 				$attributes[$item->getCode()] = $item->getValue();
 			}
 

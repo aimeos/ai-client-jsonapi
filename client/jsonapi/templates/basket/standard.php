@@ -119,14 +119,14 @@ $productFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) u
 		{
 			$subEntry = $subProduct->toArray();
 
-			foreach( $subProduct->getAttributes() as $attribute ) {
+			foreach( $subProduct->getAttributeItems() as $attribute ) {
 				$subEntry['attribute'][] = $attribute->toArray();
 			}
 
 			$entry['attributes']['product'][] = $subEntry;
 		}
 
-		foreach( $orderProduct->getAttributes() as $attribute ) {
+		foreach( $orderProduct->getAttributeItems() as $attribute ) {
 			$entry['attributes']['attribute'][] = $attribute->toArray();
 		}
 
@@ -159,7 +159,7 @@ $serviceFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) u
 				);
 			}
 
-			foreach( $service->getAttributes() as $attribute ) {
+			foreach( $service->getAttributeItems() as $attribute ) {
 				$entry['attributes']['attribute'][] = $attribute->toArray();
 			}
 
