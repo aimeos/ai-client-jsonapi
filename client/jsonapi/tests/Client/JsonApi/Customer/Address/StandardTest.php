@@ -162,7 +162,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'customer/address', $result['data'][0]['type'] );
 		$this->assertNotNull( $result['data'][0]['id'] );
-		$this->assertGreaterThan( 22, count( $result['data'][0]['attributes'] ) );
+		$this->assertGreaterThan( 21, count( $result['data'][0]['attributes'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -285,7 +285,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'customer/address', $result['data']['type'] );
-		$this->assertGreaterThan( 22, count( $result['data']['attributes'] ) );
+		$this->assertGreaterThan( 21, count( $result['data']['attributes'] ) );
 		$this->assertEquals( 'test', $result['data']['attributes']['customer.address.lastname'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
