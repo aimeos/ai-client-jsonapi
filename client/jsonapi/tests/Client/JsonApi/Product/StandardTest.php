@@ -166,8 +166,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'filter' => array(
 				'f_catid' => $catId,
 				'f_search' => 'Cafe',
-				'f_listtype' => ['unittype13', 'unittype19'],
-				'==' => array( 'product.type.code' => 'default' ),
+				'f_listtype' => 'promotion',
+				'==' => ['product.type.code' => 'default'],
 			),
 			'sort' => '-product.id',
 		);

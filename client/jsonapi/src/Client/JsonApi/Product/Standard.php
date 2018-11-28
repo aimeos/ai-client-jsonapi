@@ -129,10 +129,6 @@ class Standard
 		$view = $this->getView();
 
 		$view->filter = [
-			'f_listtype' => [
-				'label' => 'Return products whose associated texts uses this list type',
-				'type' => 'string', 'default' => 'default', 'required' => false,
-			],
 			'f_search' => [
 				'label' => 'Return products whose text matches the user input',
 				'type' => 'string', 'default' => '', 'required' => false,
@@ -140,6 +136,10 @@ class Standard
 			'f_catid' => [
 				'label' => 'Return products associated to this category ID',
 				'type' => 'string|array', 'default' => '', 'required' => false,
+			],
+			'f_listtype' => [
+				'label' => 'Return products which are associated to categories with this list type',
+				'type' => 'string', 'default' => 'default', 'required' => false,
 			],
 			'f_attrid' => [
 				'label' => 'Return products that reference all attribute IDs',
@@ -256,7 +256,7 @@ class Standard
 		$context = $this->getContext();
 		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $context, 'product' );
 
-		$filter = $cntl->createFilter( $sort, $direction, $start, $size, $listtype );
+		$filter = $cntl->createFilter( $sort, $direction, $start, $size );
 		$filter = $cntl->addFilterAttribute( $filter, $attrIds, $optIds, $oneIds );
 		$filter = $cntl->addFilterSupplier( $filter, $supIds );
 
@@ -293,11 +293,11 @@ class Standard
 			 */
 			$level = $context->getConfig()->get( 'client/jsonapi/product/levels', $default );
 
-			$filter = $cntl->addFilterCategory( $filter, $catid, $level, $sort, $direction, $listtype );
+			$filter = $cntl->addFilterCategory( $filter, $catid, $level, $listtype );
 		}
 
 		if( ( $search = $view->param( 'filter/f_search' ) ) !== null ) {
-			$filter = $cntl->addFilterText( $filter, $search, $sort, $direction, $listtype );
+			$filter = $cntl->addFilterText( $filter, $search );
 		}
 
 		$params = $view->param( 'filter', [] );
