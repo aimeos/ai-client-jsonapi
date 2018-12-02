@@ -273,7 +273,7 @@ class Standard
 		];
 
 		$tplconf = 'client/jsonapi/standard/template-options';
-		$default = 'options-standard.php';
+		$default = 'options-standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 
@@ -296,7 +296,7 @@ class Standard
 	protected function render( ResponseInterface $response, \Aimeos\MW\View\Iface $view, $status )
 	{
 		$tplconf = 'client/jsonapi/basket/standard/template';
-		$default = 'basket/standard.php';
+		$default = 'basket/standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 

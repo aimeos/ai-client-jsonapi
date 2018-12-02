@@ -216,7 +216,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 		];
 
 		$tplconf = 'client/jsonapi/standard/template-options';
-		$default = 'options-standard.php';
+		$default = 'options-standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 
@@ -288,7 +288,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 		 * @category Developer
 		 */
 		$tplconf = 'client/jsonapi/basket/standard/template';
-		$default = 'basket/standard.php';
+		$default = 'basket/standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 

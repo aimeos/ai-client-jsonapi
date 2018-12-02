@@ -129,7 +129,7 @@ class Standard
 		$view->attributes = [];
 
 		$tplconf = 'client/jsonapi/standard/template-options';
-		$default = 'options-standard.php';
+		$default = 'options-standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 
@@ -191,7 +191,7 @@ class Standard
 		 * @category Developer
 		 */
 		$tplconf = 'client/jsonapi/subscription/standard/template';
-		$default = 'subscription/standard.php';
+		$default = 'subscription/standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 

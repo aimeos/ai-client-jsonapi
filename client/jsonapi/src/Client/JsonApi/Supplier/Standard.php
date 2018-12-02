@@ -76,7 +76,7 @@ class Standard
 		 * @category Developer
 		 */
 		$tplconf = 'client/jsonapi/supplier/standard/template';
-		$default = 'supplier/standard.php';
+		$default = 'supplier/standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 

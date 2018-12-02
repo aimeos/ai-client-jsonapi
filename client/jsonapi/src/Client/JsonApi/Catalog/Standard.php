@@ -71,7 +71,7 @@ class Standard
 		 * @category Developer
 		 */
 		$tplconf = 'client/jsonapi/catalog/standard/template';
-		$default = 'catalog/standard.php';
+		$default = 'catalog/standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 

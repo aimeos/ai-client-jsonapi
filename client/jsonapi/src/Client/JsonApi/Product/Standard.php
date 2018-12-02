@@ -80,7 +80,7 @@ class Standard
 			 * @category Developer
 			 */
 			$tplconf = 'client/jsonapi/product/standard/template-aggregate';
-			$default = 'aggregate-standard.php';
+			$default = 'aggregate-standard';
 		}
 		else
 		{
@@ -104,7 +104,7 @@ class Standard
 			 * @category Developer
 			 */
 			$tplconf = 'client/jsonapi/product/standard/template';
-			$default = 'product/standard.php';
+			$default = 'product/standard';
 		}
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
@@ -179,7 +179,7 @@ class Standard
 		];
 
 		$tplconf = 'client/jsonapi/standard/template-options';
-		$default = 'options-standard.php';
+		$default = 'options-standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 

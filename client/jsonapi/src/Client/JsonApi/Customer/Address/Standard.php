@@ -366,7 +366,7 @@ class Standard
 		];
 
 		$tplconf = 'client/jsonapi/standard/template-options';
-		$default = 'options-standard.php';
+		$default = 'options-standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 
@@ -408,7 +408,7 @@ class Standard
 		 * @category Developer
 		 */
 		$tplconf = 'client/jsonapi/customer/address/standard/template';
-		$default = 'customer/address/standard.php';
+		$default = 'customer/address/standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 

@@ -76,7 +76,7 @@ class Standard
 		 * @category Developer
 		 */
 		$tplconf = 'client/jsonapi/locale/standard/template';
-		$default = 'locale/standard.php';
+		$default = 'locale/standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 

@@ -56,7 +56,7 @@ class Standard
 		 * @see client/jsonapi/standard/template-options
 		 */
 		$tplconf = 'client/jsonapi/standard/template-get';
-		$default = 'get-standard.php';
+		$default = 'get-standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 
@@ -133,7 +133,7 @@ class Standard
 		 * @see client/jsonapi/standard/template-get
 		 */
 		$tplconf = 'client/jsonapi/standard/template-options';
-		$default = 'options-standard.php';
+		$default = 'options-standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 

@@ -76,7 +76,7 @@ class Standard
 		 * @category Developer
 		 */
 		$tplconf = 'client/jsonapi/attribute/standard/template';
-		$default = 'attribute/standard.php';
+		$default = 'attribute/standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 
