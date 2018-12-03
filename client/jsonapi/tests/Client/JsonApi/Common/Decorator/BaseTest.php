@@ -100,7 +100,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	protected function access( $name )
 	{
-		$class = new \ReflectionClass( '\Aimeos\Client\JsonApi\Common\Decorator\Base' );
+		$class = new \ReflectionClass( \Aimeos\Client\JsonApi\Common\Decorator\Base::class );
 		$method = $class->getMethod( $name );
 		$method->setAccessible( true );
 

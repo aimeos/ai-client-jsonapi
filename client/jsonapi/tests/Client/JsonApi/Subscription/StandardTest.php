@@ -219,7 +219,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function getObject( $method, $result )
 	{
-		$cntl = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Subscription\Standard' )
+		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Subscription\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( [$method] )
 			->getMock();

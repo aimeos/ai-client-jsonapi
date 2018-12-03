@@ -56,7 +56,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 0, $result['meta']['total'] );
 		$this->assertArrayNotHasKey( 'errors', $result );
 
-		$this->setExpectedException( '\Aimeos\MShop\Exception' );
+		$this->setExpectedException( \Aimeos\MShop\Exception::class );
 		$manager->findItem( 'unittest-japi' );
 	}
 
@@ -444,7 +444,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function getObject( $method, $result )
 	{
-		$cntl = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Customer\Standard' )
+		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Customer\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( [$method] )
 			->getMock();

@@ -132,7 +132,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$form = new \Aimeos\MShop\Common\Item\Helper\Form\Standard();
 		$templatePaths = \TestHelperJapi::getTemplatePaths();
 
-		$object = $this->getMockBuilder( '\Aimeos\Client\JsonApi\Order\Standard' )
+		$object = $this->getMockBuilder( \Aimeos\Client\JsonApi\Order\Standard::class )
 			->setConstructorArgs( [$this->context, 'order'] )
 			->setMethods( ['createOrder', 'getBasket', 'getPaymentForm'] )
 			->getMock();
@@ -275,7 +275,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$order = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
 
-		$cntl = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Order\Standard' )
+		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Order\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( ['addItem', 'block'] )
 			->getMock();
@@ -287,7 +287,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$result = $this->access( 'createOrder' )->invokeArgs( $this->object, [-1] );
 		\Aimeos\Controller\Frontend\Order\Factory::injectController( '\Aimeos\Controller\Frontend\Order\Standard', null );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Order\Item\Iface', $result );
+		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Iface::class, $result );
 	}
 
 
@@ -297,7 +297,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context->getSession()->set( 'aimeos/order.baseid', $basketId );
 
 		$result = $this->access( 'getBasket' )->invokeArgs( $this->object, [$basketId] );
-		$this->assertInstanceOf( '\Aimeos\MShop\Order\Item\Base\Iface', $result );
+		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Iface::class, $result );
 	}
 
 
@@ -305,7 +305,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$basketId = $this->getOrderBaseItem()->getId();
 
-		$this->setExpectedException( '\Aimeos\Client\JsonApi\Exception' );
+		$this->setExpectedException( \Aimeos\Client\JsonApi\Exception::class );
 		$this->access( 'getBasket' )->invokeArgs( $this->object, [$basketId] );
 	}
 
@@ -315,7 +315,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$basket = $this->getOrderBaseItem();
 		$order = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
 
-		$cntl = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Service\Standard' )
+		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Service\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( ['process'] )
 			->getMock();
@@ -327,7 +327,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$result = $this->access( 'getPaymentForm' )->invokeArgs( $this->object, [$basket, $order, []] );
 		\Aimeos\Controller\Frontend\Service\Factory::injectController( '\Aimeos\Controller\Frontend\Service\Standard', null );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Common\Item\Helper\Form\Iface', $result );
+		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Helper\Form\Iface::class, $result );
 	}
 
 
@@ -336,7 +336,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$basket = \Aimeos\MShop\Factory::createManager( $this->context, 'order/base' )->createItem();
 		$order = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
 
-		$cntl = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Order\Standard' )
+		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Order\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( ['saveItem'] )
 			->getMock();
@@ -347,13 +347,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$result = $this->access( 'getPaymentForm' )->invokeArgs( $this->object, [$basket, $order, []] );
 		\Aimeos\Controller\Frontend\Order\Factory::injectController( '\Aimeos\Controller\Frontend\Order\Standard', null );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Common\Item\Helper\Form\Iface', $result );
+		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Helper\Form\Iface::class, $result );
 	}
 
 
 	protected function access( $name )
 	{
-		$class = new \ReflectionClass( '\Aimeos\Client\JsonApi\Order\Standard' );
+		$class = new \ReflectionClass( \Aimeos\Client\JsonApi\Order\Standard::class );
 		$method = $class->getMethod( $name );
 		$method->setAccessible( true );
 
@@ -369,7 +369,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function getObject( $method, $result )
 	{
-		$cntl = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Order\Standard' )
+		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Order\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( [$method] )
 			->getMock();

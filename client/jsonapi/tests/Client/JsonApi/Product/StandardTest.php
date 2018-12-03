@@ -28,14 +28,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetView()
 	{
-		$this->assertInstanceOf( '\Aimeos\MW\View\Iface', $this->object->getView() );
+		$this->assertInstanceOf( \Aimeos\MW\View\Iface::class, $this->object->getView() );
 	}
 
 
 	public function testSetView()
 	{
 		$result = $this->object->setView( $this->view );
-		$this->assertInstanceOf( '\Aimeos\Client\JsonApi\Iface', $result );
+		$this->assertInstanceOf( \Aimeos\Client\JsonApi\Iface::class, $result );
 	}
 
 
@@ -185,7 +185,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetMShopException()
 	{
-		$object = $this->getMockBuilder( '\Aimeos\Client\JsonApi\Product\Standard' )
+		$object = $this->getMockBuilder( \Aimeos\Client\JsonApi\Product\Standard::class )
 			->setConstructorArgs( [$this->context, 'product'] )
 			->setMethods( ['getItems'] )
 			->getMock();
@@ -207,7 +207,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetException()
 	{
-		$object = $this->getMockBuilder( '\Aimeos\Client\JsonApi\Product\Standard' )
+		$object = $this->getMockBuilder( \Aimeos\Client\JsonApi\Product\Standard::class )
 			->setConstructorArgs( [$this->context, 'product'] )
 			->setMethods( ['getItems'] )
 			->getMock();

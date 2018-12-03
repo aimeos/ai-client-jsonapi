@@ -150,7 +150,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetMShopException()
 	{
-		$object = $this->getMockBuilder( '\Aimeos\Client\JsonApi\Supplier\Standard' )
+		$object = $this->getMockBuilder( \Aimeos\Client\JsonApi\Supplier\Standard::class )
 			->setConstructorArgs( [$this->context, 'supplier'] )
 			->setMethods( ['getItems'] )
 			->getMock();
@@ -171,7 +171,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetException()
 	{
-		$object = $this->getMockBuilder( '\Aimeos\Client\JsonApi\Supplier\Standard' )
+		$object = $this->getMockBuilder( \Aimeos\Client\JsonApi\Supplier\Standard::class )
 			->setConstructorArgs( [$this->context, 'supplier'] )
 			->setMethods( ['getItems'] )
 			->getMock();
