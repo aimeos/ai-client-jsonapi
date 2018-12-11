@@ -293,7 +293,7 @@ class Standard
 			 */
 			$level = $context->getConfig()->get( 'client/jsonapi/product/levels', $default );
 
-			$filter = $cntl->addFilterCategory( $filter, $catid, $level, $listtype );
+			$filter = $cntl->addFilterCategory( $filter, $catid, $listtype, $level );
 		}
 
 		if( ( $search = $view->param( 'filter/f_search' ) ) !== null ) {
