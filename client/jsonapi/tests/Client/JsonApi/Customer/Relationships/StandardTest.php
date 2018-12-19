@@ -36,14 +36,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$custManager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' );
 		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer/lists' );
-		$typeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer/lists/type' );
 
 		$userId = $custManager->findItem( 'UTC001' )->getId();
-		$typeId = $typeManager->findItem( 'favorite', [], 'product' )->getId();;
 
 		$this->context->setUserId( $userId );
 		$item = $manager->createItem()->setParentId( $userId );
-		$item->setDomain( 'product' )->setRefId( -1 )->setTypeId( $typeId );
+		$item->setDomain( 'product' )->setRefId( -1 )->setType( 'favorite' );
 		$item = $manager->saveItem( $item );
 
 
@@ -71,14 +69,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$custManager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' );
 		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer/lists' );
-		$typeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer/lists/type' );
 
 		$userId = $custManager->findItem( 'UTC001' )->getId();
-		$typeId = $typeManager->findItem( 'favorite', [], 'product' )->getId();;
 
 		$this->context->setUserId( $userId );
 		$item = $manager->createItem()->setParentId( $userId );
-		$item->setDomain( 'product' )->setRefId( -1 )->setTypeId( $typeId );
+		$item->setDomain( 'product' )->setRefId( -1 )->setType( 'favorite' );
 		$item = $manager->saveItem( $item );
 
 
@@ -267,14 +263,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$custManager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' );
 		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer/lists' );
-		$typeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer/lists/type' );
 
 		$userId = $custManager->findItem( 'UTC001' )->getId();
-		$typeId = $typeManager->findItem( 'favorite', [], 'product' )->getId();;
 
 		$this->context->setUserId( $userId );
 		$item = $manager->createItem()->setParentId( $userId );
-		$item->setDomain( 'product' )->setRefId( -1 )->setTypeId( $typeId );
+		$item->setDomain( 'product' )->setRefId( -1 )->setType( 'favorite' );
 		$item = $manager->saveItem( $item );
 
 		$params = array( 'id' => $item->getId(), 'relatedid' => $item->getId() );

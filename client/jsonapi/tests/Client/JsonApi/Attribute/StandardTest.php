@@ -135,7 +135,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$params = array(
 			'filter' => array(
-				'==' => array( 'attribute.type.code' => 'size' ),
+				'==' => array( 'attribute.type' => 'size' ),
 			),
 			'sort' => 'attribute.position',
 		);
