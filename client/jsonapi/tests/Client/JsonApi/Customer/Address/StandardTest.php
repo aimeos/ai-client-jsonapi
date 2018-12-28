@@ -34,8 +34,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDelete()
 	{
-		$custManager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' );
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer/address' );
+		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
+		$manager = \Aimeos\MShop::create( $this->context, 'customer/address' );
 
 		$userId = $custManager->findItem( 'UTC001' )->getId();
 		$this->context->setUserId( $userId );
@@ -65,8 +65,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteById()
 	{
-		$custManager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' );
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer/address' );
+		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
+		$manager = \Aimeos\MShop::create( $this->context, 'customer/address' );
 
 		$userId = $custManager->findItem( 'UTC001' )->getId();
 		$this->context->setUserId( $userId );
@@ -144,7 +144,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$user = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' )->findItem( 'UTC001' );
+		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' );
 		$this->context->setUserId( $user->getId() );
 
 		$params = array( 'id' => $user->getId() );
@@ -170,7 +170,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetById()
 	{
-		$user = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' )->findItem( 'UTC001', ['customer/address'] );
+		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001', ['customer/address'] );
 		$this->context->setUserId( $user->getId() );
 		$addrItems = $user->getAddressItems();
 
@@ -257,8 +257,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatch()
 	{
-		$custManager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' );
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer/address' );
+		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
+		$manager = \Aimeos\MShop::create( $this->context, 'customer/address' );
 
 		$customerId = $custManager->findItem( 'UTC001' )->getId();
 		$item = $manager->createItem()->setParentId( $customerId );
@@ -342,7 +342,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPost()
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' );
+		$manager = \Aimeos\MShop::create( $this->context, 'customer' );
 		$userId = $manager->findItem( 'UTC001' )->getId();
 		$this->context->setUserId( $userId );
 
@@ -368,14 +368,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertArrayNotHasKey( 'errors', $result );
 
 
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer/address' );
+		$manager = \Aimeos\MShop::create( $this->context, 'customer/address' );
 		$manager->deleteItem( $result['data'][0]['id'] );
 	}
 
 
 	public function testPostMultiple()
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' );
+		$manager = \Aimeos\MShop::create( $this->context, 'customer' );
 		$userId = $manager->findItem( 'UTC001' )->getId();
 		$this->context->setUserId( $userId );
 
@@ -407,7 +407,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertArrayNotHasKey( 'errors', $result );
 
 
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer/address' );
+		$manager = \Aimeos\MShop::create( $this->context, 'customer/address' );
 		$manager->deleteItems( [$result['data'][0]['id'], $result['data'][1]['id']] );
 	}
 

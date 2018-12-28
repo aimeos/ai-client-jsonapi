@@ -34,7 +34,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDelete()
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'service' );
+		$manager = \Aimeos\MShop::create( $this->context, 'service' );
 		$servId = $manager->findItem( 'unitcode', [], 'service', 'delivery' )->getId();
 
 		$body = '{"data": {"type": "basket/service", "id": "delivery", "attributes": {"service.id": ' . $servId . '}}}';
@@ -66,7 +66,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteById()
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'service' );
+		$manager = \Aimeos\MShop::create( $this->context, 'service' );
 		$servId = $manager->findItem( 'unitcode', [], 'service', 'delivery' )->getId();
 
 		$body = '{"data": {"type": "basket/service", "id": "delivery", "attributes": {"service.id": ' . $servId . '}}}';
@@ -125,7 +125,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPost()
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'service' );
+		$manager = \Aimeos\MShop::create( $this->context, 'service' );
 		$servId = $manager->findItem( 'unitcode', [], 'service', 'delivery' )->getId();
 
 		$body = '{"data": {"type": "basket/service", "id": "delivery", "attributes": {"service.id": ' . $servId . '}}}';
@@ -149,7 +149,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostMultiple()
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'service' );
+		$manager = \Aimeos\MShop::create( $this->context, 'service' );
 		$servId = $manager->findItem( 'unitcode', [], 'service', 'delivery' )->getId();
 		$servId2 = $manager->findItem( 'unitpaymentcode', [], 'service', 'payment' )->getId();
 

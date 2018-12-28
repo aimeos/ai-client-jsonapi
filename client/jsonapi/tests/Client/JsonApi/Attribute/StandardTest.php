@@ -28,7 +28,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetItem()
 	{
-		$attrManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
+		$attrManager = \Aimeos\MShop::create( $this->context, 'attribute' );
 		$attrId = $attrManager->findItem( 'xs', [], 'product', 'size' )->getId();
 
 		$params = array(
@@ -63,7 +63,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetItemProperties()
 	{
-		$attrManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
+		$attrManager = \Aimeos\MShop::create( $this->context, 'attribute' );
 		$attrId = $attrManager->findItem( 'testurl', [], 'product', 'download' )->getId();
 
 		$params = array(

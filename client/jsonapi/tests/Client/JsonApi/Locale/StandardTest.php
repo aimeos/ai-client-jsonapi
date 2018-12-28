@@ -28,7 +28,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetItem()
 	{
-		$localeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'locale' );
+		$localeManager = \Aimeos\MShop::create( $this->context, 'locale' );
 		$search = $localeManager->createSearch();
 		$search->setConditions( $search->compare( '==', 'locale.status', 1 ) );
 		$search->setSortations( [$search->sort( '+', 'locale.position' )] );

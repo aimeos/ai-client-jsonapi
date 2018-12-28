@@ -35,7 +35,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$user = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' )->findItem( 'UTC001' );
+		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' );
 		$this->context->setUserId( $user->getId() );
 
 		$params = array( 'fields' => array( 'order' => 'order.id,order.type' ) );
@@ -61,7 +61,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->context->setEditor( 'core:unittest' );
 
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'order' );
+		$manager = \Aimeos\MShop::create( $this->context, 'order' );
 		$search = $manager->createSearch()->setSlice( 0, 1 );
 		$search->setConditions( $search->compare( '==', 'order.type', 'phone' ) );
 		$items = $manager->searchItems( $search );
@@ -127,8 +127,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPost()
 	{
-		$basket = \Aimeos\MShop\Factory::createManager( $this->context, 'order/base' )->createItem();
-		$order = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
+		$basket = \Aimeos\MShop::create( $this->context, 'order/base' )->createItem();
+		$order = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
 		$form = new \Aimeos\MShop\Common\Item\Helper\Form\Standard();
 		$templatePaths = \TestHelperJapi::getTemplatePaths();
 
@@ -273,7 +273,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testCreateOrder()
 	{
-		$order = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
+		$order = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
 
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Order\Standard::class )
 			->setConstructorArgs( [$this->context] )
@@ -313,7 +313,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetPaymentForm()
 	{
 		$basket = $this->getOrderBaseItem();
-		$order = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
+		$order = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
 
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Service\Standard::class )
 			->setConstructorArgs( [$this->context] )
@@ -333,8 +333,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetPaymentFormNoPayment()
 	{
-		$basket = \Aimeos\MShop\Factory::createManager( $this->context, 'order/base' )->createItem();
-		$order = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
+		$basket = \Aimeos\MShop::create( $this->context, 'order/base' )->createItem();
+		$order = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
 
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Order\Standard::class )
 			->setConstructorArgs( [$this->context] )
@@ -393,7 +393,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function getOrderBaseItem()
 	{
-		$baseManager = \Aimeos\MShop\Factory::createManager( $this->context, 'order/base' );
+		$baseManager = \Aimeos\MShop::create( $this->context, 'order/base' );
 
 		$search = $baseManager->createSearch();
 		$search->setConditions( $search->compare( '==', 'order.base.price', '672.00') );
