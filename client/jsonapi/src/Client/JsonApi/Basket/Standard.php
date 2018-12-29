@@ -35,7 +35,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	{
 		parent::__construct( $context, $path );
 
-		$this->controller = \Aimeos\Controller\Frontend\Basket\Factory::createController( $this->getContext() );
+		$this->controller = \Aimeos\Controller\Frontend\Basket\Factory::create( $this->getContext() );
 	}
 
 

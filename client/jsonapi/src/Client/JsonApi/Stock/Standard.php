@@ -134,7 +134,7 @@ class Standard
 	protected function getItem( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response )
 	{
 		$context = $this->getContext();
-		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $context, 'stock' );
+		$cntl = \Aimeos\Controller\Frontend\Factory::create( $context, 'stock' );
 
 		$view->items = $cntl->getItem( $view->param( 'id' ) );
 		$view->total = 1;
@@ -157,7 +157,7 @@ class Standard
 		$params = $view->param( 'filter', [] );
 		unset( $params['s_prodcode'], $params['s_typecode'] );
 
-		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'stock' );
+		$cntl = \Aimeos\Controller\Frontend\Factory::create( $this->getContext(), 'stock' );
 
 		$filter = $cntl->createFilter();
 		$filter = $this->initCriteria( $filter, ['filter' => $params] );

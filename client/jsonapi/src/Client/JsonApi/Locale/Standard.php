@@ -111,7 +111,7 @@ class Standard
 	 */
 	protected function getItem( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response )
 	{
-		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'locale' );
+		$cntl = \Aimeos\Controller\Frontend\Factory::create( $this->getContext(), 'locale' );
 
 		$view->items = $cntl->getItem( $view->param( 'id' ) );
 		$view->total = 1;
@@ -132,7 +132,7 @@ class Standard
 	{
 		$total = 0;
 
-		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'locale' );
+		$cntl = \Aimeos\Controller\Frontend\Factory::create( $this->getContext(), 'locale' );
 
 		$filter = $cntl->createFilter();
 		$filter = $this->initCriteriaConditions( $filter, $view->param() );

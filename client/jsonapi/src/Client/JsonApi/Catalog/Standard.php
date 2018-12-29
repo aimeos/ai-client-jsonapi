@@ -124,7 +124,7 @@ class Standard
 		}
 
 		$context = $this->getContext();
-		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $context, 'catalog' );
+		$cntl = \Aimeos\Controller\Frontend\Factory::create( $context, 'catalog' );
 
 		$filter = $cntl->createFilter();
 		$filter = $this->initCriteria( $filter, $view->param() );

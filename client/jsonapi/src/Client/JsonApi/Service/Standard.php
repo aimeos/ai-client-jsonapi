@@ -43,8 +43,8 @@ class Standard
 				$ref = explode( ',', $ref );
 			}
 
-			$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'service' );
-			$basketCntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'basket' );
+			$cntl = \Aimeos\Controller\Frontend\Factory::create( $this->getContext(), 'service' );
+			$basketCntl = \Aimeos\Controller\Frontend\Factory::create( $this->getContext(), 'basket' );
 			$basket = $basketCntl->get();
 
 			if( ( $id = $view->param( 'id' ) ) != '' )

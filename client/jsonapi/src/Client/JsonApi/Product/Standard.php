@@ -205,7 +205,7 @@ class Standard
 		$size = $view->param( 'page/limit', 10000 );
 		$start = $view->param( 'page/offset', 0 );
 
-		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'product' );
+		$cntl = \Aimeos\Controller\Frontend\Factory::create( $this->getContext(), 'product' );
 		$filter = $this->getFilter( $view, null, '+', $start, $size );
 
 		$view->data = $cntl->aggregate( $filter, $key );
@@ -231,7 +231,7 @@ class Standard
 			$ids = array_merge( $ids, array_keys( $item->getRefItems( $domain ) ) );
 		}
 
-		return \Aimeos\Controller\Frontend\Factory::createController( $context, $domain )->getItems( $ids, $ref );
+		return \Aimeos\Controller\Frontend\Factory::create( $context, $domain )->getItems( $ids, $ref );
 	}
 
 
@@ -254,7 +254,7 @@ class Standard
 		$supIds = (array) $view->param( 'filter/f_supid', [] );
 
 		$context = $this->getContext();
-		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $context, 'product' );
+		$cntl = \Aimeos\Controller\Frontend\Factory::create( $context, 'product' );
 
 		$filter = $cntl->createFilter( $sort, $direction, $start, $size );
 		$filter = $cntl->addFilterAttribute( $filter, $attrIds, $optIds, $oneIds );
@@ -329,7 +329,7 @@ class Standard
 			$ref = explode( ',', $ref );
 		}
 
-		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'product' );
+		$cntl = \Aimeos\Controller\Frontend\Factory::create( $this->getContext(), 'product' );
 
 		$view->items = $cntl->getItem( $view->param( 'id' ), $ref );
 		$view->total = 1;
@@ -373,7 +373,7 @@ class Standard
 			$direction = '-';
 		}
 
-		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'product' );
+		$cntl = \Aimeos\Controller\Frontend\Factory::create( $this->getContext(), 'product' );
 		$filter = $this->getFilter( $view, $sort, $direction, $start, $size );
 
 		$view->items = $cntl->searchItems( $filter, $ref, $total );
