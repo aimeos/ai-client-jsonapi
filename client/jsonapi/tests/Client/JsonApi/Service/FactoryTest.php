@@ -15,7 +15,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 	{
 		$context = \TestHelperJapi::getContext();
 
-		$client = \Aimeos\Client\JsonApi\Service\Factory::createClient( $context, 'service' );
+		$client = \Aimeos\Client\JsonApi\Service\Factory::create( $context, 'service' );
 		$this->assertInstanceOf( \Aimeos\Client\JsonApi\Iface::class, $client );
 	}
 
@@ -25,7 +25,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 		$context = \TestHelperJapi::getContext();
 
 		$this->setExpectedException( \Aimeos\Client\JsonApi\Exception::class );
-		\Aimeos\Client\JsonApi\Service\Factory::createClient( $context, '' );
+		\Aimeos\Client\JsonApi\Service\Factory::create( $context, '' );
 	}
 
 
@@ -34,7 +34,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 		$context = \TestHelperJapi::getContext();
 
 		$this->setExpectedException( \Aimeos\Client\JsonApi\Exception::class );
-		\Aimeos\Client\JsonApi\Service\Factory::createClient( $context, '%^' );
+		\Aimeos\Client\JsonApi\Service\Factory::create( $context, '%^' );
 	}
 
 
@@ -43,6 +43,6 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 		$context = \TestHelperJapi::getContext();
 
 		$this->setExpectedException( \Aimeos\Client\JsonApi\Exception::class );
-		\Aimeos\Client\JsonApi\Service\Factory::createClient( $context, 'service', '%^' );
+		\Aimeos\Client\JsonApi\Service\Factory::create( $context, 'service', '%^' );
 	}
 }

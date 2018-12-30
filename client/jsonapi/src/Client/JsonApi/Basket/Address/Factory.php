@@ -30,7 +30,7 @@ class Factory
 	 * @return \Aimeos\Client\JsonApi\Iface JSON API client
 	 * @throws \Aimeos\Client\JsonApi\Exception If requested client implementation couldn't be found or initialisation fails
 	 */
-	public static function createClient( \Aimeos\MShop\Context\Item\Iface $context, $path, $name = null )
+	public static function create( \Aimeos\MShop\Context\Item\Iface $context, $path, $name = null )
 	{
 		if( is_string( $path ) === false || preg_match( '#^[a-zA-Z0-9/]+$#', $path ) !== 1 ) {
 			throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid client "%1$s"', $path ), 400 );
@@ -82,7 +82,7 @@ class Factory
 		$iface = '\\Aimeos\\Client\\JsonApi\\Iface';
 		$classname = '\\Aimeos\\Client\\JsonApi\\Basket\\Address\\' . $name;
 
-		$client = self::createClientBase( $classname, $iface, $context, $path );
+		$client = self::createClient( $classname, $iface, $context, $path );
 
 
 		/** client/jsonapi/basket/address/decorators/excludes

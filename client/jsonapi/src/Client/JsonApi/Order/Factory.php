@@ -30,7 +30,7 @@ class Factory
 	 * @return \Aimeos\Client\JsonApi\Iface JSON API client
 	 * @throws \Aimeos\Client\JsonApi\Exception If requested client implementation couldn't be found or initialisation fails
 	 */
-	public static function createClient( \Aimeos\MShop\Context\Item\Iface $context, $path, $name = null )
+	public static function create( \Aimeos\MShop\Context\Item\Iface $context, $path, $name = null )
 	{
 		if( ctype_alnum( $path ) === false )
 		{
@@ -84,7 +84,7 @@ class Factory
 		$iface = '\\Aimeos\\Client\\JsonApi\\Iface';
 		$classname = '\\Aimeos\\Client\\JsonApi\\Order\\' . $name;
 
-		$client = self::createClientBase( $classname, $iface, $context, $path );
+		$client = self::createClient( $classname, $iface, $context, $path );
 
 
 		/** client/jsonapi/order/decorators/excludes

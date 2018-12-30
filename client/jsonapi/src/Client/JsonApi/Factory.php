@@ -31,9 +31,9 @@ class Factory
 	 * @return \Aimeos\Client\JsonApi\Iface JSON client instance
 	 * @throws \Aimeos\Client\JsonApi\Exception If the given path is invalid
 	 */
-	static public function createClient( \Aimeos\MShop\Context\Item\Iface $context, $path, $name = null )
+	static public function create( \Aimeos\MShop\Context\Item\Iface $context, $path, $name = null )
 	{
-		return self::create( $context, $path, $name );
+		return parent::create( $context, $path, $name );
 	}
 
 

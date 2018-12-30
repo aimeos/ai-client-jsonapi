@@ -15,7 +15,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 	{
 		$context = \TestHelperJapi::getContext();
 
-		$client = \Aimeos\Client\JsonApi\Factory::createClient( $context, 'product' );
+		$client = \Aimeos\Client\JsonApi\Factory::create( $context, 'product' );
 		$this->assertInstanceOf( \Aimeos\Client\JsonApi\Iface::class, $client );
 	}
 
@@ -24,7 +24,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 	{
 		$context = \TestHelperJapi::getContext();
 
-		$client = \Aimeos\Client\JsonApi\Factory::createClient( $context, '' );
+		$client = \Aimeos\Client\JsonApi\Factory::create( $context, '' );
 		$this->assertInstanceOf( \Aimeos\Client\JsonApi\Iface::class, $client );
 	}
 
@@ -34,7 +34,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 		$context = \TestHelperJapi::getContext();
 
 		$this->setExpectedException( \Aimeos\Client\JsonApi\Exception::class );
-		\Aimeos\Client\JsonApi\Factory::createClient( $context, '%^' );
+		\Aimeos\Client\JsonApi\Factory::create( $context, '%^' );
 	}
 
 
@@ -43,7 +43,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 		$context = \TestHelperJapi::getContext();
 
 		$this->setExpectedException( \Aimeos\Client\JsonApi\Exception::class );
-		\Aimeos\Client\JsonApi\Factory::createClient( $context, '', '%^' );
+		\Aimeos\Client\JsonApi\Factory::create( $context, '', '%^' );
 	}
 
 
@@ -53,9 +53,9 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 
 		$context = \TestHelperJapi::getContext();
 
-		$client1 = \Aimeos\Client\JsonApi\Factory::createClient( $context, 'product' );
+		$client1 = \Aimeos\Client\JsonApi\Factory::create( $context, 'product' );
 		\Aimeos\Client\JsonApi\Factory::clear();
-		$client2 = \Aimeos\Client\JsonApi\Factory::createClient( $context, 'product' );
+		$client2 = \Aimeos\Client\JsonApi\Factory::create( $context, 'product' );
 
 		\Aimeos\Client\JsonApi\Factory::setCache( $cache );
 
@@ -69,12 +69,12 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 
 		$context = \TestHelperJapi::getContext();
 
-		$cntlA1 = \Aimeos\Client\JsonApi\Factory::createClient( $context, 'product' );
-		$cntlB1 = \Aimeos\Client\JsonApi\Factory::createClient( $context, 'attribute' );
+		$cntlA1 = \Aimeos\Client\JsonApi\Factory::create( $context, 'product' );
+		$cntlB1 = \Aimeos\Client\JsonApi\Factory::create( $context, 'attribute' );
 		\Aimeos\Client\JsonApi\Factory::clear( (string) $context );
 
-		$cntlA2 = \Aimeos\Client\JsonApi\Factory::createClient( $context, 'product' );
-		$cntlB2 = \Aimeos\Client\JsonApi\Factory::createClient( $context, 'attribute' );
+		$cntlA2 = \Aimeos\Client\JsonApi\Factory::create( $context, 'product' );
+		$cntlB2 = \Aimeos\Client\JsonApi\Factory::create( $context, 'attribute' );
 
 		\Aimeos\Client\JsonApi\Factory::setCache( $cache );
 
@@ -89,13 +89,13 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 
 		$context = \TestHelperJapi::getContext();
 
-		$cntlA1 = \Aimeos\Client\JsonApi\Factory::createClient( $context, 'product' );
-		$cntlB1 = \Aimeos\Client\JsonApi\Factory::createClient( $context, 'attribute' );
+		$cntlA1 = \Aimeos\Client\JsonApi\Factory::create( $context, 'product' );
+		$cntlB1 = \Aimeos\Client\JsonApi\Factory::create( $context, 'attribute' );
 
 		\Aimeos\Client\JsonApi\Factory::clear( (string) $context, 'product' );
 
-		$cntlA2 = \Aimeos\Client\JsonApi\Factory::createClient( $context, 'product' );
-		$cntlB2 = \Aimeos\Client\JsonApi\Factory::createClient( $context, 'attribute' );
+		$cntlA2 = \Aimeos\Client\JsonApi\Factory::create( $context, 'product' );
+		$cntlB2 = \Aimeos\Client\JsonApi\Factory::create( $context, 'attribute' );
 
 		\Aimeos\Client\JsonApi\Factory::setCache( $cache );
 

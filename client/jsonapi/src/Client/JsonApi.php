@@ -126,7 +126,7 @@ class JsonApi extends \Aimeos\Client\JsonApi\Common\Factory\Base
 		{
 			$args = array( $context, $path, $name );
 
-			if( ( $client = @call_user_func_array( array( $factory, 'createClient' ), $args ) ) === false ) {
+			if( ( $client = @call_user_func_array( array( $factory, 'create' ), $args ) ) === false ) {
 				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid factory "%1$s"', $factory ), 400 );
 			}
 		}
@@ -196,7 +196,7 @@ class JsonApi extends \Aimeos\Client\JsonApi\Common\Factory\Base
 		$iface = '\\Aimeos\\Client\\JsonApi\\Iface';
 		$classname = '\\Aimeos\\Client\\JsonApi\\' . $name;
 
-		$client = self::createClientBase( $classname, $iface, $context, $path );
+		$client = self::createClient( $classname, $iface, $context, $path );
 
 		/** client/jsonapi/decorators/excludes
 		 * Excludes decorators added by the "common" option from the JSON API clients
