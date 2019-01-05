@@ -201,37 +201,11 @@ class Standard
 	 */
 	protected function aggregate( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response )
 	{
-		$key = $view->param( 'aggregate' );
-		$size = $view->param( 'page/limit', 10000 );
-		$start = $view->param( 'page/offset', 0 );
-
-		$cntl = \Aimeos\Controller\Frontend\Factory::create( $this->getContext(), 'product' );
-		$filter = $this->getFilter( $view, null, '+', $start, $size );
-
-		$view->data = $cntl->aggregate( $filter, $key );
+		$view->data = $this->getController( $view )->sort()
+			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 10000 ) )
+			->aggregate( $view->param( 'aggregate' ) );
 
 		return $response;
-	}
-
-
-	/**
-	 * Returns the items for the given domain with the items from the related domains included
-	 *
-	 * @param \Aimeos\MShop\Product\Item\Iface[] $productItems Associative list of product IDs as keys and product items as values
-	 * @param string[] $ref List of domain names that should be fetched together with the items
-	 * @param string $domain Domain name of the items that should be returned
-	 * @return \Aimeos\MShop\Attribute\Item\Iface[] Associative list of attribute IDs as keys and attribute items as values
-	 */
-	protected function getDomainItems( array $productItems, array $ref, $domain )
-	{
-		$ids = [];
-		$context = $this->getContext();
-
-		foreach( $productItems as $item ) {
-			$ids = array_merge( $ids, array_keys( $item->getRefItems( $domain ) ) );
-		}
-
-		return \Aimeos\Controller\Frontend\Factory::create( $context, $domain )->getItems( $ids, $ref );
 	}
 
 
@@ -239,76 +213,60 @@ class Standard
 	 * Returns the initialized search filter
 	 *
 	 * @param \Aimeos\MW\View\Iface $view View instance
-	 * @param string|null $sort Sort code (e.g. relevance) or null for no sorting
-	 * @param string $direction Sort direction, e.g. "+" for ascending, "-" for descending
-	 * @param integer $start Slice start
-	 * @param integer $size Slize size
 	 * @return \Aimeos\MW\Criteria\Iface Initialize search filter
 	 */
-	protected function getFilter( \Aimeos\MW\View\Iface $view, $sort, $direction, $start, $size )
+	protected function getController( \Aimeos\MW\View\Iface $view )
 	{
-		$listtype = $view->param( 'filter/f_listtype', 'default' );
-		$attrIds = (array) $view->param( 'filter/f_attrid', [] );
-		$optIds = (array) $view->param( 'filter/f_optid', [] );
-		$oneIds = (array) $view->param( 'filter/f_oneid', [] );
-		$supIds = (array) $view->param( 'filter/f_supid', [] );
-
 		$context = $this->getContext();
-		$cntl = \Aimeos\Controller\Frontend\Factory::create( $context, 'product' );
+		$cntl = \Aimeos\Controller\Frontend::create( $context, 'product' );
 
-		$filter = $cntl->createFilter( $sort, $direction, $start, $size );
-		$filter = $cntl->addFilterAttribute( $filter, $attrIds, $optIds, $oneIds );
-		$filter = $cntl->addFilterSupplier( $filter, $supIds );
+		/** client/jsonapi/product/levels
+		 * Include products of sub-categories in the product list of the current category
+		 *
+		 * Sometimes it may be useful to show products of sub-categories in the
+		 * current category product list, e.g. if the current category contains
+		 * no products at all or if there are only a few products in all categories.
+		 *
+		 * Possible constant values for this setting are:
+		 * * 1 : Only products from the current category
+		 * * 2 : Products from the current category and the direct child categories
+		 * * 3 : Products from the current category and the whole category sub-tree
+		 *
+		 * Caution: Please keep in mind that displaying products of sub-categories
+		 * can slow down your shop, especially if it contains more than a few
+		 * products! You have no real control over the positions of the products
+		 * in the result list too because all products from different categories
+		 * with the same position value are placed randomly.
+		 *
+		 * Usually, a better way is to associate products to all categories they
+		 * should be listed in. This can be done manually if there are only a few
+		 * ones or during the product import automatically.
+		 *
+		 * @param integer Tree level constant
+		 * @since 2017.03
+		 * @category Developer
+		 */
+		$level = $context->getConfig()->get( 'client/jsonapi/product/levels', \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE );
 
-
-		if( ( $catid = $view->param( 'filter/f_catid' ) ) !== null )
-		{
-			$default = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE;
-
-			/** client/jsonapi/product/levels
-			 * Include products of sub-categories in the product list of the current category
-			 *
-			 * Sometimes it may be useful to show products of sub-categories in the
-			 * current category product list, e.g. if the current category contains
-			 * no products at all or if there are only a few products in all categories.
-			 *
-			 * Possible constant values for this setting are:
-			 * * 1 : Only products from the current category
-			 * * 2 : Products from the current category and the direct child categories
-			 * * 3 : Products from the current category and the whole category sub-tree
-			 *
-			 * Caution: Please keep in mind that displaying products of sub-categories
-			 * can slow down your shop, especially if it contains more than a few
-			 * products! You have no real control over the positions of the products
-			 * in the result list too because all products from different categories
-			 * with the same position value are placed randomly.
-			 *
-			 * Usually, a better way is to associate products to all categories they
-			 * should be listed in. This can be done manually if there are only a few
-			 * ones or during the product import automatically.
-			 *
-			 * @param integer Tree level constant
-			 * @since 2017.03
-			 * @category Developer
-			 */
-			$level = $context->getConfig()->get( 'client/jsonapi/product/levels', $default );
-
-			$filter = $cntl->addFilterCategory( $filter, $catid, $listtype, $level );
+		foreach( (array) $view->param( 'filter/f_oneid', [] ) as $list ) {
+			$cntl->oneOf( $list );
 		}
 
-		if( ( $search = $view->param( 'filter/f_search' ) ) !== null ) {
-			$filter = $cntl->addFilterText( $filter, $search );
-		}
+		$cntl->allOf( $view->param( 'filter/f_attrid', [] ) )
+			->oneOf( $view->param( 'filter/f_optid', [] ) )
+			->text( $view->param( 'filter/f_search' ) )
+			->supplier( $view->param( 'filter/f_supid', [] ), $view->param( 'filter/f_listtype', 'default' ) )
+			->category( $view->param( 'filter/f_catid' ), $view->param( 'filter/f_listtype', 'default' ), $level );
 
 		$params = $view->param( 'filter', [] );
 
-		unset( $params['f_supid'] );
+		unset( $params['f_supid'], $params['f_search'] );
+		unset( $params['f_catid'], $params['f_listtype'] );
 		unset( $params['f_attrid'], $params['f_optid'], $params['f_oneid'] );
-		unset( $params['f_listtype'], $params['f_catid'], $params['f_search'] );
 
-		$filter = $this->initCriteriaConditions( $filter, ['filter' => $params] );
-
-		return $filter;
+		return $cntl->parse( $params )
+			->sort( $view->param( 'sort', 'relevance' ) )
+			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 48 ) );
 	}
 
 
@@ -322,23 +280,16 @@ class Standard
 	 */
 	protected function getItem( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response )
 	{
-		$map = [];
 		$ref = $view->param( 'include', [] );
 
 		if( is_string( $ref ) ) {
 			$ref = explode( ',', $ref );
 		}
 
-		$cntl = \Aimeos\Controller\Frontend\Factory::create( $this->getContext(), 'product' );
+		$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'product' );
 
-		$view->items = $cntl->getItem( $view->param( 'id' ), $ref );
+		$view->items = $cntl->get( $view->param( 'id' ), $ref );
 		$view->total = 1;
-
-		if( in_array( 'product', $ref, true ) ) {
-			$map = $this->getDomainItems( array( $view->items ), $ref, 'product' );
-		}
-
-		$view->prodMap = $map;
 
 		return $response;
 	}
@@ -355,35 +306,14 @@ class Standard
 	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response )
 	{
 		$total = 0;
-		$map = [];
-		$direction  = '+';
-
 		$ref = $view->param( 'include', [] );
-		$size = $view->param( 'page/limit', 48 );
-		$start = $view->param( 'page/offset', 0 );
-		$sort = $view->param( 'sort', 'relevance' );
 
 		if( is_string( $ref ) ) {
 			$ref = explode( ',', $ref );
 		}
 
-		if( $sort[0] === '-' )
-		{
-			$sort = substr( $sort, 1 );
-			$direction = '-';
-		}
-
-		$cntl = \Aimeos\Controller\Frontend\Factory::create( $this->getContext(), 'product' );
-		$filter = $this->getFilter( $view, $sort, $direction, $start, $size );
-
-		$view->items = $cntl->searchItems( $filter, $ref, $total );
+		$view->items = $this->getController( $view )->search( $ref, $total );
 		$view->total = $total;
-
-		if( in_array( 'product', $ref, true ) ) {
-			$map = $this->getDomainItems( $view->items, $ref, 'product' );
-		}
-
-		$view->prodMap = $map;
 
 		return $response;
 	}

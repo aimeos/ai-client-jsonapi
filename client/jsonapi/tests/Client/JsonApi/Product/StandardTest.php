@@ -128,7 +128,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$catId = \Aimeos\MShop::create( $this->context, 'catalog' )->findItem( 'cafe' )->getId();
 		$params = array(
-			'filter' => array( 'f_catid' => $catId ),
+			'filter' => array( 'f_catid' => $catId, 'f_listtype' => 'promotion' ),
 			'fields' => array(
 				'product' => 'product.id,product.code,product.label'
 			),

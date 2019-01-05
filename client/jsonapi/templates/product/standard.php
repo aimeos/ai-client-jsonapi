@@ -95,7 +95,6 @@ $last = ( ((int) ($total / $limit)) * $limit > $offset ? ((int) ($total / $limit
 $ref = array( 'resource', 'id', 'related', 'relatedid', 'filter', 'page', 'sort', 'include', 'fields' );
 $params = array_intersect_key( $this->param(), array_flip( $ref ) );
 $fields = $this->param( 'fields', [] );
-$prodMap = $this->get( 'prodMap', [] );
 
 foreach( (array) $fields as $resource => $list ) {
 	$fields[$resource] = array_flip( explode( ',', $list ) );
@@ -151,17 +150,13 @@ $entryFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, $t
 };
 
 
-$refFcn = function( \Aimeos\MShop\Common\Item\Iface $item, array $map ) use ( $fields, $prodMap, &$refFcn )
+$refFcn = function( \Aimeos\MShop\Common\Item\Iface $item, array $map ) use ( $fields, &$refFcn )
 {
 	$id = $item->getId();
 	$type = $item->getResourceType();
 
 	if( isset( $map[$type][$id] ) ) {
 		return $map;
-	}
-
-	if( $type === 'product' && isset( $prodMap[$id] ) ) {
-		$item = $prodMap[$id];
 	}
 
 	$attributes = $item->toArray();
