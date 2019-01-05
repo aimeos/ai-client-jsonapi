@@ -210,10 +210,10 @@ class Standard
 
 
 	/**
-	 * Returns the initialized search filter
+	 * Returns the initialized product controller
 	 *
 	 * @param \Aimeos\MW\View\Iface $view View instance
-	 * @return \Aimeos\MW\Criteria\Iface Initialize search filter
+	 * @return \Aimeos\Controller\Frontend\Product\Iface Initialized product controller
 	 */
 	protected function getController( \Aimeos\MW\View\Iface $view )
 	{
