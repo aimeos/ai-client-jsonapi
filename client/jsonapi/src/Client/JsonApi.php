@@ -19,50 +19,6 @@ namespace Aimeos\Client;
  */
 class JsonApi extends \Aimeos\Client\JsonApi\Common\Factory\Base
 {
-	static private $cache = true;
-	static private $clients = [];
-
-
-	/**
-	 * Enables or disables caching of class instances
-	 *
-	 * @param boolean $value True to enable caching, false to disable it.
-	 * @return boolean Previous cache setting
-	 */
-	static public function cache( $value )
-	{
-		$old = self::$cache;
-		self::$cache = (boolean) $value;
-
-		return $old;
-	}
-
-
-	/**
-	 * Removes the client objects from the cache
-	 *
-	 * If neither a context ID nor a path is given, the complete cache will be pruned.
-	 *
-	 * @param integer $id Context ID the objects have been created with (string of \Aimeos\MShop\Context\Item\Iface)
-	 * @param string $path Path describing the client to clear, e.g. "product/lists/type"
-	 */
-	static public function clear( $id = null, $path = null )
-	{
-		if( $id !== null )
-		{
-			if( $path !== null ) {
-				self::$clients[$id][$path] = null;
-			} else {
-				self::$clients[$id] = [];
-			}
-
-			return;
-		}
-
-		self::$clients = [];
-	}
-
-
 	/**
 	 * Creates the required client specified by the given path of client names
 	 *
@@ -79,54 +35,28 @@ class JsonApi extends \Aimeos\Client\JsonApi\Common\Factory\Base
 	 */
 	static public function create( \Aimeos\MShop\Context\Item\Iface $context, $path, $name = null )
 	{
-		$path = strtolower( trim( $path, "/ \n\t\r\0\x0B" ) );
-
 		if( empty( $path ) ) {
 			return self::createRoot( $context, $path, $name );
 		}
 
-		$id = (string) $context;
-
-		if( self::$cache === false || !isset( self::$clients[$id][$path] ) ) {
-			self::$clients[$id][$path] = self::createNew( $context, $path, $name );
-		}
-
-		return self::$clients[$id][$path];
-	}
-
-
-	/**
-	 * Creates a new client specified by the given path of client names.
-	 *
-	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object required by clients
-	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
-	 * @param string|null $name Name of the client implementation ("Standard" if null)
-	 * @return \Aimeos\Client\JsonApi\Iface JSON client instance
-	 * @throws \Aimeos\Client\JsonApi\Exception If the given path is invalid
-	 */
-	protected static function createNew( \Aimeos\MShop\Context\Item\Iface $context, $path, $name )
-	{
 		$parts = explode( '/', $path );
 
 		foreach( $parts as $key => $part )
 		{
 			if( ctype_alnum( $part ) === false )
 			{
-				$msg = sprintf( 'Invalid client "%1$s" in "%2$s"', $part, $path );
+				$msg = sprintf( 'Invalid client "%1$s"', $path );
 				throw new \Aimeos\Client\JsonApi\Exception( $msg, 400 );
 			}
 
-			$parts[$key] = ucwords( $part );
+			$parts[$key] = ucfirst( $part );
 		}
-
 
 		$factory = '\\Aimeos\\Client\\JsonApi\\' . join( '\\', $parts ) . '\\Factory';
 
 		if( class_exists( $factory ) === true )
 		{
-			$args = array( $context, $path, $name );
-
-			if( ( $client = @call_user_func_array( array( $factory, 'create' ), $args ) ) === false ) {
+			if( ( $client = @call_user_func_array( [$factory, 'create'], [$context, $path, $name] ) ) === false ) {
 				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid factory "%1$s"', $factory ), 400 );
 			}
 		}
