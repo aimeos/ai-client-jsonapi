@@ -37,7 +37,7 @@ class Standard
 
 		try
 		{
-			$cntl = \Aimeos\Controller\Frontend\Factory::create( $this->getContext(), 'customer' );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
 			$cntl->deleteItem( $view->param( 'id' ) );
 			$status = 200;
 		}
@@ -80,7 +80,7 @@ class Standard
 				$ref = explode( ',', $ref );
 			}
 
-			$cntl = \Aimeos\Controller\Frontend\Factory::create( $this->getContext(), 'customer' );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
 
 			$view->item = $cntl->getItem( $view->param( 'id' ), $ref );
 			$status = 200;
@@ -124,7 +124,7 @@ class Standard
 				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
 			}
 
-			$cntl = \Aimeos\Controller\Frontend\Factory::create( $this->getContext(), 'customer' );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
 
 			$view->item = $cntl->editItem( $view->param( 'id' ), (array) $payload->data->attributes );
 			$status = 200;
@@ -168,7 +168,7 @@ class Standard
 				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
 			}
 
-			$cntl = \Aimeos\Controller\Frontend\Factory::create( $this->getContext(), 'customer' );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
 
 			$view->item = $cntl->addItem( (array) $payload->data->attributes );
 			$view->nodata = true; // only expose customer ID to attackers

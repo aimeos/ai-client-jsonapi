@@ -37,7 +37,7 @@ class Standard
 
 		try
 		{
-			$cntl = \Aimeos\Controller\Frontend\Factory::create( $this->getContext(), 'order' );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'order' );
 
 			if( ( $id = $view->param( 'id' ) ) != '' )
 			{
@@ -173,7 +173,7 @@ class Standard
 	protected function createOrder( $baseId )
 	{
 		$context = $this->getContext();
-		$cntl = \Aimeos\Controller\Frontend\Factory::create( $context, 'order' );
+		$cntl = \Aimeos\Controller\Frontend::create( $context, 'order' );
 
 		$item = $cntl->addItem( $baseId, 'jsonapi' );
 		$cntl->block( $item );
@@ -203,7 +203,7 @@ class Standard
 		}
 
 		$parts = \Aimeos\MShop\Order\Item\Base\Base::PARTS_SERVICE;
-		$cntl = \Aimeos\Controller\Frontend\Factory::create( $context, 'basket' );
+		$cntl = \Aimeos\Controller\Frontend::create( $context, 'basket' );
 
 		return $cntl->load( $baseId, $parts, false );
 	}
@@ -228,7 +228,7 @@ class Standard
 
 		if( $services === [] || $total <= '0.00' && $this->isSubscription( $basket->getProducts() ) === false )
 		{
-			$orderCntl = \Aimeos\Controller\Frontend\Factory::create( $context, 'order' );
+			$orderCntl = \Aimeos\Controller\Frontend::create( $context, 'order' );
 			$orderCntl->saveItem( $orderItem->setPaymentStatus( \Aimeos\MShop\Order\Item\Base::PAY_AUTHORIZED ) );
 
 			$url = $this->getUrlConfirm( $view, [], ['absoluteUri' => true, 'namespace' => false] );
@@ -248,7 +248,7 @@ class Standard
 				$attributes[$item->getCode()] = $item->getValue();
 			}
 
-			$serviceCntl = \Aimeos\Controller\Frontend\Factory::create( $context, 'service' );
+			$serviceCntl = \Aimeos\Controller\Frontend::create( $context, 'service' );
 			return $serviceCntl->process( $orderItem, $service->getServiceId(), $urls, $attributes );
 		}
 	}

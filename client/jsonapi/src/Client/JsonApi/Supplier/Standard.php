@@ -117,7 +117,7 @@ class Standard
 			$ref = explode( ',', $ref );
 		}
 
-		$cntl = \Aimeos\Controller\Frontend\Factory::create( $this->getContext(), 'supplier' );
+		$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'supplier' );
 
 		$view->items = $cntl->getItem( $view->param( 'id' ), $ref );
 		$view->total = 1;
@@ -143,7 +143,7 @@ class Standard
 			$ref = explode( ',', $ref );
 		}
 
-		$cntl = \Aimeos\Controller\Frontend\Factory::create( $this->getContext(), 'supplier' );
+		$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'supplier' );
 
 		$filter = $cntl->createFilter();
 		$filter = $this->initCriteriaConditions( $filter, $view->param() );

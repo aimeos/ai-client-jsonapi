@@ -37,7 +37,7 @@ class Standard
 
 		try
 		{
-			$cntl = \Aimeos\Controller\Frontend\Factory::create( $this->getContext(), 'subscription' );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'subscription' );
 
 			$view->items = $cntl->cancel( $view->param( 'id' ) );
 			$view->total = 1;
@@ -77,7 +77,7 @@ class Standard
 
 		try
 		{
-			$cntl = \Aimeos\Controller\Frontend\Factory::create( $this->getContext(), 'subscription' );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'subscription' );
 
 			if( ( $id = $view->param( 'id' ) ) != '' )
 			{
@@ -150,7 +150,7 @@ class Standard
 	protected function createSubscription( $baseId )
 	{
 		$context = $this->getContext();
-		$cntl = \Aimeos\Controller\Frontend\Factory::create( $context, 'subscription' );
+		$cntl = \Aimeos\Controller\Frontend::create( $context, 'subscription' );
 
 		$item = $cntl->addItem( $baseId, 'jsonapi' );
 		$cntl->block( $item );

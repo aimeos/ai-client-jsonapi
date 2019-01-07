@@ -117,7 +117,7 @@ class Standard
 		try
 		{
 			$relId = $view->param( 'relatedid' );
-			$cntl = \Aimeos\Controller\Frontend\Factory::create( $this->getContext(), 'customer' );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
 
 			if( $relId == null )
 			{
@@ -171,7 +171,7 @@ class Standard
 				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
 			}
 
-			$cntl = \Aimeos\Controller\Frontend\Factory::create( $this->getContext(), 'customer' );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
 
 			$view->items = $cntl->editAddressItem( $view->param( 'relatedid' ), (array) $payload->data->attributes );
 			$view->total = 1;
