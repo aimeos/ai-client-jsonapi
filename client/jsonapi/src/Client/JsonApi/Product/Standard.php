@@ -258,7 +258,7 @@ class Standard
 			->supplier( $view->param( 'filter/f_supid', [] ), $view->param( 'filter/f_listtype', 'default' ) )
 			->category( $view->param( 'filter/f_catid' ), $view->param( 'filter/f_listtype', 'default' ), $level );
 
-		$params = $view->param( 'filter', [] );
+		$params = (array) $view->param( 'filter', [] );
 
 		unset( $params['f_supid'], $params['f_search'] );
 		unset( $params['f_catid'], $params['f_listtype'] );
