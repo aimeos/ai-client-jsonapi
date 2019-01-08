@@ -35,6 +35,8 @@ class JsonApi extends \Aimeos\Client\JsonApi\Common\Factory\Base
 	 */
 	static public function create( \Aimeos\MShop\Context\Item\Iface $context, $path, $name = null )
 	{
+		$path = trim( $path, '/' );
+
 		if( empty( $path ) ) {
 			return self::createRoot( $context, $path, $name );
 		}
