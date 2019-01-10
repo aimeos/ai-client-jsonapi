@@ -21,6 +21,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context = \TestHelperJapi::getContext();
 		$this->view = $this->context->getView();
 
+		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' );
+		$this->context->setUserId( $user->getId() );
+
 		$this->object = new \Aimeos\Client\JsonApi\Subscription\Standard( $this->context, 'subscription' );
 		$this->object->setView( $this->view );
 	}
@@ -35,15 +38,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testCancel()
 	{
-		$manager = \Aimeos\MShop::create( $this->context, 'subscription' );
-		$search = $manager->createSearch()->setSlice( 0, 1 );
-		$search->setConditions( $search->compare( '==', 'subscription.dateend', '2010-01-01' ) );
-		$items = $manager->searchItems( $search );
-
-		if( ( $item = reset( $items ) ) === false ) {
-			throw new \RuntimeException( 'No subscription item found' );
-		}
-
+		$item = $this->getSubscription();
 		$params = array( 'id' => $item->getId() );
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
@@ -103,9 +98,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' );
-		$this->context->setUserId( $user->getId() );
-
 		$params = array( 'fields' => array( 'subscription' => 'subscription.id,subscription.datenext,subscription.dateend' ) );
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
@@ -127,19 +119,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetById()
 	{
-		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' );
-		$this->context->setUserId( $user->getId() );
-
-		$manager = \Aimeos\MShop::create( $this->context, 'subscription' );
-		$search = $manager->createSearch()->setSlice( 0, 1 );
-		$search->setConditions( $search->compare( '==', 'subscription.dateend', '2010-01-01' ) );
-		$items = $manager->searchItems( $search );
-
-		if( ( $item = reset( $items ) ) === false ) {
-			throw new \RuntimeException( 'No subscription item found' );
-		}
-
-		$params = array( 'id' => $item->getId() );
+		$params = array( 'id' => $this->getSubscription()->getId() );
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
@@ -160,7 +140,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetControllerException()
 	{
-		$object = $this->getObject( 'createFilter', $this->throwException( new \Aimeos\Controller\Frontend\Exception() ) );
+		$object = $this->getObject( 'search', $this->throwException( new \Aimeos\Controller\Frontend\Exception() ) );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -172,7 +152,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetMShopException()
 	{
-		$object = $this->getObject( 'createFilter', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$object = $this->getObject( 'search', $this->throwException( new \Aimeos\MShop\Exception() ) );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -184,7 +164,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetException()
 	{
-		$object = $this->getObject( 'createFilter', $this->throwException( new \Exception() ) );
+		$object = $this->getObject( 'search', $this->throwException( new \Exception() ) );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -233,5 +213,20 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 
 		return $object;
+	}
+
+
+	protected function getSubscription()
+	{
+		$manager = \Aimeos\MShop::create( $this->context, 'subscription' );
+		$search = $manager->createSearch()->setSlice( 0, 1 );
+		$search->setConditions( $search->compare( '==', 'subscription.dateend', '2010-01-01' ) );
+		$items = $manager->searchItems( $search );
+
+		if( ( $item = reset( $items ) ) === false ) {
+			throw new \RuntimeException( 'No subscription item found' );
+		}
+
+		return $item;
 	}
 }
