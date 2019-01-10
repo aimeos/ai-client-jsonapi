@@ -133,10 +133,7 @@ class Standard
 	 */
 	protected function getItem( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response )
 	{
-		$context = $this->getContext();
-		$cntl = \Aimeos\Controller\Frontend::create( $context, 'stock' );
-
-		$view->items = $cntl->getItem( $view->param( 'id' ) );
+		$view->items = \Aimeos\Controller\Frontend::create( $this->getContext(), 'stock' )->get( $view->param( 'id' ) );
 		$view->total = 1;
 
 		return $response;
@@ -157,14 +154,13 @@ class Standard
 		$params = $view->param( 'filter', [] );
 		unset( $params['s_prodcode'], $params['s_typecode'] );
 
-		$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'stock' );
+		$items = \Aimeos\Controller\Frontend::create( $this->getContext(), 'stock' )
+			->code( $view->param( 'filter/s_prodcode' ) )->type( $view->param( 'filter/s_typecode' ) )
+			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 100 ) )
+			->sort( $view->param( 'sort' ) )->parse( $params )
+			->search( $total );
 
-		$filter = $cntl->createFilter();
-		$filter = $this->initCriteria( $filter, ['filter' => $params] );
-		$filter = $cntl->addFilterCodes( $filter, $view->param( 'filter/s_prodcode', [] ) );
-		$filter = $cntl->addFilterTypes( $filter, $view->param( 'filter/s_typecode', [] ) );
-
-		$view->items = $cntl->searchItems( $filter, $total );
+		$view->items = $items;
 		$view->total = $total;
 
 		return $response;
