@@ -119,7 +119,7 @@ class Standard
 
 		$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'supplier' );
 
-		$view->items = $cntl->getItem( $view->param( 'id' ), $ref );
+		$view->items = $cntl->get( $view->param( 'id' ), $ref );
 		$view->total = 1;
 
 		return $response;
@@ -143,12 +143,12 @@ class Standard
 			$ref = explode( ',', $ref );
 		}
 
-		$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'supplier' );
+		$suppliers = \Aimeos\Controller\Frontend::create( $this->getContext(), 'supplier' )
+			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 25 ) )
+			->sort( $view->param( 'sort' ) )->parse( $view->param( 'filter', [] ) )
+			->search( $ref, $total );
 
-		$filter = $cntl->createFilter();
-		$filter = $this->initCriteriaConditions( $filter, $view->param() );
-
-		$view->items = $cntl->searchItems( $filter, $ref, $total );
+		$view->items = $suppliers;
 		$view->total = $total;
 
 		return $response;
