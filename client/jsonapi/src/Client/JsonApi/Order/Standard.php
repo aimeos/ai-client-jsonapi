@@ -215,7 +215,7 @@ class Standard
 	 * @param \Aimeos\MShop\Order\Item\Base\Iface $basket Saved basket object including payment service object
 	 * @param \Aimeos\MShop\Order\Item\Iface $orderItem Saved order item created for the basket object
 	 * @param array $attributes Associative list of payment data pairs
-	 * @return \Aimeos\MShop\Common\Item\Helper\Form\Iface|null Form object with URL, parameters, etc.
+	 * @return \Aimeos\MShop\Common\Helper\Form\Iface|null Form object with URL, parameters, etc.
 	 * 	or null if no form data is required
 	 */
 	protected function getPaymentForm( \Aimeos\MShop\Order\Item\Base\Iface $basket,
@@ -232,7 +232,7 @@ class Standard
 			$orderCntl->saveItem( $orderItem->setPaymentStatus( \Aimeos\MShop\Order\Item\Base::PAY_AUTHORIZED ) );
 
 			$url = $this->getUrlConfirm( $view, [], ['absoluteUri' => true, 'namespace' => false] );
-			return new \Aimeos\MShop\Common\Item\Helper\Form\Standard( $url, 'GET' );
+			return new \Aimeos\MShop\Common\Helper\Form\Standard( $url, 'GET' );
 		}
 
 		if( ( $service = reset( $services ) ) !== false )

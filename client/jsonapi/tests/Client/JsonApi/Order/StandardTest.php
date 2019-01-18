@@ -129,7 +129,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$basket = \Aimeos\MShop::create( $this->context, 'order/base' )->createItem();
 		$order = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
-		$form = new \Aimeos\MShop\Common\Item\Helper\Form\Standard();
+		$form = new \Aimeos\MShop\Common\Helper\Form\Standard();
 		$templatePaths = \TestHelperJapi::getTemplatePaths();
 
 		$object = $this->getMockBuilder( \Aimeos\Client\JsonApi\Order\Standard::class )
@@ -321,13 +321,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->getMock();
 
 		$cntl->expects( $this->once() )->method( 'process' )
-			->will( $this->returnValue( new \Aimeos\MShop\Common\Item\Helper\Form\Standard() ) );
+			->will( $this->returnValue( new \Aimeos\MShop\Common\Helper\Form\Standard() ) );
 
 		\Aimeos\Controller\Frontend\Service\Factory::injectController( '\Aimeos\Controller\Frontend\Service\Standard', $cntl );
 		$result = $this->access( 'getPaymentForm' )->invokeArgs( $this->object, [$basket, $order, []] );
 		\Aimeos\Controller\Frontend\Service\Factory::injectController( '\Aimeos\Controller\Frontend\Service\Standard', null );
 
-		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Helper\Form\Iface::class, $result );
+		$this->assertInstanceOf( \Aimeos\MShop\Common\Helper\Form\Iface::class, $result );
 	}
 
 
@@ -347,7 +347,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$result = $this->access( 'getPaymentForm' )->invokeArgs( $this->object, [$basket, $order, []] );
 		\Aimeos\Controller\Frontend\Order\Factory::injectController( '\Aimeos\Controller\Frontend\Order\Standard', null );
 
-		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Helper\Form\Iface::class, $result );
+		$this->assertInstanceOf( \Aimeos\MShop\Common\Helper\Form\Iface::class, $result );
 	}
 
 
