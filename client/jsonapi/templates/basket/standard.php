@@ -173,28 +173,31 @@ $serviceFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) u
 
 $addressFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) use ( $fields, $target, $cntl, $action, $config )
 {
-	$addresses = [];
+	$list = [];
 
-	foreach( $item->getAddresses() as $type => $address )
+	foreach( $item->getAddresses() as $type => $addresses )
 	{
-		$entry = ['id' => $type, 'type' => 'basket/address'];
-		$entry['attributes'] = $address->toArray();
-
-		if( $item->getId() === null )
+		foreach( $addresses as $address )
 		{
-			$params = ['resource' => 'basket', 'id' => $basketId, 'related' => 'address', 'relatedid' => $type];
-			$entry['links'] = array(
-				'self' => array(
-					'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
-					'allow' => ['DELETE'],
-				),
-			);
-		}
+			$entry = ['id' => $type, 'type' => 'basket/address'];
+			$entry['attributes'] = $address->toArray();
 
-		$addresses[] = $entry;
+			if( $item->getId() === null )
+			{
+				$params = ['resource' => 'basket', 'id' => $basketId, 'related' => 'address', 'relatedid' => $type];
+				$entry['links'] = array(
+					'self' => array(
+						'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
+						'allow' => ['DELETE'],
+					),
+				);
+			}
+
+			$list[] = $entry;
+		}
 	}
 
-	return $addresses;
+	return $list;
 };
 
 
