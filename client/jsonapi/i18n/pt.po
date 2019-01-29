@@ -6,12 +6,13 @@
 # Translators:
 # Aimeos, 2017
 # Tadeu Pagliarini <tadeu_up@hotmail.com>, 2018
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: aimeos\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-27 08:31+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2017-02-28 11:36+0000\n"
 "Last-Translator: Tadeu Pagliarini <tadeu_up@hotmail.com>, 2018\n"
 "Language-Team: Portuguese (https://www.transifex.com/aimeos/teams/39015/pt/)\n"
 "MIME-Version: 1.0\n"
