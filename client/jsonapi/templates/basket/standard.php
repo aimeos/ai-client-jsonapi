@@ -292,7 +292,6 @@ if( isset( $this->item ) && $this->item->getId() === null )
 	},
 
 	<?php if( isset( $this->errors ) ) : ?>
-
 		"errors": <?= json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
 
 	<?php elseif( isset( $this->item ) ) : ?>

@@ -41,29 +41,24 @@ foreach( $this->get( 'resources', [] ) as $resource ) {
 			}
 		<?php endif; ?>
 		<?php if( !empty( $resources ) ) : ?>
-
 			, "resources": <?= json_encode( $resources ); ?>
 
 		<?php endif; ?>
 		<?php if( isset( $this->filter ) ) : ?>
-
 			, "filter": <?= json_encode( $this->filter, JSON_PRETTY_PRINT ); ?>
 
 		<?php endif; ?>
 		<?php if( isset( $this->sort ) ) : ?>
-
 			, "sort": <?= json_encode( $this->sort, JSON_PRETTY_PRINT ); ?>
 
 		<?php endif; ?>
 		<?php if( isset( $this->attributes ) ) : ?>
-
 			, "attributes": <?= json_encode( $this->attributes, JSON_PRETTY_PRINT ); ?>
 
 		<?php endif; ?>
 	}
 
 	<?php if( isset( $this->errors ) ) : ?>
-
 		, "errors": <?= json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
 
 	<?php endif; ?>

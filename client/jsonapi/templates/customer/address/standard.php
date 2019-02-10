@@ -78,11 +78,9 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item ) use ( $f
 	}
 
 	<?php if( isset( $this->errors ) ) : ?>
-
 		,"errors": <?= json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
 
 	<?php elseif( isset( $this->items ) ) : ?>
-
 		<?php
 			$data = [];
 			$items = $this->get( 'items', [] );

@@ -82,7 +82,6 @@ $entryFcn = function( \Aimeos\MShop\Common\Item\Lists\Iface $item ) use ( $field
 	}
 
 	<?php if( isset( $this->errors ) ) : ?>
-
 		,"errors": <?= json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
 
 	<?php elseif( isset( $this->items ) ) : ?>

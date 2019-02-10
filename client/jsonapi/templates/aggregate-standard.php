@@ -34,11 +34,9 @@ foreach( $data as $key => $value ) {
 	},
 
 	<?php if( isset( $this->errors ) ) : ?>
-
 		"errors": <?= json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
 
 	<?php else : ?>
-
 		"data": <?= json_encode( $entries ); ?>
 
 	<?php endif; ?>

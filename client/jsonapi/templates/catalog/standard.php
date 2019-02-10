@@ -221,11 +221,9 @@ $flatFcn = function( array $map )
 	},
 
 	<?php if( isset( $this->errors ) ) : ?>
-
 		"errors": <?= json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
 
 	<?php elseif( isset( $this->item ) ) : ?>
-
 		"data": <?= json_encode( $entryFcn( $this->item ), JSON_PRETTY_PRINT ); ?>,
 
 		"included": <?= json_encode( $flatFcn( $inclFcn( $this->item ) ), JSON_PRETTY_PRINT ); ?>

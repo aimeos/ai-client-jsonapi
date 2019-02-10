@@ -33,7 +33,7 @@ class JsonApi extends \Aimeos\Client\JsonApi\Common\Factory\Base
 	 * @return \Aimeos\Client\JsonApi\Iface JSON client instance
 	 * @throws \Aimeos\Client\JsonApi\Exception If the given path is invalid
 	 */
-	static public function create( \Aimeos\MShop\Context\Item\Iface $context, $path, $name = null )
+	public static function create( \Aimeos\MShop\Context\Item\Iface $context, $path, $name = null )
 	{
 		$path = trim( $path, '/' );
 

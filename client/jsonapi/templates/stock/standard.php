@@ -97,11 +97,9 @@ $entryFcn = function( \Aimeos\MShop\Stock\Item\Iface $item ) use ( $fields, $tar
 	},
 
 	<?php if( isset( $this->errors ) ) : ?>
-
 		"errors": <?= json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
 
 	<?php elseif( isset( $this->items ) ) : ?>
-
 		<?php
 			$data = $included = [];
 			$items = $this->get( 'items', [] );
