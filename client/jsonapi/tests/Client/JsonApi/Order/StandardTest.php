@@ -59,7 +59,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetById()
 	{
-		$this->context->setEditor( 'core:unittest' );
+		$this->context->setEditor( 'core:lib/mshoplib' );
 
 		$manager = \Aimeos\MShop::create( $this->context, 'order' );
 		$search = $manager->createSearch()->setSlice( 0, 1 );

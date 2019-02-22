@@ -127,7 +127,7 @@ class TestHelperJapi
 		$ctx->setLocale( $locale );
 
 
-		$ctx->setEditor( 'ai-client-jsonapi:unittest' );
+		$ctx->setEditor( 'ai-client-jsonapi:client/jsonapi' );
 
 		return $ctx;
 	}
