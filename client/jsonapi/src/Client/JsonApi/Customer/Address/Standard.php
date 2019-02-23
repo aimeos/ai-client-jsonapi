@@ -24,23 +24,6 @@ class Standard
 	extends \Aimeos\Client\JsonApi\Base
 	implements \Aimeos\Client\JsonApi\Iface
 {
-	private $controller;
-
-
-	/**
-	 * Initializes the client
-	 *
-	 * @param \Aimeos\MShop\Context\Item\Iface $context MShop context object
-	 * @param string $path Name of the client, e.g "customer/address"
-	 */
-	public function __construct( \Aimeos\MShop\Context\Item\Iface $context, $path )
-	{
-		parent::__construct( $context, $path );
-
-		$this->controller = \Aimeos\Controller\Frontend\Customer\Factory::create( $this->getContext() );
-	}
-
-
 	/**
 	 * Deletes the resource or the resource list
 	 *
@@ -54,10 +37,11 @@ class Standard
 
 		try
 		{
-			$relId = $view->param( 'relatedid' );
 			$body = (string) $request->getBody();
+			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
+			$items = $cntl->use( ['customer/address'] )->get()->getAddressItems();
 
-			if( $relId === '' || $relId === null )
+			if( ( $relId = $view->param( 'relatedid' ) ) === null )
 			{
 				if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
 					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
@@ -73,12 +57,18 @@ class Standard
 						throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'ID is missing' ), 400 );
 					}
 
-					$this->controller->deleteAddressItem( $entry->id );
+					if( isset( $items[$entry->id] ) ) {
+						$cntl->deleteAddressItem( $items[$entry->id] );
+					}
 				}
+
+				$cntl->store();
 			}
 			else
 			{
-				$this->controller->deleteAddressItem( $relId );
+				if( isset( $items[$relId] ) ) {
+					$cntl->deleteAddressItem( $items[$relId] )->store();
+				}
 			}
 
 			$status = 200;
@@ -116,18 +106,18 @@ class Standard
 
 		try
 		{
-			$relId = $view->param( 'relatedid' );
 			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
+			$item = $cntl->use( ['customer/address'] )->get();
 
-			if( $relId == null )
+			if( ( $relId = $view->param( 'relatedid' ) ) == null )
 			{
-				$view->items = $cntl->getItem( $view->param( 'id' ), ['customer/address'] )->getAddressItems();
+				$view->items = $item->getAddressItems();
 				$view->total = count( $view->items );
 			}
 			else
 			{
-				$view->items = $cntl->getAddressItem( $relId );
-				$view->total = 1;
+				$view->items = $item->getAddressItem( $relId );
+				$view->total = empty( $view->items ) ? 0 : 1;
 			}
 
 			$status = 200;
@@ -171,11 +161,21 @@ class Standard
 				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
 			}
 
+			$status = 404;
+			$view->total = 0;
+			$id = $view->param( 'relatedid' );
 			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
 
-			$view->items = $cntl->editAddressItem( $view->param( 'relatedid' ), (array) $payload->data->attributes );
-			$view->total = 1;
-			$status = 200;
+			if( ( $item = $cntl->use( ['customer/address'] )->get()->getAddressItem( $id ) ) !== null )
+			{
+				$attributes = (array) $payload->data->attributes;
+				$item = $item->fromArray( $attributes );
+				$cntl->addAddressItem( $item, $id )->store();
+
+				$view->items = $item;
+				$view->total = 1;
+				$status = 200;
+			}
 		}
 		catch( \Aimeos\Controller\Frontend\Customer\Exception $e )
 		{
@@ -210,7 +210,6 @@ class Standard
 
 		try
 		{
-			$list = [];
 			$body = (string) $request->getBody();
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
@@ -221,18 +220,20 @@ class Standard
 				$payload->data = [$payload->data];
 			}
 
+			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' )->use( ['customer/address'] );
+
 			foreach( $payload->data as $entry )
 			{
 				if( !isset( $entry->attributes ) ) {
 					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Attributes are missing' ) );
 				}
 
-				$list[] = $this->controller->addAddressItem( (array) $entry->attributes );
+				$addrItem = $cntl->createAddressItem( (array) $entry->attributes );
+				$cntl->addAddressItem( $addrItem );
 			}
 
-
-			$view->total = count( $list );
-			$view->items = $list;
+			$view->items = $cntl->store()->get()->getAddressItems();
+			$view->total = count( $view->items );
 			$status = 201;
 		}
 		catch( \Aimeos\Controller\Frontend\Customer\Exception $e )

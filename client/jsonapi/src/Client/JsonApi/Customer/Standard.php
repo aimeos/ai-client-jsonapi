@@ -37,8 +37,7 @@ class Standard
 
 		try
 		{
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
-			$cntl->deleteItem( $view->param( 'id' ) );
+			\Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' )->use( [] )->delete();
 			$status = 200;
 		}
 		catch( \Aimeos\Controller\Frontend\Customer\Exception $e )
@@ -75,14 +74,10 @@ class Standard
 		try
 		{
 			$ref = $view->param( 'include', [] );
-
-			if( is_string( $ref ) ) {
-				$ref = explode( ',', $ref );
-			}
+			$ref = ( $inc = $view->param( 'include' ) ) ? explode( ',', $inc ) : [];
 
 			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
-
-			$view->item = $cntl->getItem( $view->param( 'id' ), $ref );
+			$view->item = $cntl->use( $ref )->get();
 			$status = 200;
 		}
 		catch( \Aimeos\Controller\Frontend\Customer\Exception $e )
@@ -119,14 +114,14 @@ class Standard
 		try
 		{
 			$body = (string) $request->getBody();
+			$ref = ( $inc = $view->param( 'include' ) ) ? explode( ',', $inc ) : [];
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data->attributes ) ) {
 				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
 			}
 
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
-
-			$view->item = $cntl->editItem( $view->param( 'id' ), (array) $payload->data->attributes );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' )->use( $ref );
+			$view->item = $cntl->add( (array) $payload->data->attributes )->store()->get();
 			$status = 200;
 		}
 		catch( \Aimeos\Controller\Frontend\Customer\Exception $e )
@@ -168,9 +163,8 @@ class Standard
 				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
 			}
 
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
-
-			$view->item = $cntl->addItem( (array) $payload->data->attributes );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' )->use( [] );
+			$view->item = $cntl->add( (array) $payload->data->attributes )->store()->get();
 			$view->nodata = true; // only expose customer ID to attackers
 			$status = 201;
 		}

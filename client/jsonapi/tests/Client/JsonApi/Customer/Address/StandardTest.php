@@ -18,6 +18,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp()
 	{
+		\Aimeos\Controller\Frontend::cache( true );
+
 		$this->context = \TestHelperJapi::getContext();
 		$this->view = $this->context->getView();
 
@@ -28,31 +30,32 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function tearDown()
 	{
-		\Aimeos\Controller\Frontend\Customer\Factory::injectController( '\Aimeos\Controller\Frontend\Customer\Standard', null );
+		\Aimeos\Controller\Frontend::cache( false );
+		unset( $this->view, $this->object, $this->context );
 	}
 
 
 	public function testDelete()
 	{
 		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
-		$manager = \Aimeos\MShop::create( $this->context, 'customer/address' );
-
-		$userId = $custManager->findItem( 'UTC001' )->getId();
-		$this->context->setUserId( $userId );
-		$item = $manager->createItem()->setParentId( $userId );
-		$item = $manager->saveItem( $item );
+		$customer = $custManager->findItem( 'UTC001', ['customer/address'] )->setCode( 'unittest-jsonapi' );
+		$customer = $custManager->saveItem( $customer->setId( null ) );
+		$this->context->setUserId( $customer->getId() );
 
 
-		$params = array( 'id' => $userId );
+		$params = ['id' => $customer->getId()];
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$body = '{"data": {"type": "customer/address", "id": ' . $item->getId() . '}}';
+		$body = '{"data": {"type": "customer/address", "id": ' . current( $customer->getAddressItems() )->getId() . '}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 
 		$response = $this->object->delete( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
+
+		$custManager->deleteItem( $customer->getId() );
+
 
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
@@ -66,21 +69,21 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testDeleteById()
 	{
 		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
-		$manager = \Aimeos\MShop::create( $this->context, 'customer/address' );
-
-		$userId = $custManager->findItem( 'UTC001' )->getId();
-		$this->context->setUserId( $userId );
-		$item = $manager->createItem()->setParentId( $userId );
-		$item = $manager->saveItem( $item );
+		$customer = $custManager->findItem( 'UTC001', ['customer/address'] )->setCode( 'unittest-jsonapi' );
+		$customer = $custManager->saveItem( $customer->setId( null ) );
+		$this->context->setUserId( $customer->getId() );
 
 
-		$params = array( 'id' => $userId, 'relatedid' => $item->getId() );
+		$params = ['id' => $customer->getId(), 'relatedid' => current( $customer->getAddressItems() )->getId()];
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 
 		$response = $this->object->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
+
+		$custManager->deleteItem( $customer->getId() );
+
 
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
@@ -93,12 +96,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteControllerException()
 	{
-		$object = $this->getObject( 'deleteAddressItem', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
-
-		$params = array( 'relatedid' => -1 );
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
-		$this->view->addHelper( 'param', $helper );
-
+		$object = $this->getObject( 'use', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
 		$response = $object->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
@@ -110,12 +108,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteMShopException()
 	{
-		$object = $this->getObject( 'deleteAddressItem', $this->throwException( new \Aimeos\MShop\Exception() ) );
-
-		$params = array( 'relatedid' => -1 );
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
-		$this->view->addHelper( 'param', $helper );
-
+		$object = $this->getObject( 'use', $this->throwException( new \Aimeos\MShop\Exception() ) );
 		$response = $object->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
@@ -127,12 +120,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteException()
 	{
-		$object = $this->getObject( 'deleteAddressItem', $this->throwException( new \Exception() ) );
-
-		$params = array( 'relatedid' => -1 );
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
-		$this->view->addHelper( 'param', $helper );
-
+		$object = $this->getObject( 'use', $this->throwException( new \Exception() ) );
 		$response = $object->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
@@ -144,10 +132,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' );
-		$this->context->setUserId( $user->getId() );
+		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' );
+		$this->context->setUserId( $customer->getId() );
 
-		$params = array( 'id' => $user->getId() );
+		$params = ['id' => $customer->getId()];
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
@@ -170,19 +158,15 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetById()
 	{
-		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001', ['customer/address'] );
-		$this->context->setUserId( $user->getId() );
-		$addrItems = $user->getAddressItems();
-
-		if( ( $addrItem = reset( $addrItems ) ) === false ) {
-			throw new \RuntimeException( 'No address item found for "UTC001"' );
-		}
+		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001', ['customer/address'] );
+		$id = current( $customer->getAddressItems() )->getId();
+		$this->context->setUserId( $customer->getId() );
 
 		$params = array(
-			'id' => $user->getId(),
+			'id' => $customer->getId(),
 			'related' => 'address',
-			'relatedid' => $addrItem->getId(),
-			'fields' => array( 'customer/address' => 'customer.address.id,customer.address.firstname' ),
+			'relatedid' => $id,
+			'fields' => ['customer/address' => 'customer.address.id,customer.address.firstname'],
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
@@ -206,12 +190,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetControllerException()
 	{
-		$object = $this->getObject( 'getAddressItem', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
-
-		$params = array( 'relatedid' => -1 );
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
-		$this->view->addHelper( 'param', $helper );
-
+		$object = $this->getObject( 'use', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
@@ -223,12 +202,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetMShopException()
 	{
-		$object = $this->getObject( 'getAddressItem', $this->throwException( new \Aimeos\MShop\Exception() ) );
-
-		$params = array( 'relatedid' => -1 );
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
-		$this->view->addHelper( 'param', $helper );
-
+		$object = $this->getObject( 'use', $this->throwException( new \Aimeos\MShop\Exception() ) );
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
@@ -240,12 +214,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetException()
 	{
-		$object = $this->getObject( 'getAddressItem', $this->throwException( new \Exception() ) );
-
-		$params = array( 'relatedid' => -1 );
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
-		$this->view->addHelper( 'param', $helper );
-
+		$object = $this->getObject( 'use', $this->throwException( new \Exception() ) );
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
@@ -258,25 +227,23 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testPatch()
 	{
 		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
-		$manager = \Aimeos\MShop::create( $this->context, 'customer/address' );
+		$customer = $custManager->findItem( 'UTC001', ['customer/address'] )->setCode( 'unittest-jsonapi' );
+		$customer = $custManager->saveItem( $customer->setId( null ) );
+		$this->context->setUserId( $customer->getId() );
 
-		$customerId = $custManager->findItem( 'UTC001' )->getId();
-		$item = $manager->createItem()->setParentId( $customerId );
-		$item = $manager->saveItem( $item );
 
-		$this->context->setUserId( $customerId );
-
-		$params = array( 'id' => $item->getId(), 'relatedid' => $item->getId() );
+		$params = ['id' => $customer->getId(), 'relatedid' => current( $customer->getAddressItems() )->getId()];
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$body = '{"data": {"attributes": {"customer.address.lastname": "test"}}}	';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
+
 		$response = $this->object->patch( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-		$manager->deleteItem( $item->getId() );
+		$custManager->deleteItem( $customer->getId() );
 
 
 		$this->assertEquals( 200, $response->getStatusCode() );
@@ -294,7 +261,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatchControllerException()
 	{
-		$object = $this->getObject( 'editAddressItem', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
+		$object = $this->getObject( 'use', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
 
 		$body = '{"data": {"attributes": []}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -310,7 +277,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatchMShopException()
 	{
-		$object = $this->getObject( 'editAddressItem', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$object = $this->getObject( 'use', $this->throwException( new \Aimeos\MShop\Exception() ) );
 
 		$body = '{"data": {"attributes": []}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -326,7 +293,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatchException()
 	{
-		$object = $this->getObject( 'editAddressItem', $this->throwException( new \Exception() ) );
+		$object = $this->getObject( 'use', $this->throwException( new \Exception() ) );
 
 		$body = '{"data": {"attributes": []}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -342,19 +309,24 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPost()
 	{
-		$manager = \Aimeos\MShop::create( $this->context, 'customer' );
-		$userId = $manager->findItem( 'UTC001' )->getId();
-		$this->context->setUserId( $userId );
+		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
+		$customer = $custManager->createItem()->setCode( 'unittest-jsonapi' );
+		$customer = $custManager->saveItem( $customer );
+		$this->context->setUserId( $customer->getId() );
 
-		$params = array( 'id' => $userId );
+
+		$params = ['id' => $customer->getId()];
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$body = '{"data": {"type": "customer/address", "attributes": {"customer.address.firstname": "test"}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
+
 		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
+
+		$custManager->deleteItem( $customer->getId() );
 
 
 		$this->assertEquals( 201, $response->getStatusCode() );
@@ -366,32 +338,32 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 'test', $result['data'][0]['attributes']['customer.address.firstname'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
-
-
-		$manager = \Aimeos\MShop::create( $this->context, 'customer/address' );
-		$manager->deleteItem( $result['data'][0]['id'] );
 	}
 
 
 	public function testPostMultiple()
 	{
-		$manager = \Aimeos\MShop::create( $this->context, 'customer' );
-		$userId = $manager->findItem( 'UTC001' )->getId();
-		$this->context->setUserId( $userId );
+		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
+		$customer = $custManager->createItem()->setCode( 'unittest-jsonapi' );
+		$customer = $custManager->saveItem( $customer );
+		$this->context->setUserId( $customer->getId() );
 
-		$params = array( 'id' => $userId );
+
+		$params = ['id' => $customer->getId()];
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$body = '{"data": [{
-			"type": "customer/address", "attributes": {"customer.address.firstname": "test"}
-		}, {
-			"type": "customer/address", "attributes": {"customer.address.lastname": "test"}
-		}]}';
+		$body = '{"data": [
+			{"type": "customer/address", "attributes": {"customer.address.firstname": "test"}},
+			{"type": "customer/address", "attributes": {"customer.address.lastname": "test"}}
+		]}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
+
 
 		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
+
+		$custManager->deleteItem( $customer->getId() );
 
 
 		$this->assertEquals( 201, $response->getStatusCode() );
@@ -399,22 +371,18 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( 2, $result['meta']['total'] );
-		$this->assertNotNull( $result['data'][0]['id'] );
-		$this->assertEquals( 'customer/address', $result['data'][0]['type'] );
+		$this->assertNotNull( $result['data'][1]['id'] );
+		$this->assertEquals( 'customer/address', $result['data'][1]['type'] );
 		$this->assertEquals( 'test', $result['data'][0]['attributes']['customer.address.firstname'] );
 		$this->assertEquals( 'test', $result['data'][1]['attributes']['customer.address.lastname'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
-
-
-		$manager = \Aimeos\MShop::create( $this->context, 'customer/address' );
-		$manager->deleteItems( [$result['data'][0]['id'], $result['data'][1]['id']] );
 	}
 
 
 	public function testPostControllerException()
 	{
-		$object = $this->getObject( 'addAddressItem', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
+		$object = $this->getObject( 'use', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
 
 		$body = '{"data": {"attributes": []}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -430,7 +398,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostMShopException()
 	{
-		$object = $this->getObject( 'addAddressItem', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$object = $this->getObject( 'use', $this->throwException( new \Aimeos\MShop\Exception() ) );
 
 		$body = '{"data": {"attributes": []}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -446,7 +414,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostException()
 	{
-		$object = $this->getObject( 'addAddressItem', $this->throwException( new \Exception() ) );
+		$object = $this->getObject( 'use', $this->throwException( new \Exception() ) );
 
 		$body = '{"data": {"attributes": []}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -492,7 +460,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$cntl->expects( $this->once() )->method( $method )->will( $result );
 
-		\Aimeos\Controller\Frontend\Customer\Factory::injectController( '\Aimeos\Controller\Frontend\Customer\Standard', $cntl );
+		\Aimeos\Controller\Frontend::inject( 'customer', $cntl );
 
 		$object = new \Aimeos\Client\JsonApi\Customer\Address\Standard( $this->context, 'customer/address' );
 		$object->setView( $this->view );

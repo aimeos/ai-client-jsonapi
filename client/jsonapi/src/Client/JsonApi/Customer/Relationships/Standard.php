@@ -24,23 +24,6 @@ class Standard
 	extends \Aimeos\Client\JsonApi\Base
 	implements \Aimeos\Client\JsonApi\Iface
 {
-	private $controller;
-
-
-	/**
-	 * Initializes the client
-	 *
-	 * @param \Aimeos\MShop\Context\Item\Iface $context MShop context object
-	 * @param string $path Name of the client, e.g "customer/relationships"
-	 */
-	public function __construct( \Aimeos\MShop\Context\Item\Iface $context, $path )
-	{
-		parent::__construct( $context, $path );
-
-		$this->controller = \Aimeos\Controller\Frontend\Customer\Factory::create( $this->getContext() );
-	}
-
-
 	/**
 	 * Deletes the resource or the resource list
 	 *
@@ -54,10 +37,14 @@ class Standard
 
 		try
 		{
-			$relId = $view->param( 'relatedid' );
 			$body = (string) $request->getBody();
+			$relId = $view->param( 'relatedid' );
+			$ref = ( $inc = $view->param( 'include' ) ) ? explode( ',', $inc ) : [];
 
-			if( $relId === '' || $relId === null )
+			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
+			$items = $cntl->use( $ref )->get()->getListItems( $ref );
+
+			if( $relId == null )
 			{
 				if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
 					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
@@ -73,12 +60,18 @@ class Standard
 						throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'ID is missing' ), 400 );
 					}
 
-					$this->controller->deleteListItem( $entry->id );
+					if( isset( $items[$entry->id] ) ) {
+						$cntl->deleteListItem( $items[$entry->id]->getDomain(), $items[$entry->id] );
+					}
 				}
+
+				$cntl->store();
 			}
 			else
 			{
-				$this->controller->deleteListItem( $relId );
+				if( isset( $items[$relId] ) ) {
+					$this->controller->deleteListItem( $items[$relId]->getDomain(), $items[$relId] )->store();
+				}
 			}
 
 			$status = 200;
@@ -116,21 +109,23 @@ class Standard
 
 		try
 		{
-			$total = 1;
 			$relId = $view->param( 'relatedid' );
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
+			$ref = ( $inc = $view->param( 'include' ) ) ? explode( ',', $inc ) : [];
 
-			if( $relId == null )
+			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
+			$items = $cntl->use( $ref )->get()->getListItems( $ref );
+
+			if( $relId === null )
 			{
-				$filter = $this->initCriteria( $cntl->createListsFilter(), $view->param( 'filter', [] ) );
-				$view->items = $cntl->searchListItems( $filter, $total );
+				$view->items = $items;
+				$view->total = count( $items );
 			}
 			else
 			{
-				$view->items = $cntl->getListItem( $relId );
+				$view->items = isset( $items[$relId] ) ? $items[$relId] : null;
+				$view->total = empty( $view->items ) ? 0 : 1;
 			}
 
-			$view->total = $total;
 			$status = 200;
 		}
 		catch( \Aimeos\Controller\Frontend\Customer\Exception $e )
@@ -172,11 +167,24 @@ class Standard
 				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
 			}
 
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
+			$status = 404;
+			$view->total = 0;
+			$relId = $view->param( 'relatedid' );
+			$ref = ( $inc = $view->param( 'include' ) ) ? explode( ',', $inc ) : [];
 
-			$view->items = $cntl->editListItem( $view->param( 'relatedid' ), (array) $payload->data->attributes );
-			$view->total = 1;
-			$status = 200;
+			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
+			$items = $cntl->use( $ref )->get()->getListItems( $ref );
+
+			if( isset( $items[$relId] ) )
+			{
+				$attributes = (array) $payload->data->attributes;
+				$listItem = $items[$relId]->fromArray( $attributes );
+				$cntl->addListItem( $listItem->getDomain(), $listItem )->store();
+
+				$view->items = $listItem;
+				$view->total = 1;
+				$status = 200;
+			}
 		}
 		catch( \Aimeos\Controller\Frontend\Customer\Exception $e )
 		{
@@ -211,8 +219,9 @@ class Standard
 
 		try
 		{
-			$list = [];
 			$body = (string) $request->getBody();
+			$ref = ( $inc = $view->param( 'include' ) ) ? explode( ',', $inc ) : [];
+			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' )->use( $ref );
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
 				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
@@ -228,12 +237,12 @@ class Standard
 					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Attributes are missing' ) );
 				}
 
-				$list[] = $this->controller->addListItem( (array) $entry->attributes );
+				$listItem = $cntl->createListItem( (array) $entry->attributes );
+				$cntl->addListItem( $listItem->getDomain(), $listItem );
 			}
 
-
-			$view->total = count( $list );
-			$view->items = $list;
+			$view->items = $cntl->store()->get()->getListItems( $ref );
+			$view->total = count( $view->items );
 			$status = 201;
 		}
 		catch( \Aimeos\Controller\Frontend\Customer\Exception $e )
