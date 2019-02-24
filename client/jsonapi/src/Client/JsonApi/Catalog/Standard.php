@@ -120,7 +120,7 @@ class Standard
 
 		$view->item = \Aimeos\Controller\Frontend::create( $this->getContext(), 'catalog' )
 			->root( $view->param( 'id' ) )->parse( (array) $view->param( 'filter', [] ) )
-			->getTree( $ref, $level );
+			->uses( $ref )->getTree( $level );
 
 		return $response;
 	}

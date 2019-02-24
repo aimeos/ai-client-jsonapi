@@ -116,8 +116,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetNoAccess()
 	{
-		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' );
-		$this->context->setUserId( null );
+		$this->context->setUserId( -1 );
 
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -305,13 +304,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPost()
 	{
-		$object = $this->getObject( 'store', $this->returnSelf() );
-
 		$body = '{"data": {"attributes": {"customer.code": "unittest-japi"}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 
-		$response = $this->object->post( $request, $this->view->response() );
+		$object = $this->getObject( 'store', $this->returnSelf() );
+		$response = $object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 201, $response->getStatusCode() );

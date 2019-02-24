@@ -119,7 +119,7 @@ class Standard
 
 		$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'attribute' );
 
-		$view->items = $cntl->get( $view->param( 'id' ), $ref );
+		$view->items = $cntl->uses( $ref )->get( $view->param( 'id' ) );
 		$view->total = 1;
 
 		return $response;
@@ -169,7 +169,7 @@ class Standard
 			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 25 ) )
 			->type( $attrTypes )->parse( (array) $view->param( 'filter', [] ) )
 			->sort( $view->param( 'sort', 'position' ) )
-			->search( $ref, $total );
+			->uses( $ref )->search( $total );
 
 		foreach( $items as $id => $item ) {
 			$attrMap[$item->getType()][$id] = $item;

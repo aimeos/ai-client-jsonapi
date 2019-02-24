@@ -288,7 +288,7 @@ class Standard
 
 		$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'product' );
 
-		$view->items = $cntl->get( $view->param( 'id' ), $ref );
+		$view->items = $cntl->uses( $ref )->get( $view->param( 'id' ) );
 		$view->total = 1;
 
 		return $response;
@@ -312,7 +312,7 @@ class Standard
 			$ref = explode( ',', $ref );
 		}
 
-		$view->items = $this->getController( $view )->search( $ref, $total );
+		$view->items = $this->getController( $view )->uses( $ref )->search( $total );
 		$view->total = $total;
 
 		return $response;
