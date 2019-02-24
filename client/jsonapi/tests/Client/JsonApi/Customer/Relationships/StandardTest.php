@@ -410,8 +410,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 2, $result['meta']['total'] );
 		$this->assertNotNull( $result['data'][0]['id'] );
 		$this->assertEquals( 'customer/lists', $result['data'][0]['type'] );
-		$this->assertEquals( '-1', $result['data'][0]['attributes']['customer.lists.refid'] );
-		$this->assertEquals( '-2', $result['data'][1]['attributes']['customer.lists.refid'] );
+		$this->assertLessThan( 0, $result['data'][0]['attributes']['customer.lists.refid'] );
+		$this->assertLessThan( 0, $result['data'][1]['attributes']['customer.lists.refid'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
