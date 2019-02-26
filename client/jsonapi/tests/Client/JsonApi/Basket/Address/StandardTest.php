@@ -91,6 +91,19 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testDeletePluginException()
+	{
+		$object = $this->getObject( 'setType', $this->throwException( new \Aimeos\MShop\Plugin\Provider\Exception() ) );
+
+		$response = $object->delete( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+
+		$this->assertEquals( 409, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
 	public function testDeleteMShopException()
 	{
 		$object = $this->getObject( 'setType', $this->throwException( new \Aimeos\MShop\Exception() ) );
@@ -163,6 +176,19 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 'test', $result['included'][1]['attributes']['order.base.address.lastname'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
+	public function testPostPluginException()
+	{
+		$object = $this->getObject( 'setType', $this->throwException( new \Aimeos\MShop\Plugin\Provider\Exception() ) );
+
+		$response = $object->post( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+
+		$this->assertEquals( 409, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
 	}
 
 

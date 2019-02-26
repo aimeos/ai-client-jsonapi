@@ -88,6 +88,12 @@ class Standard
 			$view->item = $this->controller->get();
 			$status = 200;
 		}
+		catch( \Aimeos\MShop\Plugin\Provider\Exception $e )
+		{
+			$status = 409;
+			$errors = $this->translatePluginErrorCodes( $e->getErrorCodes() );
+			$view->errors = $this->getErrorDetails( $e, 'mshop' ) + $errors;
+		}
 		catch( \Aimeos\MShop\Exception $e )
 		{
 			$status = 404;
@@ -152,6 +158,12 @@ class Standard
 
 			$view->item = $this->controller->get();
 			$status = 201;
+		}
+		catch( \Aimeos\MShop\Plugin\Provider\Exception $e )
+		{
+			$status = 409;
+			$errors = $this->translatePluginErrorCodes( $e->getErrorCodes() );
+			$view->errors = $this->getErrorDetails( $e, 'mshop' ) + $errors;
 		}
 		catch( \Aimeos\MShop\Exception $e )
 		{
