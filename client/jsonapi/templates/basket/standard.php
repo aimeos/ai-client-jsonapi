@@ -227,18 +227,6 @@ $couponFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) us
 };
 
 
-$allowed = '["GET"]';
-if( isset( $this->item ) && $this->item->getId() === null )
-{
-	try {
-		$this->item->check();
-		$allowed = '["DELETE","GET","PATCH","POST"]';
-	} catch( \Aimeos\MShop\Exception $e ) {
-		$allowed = '["DELETE","GET","PATCH"]';
-	}
-}
-
-
 ?>
 {
 	"meta": {
@@ -257,7 +245,7 @@ if( isset( $this->item ) && $this->item->getId() === null )
 	"links": {
 		"self": {
 			"href": "<?= $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
-			"allow": <?= $allowed; ?>
+			"allow": <?= isset( $this->item ) && $this->item->getId() ? '["GET"]' : '["DELETE","GET","PATCH","POST"]' ?>
 
 		}
 

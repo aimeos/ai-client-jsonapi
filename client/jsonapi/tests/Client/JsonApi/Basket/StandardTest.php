@@ -327,8 +327,18 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPost()
 	{
-		$orderBaseItem = $this->getOrderBaseItem();
-		$object = $this->getObject( 'store', $this->returnValue( $orderBaseItem ) );
+		$price = \Aimeos\MShop::create( $this->context, 'price' )->createItem();
+		$locale = \Aimeos\MShop::create( $this->context, 'locale' )->createItem();
+
+		$basket = $this->getMockBuilder( \Aimeos\MShop\Order\Item\Base\Standard::class )
+			->setConstructorArgs( [$price, $locale] )
+			->setMethods( ['check'] )
+			->getMock();
+
+		$basket->expects( $this->once() )->method( 'check' )->will( $this->returnSelf() );
+
+		$object = $this->getObject( ['get', 'store'], $this->returnValue( $basket ) );
+
 
 		$body = '{"data": {"attributes": {"order.base.comment": "test"}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -351,7 +361,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostPluginException()
 	{
-		$object = $this->getObject( 'setType', $this->throwException( new \Aimeos\MShop\Plugin\Provider\Exception() ) );
+		$object = $this->getObject( 'get', $this->throwException( new \Aimeos\MShop\Plugin\Provider\Exception() ) );
 
 		$response = $object->post( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -364,7 +374,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostMShopException()
 	{
-		$object = $this->getObject( 'setType', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$object = $this->getObject( 'get', $this->throwException( new \Aimeos\MShop\Exception() ) );
 
 		$response = $object->post( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -377,7 +387,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostException()
 	{
-		$object = $this->getObject( 'setType', $this->throwException( new \Exception() ) );
+		$object = $this->getObject( 'get', $this->throwException( new \Exception() ) );
 
 		$response = $object->post( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -417,7 +427,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$search = $baseManager->createSearch();
 		$search->setConditions( $search->compare( '==', 'order.base.price', '672.00') );
 
-		$items = $baseManager->searchItems( $search );
+		$items = $baseManager->searchItems( $search, ['order/base/product'] );
 
 		if( ( $item = reset( $items ) ) === false ) {
 			throw new \Exception( 'No order/base item with price "672.00" found' );
@@ -435,12 +445,16 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function getObject( $method, $result )
 	{
+		$methods = (array) $method;
+
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( [$method] )
+			->setMethods( $methods )
 			->getMock();
 
-		$cntl->expects( $this->once() )->method( $method )->will( $result );
+		foreach( $methods as $method ) {
+			$cntl->expects( $this->once() )->method( $method )->will( $result );
+		}
 
 		\Aimeos\Controller\Frontend\Basket\Factory::injectController( '\Aimeos\Controller\Frontend\Basket\Standard', $cntl );
 
