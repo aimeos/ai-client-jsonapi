@@ -59,7 +59,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetById()
 	{
-		$this->context->setEditor( 'core:lib/mshoplib' );
+		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' );
+		$this->context->setUserId( $customer->getId() );
 
 		$manager = \Aimeos\MShop::create( $this->context, 'order' );
 		$search = $manager->createSearch()->setSlice( 0, 1 );
@@ -91,7 +92,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetControllerException()
 	{
-		$object = $this->getObject( 'createFilter', $this->throwException( new \Aimeos\Controller\Frontend\Exception() ) );
+		$object = $this->getObject( 'parse', $this->throwException( new \Aimeos\Controller\Frontend\Exception() ) );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -103,7 +104,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetMShopException()
 	{
-		$object = $this->getObject( 'createFilter', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$object = $this->getObject( 'parse', $this->throwException( new \Aimeos\MShop\Exception() ) );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -115,7 +116,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetException()
 	{
-		$object = $this->getObject( 'createFilter', $this->throwException( new \Exception() ) );
+		$object = $this->getObject( 'parse', $this->throwException( new \Exception() ) );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -277,11 +278,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Order\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['addItem', 'block'] )
+			->setMethods( ['store'] )
 			->getMock();
 
-		$cntl->expects( $this->once() )->method( 'addItem' )->will( $this->returnValue( $order ) );
-		$cntl->expects( $this->once() )->method( 'block' );
+		$cntl->expects( $this->once() )->method( 'store' )->will( $this->returnValue( $order ) );
 
 		\Aimeos\Controller\Frontend\Order\Factory::injectController( '\Aimeos\Controller\Frontend\Order\Standard', $cntl );
 		$result = $this->access( 'createOrder' )->invokeArgs( $this->object, [-1] );
@@ -338,10 +338,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Order\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['saveItem'] )
+			->setMethods( ['save'] )
 			->getMock();
 
-		$cntl->expects( $this->once() )->method( 'saveItem' );
+		$cntl->expects( $this->once() )->method( 'save' );
 
 		\Aimeos\Controller\Frontend\Order\Factory::injectController( '\Aimeos\Controller\Frontend\Order\Standard', $cntl );
 		$result = $this->access( 'getPaymentForm' )->invokeArgs( $this->object, [$basket, $order, []] );

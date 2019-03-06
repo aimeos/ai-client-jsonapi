@@ -41,16 +41,18 @@ class Standard
 
 			if( ( $id = $view->param( 'id' ) ) != '' )
 			{
-				$view->items = $cntl->getItem( $id );
+				$view->items = $cntl->get( $id );
 				$view->total = 1;
 			}
 			else
 			{
 				$total = 0;
-				$filter = $cntl->createFilter();
-				$this->initCriteria( $filter, $view->param() );
+				$items = $cntl->parse( (array) $view->param( 'filter', [] ) )
+					->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 48 ) )
+					->sort( $view->param( 'sort', '-order.id' ) )
+					->search( $total );
 
-				$view->items = $cntl->searchItems( $filter, $total );
+				$view->items = $items;
 				$view->total = $total;
 			}
 
@@ -174,9 +176,7 @@ class Standard
 	{
 		$context = $this->getContext();
 		$cntl = \Aimeos\Controller\Frontend::create( $context, 'order' );
-
-		$item = $cntl->addItem( $baseId, 'jsonapi' );
-		$cntl->block( $item );
+		$item = $cntl->add( $baseId, ['order.type' => 'jsonapi'] )->store();
 
 		$context->getSession()->set( 'aimeos/orderid', $item->getId() );
 
@@ -228,8 +228,8 @@ class Standard
 
 		if( $services === [] || $total <= '0.00' && $this->isSubscription( $basket->getProducts() ) === false )
 		{
-			$orderCntl = \Aimeos\Controller\Frontend::create( $context, 'order' );
-			$orderCntl->saveItem( $orderItem->setPaymentStatus( \Aimeos\MShop\Order\Item\Base::PAY_AUTHORIZED ) );
+			$cntl = \Aimeos\Controller\Frontend::create( $context, 'order' );
+			$cntl->save( $orderItem->setPaymentStatus( \Aimeos\MShop\Order\Item\Base::PAY_AUTHORIZED ) );
 
 			$url = $this->getUrlConfirm( $view, [], ['absoluteUri' => true, 'namespace' => false] );
 			return new \Aimeos\MShop\Common\Helper\Form\Standard( $url, 'GET' );
