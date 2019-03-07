@@ -137,7 +137,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' );
 		$this->context->setUserId( $user->getId() );
 
-		$params = ['include' => 'customer/address'];
+		$params = ['include' => 'customer/address,customer/property'];
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
@@ -153,7 +153,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'customer', $result['data']['type'] );
 		$this->assertEquals( 1, count( $result['data']['relationships']['customer/address']['data'] ) );
-		$this->assertEquals( 1, count( $result['included'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['customer/property']['data'] ) );
+		$this->assertEquals( 2, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}

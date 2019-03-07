@@ -82,6 +82,12 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Iface $item ) use ( $fields, $
 		}
 	}
 
+	foreach( $item->getPropertyItems() as $propItem )
+	{
+		$propType = $propItem->getResourceType();
+		$entry['relationships'][$propType]['data'][] = ['id' => $propItem->getId(), 'type' => $propType];
+	}
+
 	return $entry;
 };
 
@@ -139,9 +145,8 @@ $refFcn = function( \Aimeos\MShop\Common\Item\Iface $item, array $map ) use ( $f
 	{
 		foreach( $item->getPropertyItems() as $propItem )
 		{
-			$propId = $propItem->getId();
 			$propType = $propItem->getResourceType();
-			$entry['relationships'][$propType]['data'][] = ['id' => $propId, 'type' => $propType];
+			$entry['relationships'][$propType]['data'][] = ['id' => $propItem->getId(), 'type' => $propType];
 			$map = $refFcn( $propItem, $map );
 		}
 	}
