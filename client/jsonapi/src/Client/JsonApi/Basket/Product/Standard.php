@@ -147,9 +147,7 @@ class Standard
 				}
 
 				$qty = ( isset( $entry->attributes->quantity ) ? $entry->attributes->quantity : 1 );
-				$cfgAttrCodes = ( isset( $entry->attributes->codes ) ? (array) $entry->attributes->codes : [] );
-
-				$this->controller->editProduct( $entry->id, $qty, $cfgAttrCodes );
+				$this->controller->updateProduct( $entry->id, $qty );
 			}
 
 			$view->item = $this->controller->get();
@@ -192,6 +190,7 @@ class Standard
 			$this->clearCache();
 			$this->controller->setType( $view->param( 'id', 'default' ) );
 
+			$list = [];
 			$body = (string) $request->getBody();
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
@@ -208,15 +207,26 @@ class Standard
 					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Product ID is missing' ) );
 				}
 
-				$qty = ( isset( $entry->attributes->quantity ) ? $entry->attributes->quantity : 1 );
-				$stocktype = ( isset( $entry->attributes->stocktype ) ? $entry->attributes->stocktype : 'default' );
-				$variantAttrIds = ( isset( $entry->attributes->variant ) ? (array) $entry->attributes->variant : [] );
-				$hiddenAttrIds = ( isset( $entry->attributes->hidden ) ? (array) $entry->attributes->hidden : [] );
-				$configAttrIds = ( isset( $entry->attributes->config ) ? get_object_vars( $entry->attributes->config ) : [] );
-				$customAttrIds = ( isset( $entry->attributes->custom ) ? get_object_vars( $entry->attributes->custom ) : [] );
+				$list[] = $entry->attributes->{'product.id'};
+			}
 
-				$this->controller->addProduct( $entry->attributes->{'product.id'}, $qty, $stocktype,
-					$variantAttrIds, $configAttrIds, $hiddenAttrIds, $customAttrIds );
+			$products = \Aimeos\Controller\Frontend::create( $this->getContext(), 'product' )
+				->uses( ['attriubte', 'media', 'price', 'product', 'text'] )->product( $list )->search();
+
+			foreach( $payload->data as $entry )
+			{
+				if( isset( $products[$entry->attributes->{'product.id'}] ) )
+				{
+					$qty = ( isset( $entry->attributes->quantity ) ? $entry->attributes->quantity : 1 );
+					$supplier = ( isset( $entry->attributes->supplier ) ? $entry->attributes->supplier : null );
+					$stocktype = ( isset( $entry->attributes->stocktype ) ? $entry->attributes->stocktype : 'default' );
+					$varAttrIds = ( isset( $entry->attributes->variant ) ? (array) $entry->attributes->variant : [] );
+					$confAttrIds = ( isset( $entry->attributes->config ) ? get_object_vars( $entry->attributes->config ) : [] );
+					$custAttrIds = ( isset( $entry->attributes->custom ) ? get_object_vars( $entry->attributes->custom ) : [] );
+
+					$this->controller->addProduct( $products[$entry->attributes->{'product.id'}],
+						$qty, $varAttrIds, $confAttrIds, $custAttrIds, $stocktype, $supplier );
+				}
 			}
 
 
