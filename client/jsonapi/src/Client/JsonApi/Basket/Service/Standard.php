@@ -135,6 +135,8 @@ class Standard
 				$payload->data = [$payload->data];
 			}
 
+			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'service' );
+
 			foreach( $payload->data as $entry )
 			{
 				if( !isset( $entry->id ) ) {
@@ -149,10 +151,10 @@ class Standard
 					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Service ID in attributes is missing' ) );
 				}
 
-				$serviceId = $entry->attributes->{'service.id'};
+				$item = $cntl->uses( ['media', 'price', 'text'] )->get( $entry->attributes->{'service.id'} );
 				unset( $entry->attributes->{'service.id'} );
 
-				$this->controller->addService( $entry->id, $serviceId, (array) $entry->attributes );
+				$this->controller->addService( $item, (array) $entry->attributes );
 			}
 
 
