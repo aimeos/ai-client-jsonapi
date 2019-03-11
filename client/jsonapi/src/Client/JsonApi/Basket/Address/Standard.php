@@ -76,12 +76,12 @@ class Standard
 						throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Type (ID) is missing' ) );
 					}
 
-					$this->controller->setAddress( $entry->id, null );
+					$this->controller->deleteAddress( $entry->id );
 				}
 			}
 			else
 			{
-				$this->controller->setAddress( $relId, null );
+				$this->controller->deleteAddress( $relId );
 			}
 
 
@@ -141,7 +141,7 @@ class Standard
 					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Address type or attributes are missing' ) );
 				}
 
-				$this->controller->setAddress( $entry->id, (array) $entry->attributes );
+				$this->controller->addAddress( $entry->id, (array) $entry->attributes );
 			}
 
 
