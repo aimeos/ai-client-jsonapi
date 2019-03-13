@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: aimeos\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-27 08:31+0200\n"
+"POT-Creation-Date: 2019-03-13 10:02+0100\n"
 "PO-Revision-Date: 2017-02-28 11:36+0000\n"
 "Language-Team: Korean (https://www.transifex.com/aimeos/teams/39015/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +19,7 @@ msgstr ""
 
 #: src/Client/JsonApi/Basket/Address/Standard.php:141
 #: src/Client/JsonApi/Basket/Address/Standard.php:135
-#: src/Client/JsonApi/Basket/Address/Standard.php:135
+#: src/Client/JsonApi/Basket/Address/Standard.php:141
 #, php-format
 msgid "Address type or attributes are missing"
 msgstr ""
@@ -59,7 +60,7 @@ msgstr ""
 
 #: src/Client/JsonApi/Basket/Coupon/Standard.php:141
 #: src/Client/JsonApi/Basket/Coupon/Standard.php:135
-#: src/Client/JsonApi/Basket/Coupon/Standard.php:135
+#: src/Client/JsonApi/Basket/Coupon/Standard.php:141
 #, php-format
 msgid "Coupon code is missing"
 msgstr ""
@@ -114,15 +115,15 @@ msgstr ""
 #: src/Client/JsonApi/Basket/Standard.php:137
 #: src/Client/JsonApi/Order/Standard.php:95
 #: src/Client/JsonApi/Basket/Address/Standard.php:66
-#: src/Client/JsonApi/Basket/Address/Standard.php:125
-#: src/Client/JsonApi/Basket/Standard.php:137
+#: src/Client/JsonApi/Basket/Address/Standard.php:131
+#: src/Client/JsonApi/Basket/Standard.php:143
 #: src/Client/JsonApi/Basket/Service/Standard.php:66
-#: src/Client/JsonApi/Basket/Service/Standard.php:125
+#: src/Client/JsonApi/Basket/Service/Standard.php:131
 #: src/Client/JsonApi/Basket/Product/Standard.php:66
-#: src/Client/JsonApi/Basket/Product/Standard.php:126
-#: src/Client/JsonApi/Basket/Product/Standard.php:186
+#: src/Client/JsonApi/Basket/Product/Standard.php:132
+#: src/Client/JsonApi/Basket/Product/Standard.php:198
 #: src/Client/JsonApi/Basket/Coupon/Standard.php:66
-#: src/Client/JsonApi/Basket/Coupon/Standard.php:125
+#: src/Client/JsonApi/Basket/Coupon/Standard.php:131
 #: src/Client/JsonApi/Customer/Address/Standard.php:63
 #: src/Client/JsonApi/Customer/Address/Standard.php:171
 #: src/Client/JsonApi/Customer/Address/Standard.php:217
@@ -282,14 +283,14 @@ msgstr ""
 #: src/Client/JsonApi/Basket/Product/Standard.php:76
 #: src/Client/JsonApi/Basket/Product/Standard.php:140
 #: src/Client/JsonApi/Basket/Product/Standard.php:76
-#: src/Client/JsonApi/Basket/Product/Standard.php:140
+#: src/Client/JsonApi/Basket/Product/Standard.php:146
 #, php-format
 msgid "Position (ID) is missing"
 msgstr ""
 
 #: src/Client/JsonApi/Basket/Product/Standard.php:204
 #: src/Client/JsonApi/Basket/Product/Standard.php:196
-#: src/Client/JsonApi/Basket/Product/Standard.php:196
+#: src/Client/JsonApi/Basket/Product/Standard.php:208
 #, php-format
 msgid "Product ID is missing"
 msgstr ""
@@ -303,21 +304,21 @@ msgstr ""
 
 #: src/Client/JsonApi/Basket/Service/Standard.php:149
 #: src/Client/JsonApi/Basket/Service/Standard.php:143
-#: src/Client/JsonApi/Basket/Service/Standard.php:143
+#: src/Client/JsonApi/Basket/Service/Standard.php:149
 #, php-format
 msgid "Service ID in attributes is missing"
 msgstr ""
 
 #: src/Client/JsonApi/Basket/Service/Standard.php:145
 #: src/Client/JsonApi/Basket/Service/Standard.php:139
-#: src/Client/JsonApi/Basket/Service/Standard.php:139
+#: src/Client/JsonApi/Basket/Service/Standard.php:145
 #, php-format
 msgid "Service attributes are missing"
 msgstr ""
 
 #: src/Client/JsonApi/Basket/Service/Standard.php:141
 #: src/Client/JsonApi/Basket/Service/Standard.php:135
-#: src/Client/JsonApi/Basket/Service/Standard.php:135
+#: src/Client/JsonApi/Basket/Service/Standard.php:141
 #, php-format
 msgid "Service type (ID) is missing"
 msgstr ""
