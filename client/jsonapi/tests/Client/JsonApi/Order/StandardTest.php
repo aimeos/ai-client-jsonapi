@@ -85,7 +85,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'order', $result['data']['type'] );
-		$this->assertGreaterThan( 7, count( $result['data']['attributes'] ) );
+		$this->assertEquals( 7, count( $result['data']['attributes'] ) );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
@@ -157,7 +157,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'order', $result['data']['type'] );
-		$this->assertEquals( 8, count( $result['data']['attributes'] ) );
+		$this->assertEquals( 7, count( $result['data']['attributes'] ) );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
