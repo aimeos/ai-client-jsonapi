@@ -6,6 +6,7 @@
 # Translators:
 # Aimeos, 2017
 # Bistra Kumanova <b.kumanova@creato.bg>, 2018
+# Plamen Petkov <mcplamen@gmail.com>, 2019
 # 
 #, fuzzy
 msgid ""
@@ -14,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-04-02 15:11+0200\n"
 "PO-Revision-Date: 2017-02-28 11:36+0000\n"
-"Last-Translator: Bistra Kumanova <b.kumanova@creato.bg>, 2018\n"
+"Last-Translator: Plamen Petkov <mcplamen@gmail.com>, 2019\n"
 "Language-Team: Bulgarian (https://www.transifex.com/aimeos/teams/39015/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +28,7 @@ msgstr ""
 #: src/Client/JsonApi/Basket/Address/Standard.php:141
 #, php-format
 msgid "Address type or attributes are missing"
-msgstr ""
+msgstr "Тип или атрибути на адреса липсват"
 
 #: src/Client/JsonApi/Customer/Address/Standard.php:233
 #: src/Client/JsonApi/Customer/Relationships/Standard.php:238
@@ -38,7 +39,7 @@ msgstr ""
 #: src/Client/JsonApi/Customer/Property/Standard.php:230
 #, php-format
 msgid "Attributes are missing"
-msgstr ""
+msgstr "Атрибутите липсват"
 
 #: src/Client/JsonApi/Common/Factory/Base.php:147
 #: src/Client/JsonApi/Common/Factory/Base.php:180
@@ -69,7 +70,7 @@ msgstr "Класът \"%1$s\" не е намерен"
 #: src/Client/JsonApi/Basket/Coupon/Standard.php:141
 #, php-format
 msgid "Coupon code is missing"
-msgstr ""
+msgstr "Кодът на купона липсва"
 
 #: src/Client/JsonApi/Customer/Address/Standard.php:77
 #: src/Client/JsonApi/Customer/Relationships/Standard.php:77
@@ -80,7 +81,7 @@ msgstr ""
 #: src/Client/JsonApi/Customer/Property/Standard.php:57
 #, php-format
 msgid "ID is missing"
-msgstr ""
+msgstr "Номерът липсва"
 
 #: src/Client/JsonApi/Order/Standard.php:99
 #: src/Client/JsonApi/Customer/Address/Standard.php:67
@@ -263,7 +264,7 @@ msgstr "Невалидно име на клас \"%1$s\""
 #: src/Client/JsonApi/Subscription/Factory.php:38 src/Client/JsonApi.php:50
 #, php-format
 msgid "Invalid client \"%1$s\""
-msgstr ""
+msgstr "Невалиден потребител \"%1$s\""
 
 #: src/Client/JsonApi/Factory.php:121 src/Client/JsonApi/Factory.php:117
 #, php-format
@@ -281,7 +282,7 @@ msgstr "Невалидна фабрика \"%1$s\""
 #: src/Client/JsonApi/Order/Standard.php:201
 #, php-format
 msgid "No basket for the \"order.baseid\" (\"%1$s\") found"
-msgstr ""
+msgstr "Не е намерена кошница за \"order.baseid\" (\"%1$s\")"
 
 #: src/Client/JsonApi/Base.php:142 src/Client/JsonApi/Base.php:142
 #, php-format
@@ -296,42 +297,42 @@ msgstr "View не е налично"
 #: src/Client/JsonApi/Basket/Product/Standard.php:146
 #, php-format
 msgid "Position (ID) is missing"
-msgstr ""
+msgstr "Позиция (Номер) липсва"
 
 #: src/Client/JsonApi/Basket/Product/Standard.php:204
 #: src/Client/JsonApi/Basket/Product/Standard.php:196
 #: src/Client/JsonApi/Basket/Product/Standard.php:207
 #, php-format
 msgid "Product ID is missing"
-msgstr ""
+msgstr "Продукт Номер липсва"
 
 #: src/Client/JsonApi/Order/Standard.php:103
 #: src/Client/JsonApi/Order/Standard.php:99
 #: src/Client/JsonApi/Order/Standard.php:101
 #, php-format
 msgid "Required attribute \"order.baseid\" is missing"
-msgstr ""
+msgstr "Изисква се атрибутът \"order.baseid\" "
 
 #: src/Client/JsonApi/Basket/Service/Standard.php:149
 #: src/Client/JsonApi/Basket/Service/Standard.php:143
 #: src/Client/JsonApi/Basket/Service/Standard.php:151
 #, php-format
 msgid "Service ID in attributes is missing"
-msgstr ""
+msgstr "Услуга Номер в атрибутите липсва"
 
 #: src/Client/JsonApi/Basket/Service/Standard.php:145
 #: src/Client/JsonApi/Basket/Service/Standard.php:139
 #: src/Client/JsonApi/Basket/Service/Standard.php:147
 #, php-format
 msgid "Service attributes are missing"
-msgstr ""
+msgstr "Атрибутите на услугата липсват"
 
 #: src/Client/JsonApi/Basket/Service/Standard.php:141
 #: src/Client/JsonApi/Basket/Service/Standard.php:135
 #: src/Client/JsonApi/Basket/Service/Standard.php:143
 #, php-format
 msgid "Service type (ID) is missing"
-msgstr ""
+msgstr "Услуга тип (Номер) липсва"
 
 #: src/Client/JsonApi/Basket/Coupon/Standard.php:80
 #: src/Client/JsonApi/Basket/Service/Standard.php:80
@@ -344,7 +345,7 @@ msgstr ""
 #: src/Client/JsonApi/Basket/Coupon/Standard.php:76
 #, php-format
 msgid "Type (ID) is missing"
-msgstr ""
+msgstr "Тип (Номер) липсва"
 
 #: src/Client/JsonApi/Base.php:57 src/Client/JsonApi/Base.php:52
 #: src/Client/JsonApi/Base.php:52
