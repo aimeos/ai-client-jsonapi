@@ -98,7 +98,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$params = array( 'fields' => array( 'subscription' => 'subscription.id,subscription.datenext,subscription.dateend' ) );
+		$params = array(
+			'fields' => array( 'subscription' => 'subscription.id,subscription.datenext,subscription.dateend' ),
+			'sort' => 'subscription.datenext,-subscription.id'
+		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 

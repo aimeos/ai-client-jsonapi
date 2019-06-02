@@ -62,7 +62,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$params = array(
 			'filter' => array( 's_prodcode' => ['CNC', 'CNE'] ),
-			'sort' => 'stock.productcode',
+			'sort' => 'stock.productcode,-stock.dateback',
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );

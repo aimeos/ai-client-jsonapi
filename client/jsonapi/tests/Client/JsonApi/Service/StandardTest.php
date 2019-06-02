@@ -100,6 +100,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$params = array(
 			'id' => $item->getId(),
 			'include' => 'media,price,text',
+			'sort' => 'service.type,-service.position'
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );

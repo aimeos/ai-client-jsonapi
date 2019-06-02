@@ -103,7 +103,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 				'attribute' => 'attribute.id,attribute.type,attribute.code'
 			),
 			'include' => 'media,price,text',
-			'sort' => 'attribute.position',
+			'sort' => '-attribute.type,attribute.position',
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );

@@ -70,7 +70,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetItems()
 	{
-		$params = array( 'sort' => 'locale.position' );
+		$params = array( 'sort' => '-locale.languageid,locale.position' );
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
