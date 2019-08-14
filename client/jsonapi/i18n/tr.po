@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-02 15:11+0200\n"
+"POT-Creation-Date: 2019-07-01 19:09+0200\n"
 "PO-Revision-Date: 2017-02-28 11:36+0000\n"
 "Last-Translator: Metal <meteoramic@yahoo.com>, 2019\n"
 "Language-Team: Turkish (https://www.transifex.com/aimeos/teams/39015/tr/)\n"
@@ -33,6 +33,9 @@ msgstr "Adres türü veya nitelikler eksik"
 #: src/Client/JsonApi/Customer/Relationships/Standard.php:238
 #: src/Client/JsonApi/Customer/Address/Standard.php:227
 #: src/Client/JsonApi/Customer/Relationships/Standard.php:228
+#: src/Client/JsonApi/Customer/Address/Standard.php:228
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:237
+#: src/Client/JsonApi/Customer/Property/Standard.php:230
 #: src/Client/JsonApi/Customer/Address/Standard.php:228
 #: src/Client/JsonApi/Customer/Relationships/Standard.php:237
 #: src/Client/JsonApi/Customer/Property/Standard.php:230
@@ -78,9 +81,12 @@ msgstr "Kupon kodu eksik"
 #: src/Client/JsonApi/Customer/Address/Standard.php:57
 #: src/Client/JsonApi/Customer/Relationships/Standard.php:60
 #: src/Client/JsonApi/Customer/Property/Standard.php:57
+#: src/Client/JsonApi/Customer/Address/Standard.php:57
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:60
+#: src/Client/JsonApi/Customer/Property/Standard.php:57
 #, php-format
 msgid "ID is missing"
-msgstr "ID eksik"
+msgstr "Kimlik numarası eksik"
 
 #: src/Client/JsonApi/Order/Standard.php:99
 #: src/Client/JsonApi/Customer/Address/Standard.php:67
@@ -120,6 +126,20 @@ msgstr "ID eksik"
 #: src/Client/JsonApi/Basket/Address/Standard.php:66
 #: src/Client/JsonApi/Basket/Address/Standard.php:125
 #: src/Client/JsonApi/Basket/Standard.php:137
+#: src/Client/JsonApi/Order/Standard.php:97
+#: src/Client/JsonApi/Basket/Standard.php:143
+#: src/Client/JsonApi/Basket/Product/Standard.php:197
+#: src/Client/JsonApi/Customer/Address/Standard.php:47
+#: src/Client/JsonApi/Customer/Address/Standard.php:161
+#: src/Client/JsonApi/Customer/Address/Standard.php:216
+#: src/Client/JsonApi/Customer/Standard.php:119
+#: src/Client/JsonApi/Customer/Standard.php:162
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:50
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:167
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:227
+#: src/Client/JsonApi/Customer/Property/Standard.php:47
+#: src/Client/JsonApi/Customer/Property/Standard.php:161
+#: src/Client/JsonApi/Customer/Property/Standard.php:218
 #: src/Client/JsonApi/Order/Standard.php:97
 #: src/Client/JsonApi/Basket/Address/Standard.php:66
 #: src/Client/JsonApi/Basket/Address/Standard.php:131
@@ -178,6 +198,7 @@ msgstr "Gövdede geçersiz JSON"
 #: src/Client/JsonApi/Stock/Factory.php:81
 #: src/Client/JsonApi/Locale/Factory.php:81
 #: src/Client/JsonApi/Supplier/Factory.php:81
+#: src/Client/JsonApi/Customer/Property/Factory.php:79
 #: src/Client/JsonApi/Order/Factory.php:81
 #: src/Client/JsonApi/Locale/Factory.php:81
 #: src/Client/JsonApi/Catalog/Factory.php:81
@@ -205,7 +226,7 @@ msgstr "%1$s\" class adında geçersiz karakterler"
 #: src/Client/JsonApi/Common/Factory/Base.php:137
 #: src/Client/JsonApi/Common/Factory/Base.php:133
 #: src/Client/JsonApi/Factory.php:195
-#: src/Client/JsonApi/Common/Factory/Base.php:131
+#: src/Client/JsonApi/Common/Factory/Base.php:131 src/Client/JsonApi.php:125
 #: src/Client/JsonApi/Common/Factory/Base.php:131 src/Client/JsonApi.php:125
 #, php-format
 msgid "Invalid class name \"%1$s\""
@@ -243,7 +264,8 @@ msgstr "Geçersiz class adı \"%1$s\""
 #: src/Client/JsonApi/Stock/Factory.php:38
 #: src/Client/JsonApi/Locale/Factory.php:38
 #: src/Client/JsonApi/Supplier/Factory.php:38
-#: src/Client/JsonApi/Order/Factory.php:38
+#: src/Client/JsonApi/Customer/Property/Factory.php:36
+#: src/Client/JsonApi.php:50 src/Client/JsonApi/Order/Factory.php:38
 #: src/Client/JsonApi/Locale/Factory.php:38
 #: src/Client/JsonApi/Catalog/Factory.php:38
 #: src/Client/JsonApi/Service/Factory.php:38
@@ -271,7 +293,7 @@ msgid "Invalid client \"%1$s\" in \"%2$s\""
 msgstr "\"%2$s\" içinde geçersiz istemci \"%1$s\""
 
 #: src/Client/JsonApi/Factory.php:137 src/Client/JsonApi/Factory.php:132
-#: src/Client/JsonApi.php:62
+#: src/Client/JsonApi.php:62 src/Client/JsonApi.php:62
 #, php-format
 msgid "Invalid factory \"%1$s\""
 msgstr "Geçersiz fabrika \"%1$s\""
@@ -296,17 +318,19 @@ msgstr "Hiçbir görünüm mevcut değil"
 #: src/Client/JsonApi/Basket/Product/Standard.php:146
 #, php-format
 msgid "Position (ID) is missing"
-msgstr "Pozisyon (ID) eksik"
+msgstr "Pozisyon (kimlik numarası) eksik"
 
 #: src/Client/JsonApi/Basket/Product/Standard.php:204
 #: src/Client/JsonApi/Basket/Product/Standard.php:196
 #: src/Client/JsonApi/Basket/Product/Standard.php:207
+#: src/Client/JsonApi/Basket/Product/Standard.php:207
 #, php-format
 msgid "Product ID is missing"
-msgstr "Ürün ID'si eksik"
+msgstr "Ürün kimlik numarası eksik"
 
 #: src/Client/JsonApi/Order/Standard.php:103
 #: src/Client/JsonApi/Order/Standard.php:99
+#: src/Client/JsonApi/Order/Standard.php:101
 #: src/Client/JsonApi/Order/Standard.php:101
 #, php-format
 msgid "Required attribute \"order.baseid\" is missing"
@@ -315,12 +339,14 @@ msgstr "Gerekli olan \"order.baseid\" niteliği eksik"
 #: src/Client/JsonApi/Basket/Service/Standard.php:149
 #: src/Client/JsonApi/Basket/Service/Standard.php:143
 #: src/Client/JsonApi/Basket/Service/Standard.php:151
+#: src/Client/JsonApi/Basket/Service/Standard.php:151
 #, php-format
 msgid "Service ID in attributes is missing"
-msgstr "Niteliklerdeki hizmet ID'si eksik"
+msgstr "Niteliklerdeki hizmet kimlik numarası eksik"
 
 #: src/Client/JsonApi/Basket/Service/Standard.php:145
 #: src/Client/JsonApi/Basket/Service/Standard.php:139
+#: src/Client/JsonApi/Basket/Service/Standard.php:147
 #: src/Client/JsonApi/Basket/Service/Standard.php:147
 #, php-format
 msgid "Service attributes are missing"
@@ -329,9 +355,10 @@ msgstr "Hizmet nitelikleri eksik"
 #: src/Client/JsonApi/Basket/Service/Standard.php:141
 #: src/Client/JsonApi/Basket/Service/Standard.php:135
 #: src/Client/JsonApi/Basket/Service/Standard.php:143
+#: src/Client/JsonApi/Basket/Service/Standard.php:143
 #, php-format
 msgid "Service type (ID) is missing"
-msgstr "Hizmet türü (ID) eksik"
+msgstr "Hizmet türü (kimlik numarası) eksik"
 
 #: src/Client/JsonApi/Basket/Coupon/Standard.php:80
 #: src/Client/JsonApi/Basket/Service/Standard.php:80
@@ -344,7 +371,7 @@ msgstr "Hizmet türü (ID) eksik"
 #: src/Client/JsonApi/Basket/Coupon/Standard.php:76
 #, php-format
 msgid "Type (ID) is missing"
-msgstr "Tür (ID) eksik"
+msgstr "Tür (kimlik numarası) eksik"
 
 #: src/Client/JsonApi/Base.php:57 src/Client/JsonApi/Base.php:52
 #: src/Client/JsonApi/Base.php:52
