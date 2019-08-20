@@ -14,6 +14,16 @@ php:
 
 matrix:
   fast_finish: true
+  include:
+    - language: node_js
+      node_js:
+        - 12
+        - 10
+        - 8
+      before_script:
+        - npm install --save-dev ava axious @babel/core @babel/preset-env @babel/register
+      script:
+        - npm test
 
 before_script:
   - git clone --depth=50 --branch=master git://github.com/aimeos/aimeos-core.git ../aimeos-core

@@ -1,0 +1,42 @@
+{
+  "name": "ai-client-jsonapi",
+  "version": "1.0.0",
+  "description": "Aimeos SDK for accessing its JSON REST API easily",
+  "main": "jsapi/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aimeos/ai-client-jsonapi.git"
+  },
+  "keywords": [
+    "Aimeos",
+    "e-commerce",
+    "JSON:API",
+    "REST"
+  ],
+  "author": "Aimeos",
+  "license": "LGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/aimeos/ai-client-jsonapi/issues"
+  },
+  "homepage": "https://github.com/aimeos/ai-client-jsonapi#readme",
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/register": "^7.5.5",
+    "ava": "^2.3.0"
+  },
+  "scripts": {
+    "test": "ava --verbose || node_modules/.bin/ava --verbose"
+  },
+  "ava": {
+    "require": [
+      "@babel/register"
+    ],
+    "sources": [
+      "jsapi/src/*.js"
+    ],
+    "files": [
+      "jsapi/tests/*.js"
+    ]
+  }
+}
