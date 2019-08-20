@@ -21,7 +21,7 @@ matrix:
         - 10
         - 8
       before_script:
-        - npm install --save-dev ava axious @babel/core @babel/preset-env @babel/register
+        - npm install --save-dev ava axios @babel/core @babel/preset-env @babel/register
       script:
         - npm test
 
