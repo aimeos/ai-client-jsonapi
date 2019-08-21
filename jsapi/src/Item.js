@@ -21,7 +21,7 @@ export default class Item {
 	 * @returns Value for the given key or default value if no value is available for the key
 	 */
 	get(key, defvalue) {
-		return this.data['attributes'][key] || defvalue;
+		return this.data['attributes'] && this.data['attributes'][key] || defvalue;
 	}
 
 
@@ -49,9 +49,29 @@ export default class Item {
 	 * Returns the available links for the item
 	 *
 	 * @param {string|null} Name of the link or null for all links
-	 * @returns Link object, map of link objects or null if no link for that name is available
+	 * @param {string} Method name of the action what should be performed afterwards
+	 * @returns Map of link objects, a single URL or null if no URL for that name is available
 	 */
-	links(name = null) {
-		return name ? this.data['links'][name] || null : this.data['links'] || {};
+	link(name = null, method = 'GET') {
+
+		if(typeof name !== 'string') {
+			return this.data['links'] || {};
+		}
+
+		if(!(this.data['links'] && this.data['links'][name])) {
+			return null;
+		}
+
+		if(typeof this.data['links'][name] !== 'object' || this.data['links'][name] === null) {
+			return this.data['links'][name];
+		}
+
+		if(this.data['links'][name]['allow'] && Array.isArray(this.data['links'][name]['allow'])
+			&& this.data['links'][name]['allow'].includes(method) && this.data['links'][name]['href']
+		) {
+			return this.data['links'][name]['href'];
+		}
+
+		return null;
 	}
 }

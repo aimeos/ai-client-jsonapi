@@ -7,10 +7,11 @@ test.before(t => {
 		'id': 123,
 		'type': 'product/property',
 		'links': {
-			'self': {
-				'url': 'http://example.com/jsonapi',
+			'self': 'http://example.com/jsonapi',
+			'next': {
+				'href': 'http://example.com/jsonapi/next',
 				'allow': ['GET']
-			}
+			},
 		},
 		'attributes': {
 			'product.property.type': 'package-weight',
@@ -47,25 +48,35 @@ test('get type', t => {
 
 test('get link', t => {
 	const item = new Item(t.context.data);
-	t.deepEqual({
-		'url': 'http://example.com/jsonapi',
-		'allow': ['GET']
-	}, item.links('self'));
+	t.is('http://example.com/jsonapi', item.link('self'));
+});
+
+
+test('get link from object', t => {
+	const item = new Item(t.context.data);
+	t.is('http://example.com/jsonapi/next', item.link('next'));
 });
 
 
 test('get all links', t => {
 	const item = new Item(t.context.data);
 	t.deepEqual( {
-		'self': {
-			'url': 'http://example.com/jsonapi',
+		'self': 'http://example.com/jsonapi',
+		'next': {
+			'href': 'http://example.com/jsonapi/next',
 			'allow': ['GET']
 		}
-	}, item.links());
+	}, item.link());
+});
+
+
+test('get link not allowed', t => {
+	const item = new Item(t.context.data);
+	t.is(null, item.link('next', 'DELETE'));
 });
 
 
 test('get link for invalid name', t => {
 	const item = new Item(t.context.data);
-	t.is(null, item.links('invalid'));
+	t.is(null, item.link('invalid'));
 });
