@@ -4,7 +4,7 @@ import Item from './Item.js';
 /**
  * Item object with referenced items and properties
  */
-export default class RefItem extends Item {
+export default class RelItem extends Item {
 
 	/**
 	 * Initializes the object
@@ -87,7 +87,7 @@ export default class RefItem extends Item {
 	 * @param {array|string|null} listtype List type name or names, null for all types
 	 * @returns List of referenced items from the given domain
 	 */
-	getRefItems(domain, type = null, listtype = null) {
+	getRelItems(domain, type = null, listtype = null) {
 
 		let result = [];
 		const prefix = super.type + '.lists.';
@@ -104,8 +104,8 @@ export default class RefItem extends Item {
 
 				if(type === null || type === refType || type.includes(refType)) {
 
-					itemData['attributes'] = Object.assign(itemData['attributes'], ref['attributes']);
-					result.push(new RefItem(itemData, this.included));
+					itemData['attributes'] = Object.assign(itemData['attributes'] || {}, ref['attributes']);
+					result.push(new RelItem(itemData, this.included));
 				}
 			}
 		}
