@@ -26,7 +26,7 @@
     "ava": "^2.3.0"
   },
   "scripts": {
-    "test": "ava --verbose || node_modules/.bin/ava --verbose"
+    "test": "node_modules/.bin/ava --verbose"
   },
   "ava": {
     "require": [
