@@ -103,6 +103,7 @@ class Standard
 			];
 			$resources = $this->getContext()->getConfig()->get( 'client/jsonapi/resources', $default );
 
+			$view->locale = $this->getContext()->getLocale()->toArray();
 			$view->resources = (array) $resources;
 			$status = 200;
 		}

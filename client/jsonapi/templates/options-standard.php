@@ -40,6 +40,10 @@ foreach( $this->get( 'resources', [] ) as $resource ) {
 				"value": "<?= $this->csrf()->value(); ?>"
 			}
 		<?php endif; ?>
+		<?php if( isset( $this->locale ) ) : ?>
+			, "locale": <?= json_encode( $this->get( 'locale', [] ), JSON_FORCE_OBJECT ); ?>
+
+		<?php endif; ?>
 		<?php if( !empty( $resources ) ) : ?>
 			, "resources": <?= json_encode( $resources ); ?>
 
