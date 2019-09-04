@@ -10,6 +10,7 @@ export default class Item {
 	 */
 	constructor(data) {
 		this.data = data;
+		this.prefix = data['type'] && data['type'].replace(/\//, '.') + '.';
 	}
 
 
@@ -21,7 +22,8 @@ export default class Item {
 	 * @returns Value for the given key or default value if no value is available for the key
 	 */
 	get(key, defvalue) {
-		return this.data['attributes'] && this.data['attributes'][key] || defvalue;
+		return this.data['attributes'] &&
+			(this.data['attributes'][this.prefix + key] || this.data['attributes'][key]) || defvalue;
 	}
 
 

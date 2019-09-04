@@ -28,6 +28,12 @@ test('get value', t => {
 });
 
 
+test('get value short', t => {
+	const item = new Item(t.context.data);
+	t.is('package-weight', item.get('type'));
+});
+
+
 test('get default value', t => {
 	const item = new Item(t.context.data);
 	t.is('test', item.get('invalid', 'test'));
