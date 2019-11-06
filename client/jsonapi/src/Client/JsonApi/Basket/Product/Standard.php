@@ -216,12 +216,13 @@ class Standard
 
 				$qty = ( isset( $entry->attributes->quantity ) ? $entry->attributes->quantity : 1 );
 				$supplier = ( isset( $entry->attributes->supplier ) ? $entry->attributes->supplier : null );
-				$stocktype = ( isset( $entry->attributes->stocktype ) ? $entry->attributes->stocktype : 'default' );
-				$varAttrIds = ( isset( $entry->attributes->variant ) ? (array) $entry->attributes->variant : [] );
-				$confAttrIds = ( isset( $entry->attributes->config ) ? get_object_vars( $entry->attributes->config ) : [] );
-				$custAttrIds = ( isset( $entry->attributes->custom ) ? get_object_vars( $entry->attributes->custom ) : [] );
+				$stock = ( isset( $entry->attributes->stocktype ) ? $entry->attributes->stocktype : 'default' );
+				$varIds = ( isset( $entry->attributes->variant ) ? (array) $entry->attributes->variant : [] );
+				$confIds = ( isset( $entry->attributes->config ) ? get_object_vars( $entry->attributes->config ) : [] );
+				$custIds = ( isset( $entry->attributes->custom ) ? get_object_vars( $entry->attributes->custom ) : [] );
+				$siteId = ( isset( $entry->attributes->siteid ) ? $entry->attributes->siteid : null );
 
-				$this->controller->addProduct( $item, $qty, $varAttrIds, $confAttrIds, $custAttrIds, $stocktype, $supplier );
+				$this->controller->addProduct( $item, $qty, $varIds, $confIds, $custIds, $stock, $supplier, $siteId );
 			}
 
 
