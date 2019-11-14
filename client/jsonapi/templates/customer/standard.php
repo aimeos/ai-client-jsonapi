@@ -18,6 +18,8 @@ $config = $this->config( 'client/jsonapi/url/config', [] );
 
 $ref = array( 'resource', 'id', 'related', 'relatedid', 'filter', 'page', 'sort', 'include', 'fields' );
 $params = array_intersect_key( $this->param(), array_flip( $ref ) );
+
+$pretty = $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0;
 $fields = $this->param( 'fields', [] );
 
 foreach( (array) $fields as $resource => $list ) {
@@ -92,115 +94,26 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Iface $item ) use ( $fields, $
 };
 
 
-$refFcn = function( \Aimeos\MShop\Common\Item\Iface $item, array $map ) use ( $fields, $target, $cntl, $action, $config, &$refFcn )
+$custAddrFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item, array $entry ) use ( $target, $cntl, $action, $config )
 {
 	$id = $item->getId();
 	$type = $item->getResourceType();
 
-	if( isset( $map[$type][$id] ) ) {
-		return $map;
-	}
+	$params = ['resource' => 'customer', 'id' => $item->getParentId(), 'related' => $type, 'relatedid' => $id];
+	$basketParams = ['resource' => 'basket', 'id' => 'default', 'related' => 'address', 'relatedid' => 'payment'];
 
-	$attributes = $item->toArray();
+	$entry['links'] = [
+		'self' => [
+			'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
+			'allow' => ['DELETE', 'GET', 'PATCH'],
+		],
+		'basket/address' => [
+			'href' => $this->url( $target, $cntl, $action, $basketParams, [], $config ),
+			'allow' => ['POST'],
+		],
+	];
 
-	if( isset( $fields[$type] ) ) {
-		$attributes = array_intersect_key( $attributes, $fields[$type] );
-	}
-
-	$entry = ['id' => $id, 'type' => $type, 'attributes' => $attributes];
-	$map[$type][$id] = $entry; // first content, avoid infinite loops
-
-	if( $item instanceof \Aimeos\MShop\Customer\Item\Address\Iface )
-	{
-		$params = array( 'resource' => 'customer', 'id' => $item->getParentId(), 'related' => $type, 'relatedid' => $id );
-		$basketParams = array( 'resource' => 'basket', 'id' => 'default', 'related' => 'address', 'relatedid' => 'payment' );
-
-		$entry['links'] = array(
-			'self' => array(
-				'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
-				'allow' => array( 'DELETE', 'GET', 'PATCH' ),
-			),
-			'basket/address' => array(
-				'href' => $this->url( $target, $cntl, $action, $basketParams, [], $config ),
-				'allow' => ['POST'],
-			),
-		);
-	}
-
-	if( $item instanceof \Aimeos\MShop\Common\Item\ListRef\Iface )
-	{
-		foreach( $item->getListItems() as $listItem )
-		{
-			if( ( $refItem = $listItem->getRefItem() ) !== null && $refItem->isAvailable() )
-			{
-				$reftype = $refItem->getResourceType();
-				$data = ['id' => $refItem->getId(), 'type' => $reftype, 'attributes' => $listItem->toArray()];
-				$entry['relationships'][$reftype]['data'][] = $data;
-				$map = $refFcn( $refItem, $map );
-			}
-		}
-	}
-
-	if( $item instanceof \Aimeos\MShop\Common\Item\PropertyRef\Iface )
-	{
-		foreach( $item->getPropertyItems() as $propItem )
-		{
-			$propType = $propItem->getResourceType();
-			$entry['relationships'][$propType]['data'][] = ['id' => $propItem->getId(), 'type' => $propType];
-			$map = $refFcn( $propItem, $map );
-		}
-	}
-
-	$map[$type][$id] = $entry; // full content
-
-	return $map;
-};
-
-
-$inclFcn = function( \Aimeos\MShop\Common\Item\Iface $item ) use ( $refFcn )
-{
-	$map = [];
-
-	if( $item instanceof \Aimeos\MShop\Common\Item\AddressRef\Iface )
-	{
-		foreach( $item->getAddressItems() as $addItem ) {
-			$map = $refFcn( $addItem, $map );
-		}
-	}
-
-	if( $item instanceof \Aimeos\MShop\Common\Item\ListRef\Iface )
-	{
-		foreach( $item->getListItems() as $listItem )
-		{
-			if( ( $refItem = $listItem->getRefItem() ) !== null && $refItem->isAvailable() ) {
-				$map = $refFcn( $refItem, $map );
-			}
-		}
-	}
-
-	if( $item instanceof \Aimeos\MShop\Common\Item\PropertyRef\Iface )
-	{
-		foreach( $item->getPropertyItems() as $propertyItem ) {
-			$map = $refFcn( $propertyItem, $map );
-		}
-	}
-
-	return $map;
-};
-
-
-$flatFcn = function( array $map )
-{
-	$result = [];
-
-	foreach( $map as $list )
-	{
-		foreach( $list as $entry ) {
-			$result[] = $entry;
-		}
-	}
-
-	return $result;
+	return $entry;
 };
 
 
@@ -210,7 +123,6 @@ $flatFcn = function( array $map )
 		"total": <?= ( isset( $this->item ) ? 1 : 0 ); ?>,
 		"prefix": <?= json_encode( $this->get( 'prefix' ) ); ?>,
 		"content-baseurl": "<?= $this->config( 'resource/fs/baseurl' ); ?>"
-
 		<?php if( $this->csrf()->name() != '' ) : ?>
 			, "csrf": {
 				"name": "<?= $this->csrf()->name(); ?>",
@@ -219,10 +131,8 @@ $flatFcn = function( array $map )
 		<?php endif; ?>
 
 	},
-
 	"links": {
 		"self": "<?= $this->url( $target, $cntl, $action, $params, [], $config ); ?>"
-
 		<?php if( isset( $this->item ) ) : ?>
 			,"customer/address": {
 				"href": "<?= $this->url( $target, $cntl, $action, ['resource' => 'customer', 'id' => $this->item->getId(), 'related' => 'address'], [], $config ); ?>",
@@ -230,14 +140,13 @@ $flatFcn = function( array $map )
 			}
 		<?php endif; ?>
 	}
-
 	<?php if( isset( $this->errors ) ) : ?>
-		,"errors": <?= json_encode( $this->errors, $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
+		,"errors": <?= json_encode( $this->errors, $pretty ); ?>
 
 	<?php elseif( isset( $this->item ) ) : ?>
-		,"data": <?= json_encode( $entryFcn( $this->item ), $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
+		,"data": <?= json_encode( $entryFcn( $this->item ), $pretty ); ?>
 
-		,"included": <?= json_encode( $flatFcn( $inclFcn( $this->item ) ), $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
+		,"included": <?= json_encode( $this->included( $this->item, $fields, ['customer/address' => $custAddrFcn] ), $pretty ); ?>
 
 	<?php endif; ?>
 

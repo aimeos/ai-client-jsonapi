@@ -18,6 +18,8 @@ $config = $this->config( 'client/jsonapi/url/config', [] );
 
 $ref = array( 'resource', 'id', 'related', 'relatedid', 'filter', 'page', 'sort', 'include', 'fields' );
 $params = array_intersect_key( $this->param(), array_flip( $ref ) );
+
+$pretty = $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0;
 $fields = $this->param( 'fields', [] );
 
 foreach( (array) $fields as $resource => $list ) {
@@ -104,7 +106,7 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, array $prices, arr
 		"self": "<?= $this->url( $target, $cntl, $action, $params, [], $config ); ?>"
 	}
 	<?php if( isset( $this->errors ) ) : ?>
-		,"errors": <?= json_encode( $this->errors, $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
+		,"errors": <?= json_encode( $this->errors, $pretty ); ?>
 
 	<?php elseif( isset( $this->items ) ) : ?>
 		<?php
@@ -127,9 +129,9 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, array $prices, arr
 			}
 		?>
 
-		,"data": <?= json_encode( $data, $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
+		,"data": <?= json_encode( $data, $pretty ); ?>
 
-		,"included": <?= json_encode( $included, $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
+		,"included": <?= json_encode( $included, $pretty ); ?>
 
 	<?php endif; ?>
 

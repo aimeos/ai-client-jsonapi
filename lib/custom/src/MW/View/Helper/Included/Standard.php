@@ -27,16 +27,27 @@ class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
 	 *
 	 * @param \Aimeos\MShop\Common\Item\Iface $item Object to generate the included data for
 	 * @param array $fields Associative list of resource types as keys and field names to output as values
+	 * @param array $fcn Associative list of resource types as keys and anonymous mapping functions are values
 	 * @return array List of entries to include in the JSON:API response
 	 */
-	public function transform( \Aimeos\MShop\Common\Item\Iface $item, array $fields )
+	public function transform( \Aimeos\MShop\Common\Item\Iface $item, array $fields, array $fcn = [] )
 	{
 		$this->map = [];
 
+		if( $item instanceof \Aimeos\MShop\Common\Item\Tree\Iface )
+		{
+			foreach( $item->getChildren() as $catItem )
+			{
+				if( $catItem->isAvailable() ) {
+					$this->map( $catItem, $fields, $fcn );
+				}
+			}
+		}
+
 		if( $item instanceof \Aimeos\MShop\Common\Item\AddressRef\Iface )
 		{
-			foreach( $item->getAddressItems() as $addItem ) {
-				$this->map( $addItem, $fields );
+			foreach( $item->getAddressItems() as $addrItem ) {
+				$this->map( $addrItem, $fields, $fcn );
 			}
 		}
 
@@ -44,16 +55,16 @@ class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
 		{
 			foreach( $item->getListItems() as $listItem )
 			{
-				if( ( $refItem = $listItem->getRefItem() ) !== null && $refItem->isAvailable() ) {
-					$this->map( $refItem, $fields );
+				if( ( $refItem = $listItem->getRefItem() ) !== null ) {
+					$this->map( $refItem, $fields, $fcn );
 				}
 			}
 		}
 
 		if( $item instanceof \Aimeos\MShop\Common\Item\PropertyRef\Iface )
 		{
-			foreach( $item->getPropertyItems() as $propertyItem ) {
-				$this->map( $propertyItem, $fields );
+			foreach( $item->getPropertyItems() as $propItem ) {
+				$this->map( $propItem, $fields, $fcn );
 			}
 		}
 
@@ -75,14 +86,15 @@ class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
 	 *
 	 * @param \Aimeos\MShop\Common\Item\Iface $item Object to generate the included data for
 	 * @param array $fields Associative list of resource types as keys and field names to output as values
+	 * @param array $fcn Associative list of resource types as keys and anonymous mapping functions are values
 	 * @return array Multi-dimensional array of included data
 	 */
-	protected function map( \Aimeos\MShop\Common\Item\Iface $item, array $fields )
+	protected function map( \Aimeos\MShop\Common\Item\Iface $item, array $fields, array $fcn = [] )
 	{
 		$id = $item->getId();
 		$type = $item->getResourceType();
 
-		if( isset( $this->map[$type][$id] ) ) {
+		if( isset( $this->map[$type][$id] ) || !$item->isAvailable() ) {
 			return;
 		}
 
@@ -93,7 +105,25 @@ class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
 		}
 
 		$entry = ['id' => $id, 'type' => $type, 'attributes' => $attributes];
+
+		if( isset( $fcn[$type] ) && $fcn[$type] instanceof \Closure ) {
+			$entry = $fcn[$type]( $item, $entry );
+		}
+
 		$this->map[$type][$id] = $entry; // first content, avoid infinite loops
+
+		if( $item instanceof \Aimeos\MShop\Common\Item\Tree\Iface )
+		{
+			foreach( $item->getChildren() as $childItem )
+			{
+				if( $childItem->isAvailable() )
+				{
+					$rtype = $childItem->getResourceType();
+					$entry['relationships'][$rtype]['data'][] = ['id' => $childItem->getId(), 'type' => $rtype];
+					$this->map( $refItem, $fields, $fcn );
+				}
+			}
+		}
 
 		if( $item instanceof \Aimeos\MShop\Common\Item\ListRef\Iface )
 		{
@@ -101,10 +131,10 @@ class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
 			{
 				if( ( $refItem = $listItem->getRefItem() ) !== null && $refItem->isAvailable() )
 				{
-					$reftype = $refItem->getResourceType();
-					$data = ['id' => $refItem->getId(), 'type' => $reftype, 'attributes' => $listItem->toArray()];
-					$entry['relationships'][$reftype]['data'][] = $data;
-					$this->map( $refItem, $fields );
+					$rtype = $refItem->getResourceType();
+					$data = ['id' => $refItem->getId(), 'type' => $rtype, 'attributes' => $listItem->toArray()];
+					$entry['relationships'][$rtype]['data'][] = $data;
+					$this->map( $refItem, $fields, $fcn );
 				}
 			}
 		}
@@ -113,10 +143,13 @@ class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
 		{
 			foreach( $item->getPropertyItems() as $propItem )
 			{
-				$propId = $propItem->getId();
-				$propType = $propItem->getResourceType();
-				$entry['relationships'][$propType]['data'][] = ['id' => $propId, 'type' => $propType];
-				$this->map( $propItem, $fields );
+				if( $propItem->isAvailable() )
+				{
+					$propId = $propItem->getId();
+					$rtype = $propItem->getResourceType();
+					$entry['relationships'][$rtype]['data'][] = ['id' => $propId, 'type' => $rtype];
+					$this->map( $propItem, $fields, $fcn );
+				}
 			}
 		}
 
