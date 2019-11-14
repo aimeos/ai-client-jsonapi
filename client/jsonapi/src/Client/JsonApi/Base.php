@@ -300,11 +300,11 @@ abstract class Base
 			return $criteria;
 		}
 
-		$existing = $criteria->getConditions();
-		$criteria->setConditions( $criteria->toConditions( (array) $params['filter'] ) );
+		if( ( $cond = $criteria->toConditions( (array) $params['filter'] ) ) !== null ) {
+			return $criteria->setConditions( $criteria->combine( '&&', [$cond, $criteria->getConditions()] ) );
+		}
 
-		$expr = array( $criteria->getConditions(), $existing );
-		return $criteria->setConditions( $criteria->combine( '&&', $expr ) );
+		return $criteria;
 	}
 
 
