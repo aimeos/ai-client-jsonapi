@@ -86,102 +86,12 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, array $prices, arr
 };
 
 
-$refFcn = function( \Aimeos\MShop\Common\Item\Iface $item, array $map ) use ( $fields, $target, $cntl, $action, $config, &$refFcn )
-{
-	$id = $item->getId();
-	$type = $item->getResourceType();
-
-	if( isset( $map[$type][$id] ) ) {
-		return $map;
-	}
-
-	$attributes = $item->toArray();
-
-	if( isset( $fields[$type] ) ) {
-		$attributes = array_intersect_key( $attributes, $fields[$type] );
-	}
-
-	$entry = ['id' => $id, 'type' => $type, 'attributes' => $attributes];
-	$map[$type][$id] = $entry; // first content, avoid infinite loops
-
-	if( $item instanceof \Aimeos\MShop\Common\Item\ListRef\Iface )
-	{
-		foreach( $item->getListItems() as $listItem )
-		{
-			if( ( $refItem = $listItem->getRefItem() ) !== null && $refItem->isAvailable() )
-			{
-				$reftype = $refItem->getResourceType();
-				$data = ['id' => $refItem->getId(), 'type' => $reftype, 'attributes' => $listItem->toArray()];
-				$entry['relationships'][$reftype]['data'][] = $data;
-				$map = $refFcn( $refItem, $map );
-			}
-		}
-	}
-
-	if( $item instanceof \Aimeos\MShop\Common\Item\PropertyRef\Iface )
-	{
-		foreach( $item->getPropertyItems() as $propItem )
-		{
-			$propId = $propItem->getId();
-			$propType = $propItem->getResourceType();
-			$entry['relationships'][$propType]['data'][] = ['id' => $propId, 'type' => $propType];
-			$map = $refFcn( $propItem, $map );
-		}
-	}
-
-	$map[$type][$id] = $entry; // full content
-
-	return $map;
-};
-
-
-$inclFcn = function( \Aimeos\MShop\Common\Item\Iface $item ) use ( $refFcn )
-{
-	$map = [];
-
-	if( $item instanceof \Aimeos\MShop\Common\Item\ListRef\Iface )
-	{
-		foreach( $item->getListItems() as $listItem )
-		{
-			if( ( $refItem = $listItem->getRefItem() ) !== null && $refItem->isAvailable() ) {
-				$map = $refFcn( $refItem, $map );
-			}
-		}
-	}
-
-	if( $item instanceof \Aimeos\MShop\Common\Item\PropertyRef\Iface )
-	{
-		foreach( $item->getPropertyItems() as $propertyItem ) {
-			$map = $refFcn( $propertyItem, $map );
-		}
-	}
-
-	return $map;
-};
-
-
-$flatFcn = function( array $map )
-{
-	$result = [];
-
-	foreach( $map as $list )
-	{
-		foreach( $list as $entry ) {
-			$result[] = $entry;
-		}
-	}
-
-	return $result;
-};
-
-
 ?>
 {
 	"meta": {
 		"total": <?= $this->get( 'total', 0 ); ?>,
 		"prefix": <?= json_encode( $this->get( 'prefix' ) ); ?>,
 		"content-baseurl": "<?= $this->config( 'resource/fs/baseurl' ); ?>"
-
 		<?php if( $this->csrf()->name() != '' ) : ?>
 			, "csrf": {
 				"name": "<?= $this->csrf()->name(); ?>",
@@ -193,34 +103,33 @@ $flatFcn = function( array $map )
 	"links": {
 		"self": "<?= $this->url( $target, $cntl, $action, $params, [], $config ); ?>"
 	}
-
 	<?php if( isset( $this->errors ) ) : ?>
-		,"errors": <?= json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
+		,"errors": <?= json_encode( $this->errors, $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
 
 	<?php elseif( isset( $this->items ) ) : ?>
 		<?php
+			$data = $included = [];
 			$prices = $this->get( 'prices', [] );
 			$feConfig = $this->get( 'attributes', [] );
 
 			if( is_array( $this->items ) )
 			{
-				$data = $included = [];
 				foreach( (array) $this->items as $item )
 				{
 					$data[] = $entryFcn( $item, $prices, $feConfig );
-					$included = array_merge( $included, $flatFcn( $inclFcn( $item ) ) );
+					$included = array_merge( $included, $this->included( $item, $fields ) );
 				}
 			}
 			else
 			{
 				$data = $entryFcn( $this->items, $prices, $feConfig );
-				$included = $flatFcn( $inclFcn( $this->items ) );
+				$included = $this->included( $this->items, $fields );
 			}
 		?>
 
-		,"data": <?= json_encode( $data, JSON_PRETTY_PRINT ); ?>
+		,"data": <?= json_encode( $data, $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
 
-		,"included": <?= json_encode( $included, JSON_PRETTY_PRINT ); ?>
+		,"included": <?= json_encode( $included, $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
 
 	<?php endif; ?>
 
