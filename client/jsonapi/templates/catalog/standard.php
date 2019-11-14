@@ -117,7 +117,7 @@ $catFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item, array $entry ) use (
 	<?php elseif( isset( $this->item ) ) : ?>
 		,"data": <?= json_encode( $entryFcn( $this->item ), $pretty ); ?>
 
-		,"included": <?= json_encode( $this->included( $this->item, $fields, ['catalog' => $entryFcn] ), $pretty ); ?>
+		,"included": <?= json_encode( $this->jincluded( $this->item, $fields, ['catalog' => $entryFcn] ), $pretty ); ?>
 
 	<?php endif; ?>
 

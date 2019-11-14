@@ -195,13 +195,13 @@ $entryFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, $t
 				foreach( $items as $item )
 				{
 					$data[] = $entryFcn( $item );
-					$included = array_merge( $included, $this->included( $item, $fields ) );
+					$included = array_merge( $included, $this->jincluded( $item, $fields ) );
 				}
 			}
 			else
 			{
 				$data = $entryFcn( $items );
-				$included = $this->included( $items, $fields );
+				$included = $this->jincluded( $items, $fields );
 			}
 		 ?>
 

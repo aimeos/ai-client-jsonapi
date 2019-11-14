@@ -146,7 +146,7 @@ $custAddrFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item, array 
 	<?php elseif( isset( $this->item ) ) : ?>
 		,"data": <?= json_encode( $entryFcn( $this->item ), $pretty ); ?>
 
-		,"included": <?= json_encode( $this->included( $this->item, $fields, ['customer/address' => $custAddrFcn] ), $pretty ); ?>
+		,"included": <?= json_encode( $this->jincluded( $this->item, $fields, ['customer/address' => $custAddrFcn] ), $pretty ); ?>
 
 	<?php endif; ?>
 

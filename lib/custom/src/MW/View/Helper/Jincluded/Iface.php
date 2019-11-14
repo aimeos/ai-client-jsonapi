@@ -8,7 +8,7 @@
  */
 
 
-namespace Aimeos\MW\View\Helper\Included;
+namespace Aimeos\MW\View\Helper\Jincluded;
 
 
 /**

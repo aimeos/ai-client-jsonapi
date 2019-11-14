@@ -8,7 +8,7 @@
  */
 
 
-namespace Aimeos\MW\View\Helper\Included;
+namespace Aimeos\MW\View\Helper\Jincluded;
 
 
 /**
@@ -120,7 +120,7 @@ class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
 				{
 					$rtype = $childItem->getResourceType();
 					$entry['relationships'][$rtype]['data'][] = ['id' => $childItem->getId(), 'type' => $rtype];
-					$this->map( $refItem, $fields, $fcn );
+					$this->map( $childItem, $fields, $fcn );
 				}
 			}
 		}
