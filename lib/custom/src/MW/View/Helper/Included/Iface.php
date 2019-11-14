@@ -24,6 +24,7 @@ interface Iface extends \Aimeos\MW\View\Helper\Iface
 	 *
 	 * @param \Aimeos\MShop\Common\Item\Iface|\Aimeos\MShop\Common\Item\Iface[] $item Object or objects to generate the included data for
 	 * @param array $fields Associative list of resource types as keys and field names to output as values
+	 * @param array $fcn Associative list of resource types as keys and anonymous mapping functions are values
 	 * @return array Multi-dimensional array of included data
 	 */
 	public function transform( $item, array $fields, array $fcn = [] );

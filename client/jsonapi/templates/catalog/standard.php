@@ -15,13 +15,13 @@ $cntl = $this->config( 'client/jsonapi/url/controller', 'jsonapi' );
 $action = $this->config( 'client/jsonapi/url/action', 'get' );
 $config = $this->config( 'client/jsonapi/url/config', [] );
 
-
 $offset = max( $this->param( 'page/offset', 0 ), 0 );
 $limit = max( $this->param( 'page/limit', 100 ), 1 );
 
-
 $ref = array( 'resource', 'id', 'related', 'relatedid', 'filter', 'page', 'sort', 'include', 'fields' );
 $params = array_intersect_key( $this->param(), array_flip( $ref ) );
+
+$pretty = $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0;
 $fields = $this->param( 'fields', [] );
 
 foreach( (array) $fields as $resource => $list ) {
@@ -80,123 +80,17 @@ $entryFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item ) use ( $fields, $t
 };
 
 
-$refFcn = function( \Aimeos\MShop\Common\Item\Iface $item, array $map ) use ( $fields, $target, $cntl, $action, $config, &$refFcn )
+$catFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item, array $entry ) use ( $target, $cntl, $action, $config )
 {
-	$id = $item->getId();
-	$type = $item->getResourceType();
+	$params = ['resource' => 'catalog', 'id' => $item->getId()];
+	$entry['links'] = [
+		'self' => [
+			'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
+			'allow' => ['GET']
+		]
+	];
 
-	if( isset( $map[$type][$id] ) ) {
-		return $map;
-	}
-
-	$attributes = $item->toArray();
-
-	if( isset( $fields[$type] ) ) {
-		$attributes = array_intersect_key( $attributes, $fields[$type] );
-	}
-
-	$entry = ['id' => $id, 'type' => $type, 'attributes' => $attributes];
-	$map[$type][$id] = $entry; // first content, avoid infinite loops
-
-	if( $item instanceof \Aimeos\MShop\Catalog\Item\Iface )
-	{
-		$params = array( 'resource' => $type, 'id' => $id );
-		$entry['links'] = array(
-			'self' => array(
-				'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
-				'allow' => array( 'GET' ),
-			),
-		);
-
-		foreach( $item->getChildren() as $childItem )
-		{
-			if( $childItem->isAvailable() )
-			{
-				$cattype = $childItem->getResourceType();
-				$entry['relationships'][$cattype]['data'][] = ['id' => $childItem->getId(), 'type' => $cattype];
-				$map = $refFcn( $childItem, $map );
-			}
-		}
-	}
-
-	if( $item instanceof \Aimeos\MShop\Common\Item\ListRef\Iface )
-	{
-		foreach( $item->getListItems() as $listItem )
-		{
-			if( ( $refItem = $listItem->getRefItem() ) !== null && $refItem->isAvailable() )
-			{
-				$reftype = $refItem->getResourceType();
-				$data = ['id' => $refItem->getId(), 'type' => $reftype, 'attributes' => $listItem->toArray()];
-				$entry['relationships'][$reftype]['data'][] = $data;
-				$map = $refFcn( $refItem, $map );
-			}
-		}
-	}
-
-	if( $item instanceof \Aimeos\MShop\Common\Item\PropertyRef\Iface )
-	{
-		foreach( $item->getPropertyItems() as $propItem )
-		{
-			$propId = $propItem->getId();
-			$propType = $propItem->getResourceType();
-			$entry['relationships'][$propType]['data'][] = ['id' => $propId, 'type' => $propType];
-			$map = $refFcn( $propItem, $map );
-		}
-	}
-
-	$map[$type][$id] = $entry; // full content
-
-	return $map;
-};
-
-
-$inclFcn = function( \Aimeos\MShop\Common\Item\Iface $item ) use ( $refFcn )
-{
-	$map = [];
-
-	if( $item instanceof \Aimeos\MShop\Catalog\Item\Iface )
-	{
-		foreach( $item->getChildren() as $childItem )
-		{
-			if( $childItem->isAvailable() ) {
-				$map = $refFcn( $childItem, $map );
-			}
-		}
-	}
-
-	if( $item instanceof \Aimeos\MShop\Common\Item\ListRef\Iface )
-	{
-		foreach( $item->getListItems() as $listItem )
-		{
-			if( ( $refItem = $listItem->getRefItem() ) !== null && $refItem->isAvailable() ) {
-				$map = $refFcn( $refItem, $map );
-			}
-		}
-	}
-
-	if( $item instanceof \Aimeos\MShop\Common\Item\PropertyRef\Iface )
-	{
-		foreach( $item->getPropertyItems() as $propertyItem ) {
-			$map = $refFcn( $propertyItem, $map );
-		}
-	}
-
-	return $map;
-};
-
-
-$flatFcn = function( array $map )
-{
-	$result = [];
-
-	foreach( $map as $list )
-	{
-		foreach( $list as $entry ) {
-			$result[] = $entry;
-		}
-	}
-
-	return $result;
+	return $entry;
 };
 
 
@@ -218,15 +112,14 @@ $flatFcn = function( array $map )
 
 	"links": {
 		"self": "<?= $this->url( $target, $cntl, $action, $params, [], $config ); ?>"
-	},
-
+	}
 	<?php if( isset( $this->errors ) ) : ?>
-		"errors": <?= json_encode( $this->errors, $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
+		,"errors": <?= json_encode( $this->errors, $pretty ); ?>
 
 	<?php elseif( isset( $this->item ) ) : ?>
-		"data": <?= json_encode( $entryFcn( $this->item ), $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>,
+		,"data": <?= json_encode( $entryFcn( $this->item ), $pretty ); ?>
 
-		"included": <?= json_encode( $flatFcn( $inclFcn( $this->item ) ), $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
+		,"included": <?= json_encode( $this->included( $this->item, $fields, ['catalog' => $entryFcn] ), $pretty ); ?>
 
 	<?php endif; ?>
 

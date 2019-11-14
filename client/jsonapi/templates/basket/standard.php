@@ -19,6 +19,8 @@ $config = $this->config( 'client/jsonapi/url/config', [] );
 $basketId = ( isset( $this->item ) && $this->item->getId() ? $this->item->getId() : ( $this->param( 'id' ) ?: 'default' ) );
 $ref = array( 'resource', 'id', 'related', 'relatedid', 'filter', 'page', 'sort', 'include', 'fields' );
 $params = array_intersect_key( $this->param(), array_flip( $ref ) );
+
+$pretty = $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0;
 $fields = $this->param( 'fields', [] );
 
 foreach( (array) $fields as $resource => $list ) {
@@ -275,9 +277,9 @@ $couponFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) us
 			<?php endif; ?>
 		<?php endif; ?>
 
-	},
+	}
 	<?php if( isset( $this->errors ) ) : ?>
-		"errors": <?= json_encode( $this->errors, $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
+		,"errors": <?= json_encode( $this->errors, $pretty ); ?>
 
 	<?php elseif( isset( $this->item ) ) : ?>
 		<?php
@@ -301,8 +303,9 @@ $couponFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) us
 			}
 		?>
 
-		"data": <?= json_encode( $entryFcn( $this->item, $basketId ), $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>,
-		"included": <?= json_encode( $included, $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
+		,"data": <?= json_encode( $entryFcn( $this->item, $basketId ), $pretty ); ?>
+
+		,"included": <?= json_encode( $included, $pretty ); ?>
 
 	<?php endif; ?>
 
