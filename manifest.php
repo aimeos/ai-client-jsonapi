@@ -8,6 +8,7 @@ return array(
 	),
 	'include' => array(
 		'client/jsonapi/src',
+		'lib/custom/src',
 	),
 	'i18n' => array(
 		'client/jsonapi' => 'client/jsonapi/i18n',

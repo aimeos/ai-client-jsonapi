@@ -233,7 +233,6 @@ $couponFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) us
 		"total": <?= ( isset( $this->item ) ? 1 : 0 ); ?>,
 		"prefix": <?= json_encode( $this->get( 'prefix' ) ); ?>,
 		"content-baseurl": "<?= $this->config( 'resource/fs/baseurl' ); ?>"
-
 		<?php if( $this->csrf()->name() != '' ) : ?>
 			, "csrf": {
 				"name": "<?= $this->csrf()->name(); ?>",
@@ -248,7 +247,6 @@ $couponFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) us
 			"allow": <?= isset( $this->item ) && $this->item->getId() ? '["GET"]' : '["DELETE","GET","PATCH","POST"]' ?>
 
 		}
-
 		<?php if( isset( $this->item ) ) : ?>
 			<?php if( $this->item->getId() === null ) : ?>
 				,
@@ -278,9 +276,8 @@ $couponFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) us
 		<?php endif; ?>
 
 	},
-
 	<?php if( isset( $this->errors ) ) : ?>
-		"errors": <?= json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
+		"errors": <?= json_encode( $this->errors, $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
 
 	<?php elseif( isset( $this->item ) ) : ?>
 		<?php
@@ -304,9 +301,8 @@ $couponFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) us
 			}
 		?>
 
-		"data": <?= json_encode( $entryFcn( $this->item, $basketId ), JSON_PRETTY_PRINT ); ?>,
-
-		"included": <?= json_encode( $included, JSON_PRETTY_PRINT ); ?>
+		"data": <?= json_encode( $entryFcn( $this->item, $basketId ), $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>,
+		"included": <?= json_encode( $included, $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
 
 	<?php endif; ?>
 

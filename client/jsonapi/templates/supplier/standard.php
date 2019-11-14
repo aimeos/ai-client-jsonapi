@@ -83,109 +83,12 @@ $entryFcn = function( \Aimeos\MShop\Supplier\Item\Iface $item ) use ( $fields, $
 };
 
 
-$refFcn = function( \Aimeos\MShop\Common\Item\Iface $item, array $map ) use ( $fields, $target, $cntl, $action, $config, &$refFcn )
-{
-	$id = $item->getId();
-	$type = $item->getResourceType();
-
-	if( isset( $map[$type][$id] ) ) {
-		return $map;
-	}
-
-	$attributes = $item->toArray();
-
-	if( isset( $fields[$type] ) ) {
-		$attributes = array_intersect_key( $attributes, $fields[$type] );
-	}
-
-	$entry = ['id' => $id, 'type' => $type, 'attributes' => $attributes];
-	$map[$type][$id] = $entry; // first content, avoid infinite loops
-
-	if( $item instanceof \Aimeos\MShop\Common\Item\ListRef\Iface )
-	{
-		foreach( $item->getListItems() as $listItem )
-		{
-			if( ( $refItem = $listItem->getRefItem() ) !== null && $refItem->isAvailable() )
-			{
-				$reftype = $refItem->getResourceType();
-				$data = ['id' => $refItem->getId(), 'type' => $reftype, 'attributes' => $listItem->toArray()];
-				$entry['relationships'][$reftype]['data'][] = $data;
-				$map = $refFcn( $refItem, $map );
-			}
-		}
-	}
-
-	if( $item instanceof \Aimeos\MShop\Common\Item\PropertyRef\Iface )
-	{
-		foreach( $item->getPropertyItems() as $propItem )
-		{
-			$propId = $propItem->getId();
-			$propType = $propItem->getResourceType();
-			$entry['relationships'][$propType]['data'][] = ['id' => $propId, 'type' => $propType];
-			$map = $refFcn( $propItem, $map );
-		}
-	}
-
-	$map[$type][$id] = $entry; // full content
-
-	return $map;
-};
-
-
-$inclFcn = function( \Aimeos\MShop\Common\Item\Iface $item ) use ( $refFcn )
-{
-	$map = [];
-
-	if( $item instanceof \Aimeos\MShop\Supplier\Item\Iface )
-	{
-		foreach( $item->getAddressItems() as $addItem ) {
-			$map = $refFcn( $addItem, $map );
-		}
-	}
-
-	if( $item instanceof \Aimeos\MShop\Common\Item\ListRef\Iface )
-	{
-		foreach( $item->getListItems() as $listItem )
-		{
-			if( ( $refItem = $listItem->getRefItem() ) !== null && $refItem->isAvailable() ) {
-				$map = $refFcn( $refItem, $map );
-			}
-		}
-	}
-
-	if( $item instanceof \Aimeos\MShop\Common\Item\PropertyRef\Iface )
-	{
-		foreach( $item->getPropertyItems() as $propertyItem ) {
-			$map = $refFcn( $propertyItem, $map );
-		}
-	}
-
-	return $map;
-};
-
-
-$flatFcn = function( array $map )
-{
-	$result = [];
-
-	foreach( $map as $list )
-	{
-		foreach( $list as $entry ) {
-			$result[] = $entry;
-		}
-	}
-
-	return $result;
-};
-
-
 ?>
 {
 	"meta": {
 		"total": <?= $total; ?>,
 		"prefix": <?= json_encode( $this->get( 'prefix' ) ); ?>,
 		"content-baseurl": "<?= $this->config( 'resource/fs/baseurl' ); ?>"
-
 		<?php if( $this->csrf()->name() != '' ) : ?>
 			, "csrf": {
 				"name": "<?= $this->csrf()->name(); ?>",
@@ -194,7 +97,6 @@ $flatFcn = function( array $map )
 		<?php endif; ?>
 
 	},
-
 	"links": {
 		<?php if( is_array( $this->get( 'items' ) ) ) : ?>
 			<?php if( $first !== null ) : ?>
@@ -212,9 +114,8 @@ $flatFcn = function( array $map )
 		<?php endif; ?>
 		"self": "<?php $params['page']['offset'] = $offset; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>"
 	},
-
 	<?php if( isset( $this->errors ) ) : ?>
-		"errors": <?= json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
+		"errors": <?= json_encode( $this->errors, $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
 
 	<?php elseif( isset( $this->items ) ) : ?>
 		<?php
@@ -226,19 +127,18 @@ $flatFcn = function( array $map )
 				foreach( $items as $item )
 				{
 					$data[] = $entryFcn( $item );
-					$included = array_merge( $included, $flatFcn( $inclFcn( $item ) ) );
+					$included = array_merge( $included, $this->included( $item, $fields ) );
 				}
 			}
 			else
 			{
 				$data = $entryFcn( $items );
-				$included = $flatFcn( $inclFcn( $items ) );
+				$included = $this->included( $items, $fields );
 			}
 		 ?>
 
-		"data": <?= json_encode( $data, JSON_PRETTY_PRINT ); ?>,
-
-		"included": <?= json_encode( $included, JSON_PRETTY_PRINT ); ?>
+		"data": <?= json_encode( $data, $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>,
+		"included": <?= json_encode( $included, $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
 
 	<?php endif; ?>
 

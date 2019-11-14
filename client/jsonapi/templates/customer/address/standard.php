@@ -78,7 +78,7 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item ) use ( $f
 	}
 
 	<?php if( isset( $this->errors ) ) : ?>
-		,"errors": <?= json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
+		,"errors": <?= json_encode( $this->errors, $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
 
 	<?php elseif( isset( $this->items ) ) : ?>
 		<?php
@@ -97,7 +97,7 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item ) use ( $f
 			}
 		 ?>
 
-		,"data": <?= json_encode( $data, JSON_PRETTY_PRINT ); ?>
+		,"data": <?= json_encode( $data, $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
 
 	<?php endif; ?>
 

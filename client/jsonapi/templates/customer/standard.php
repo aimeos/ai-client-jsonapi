@@ -161,7 +161,7 @@ $inclFcn = function( \Aimeos\MShop\Common\Item\Iface $item ) use ( $refFcn )
 {
 	$map = [];
 
-	if( $item instanceof \Aimeos\MShop\Customer\Item\Iface )
+	if( $item instanceof \Aimeos\MShop\Common\Item\AddressRef\Iface )
 	{
 		foreach( $item->getAddressItems() as $addItem ) {
 			$map = $refFcn( $addItem, $map );
@@ -232,12 +232,12 @@ $flatFcn = function( array $map )
 	}
 
 	<?php if( isset( $this->errors ) ) : ?>
-		,"errors": <?= json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
+		,"errors": <?= json_encode( $this->errors, $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
 
 	<?php elseif( isset( $this->item ) ) : ?>
-		,"data": <?= json_encode( $entryFcn( $this->item ), JSON_PRETTY_PRINT ); ?>
+		,"data": <?= json_encode( $entryFcn( $this->item ), $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
 
-		,"included": <?= json_encode( $flatFcn( $inclFcn( $this->item ) ), JSON_PRETTY_PRINT ); ?>
+		,"included": <?= json_encode( $flatFcn( $inclFcn( $this->item ) ), $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
 
 	<?php endif; ?>
 

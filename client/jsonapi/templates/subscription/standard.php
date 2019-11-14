@@ -71,7 +71,7 @@ $entryFcn = function( \Aimeos\MShop\Subscription\Item\Iface $item ) use ( $field
 	}
 
 	<?php if( isset( $this->errors ) ) : ?>
-		,"errors": <?= json_encode( $this->errors, JSON_PRETTY_PRINT ); ?>
+		,"errors": <?= json_encode( $this->errors, $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
 
 	<?php elseif( isset( $this->items ) ) : ?>
 		<?php
@@ -90,7 +90,7 @@ $entryFcn = function( \Aimeos\MShop\Subscription\Item\Iface $item ) use ( $field
 			}
 		 ?>
 
-		,"data": <?= json_encode( $data, JSON_PRETTY_PRINT ); ?>
+		,"data": <?= json_encode( $data, $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
 
 	<?php endif; ?>
 
