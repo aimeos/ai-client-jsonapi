@@ -150,20 +150,38 @@ $refFcn = function( \Aimeos\MShop\Common\Item\Iface $item, array $map ) use ( $f
 };
 
 
-$inclFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item ) use ( $entryFcn, $refFcn )
+$inclFcn = function( \Aimeos\MShop\Common\Item\Iface $item ) use ( $refFcn )
 {
-	$list = [];
+	$map = [];
 
-	foreach( $item->getChildren() as $childItem )
+	if( $item instanceof \Aimeos\MShop\Catalog\Item\Iface )
 	{
-		if( $childItem->isAvailable() )
+		foreach( $item->getChildren() as $childItem )
 		{
-			$list[] = $entryFcn( $childItem );
-
+			if( $childItem->isAvailable() ) {
+				$map = $refFcn( $childItem, $map );
+			}
 		}
 	}
 
-	return $list;
+	if( $item instanceof \Aimeos\MShop\Common\Item\ListRef\Iface )
+	{
+		foreach( $item->getListItems() as $listItem )
+		{
+			if( ( $refItem = $listItem->getRefItem() ) !== null && $refItem->isAvailable() ) {
+				$map = $refFcn( $refItem, $map );
+			}
+		}
+	}
+
+	if( $item instanceof \Aimeos\MShop\Common\Item\PropertyRef\Iface )
+	{
+		foreach( $item->getPropertyItems() as $propertyItem ) {
+			$map = $refFcn( $propertyItem, $map );
+		}
+	}
+
+	return $map;
 };
 
 
@@ -188,6 +206,7 @@ $flatFcn = function( array $map )
 		"total": <?= ( isset( $this->item ) ? 1 : 0 ); ?>,
 		"prefix": <?= json_encode( $this->get( 'prefix' ) ); ?>,
 		"content-baseurl": "<?= $this->config( 'resource/fs/baseurl' ); ?>"
+
 		<?php if( $this->csrf()->name() != '' ) : ?>
 			, "csrf": {
 				"name": "<?= $this->csrf()->name(); ?>",
@@ -196,14 +215,17 @@ $flatFcn = function( array $map )
 		<?php endif; ?>
 
 	},
+
 	"links": {
 		"self": "<?= $this->url( $target, $cntl, $action, $params, [], $config ); ?>"
 	},
+
 	<?php if( isset( $this->errors ) ) : ?>
 		"errors": <?= json_encode( $this->errors, $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
 
 	<?php elseif( isset( $this->item ) ) : ?>
 		"data": <?= json_encode( $entryFcn( $this->item ), $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>,
+
 		"included": <?= json_encode( $flatFcn( $inclFcn( $this->item ) ), $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0 ); ?>
 
 	<?php endif; ?>
