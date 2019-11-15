@@ -23,7 +23,7 @@ $limit = max( $this->param( 'page/limit', 100 ), 1 );
 $first = ( $offset > 0 ? 0 : null );
 $prev = ( $offset - $limit >= 0 ? $offset - $limit : null );
 $next = ( $offset + $limit < $total ? $offset + $limit : null );
-$last = ( ((int) ($total / $limit)) * $limit > $offset ? ((int) ($total / $limit)) * $limit : null );
+$last = ( ( (int) ( $total / $limit ) ) * $limit > $offset ? ( (int) ( $total / $limit ) ) * $limit : null );
 
 
 $ref = array( 'resource', 'id', 'related', 'relatedid', 'filter', 'page', 'sort', 'include', 'fields' );
@@ -117,7 +117,7 @@ $entryFcn = function( \Aimeos\MShop\Supplier\Item\Iface $item ) use ( $fields, $
 		"self": "<?php $params['page']['offset'] = $offset; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>"
 	}
 	<?php if( isset( $this->errors ) ) : ?>
-		,"errors": <?= json_encode( $this->errors, $pretty); ?>
+		,"errors": <?= json_encode( $this->errors, $pretty ); ?>
 
 	<?php elseif( isset( $this->items ) ) : ?>
 		<?php
