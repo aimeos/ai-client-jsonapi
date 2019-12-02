@@ -39,7 +39,7 @@ class Standard
 		{
 			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'subscription' );
 
-			$view->items = $cntl->cancel( $view->param( 'id' ) );
+			$view->items = $cntl->cancel( $view->param( 'id', '' ) );
 			$view->total = 1;
 
 			$status = 200;
