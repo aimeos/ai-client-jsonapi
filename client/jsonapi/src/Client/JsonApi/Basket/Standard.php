@@ -149,6 +149,10 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 				$basket->setComment( $payload->data->attributes->{'order.base.comment'} );
 			}
 
+			if( isset( $payload->data->attributes->{'order.base.customerref'} ) ) {
+				$basket->setCustomerReference( $payload->data->attributes->{'order.base.customerref'} );
+			}
+
 			$view->item = $basket;
 			$status = 200;
 		}
@@ -230,6 +234,10 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 		$view->attributes = [
 			'order.base.comment' => [
 				'label' => 'Customer comment for the order',
+				'type' => 'string', 'default' => '', 'required' => false,
+			],
+			'order.base.customerref' => [
+				'label' => 'Own reference of the customer for the order',
 				'type' => 'string', 'default' => '', 'required' => false,
 			],
 		];
