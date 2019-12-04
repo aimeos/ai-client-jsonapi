@@ -148,6 +148,14 @@ $entryFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, $t
 		}
 	}
 
+	foreach( $item->getCatalogItems() as $catItem ) {
+		$entry['relationships']['catalog']['data'][] = array( 'id' => $catItem->getId(), 'type' => 'catalog' );
+	}
+
+	foreach( $item->getSupplierItems() as $supItem ) {
+		$entry['relationships']['supplier']['data'][] = array( 'id' => $supItem->getId(), 'type' => 'supplier' );
+	}
+
 	return $entry;
 };
 
