@@ -30,10 +30,36 @@ class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
 	 * @param array $fcn Associative list of resource types as keys and anonymous mapping functions are values
 	 * @return array List of entries to include in the JSON:API response
 	 */
-	public function transform( \Aimeos\MShop\Common\Item\Iface $item, array $fields, array $fcn = [] )
+	public function transform( $item, array $fields, array $fcn = [] )
 	{
 		$this->map = [];
 
+		if( is_array( $item ) )
+		{
+			foreach( $item as $entry ) {
+				$this->entry( $entry, $fields, $fcn );
+			}
+		}
+		else
+		{
+			$this->entry( $item, $fields, $fcn );
+		}
+
+		$result = [];
+
+		foreach( $this->map as $list )
+		{
+			foreach( $list as $entry ) {
+				$result[] = $entry;
+			}
+		}
+
+		return $result;
+	}
+
+
+	protected function entry( \Aimeos\MShop\Common\Item\Iface $item, array $fields, array $fcn = [] )
+	{
 		if( $item instanceof \Aimeos\MShop\Common\Item\Tree\Iface )
 		{
 			foreach( $item->getChildren() as $catItem )
