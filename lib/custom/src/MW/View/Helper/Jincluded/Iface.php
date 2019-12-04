@@ -22,10 +22,10 @@ interface Iface extends \Aimeos\MW\View\Helper\Iface
 	/**
 	 * Returns the included data for the JSON:API response
 	 *
-	 * @param \Aimeos\MShop\Common\Item\Iface $item Object to generate the included data for
+	 * @param \Aimeos\MShop\Common\Item\Iface|\Aimeos\MShop\Common\Item\Iface[] $item Object or objects to generate the included data for
 	 * @param array $fields Associative list of resource types as keys and field names to output as values
 	 * @param array $fcn Associative list of resource types as keys and anonymous mapping functions are values
 	 * @return array Multi-dimensional array of included data
 	 */
-	public function transform( \Aimeos\MShop\Common\Item\Iface $item, array $fields, array $fcn = [] );
+	public function transform( $item, array $fields, array $fcn = [] );
 }

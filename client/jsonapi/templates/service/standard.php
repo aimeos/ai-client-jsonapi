@@ -110,22 +110,21 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, array $prices, arr
 
 	<?php elseif( isset( $this->items ) ) : ?>
 		<?php
-			$data = $included = [];
+			$data = [];
+			$items = $this->get( 'items', [] );
 			$prices = $this->get( 'prices', [] );
 			$feConfig = $this->get( 'attributes', [] );
+			$included = $this->jincluded( $this->items, $fields );
 
-			if( is_array( $this->items ) )
+			if( is_array( $items ) )
 			{
-				foreach( (array) $this->items as $item )
-				{
+				foreach( $items as $item ) {
 					$data[] = $entryFcn( $item, $prices, $feConfig );
-					$included = array_merge( $included, $this->jincluded( $item, $fields ) );
 				}
 			}
 			else
 			{
-				$data = $entryFcn( $this->items, $prices, $feConfig );
-				$included = $this->jincluded( $this->items, $fields );
+				$data = $entryFcn( $items, $prices, $feConfig );
 			}
 		?>
 

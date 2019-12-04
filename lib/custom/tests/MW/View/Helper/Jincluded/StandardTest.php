@@ -51,4 +51,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertGreaterThanOrEqual( 66, count( $this->object->transform( $item, [] ) ) );
 	}
+
+
+	public function testTransformProducts()
+	{
+		$domains = ['attribute', 'media', 'price', 'product', 'product/property', 'text'];
+		$item = \Aimeos\MShop::create( \TestHelperCustom::getContext(), 'product' )->findItem( 'CNE', $domains );
+
+		$this->assertGreaterThanOrEqual( 66, count( $this->object->transform( [$item], [] ) ) );
+	}
 }

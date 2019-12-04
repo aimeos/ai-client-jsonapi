@@ -187,23 +187,21 @@ $entryFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, $t
 
 	<?php elseif( isset( $this->items ) ) : ?>
 		<?php
-			$data = $included = [];
+			$data = [];
 			$items = $this->get( 'items', [] );
+			$included = $this->jincluded( $items, $fields );
 
 			if( is_array( $items ) )
 			{
-				foreach( $items as $item )
-				{
+				foreach( $items as $item ) {
 					$data[] = $entryFcn( $item );
-					$included = array_merge( $included, $this->jincluded( $item, $fields ) );
 				}
 			}
 			else
 			{
 				$data = $entryFcn( $items );
-				$included = $this->jincluded( $items, $fields );
 			}
-		 ?>
+		?>
 
 		,"data": <?= json_encode( $data, $pretty ); ?>
 
