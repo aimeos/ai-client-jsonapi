@@ -112,7 +112,7 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, array $prices, arr
 			$items = $this->get( 'items', [] );
 			$prices = $this->get( 'prices', [] );
 			$feConfig = $this->get( 'attributes', [] );
-			$included = $this->jincluded( $this->items, $fields );
+			$included = $this->included( $this->items, $fields );
 
 			if( is_array( $items ) )
 			{

@@ -120,7 +120,7 @@ $entryFcn = function( \Aimeos\MShop\Attribute\Item\Iface $item ) use ( $fields, 
 		<?php
 			$data = [];
 			$items = $this->get( 'items', [] );
-			$included = $this->jincluded( $items, $fields );
+			$included = $this->included( $items, $fields );
 
 			if( is_array( $items ) )
 			{
