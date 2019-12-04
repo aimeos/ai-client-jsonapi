@@ -118,9 +118,16 @@ class Standard
 			$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_LIST;
 		}
 
-		$view->item = \Aimeos\Controller\Frontend::create( $this->getContext(), 'catalog' )
-			->root( $view->param( 'id' ) )->parse( (array) $view->param( 'filter', [] ) )
-			->uses( $ref )->getTree( $level );
+		$total = 1;
+		$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'catalog' )->uses( $ref );
+
+		if( ( $cond = (array) $view->param( 'filter', [] ) ) === [] ) {
+			$view->items = $cntl->root( $view->param( 'id' ) )->getTree( $level );
+		} else {
+			$view->items = $cntl->parse( $cond )->search( $total );
+		}
+
+		$view->total = $total;
 
 		return $response;
 	}

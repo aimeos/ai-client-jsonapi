@@ -97,7 +97,7 @@ $catFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item, array $entry ) use (
 ?>
 {
 	"meta": {
-		"total": <?= ( isset( $this->item ) ? 1 : 0 ); ?>,
+		"total": <?= $this->get( 'total', 0 )  ?>,
 		"prefix": <?= json_encode( $this->get( 'prefix' ) ); ?>,
 		"content-baseurl": "<?= $this->config( 'resource/fs/baseurl' ); ?>"
 
@@ -116,10 +116,27 @@ $catFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item, array $entry ) use (
 	<?php if( isset( $this->errors ) ) : ?>
 		,"errors": <?= json_encode( $this->errors, $pretty ); ?>
 
-	<?php elseif( isset( $this->item ) ) : ?>
-		,"data": <?= json_encode( $entryFcn( $this->item ), $pretty ); ?>
+	<?php elseif( isset( $this->items ) ) : ?>
+		<?php
+			$data = $included = [];
+			$items = $this->get( 'items', [] );
+			$included = $this->included( $items, $fields, ['catalog' => $entryFcn] );
 
-		,"included": <?= json_encode( $this->included( $this->item, $fields, ['catalog' => $entryFcn] ), $pretty ); ?>
+			if( is_array( $items ) )
+			{
+				foreach( $items as $item ) {
+					$data[] = $entryFcn( $item );
+				}
+			}
+			else
+			{
+				$data = $entryFcn( $items );
+			}
+		 ?>
+
+		,"data": <?= json_encode( $data, $pretty ); ?>
+
+		,"included": <?= json_encode( $included, $pretty ); ?>
 
 	<?php endif; ?>
 
