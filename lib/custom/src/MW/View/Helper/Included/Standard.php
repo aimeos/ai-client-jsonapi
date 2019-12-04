@@ -25,13 +25,55 @@ class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
 	/**
 	 * Returns the included data for the JSON:API response
 	 *
-	 * @param \Aimeos\MShop\Common\Item\Iface $item Object to generate the included data for
+	 * @param \Aimeos\MShop\Common\Item\Iface|\Aimeos\MShop\Common\Item\Iface[] $item Object or objects to generate the included data for
 	 * @param array $fields Associative list of resource types as keys and field names to output as values
 	 * @return array List of entries to include in the JSON:API response
 	 */
-	public function transform( \Aimeos\MShop\Common\Item\Iface $item, array $fields )
+	public function transform( $item, array $fields, array $fcn = [] )
 	{
 		$this->map = [];
+
+		if( is_array( $item ) )
+		{
+			foreach( $item as $entry ) {
+				$this->entry( $entry, $fields, $fcn );
+			}
+		}
+		else
+		{
+			$this->entry( $item, $fields, $fcn );
+		}
+
+		$result = [];
+
+		foreach( $this->map as $list )
+		{
+			foreach( $list as $entry ) {
+				$result[] = $entry;
+			}
+		}
+
+		return $result;
+	}
+
+
+	/**
+	 * Processes a single item to create the included data for the JSON:API response
+	 *
+	 * @param \Aimeos\MShop\Common\Item\Iface $item Object to generate the included data for
+	 * @param array $fields Associative list of resource types as keys and field names to output as values
+	 */
+	protected function entry( \Aimeos\MShop\Common\Item\Iface $item, array $fields, array $fcn = [] )
+	{
+		if( $item instanceof \Aimeos\MShop\Common\Item\Tree\Iface )
+		{
+			foreach( $item->getChildren() as $catItem )
+			{
+				if( $catItem->isAvailable() ) {
+					$this->map( $catItem, $fields, $fcn );
+				}
+			}
+		}
 
 		if( $item instanceof \Aimeos\MShop\Common\Item\AddressRef\Iface )
 		{
@@ -56,26 +98,14 @@ class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
 				$this->map( $propertyItem, $fields );
 			}
 		}
-
-		$result = [];
-
-		foreach( $this->map as $list )
-		{
-			foreach( $list as $entry ) {
-				$result[] = $entry;
-			}
-		}
-
-		return $result;
 	}
 
 
 	/**
-	 * Returns the included data for the JSON:API response
+	 * Populates the map class property with the included data for the JSON:API response
 	 *
 	 * @param \Aimeos\MShop\Common\Item\Iface $item Object to generate the included data for
 	 * @param array $fields Associative list of resource types as keys and field names to output as values
-	 * @return array Multi-dimensional array of included data
 	 */
 	protected function map( \Aimeos\MShop\Common\Item\Iface $item, array $fields )
 	{
