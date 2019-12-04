@@ -257,7 +257,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatch()
 	{
-		$body = '{"data": {"attributes": {"order.base.comment": "test"}}}	';
+		$body = '{"data": {"attributes": {"order.base.comment": "test", "order.base.customerref": "abc"}}}	';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $this->object->patch( $request, $this->view->response() );
@@ -270,8 +270,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertGreaterThan( 9, count( $result['data']['attributes'] ) );
+		$this->assertGreaterThan( 10, count( $result['data']['attributes'] ) );
 		$this->assertEquals( 'test', $result['data']['attributes']['order.base.comment'] );
+		$this->assertEquals( 'abc', $result['data']['attributes']['order.base.customerref'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -408,7 +409,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( null, $result['meta']['prefix'] );
-		$this->assertEquals( 1, count( $result['meta']['attributes'] ) );
+		$this->assertEquals( 2, count( $result['meta']['attributes'] ) );
 		$this->assertArrayNotHasKey( 'filter', $result['meta'] );
 		$this->assertArrayNotHasKey( 'sort', $result['meta'] );
 		$this->assertArrayNotHasKey( 'errors', $result );
