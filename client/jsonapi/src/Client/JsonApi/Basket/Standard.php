@@ -146,10 +146,6 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 			$basket = $this->controller->setType( $view->param( 'id', 'default' ) )
 				->add( (array) $payload->data->attributes )->save()->get();
 
-			if( isset( $payload->data->attributes->{'order.base.customerref'} ) ) {
-				$basket->setCustomerReference( $payload->data->attributes->{'order.base.customerref'} );
-			}
-
 			$view->item = $basket;
 			$status = 200;
 		}
