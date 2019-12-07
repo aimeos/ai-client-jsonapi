@@ -143,11 +143,8 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
 			}
 
-			$basket = $this->controller->setType( $view->param( 'id', 'default' ) )->get();
-
-			if( isset( $payload->data->attributes->{'order.base.comment'} ) ) {
-				$basket->setComment( $payload->data->attributes->{'order.base.comment'} );
-			}
+			$basket = $this->controller->setType( $view->param( 'id', 'default' ) )
+				->add( (array) $payload->data->attributes )->save()->get();
 
 			if( isset( $payload->data->attributes->{'order.base.customerref'} ) ) {
 				$basket->setCustomerReference( $payload->data->attributes->{'order.base.customerref'} );
