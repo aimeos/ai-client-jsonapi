@@ -228,7 +228,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( null, $result['meta']['prefix'] );
-		$this->assertEquals( 20, count( $result['meta']['attributes'] ) );
+		$this->assertEquals( 21, count( $result['meta']['attributes'] ) );
 		$this->assertArrayNotHasKey( 'filter', $result['meta'] );
 		$this->assertArrayNotHasKey( 'sort', $result['meta'] );
 		$this->assertArrayNotHasKey( 'errors', $result );
