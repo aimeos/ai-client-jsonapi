@@ -181,83 +181,87 @@ class Standard
 		$view = $this->getView();
 
 		$view->attributes = [
-			'order.address.salutation' => [
+			'order.base.address.addressid' => [
+				'label' => 'ID of the customer address',
+				'type' => 'string', 'default' => '', 'required' => false,
+			],
+			'order.base.address.salutation' => [
 				'label' => 'Customer salutation, i.e. "comany" ,"mr", "mrs", "miss" or ""',
 				'type' => 'string', 'default' => '', 'required' => false,
 			],
-			'order.address.company' => [
+			'order.base.address.company' => [
 				'label' => 'Company name',
 				'type' => 'string', 'default' => '', 'required' => false,
 			],
-			'order.address.vatid' => [
+			'order.base.address.vatid' => [
 				'label' => 'VAT ID of the company',
 				'type' => 'string', 'default' => '', 'required' => false,
 			],
-			'order.address.title' => [
+			'order.base.address.title' => [
 				'label' => 'Title of the customer',
 				'type' => 'string', 'default' => '', 'required' => false,
 			],
-			'order.address.firstname' => [
+			'order.base.address.firstname' => [
 				'label' => 'First name of the customer',
 				'type' => 'string', 'default' => '', 'required' => false,
 			],
-			'order.address.lastname' => [
+			'order.base.address.lastname' => [
 				'label' => 'Last name of the customer or full name',
 				'type' => 'string', 'default' => '', 'required' => true,
 			],
-			'order.address.address1' => [
+			'order.base.address.address1' => [
 				'label' => 'First address part like street',
 				'type' => 'string', 'default' => '', 'required' => true,
 			],
-			'order.address.address2' => [
+			'order.base.address.address2' => [
 				'label' => 'Second address part like house number',
 				'type' => 'string', 'default' => '', 'required' => false,
 			],
-			'order.address.address3' => [
+			'order.base.address.address3' => [
 				'label' => 'Third address part like flat number',
 				'type' => 'string', 'default' => '', 'required' => false,
 			],
-			'order.address.postal' => [
+			'order.base.address.postal' => [
 				'label' => 'Zip code of the city',
 				'type' => 'string', 'default' => '', 'required' => false,
 			],
-			'order.address.city' => [
+			'order.base.address.city' => [
 				'label' => 'Name of the town/city',
 				'type' => 'string', 'default' => '', 'required' => true,
 			],
-			'order.address.state' => [
+			'order.base.address.state' => [
 				'label' => 'Two letter code of the country state',
 				'type' => 'string', 'default' => '', 'required' => false,
 			],
-			'order.address.countryid' => [
+			'order.base.address.countryid' => [
 				'label' => 'Two letter ISO country code',
 				'type' => 'string', 'default' => '', 'required' => true,
 			],
-			'order.address.languageid' => [
+			'order.base.address.languageid' => [
 				'label' => 'Two or five letter ISO language code, e.g. "de" or "de_CH"',
 				'type' => 'string', 'default' => '', 'required' => false,
 			],
-			'order.address.telephone' => [
+			'order.base.address.telephone' => [
 				'label' => 'Telephone number consisting of option leading "+" and digits without spaces',
 				'type' => 'string', 'default' => '', 'required' => false,
 			],
-			'order.address.telefax' => [
+			'order.base.address.telefax' => [
 				'label' => 'Faximile number consisting of option leading "+" and digits without spaces',
 				'type' => 'string', 'default' => '', 'required' => false,
 			],
-			'order.address.email' => [
+			'order.base.address.email' => [
 				'label' => 'E-mail address',
 				'type' => 'string', 'default' => '', 'required' => false,
 			],
-			'order.address.website' => [
+			'order.base.address.website' => [
 				'label' => 'Web site including "http://" or "https://"',
 				'type' => 'string', 'default' => '', 'required' => false,
 			],
-			'order.address.longitude' => [
+			'order.base.address.longitude' => [
 				'label' => 'Longitude of the customer location as float value',
 				'type' => 'float', 'default' => '', 'required' => false,
 			],
-			'order.address.latitude' => [
+			'order.base.address.latitude' => [
 				'label' => 'Latitude of the customer location as float value',
 				'type' => 'float', 'default' => '', 'required' => false,
 			],
