@@ -34,7 +34,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDelete()
 	{
-		$body = '{"data": {"type": "basket/address", "id": "payment", "attributes": {"order.base.address.firstname": "test"}}}';
+		$body = '{"data": {"type": "basket/address", "id": "payment", "attributes": {"firstname": "test"}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $this->object->post( $request, $this->view->response() );
@@ -63,7 +63,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteById()
 	{
-		$body = '{"data": {"type": "basket/address", "id": "payment", "attributes": {"order.base.address.firstname": "test"}}}';
+		$body = '{"data": {"type": "basket/address", "id": "payment", "attributes": {"firstname": "test"}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $this->object->post( $request, $this->view->response() );
@@ -132,7 +132,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPost()
 	{
-		$body = '{"data": {"type": "basket/address", "id": "payment", "attributes": {"order.base.address.firstname": "test"}}}';
+		$body = '{"data": {"type": "basket/address", "id": "payment", "attributes": {"firstname": "test"}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $this->object->post( $request, $this->view->response() );
@@ -155,9 +155,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testPostMultiple()
 	{
 		$body = '{"data": [{
-			"type": "basket/address", "id": "payment", "attributes": {"order.base.address.firstname": "test"}
+			"type": "basket/address", "id": "payment", "attributes": {"firstname": "test"}
 		}, {
-			"type": "basket/address", "id": "delivery", "attributes": {"order.base.address.lastname": "test"}
+			"type": "basket/address", "id": "delivery", "attributes": {"lastname": "test"}
 		}]}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
@@ -228,7 +228,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( null, $result['meta']['prefix'] );
-		$this->assertEquals( 20, count( $result['meta']['attributes'] ) );
+		$this->assertEquals( 21, count( $result['meta']['attributes'] ) );
 		$this->assertArrayNotHasKey( 'filter', $result['meta'] );
 		$this->assertArrayNotHasKey( 'sort', $result['meta'] );
 		$this->assertArrayNotHasKey( 'errors', $result );
