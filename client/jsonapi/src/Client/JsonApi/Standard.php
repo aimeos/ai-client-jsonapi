@@ -97,11 +97,7 @@ class Standard
 			 * @since 2017.03
 			 * @category Developer
 			 */
-			$default = [
-				'attribute', 'basket', 'catalog', 'customer', 'locale',
-				'order', 'product', 'service', 'stock', 'supplier'
-			];
-			$resources = $this->getContext()->getConfig()->get( 'client/jsonapi/resources', $default );
+			$resources = $this->getContext()->getConfig()->get( 'client/jsonapi/resources', [] );
 
 			$view->locale = $this->getContext()->getLocale()->toArray();
 			$view->resources = (array) $resources;
