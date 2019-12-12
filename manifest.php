@@ -6,6 +6,9 @@ return array(
 		'aimeos-core',
 		'ai-controller-frontend',
 	),
+	'config' => array(
+		'config',
+	),
 	'include' => array(
 		'client/jsonapi/src',
 		'lib/custom/src',
