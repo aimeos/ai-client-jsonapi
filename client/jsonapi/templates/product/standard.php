@@ -89,7 +89,7 @@ $limit = max( $this->param( 'page/limit', 48 ), 1 );
 $first = ( $offset > 0 ? 0 : null );
 $prev = ( $offset - $limit >= 0 ? $offset - $limit : null );
 $next = ( $offset + $limit < $total ? $offset + $limit : null );
-$last = ( ((int) ($total / $limit)) * $limit > $offset ? ((int) ($total / $limit)) * $limit : null );
+$last = ( ( (int) ( $total / $limit ) ) * $limit > $offset ? ( (int) ( $total / $limit ) ) * $limit : null );
 
 
 $ref = array( 'resource', 'id', 'related', 'relatedid', 'filter', 'page', 'sort', 'include', 'fields' );
@@ -110,7 +110,7 @@ $entryFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, $t
 	$type = $item->getResourceType();
 
 	$params = array( 'resource' => $type, 'id' => $id );
-	$basketParams = [ 'resource' => 'basket', 'id' => 'default', 'related' => 'product' ];
+	$basketParams = ['resource' => 'basket', 'id' => 'default', 'related' => 'product'];
 
 	if( isset( $fields[$type] ) ) {
 		$attributes = array_intersect_key( $attributes, $fields[$type] );
