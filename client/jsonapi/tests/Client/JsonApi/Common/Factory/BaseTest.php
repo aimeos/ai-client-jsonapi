@@ -11,6 +11,7 @@ namespace Aimeos\Client\JsonApi\Common\Factory;
 
 class BaseTest extends \PHPUnit\Framework\TestCase
 {
+	private $client;
 	private $context;
 	private $object;
 	private $view;
