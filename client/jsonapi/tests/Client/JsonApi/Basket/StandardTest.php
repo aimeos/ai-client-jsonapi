@@ -426,7 +426,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$baseManager = \Aimeos\MShop::create( $this->context, 'order/base' );
 
 		$search = $baseManager->createSearch();
-		$search->setConditions( $search->compare( '==', 'order.base.price', '672.00') );
+		$search->setConditions( $search->compare( '==', 'order.base.price', '672.00' ) );
 
 		$items = $baseManager->searchItems( $search, ['order/base/product'] );
 
