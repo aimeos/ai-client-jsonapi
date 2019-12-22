@@ -27,5 +27,5 @@ interface Iface
 	 * @param string|null $name Name of the client implementation ("Standard" if null)
 	 * @return \Aimeos\Client\JsonApi\Iface Client Interface
 	 */
-	public static function create( \Aimeos\MShop\Context\Item\Iface $context, $path, $name = null );
+	public static function create( \Aimeos\MShop\Context\Item\Iface $context, string $path, string $name = null ) : \Aimeos\Client\JsonApi\Iface;
 }

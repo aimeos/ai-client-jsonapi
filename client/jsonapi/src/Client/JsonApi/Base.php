@@ -20,7 +20,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @package Client
  * @subpackage JsonApi
  */
-abstract class Base
+abstract class Base implements \Aimeos\Client\JsonApi\Iface
 {
 	private $view;
 	private $context;
@@ -33,7 +33,7 @@ abstract class Base
 	 * @param \Aimeos\MShop\Context\Item\Iface $context MShop context object
 	 * @param string $path Name of the client separated by slashes, e.g "catalog/lists"
 	 */
-	public function __construct( \Aimeos\MShop\Context\Item\Iface $context, $path )
+	public function __construct( \Aimeos\MShop\Context\Item\Iface $context, string $path )
 	{
 		$this->context = $context;
 		$this->path = $path;
@@ -47,7 +47,7 @@ abstract class Base
 	 * @param array $param List of method parameter
 	 * @throws \Aimeos\Client\JsonApi\Exception If method call failed
 	 */
-	public function __call( $name, array $param )
+	public function __call( string $name, array $param )
 	{
 		throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Unable to call method "%1$s"', $name ) );
 	}
@@ -60,7 +60,7 @@ abstract class Base
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function delete( ServerRequestInterface $request, ResponseInterface $response )
+	public function delete( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		return $this->defaultAction( $request, $response );
 	}
@@ -73,7 +73,7 @@ abstract class Base
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function get( ServerRequestInterface $request, ResponseInterface $response )
+	public function get( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		return $this->defaultAction( $request, $response );
 	}
@@ -86,7 +86,7 @@ abstract class Base
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function patch( ServerRequestInterface $request, ResponseInterface $response )
+	public function patch( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		return $this->defaultAction( $request, $response );
 	}
@@ -99,7 +99,7 @@ abstract class Base
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function post( ServerRequestInterface $request, ResponseInterface $response )
+	public function post( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		return $this->defaultAction( $request, $response );
 	}
@@ -112,7 +112,7 @@ abstract class Base
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function put( ServerRequestInterface $request, ResponseInterface $response )
+	public function put( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		return $this->defaultAction( $request, $response );
 	}
@@ -125,7 +125,7 @@ abstract class Base
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function options( ServerRequestInterface $request, ResponseInterface $response )
+	public function options( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		return $this->defaultAction( $request, $response );
 	}
@@ -136,7 +136,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\MW\View\Iface The view object which generates the admin output
 	 */
-	public function getView()
+	public function getView() : \Aimeos\MW\View\Iface
 	{
 		if( !isset( $this->view ) ) {
 			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'No view available' ) );
@@ -150,9 +150,9 @@ abstract class Base
 	 * Sets the view object that will generate the admin output.
 	 *
 	 * @param \Aimeos\MW\View\Iface $view The view object which generates the admin output
-	 * @return \Aimeos\Admin\JQAdm\Iface Reference to this object for fluent calls
+	 * @return \Aimeos\Client\JsonApi\Iface Reference to this object for fluent calls
 	 */
-	public function setView( \Aimeos\MW\View\Iface $view )
+	public function setView( \Aimeos\MW\View\Iface $view ) : \Aimeos\Client\JsonApi\Iface
 	{
 		$this->view = $view;
 		return $this;
@@ -166,7 +166,7 @@ abstract class Base
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	protected function defaultAction( ServerRequestInterface $request, ResponseInterface $response )
+	protected function defaultAction( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$status = 403;
 		$view = $this->getView();
@@ -215,7 +215,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\MShop\Context\Item\Iface Context object
 	 */
-	protected function getContext()
+	protected function getContext() : \Aimeos\MShop\Context\Item\Iface
 	{
 		return $this->context;
 	}
@@ -228,7 +228,7 @@ abstract class Base
 	 * @param string|null $domain Translation domain
 	 * @return array Associative list with "title" and "detail" key (if debug config is enabled)
 	 */
-	protected function getErrorDetails( \Exception $e, $domain = null )
+	protected function getErrorDetails( \Exception $e, string $domain = null ) : array
 	{
 		$details = [];
 
@@ -264,7 +264,7 @@ abstract class Base
 	 *
 	 * @return string Client path, e.g. "product/property"
 	 */
-	protected function getPath()
+	protected function getPath() : string
 	{
 		return $this->path;
 	}
@@ -277,7 +277,7 @@ abstract class Base
 	 * @param array $params List of criteria data with condition, sorting and paging
 	 * @return \Aimeos\MW\Criteria\Iface Initialized criteria object
 	 */
-	protected function initCriteria( \Aimeos\MW\Criteria\Iface $criteria, array $params )
+	protected function initCriteria( \Aimeos\MW\Criteria\Iface $criteria, array $params ) : \Aimeos\MW\Criteria\Iface
 	{
 		$this->initCriteriaConditions( $criteria, $params );
 		$this->initCriteriaSortations( $criteria, $params );
@@ -294,7 +294,7 @@ abstract class Base
 	 * @param array $params List of criteria data with condition, sorting and paging
 	 * @return \Aimeos\MW\Criteria\Iface Initialized criteria object
 	 */
-	protected function initCriteriaConditions( \Aimeos\MW\Criteria\Iface $criteria, array $params )
+	protected function initCriteriaConditions( \Aimeos\MW\Criteria\Iface $criteria, array $params ) : \Aimeos\MW\Criteria\Iface
 	{
 		if( !isset( $params['filter'] ) ) {
 			return $criteria;
@@ -315,7 +315,7 @@ abstract class Base
 	 * @param array $params List of criteria data with condition, sorting and paging
 	 * @return \Aimeos\MW\Criteria\Iface Initialized criteria object
 	 */
-	protected function initCriteriaSlice( \Aimeos\MW\Criteria\Iface $criteria, array $params )
+	protected function initCriteriaSlice( \Aimeos\MW\Criteria\Iface $criteria, array $params ) : \Aimeos\MW\Criteria\Iface
 	{
 		$start = ( isset( $params['page']['offset'] ) ? (int) $params['page']['offset'] : 0 );
 		$size = ( isset( $params['page']['limit'] ) ? (int) $params['page']['limit'] : 25 );
@@ -331,10 +331,10 @@ abstract class Base
 	 * @param array $params List of criteria data with condition, sorting and paging
 	 * @return \Aimeos\MW\Criteria\Iface Initialized criteria object
 	 */
-	protected function initCriteriaSortations( \Aimeos\MW\Criteria\Iface $criteria, array $params )
+	protected function initCriteriaSortations( \Aimeos\MW\Criteria\Iface $criteria, array $params ) : \Aimeos\MW\Criteria\Iface
 	{
 		if( !isset( $params['sort'] ) ) {
-			return;
+			return $criteria;
 		}
 
 		$sortation = [];
@@ -360,7 +360,7 @@ abstract class Base
 	 * @param string $allow Allowed HTTP methods
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function getOptionsResponse( ServerRequestInterface $request, ResponseInterface $response, $allow )
+	public function getOptionsResponse( ServerRequestInterface $request, ResponseInterface $response, string $allow ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view = $this->getView();
 

@@ -31,7 +31,7 @@ class Standard
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function get( ServerRequestInterface $request, ResponseInterface $response )
+	public function get( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view = $this->getView();
 
@@ -90,7 +90,7 @@ class Standard
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function options( ServerRequestInterface $request, ResponseInterface $response )
+	public function options( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		return $this->getOptionsResponse( $request, $response, 'GET,OPTIONS' );
 	}
@@ -104,7 +104,7 @@ class Standard
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	protected function getItem( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response )
+	protected function getItem( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$map = [];
 		$ref = $view->param( 'include', [] );

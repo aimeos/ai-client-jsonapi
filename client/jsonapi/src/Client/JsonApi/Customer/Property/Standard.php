@@ -31,7 +31,7 @@ class Standard
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function delete( ServerRequestInterface $request, ResponseInterface $response )
+	public function delete( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view = $this->getView();
 
@@ -100,7 +100,7 @@ class Standard
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function get( ServerRequestInterface $request, ResponseInterface $response )
+	public function get( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view = $this->getView();
 
@@ -149,7 +149,7 @@ class Standard
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function patch( ServerRequestInterface $request, ResponseInterface $response )
+	public function patch( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view = $this->getView();
 
@@ -206,7 +206,7 @@ class Standard
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function post( ServerRequestInterface $request, ResponseInterface $response )
+	public function post( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view = $this->getView();
 
@@ -265,7 +265,7 @@ class Standard
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function options( ServerRequestInterface $request, ResponseInterface $response )
+	public function options( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view = $this->getView();
 
@@ -302,10 +302,10 @@ class Standard
 	 *
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @param \Aimeos\MW\View\Iface $view View instance
-	 * @param integer $status HTTP status code
+	 * @param int $status HTTP status code
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	protected function render( ResponseInterface $response, \Aimeos\MW\View\Iface $view, $status )
+	protected function render( ResponseInterface $response, \Aimeos\MW\View\Iface $view, int $status ) : \Psr\Http\Message\ResponseInterface
 	{
 		/** client/jsonapi/customer/property/standard/template
 		 * Relative path to the customer property JSON API template

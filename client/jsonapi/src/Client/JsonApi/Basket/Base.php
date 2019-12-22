@@ -38,7 +38,7 @@ class Base extends \Aimeos\Client\JsonApi\Base
 	 * @param array $codes Associative list of scope and object as key and error code as value
 	 * @return array List of translated error messages
 	 */
-	protected function translatePluginErrorCodes( array $codes )
+	protected function translatePluginErrorCodes( array $codes ) : array
 	{
 		$errors = [];
 		$i18n = $this->getContext()->getI18n();

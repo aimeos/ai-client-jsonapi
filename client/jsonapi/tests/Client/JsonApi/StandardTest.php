@@ -57,7 +57,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testOptionsException()
 	{
 		$object = $this->getMockBuilder( \Aimeos\Client\JsonApi\Standard::class )
-			->setConstructorArgs( [$this->context, $this->view, ''] )
+			->setConstructorArgs( [$this->context, ''] )
 			->setMethods( ['getContext'] )
 			->getMock();
 

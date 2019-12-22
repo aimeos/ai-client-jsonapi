@@ -31,7 +31,7 @@ class Base
 	 * @param string $classname Full name of the class for which the object should be returned
 	 * @param \Aimeos\Client\JsonApi\Iface|null $client JSON API client object
 	 */
-	public static function injectClient( $classname, \Aimeos\Client\JsonApi\Iface $client = null )
+	public static function injectClient( string $classname, \Aimeos\Client\JsonApi\Iface $client = null )
 	{
 		self::$objects[$classname] = $client;
 	}
@@ -46,7 +46,7 @@ class Base
 	 * @return \Aimeos\Client\JsonApi\Iface Client object
 	 */
 	protected static function addClientDecorators( \Aimeos\Client\JsonApi\Iface $client,
-		\Aimeos\MShop\Context\Item\Iface $context, $path )
+		\Aimeos\MShop\Context\Item\Iface $context, string $path ) : \Aimeos\Client\JsonApi\Iface
 	{
 		$config = $context->getConfig();
 
@@ -120,8 +120,8 @@ class Base
 	 * @param string $path Name of the client, e.g "product"
 	 * @return \Aimeos\Client\JsonApi\Iface Client object
 	 */
-	protected static function addDecorators( \Aimeos\Client\JsonApi\Iface $client, array $decorators, $classprefix,
-			\Aimeos\MShop\Context\Item\Iface $context, $path )
+	protected static function addDecorators( \Aimeos\Client\JsonApi\Iface $client, array $decorators, string $classprefix,
+			\Aimeos\MShop\Context\Item\Iface $context, string $path ) : \Aimeos\Client\JsonApi\Iface
 	{
 		foreach( $decorators as $name )
 		{
@@ -155,7 +155,7 @@ class Base
 	 * @param string $path Name of the client, e.g "product"
 	 * @return \Aimeos\Client\JsonApi\Iface Client object
 	 */
-	protected static function createClient( $classname, $interface, \Aimeos\MShop\Context\Item\Iface $context, $path )
+	protected static function createClient( string $classname, string $interface, \Aimeos\MShop\Context\Item\Iface $context, string $path ) : \Aimeos\Client\JsonApi\Iface
 	{
 		if( isset( self::$objects[$classname] ) ) {
 			return self::$objects[$classname];

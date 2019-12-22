@@ -31,7 +31,7 @@ class Standard
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function get( ServerRequestInterface $request, ResponseInterface $response )
+	public function get( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view = $this->getView();
 
@@ -85,7 +85,7 @@ class Standard
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function post( ServerRequestInterface $request, ResponseInterface $response )
+	public function post( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view = $this->getView();
 
@@ -142,7 +142,7 @@ class Standard
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function options( ServerRequestInterface $request, ResponseInterface $response )
+	public function options( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view = $this->getView();
 
@@ -172,7 +172,7 @@ class Standard
 	 * @param string $baseId Unique order base ID
 	 * @return \Aimeos\MShop\Order\Item\Iface New order item
 	 */
-	protected function createOrder( $baseId )
+	protected function createOrder( string $baseId ) : \Aimeos\MShop\Order\Item\Iface
 	{
 		$context = $this->getContext();
 		$cntl = \Aimeos\Controller\Frontend::create( $context, 'order' );
@@ -191,7 +191,7 @@ class Standard
 	 * @return \Aimeos\MShop\Order\Item\Base\Iface Basket object including only the services
 	 * @throws \Aimeos\Client\JsonApi\Exception If basket ID is not the same as stored before in the current session
 	 */
-	protected function getBasket( $basketId )
+	protected function getBasket( string $basketId ) : \Aimeos\MShop\Order\Item\Base\Iface
 	{
 		$context = $this->getContext();
 		$baseId = $context->getSession()->get( 'aimeos/order.baseid' );
@@ -219,7 +219,7 @@ class Standard
 	 * 	or null if no form data is required
 	 */
 	protected function getPaymentForm( \Aimeos\MShop\Order\Item\Base\Iface $basket,
-		\Aimeos\MShop\Order\Item\Iface $orderItem, array $attributes )
+		\Aimeos\MShop\Order\Item\Iface $orderItem, array $attributes ) : ?\Aimeos\MShop\Common\Helper\Form\Iface
 	{
 		$view = $this->getView();
 		$context = $this->getContext();
@@ -262,7 +262,7 @@ class Standard
 	 * @param array $config Default URL configuration
 	 * @return string URL string
 	 */
-	protected function getUrlConfirm( \Aimeos\MW\View\Iface $view, array $params, array $config )
+	protected function getUrlConfirm( \Aimeos\MW\View\Iface $view, array $params, array $config ) : string
 	{
 		$target = $view->config( 'client/html/checkout/confirm/url/target' );
 		$cntl = $view->config( 'client/html/checkout/confirm/url/controller', 'checkout' );
@@ -281,7 +281,7 @@ class Standard
 	 * @param array $config Default URL configuration
 	 * @return string URL string
 	 */
-	protected function getUrlUpdate( \Aimeos\MW\View\Iface $view, array $params, array $config )
+	protected function getUrlUpdate( \Aimeos\MW\View\Iface $view, array $params, array $config ) : string
 	{
 		$target = $view->config( 'client/html/checkout/update/url/target' );
 		$cntl = $view->config( 'client/html/checkout/update/url/controller', 'checkout' );
@@ -296,9 +296,9 @@ class Standard
 	 * Tests if one of the products is a subscription
 	 *
 	 * @param \Aimeos\MShop\Order\Item\Base\Product\Iface[] $products Ordered products
-	 * @return boolean True if at least one product is a subscription, false if not
+	 * @return bool True if at least one product is a subscription, false if not
 	 */
-	protected function isSubscription( array $products )
+	protected function isSubscription( array $products ) : bool
 	{
 		foreach( $products as $orderProduct )
 		{
@@ -316,10 +316,10 @@ class Standard
 	 *
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @param \Aimeos\MW\View\Iface $view View instance
-	 * @param integer $status HTTP status code
+	 * @param int $status HTTP status code
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	protected function render( ResponseInterface $response, \Aimeos\MW\View\Iface $view, $status )
+	protected function render( ResponseInterface $response, \Aimeos\MW\View\Iface $view, int $status ) : \Psr\Http\Message\ResponseInterface
 	{
 		/** client/jsonapi/order/standard/template
 		 * Relative path to the order JSON API template

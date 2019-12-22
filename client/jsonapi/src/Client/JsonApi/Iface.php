@@ -29,7 +29,7 @@ interface Iface
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function delete( ServerRequestInterface $request, ResponseInterface $response );
+	public function delete( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface;
 
 
 	/**
@@ -39,7 +39,7 @@ interface Iface
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function get( ServerRequestInterface $request, ResponseInterface $response );
+	public function get( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface;
 
 
 	/**
@@ -49,7 +49,7 @@ interface Iface
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function patch( ServerRequestInterface $request, ResponseInterface $response );
+	public function patch( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface;
 
 
 	/**
@@ -59,7 +59,7 @@ interface Iface
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function post( ServerRequestInterface $request, ResponseInterface $response );
+	public function post( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface;
 
 
 	/**
@@ -69,7 +69,7 @@ interface Iface
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function put( ServerRequestInterface $request, ResponseInterface $response );
+	public function put( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface;
 
 
 	/**
@@ -79,5 +79,5 @@ interface Iface
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function options( ServerRequestInterface $request, ResponseInterface $response );
+	public function options( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface;
 }

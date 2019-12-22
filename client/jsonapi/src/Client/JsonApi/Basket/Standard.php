@@ -31,7 +31,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 * @param \Aimeos\MShop\Context\Item\Iface $context MShop context object
 	 * @param string $path Name of the client, e.g "basket"
 	 */
-	public function __construct( \Aimeos\MShop\Context\Item\Iface $context, $path )
+	public function __construct( \Aimeos\MShop\Context\Item\Iface $context, string $path )
 	{
 		parent::__construct( $context, $path );
 
@@ -46,7 +46,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function delete( ServerRequestInterface $request, ResponseInterface $response )
+	public function delete( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view = $this->getView();
 
@@ -86,7 +86,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function get( ServerRequestInterface $request, ResponseInterface $response )
+	public function get( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view = $this->getView();
 
@@ -129,7 +129,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function patch( ServerRequestInterface $request, ResponseInterface $response )
+	public function patch( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view = $this->getView();
 
@@ -177,7 +177,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function post( ServerRequestInterface $request, ResponseInterface $response )
+	public function post( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view = $this->getView();
 
@@ -220,7 +220,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function options( ServerRequestInterface $request, ResponseInterface $response )
+	public function options( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view = $this->getView();
 
@@ -252,9 +252,9 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 * Returns the integer constant for the basket parts that should be included
 	 *
 	 * @param \Aimeos\MW\View\Iface $view View instance
-	 * @return integer Constant from Aimeos\MShop\Order\Item\Base\Base
+	 * @return int Constant from Aimeos\MShop\Order\Item\Base\Base
 	 */
-	protected function getParts( \Aimeos\MW\View\Iface $view )
+	protected function getParts( \Aimeos\MW\View\Iface $view ) : int
 	{
 		$available = array(
 			'basket/address' => \Aimeos\MShop\Order\Item\Base\Base::PARTS_ADDRESS,
@@ -282,11 +282,11 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 *
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @param \Aimeos\MW\View\Iface $view View instance
-	 * @param integer $status HTTP status code
-	 * @param boolean $allow True to allow all HTTP methods, false for GET only
+	 * @param int $status HTTP status code
+	 * @param bool $allow True to allow all HTTP methods, false for GET only
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	protected function render( ResponseInterface $response, \Aimeos\MW\View\Iface $view, $status, $allow = true )
+	protected function render( ResponseInterface $response, \Aimeos\MW\View\Iface $view, int $status, bool $allow = true ) : \Psr\Http\Message\ResponseInterface
 	{
 		/** client/jsonapi/basket/standard/template
 		 * Relative path to the basket JSON API template

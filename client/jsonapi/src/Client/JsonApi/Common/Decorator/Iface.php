@@ -28,5 +28,5 @@ interface Iface
 	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
 	 */
 	public function __construct( \Aimeos\Client\JsonApi\Iface $client,
-		\Aimeos\MShop\Context\Item\Iface $context, $path );
+		\Aimeos\MShop\Context\Item\Iface $context, string $path );
 }

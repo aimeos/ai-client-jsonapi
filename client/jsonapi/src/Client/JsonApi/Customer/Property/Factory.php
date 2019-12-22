@@ -30,7 +30,7 @@ class Factory
 	 * @return \Aimeos\Client\JsonApi\Iface JSON API client
 	 * @throws \Aimeos\Client\JsonApi\Exception If requested client implementation couldn't be found or initialisation fails
 	 */
-	public static function create( \Aimeos\MShop\Context\Item\Iface $context, $path, $name = null )
+	public static function create( \Aimeos\MShop\Context\Item\Iface $context, string $path, string $name = null ) : \Aimeos\Client\JsonApi\Iface
 	{
 		if( is_string( $path ) === false || preg_match( '#^[a-zA-Z0-9/]+$#', $path ) !== 1 ) {
 			throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid client "%1$s"', $path ), 400 );
@@ -73,14 +73,12 @@ class Factory
 			$name = $context->getConfig()->get( 'client/jsonapi/customer/property/name', 'Standard' );
 		}
 
-		if( ctype_alnum( $name ) === false )
-		{
-			$classname = is_string( $name ) ? '\\Aimeos\\Client\\JsonApi\\Customer\\Property\\' . $name : '<not a string>';
-			throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid characters in class name "%1$s"', $classname ) );
-		}
-
 		$iface = '\\Aimeos\\Client\\JsonApi\\Iface';
 		$classname = '\\Aimeos\\Client\\JsonApi\\Customer\\Property\\' . $name;
+
+		if( ctype_alnum( $name ) === false ) {
+			throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid characters in class name "%1$s"', $classname ) );
+		}
 
 		$client = self::createClient( $classname, $iface, $context, $path );
 

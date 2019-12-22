@@ -33,7 +33,7 @@ class JsonApi extends \Aimeos\Client\JsonApi\Common\Factory\Base
 	 * @return \Aimeos\Client\JsonApi\Iface JSON client instance
 	 * @throws \Aimeos\Client\JsonApi\Exception If the given path is invalid
 	 */
-	public static function create( \Aimeos\MShop\Context\Item\Iface $context, $path, $name = null )
+	public static function create( \Aimeos\MShop\Context\Item\Iface $context, string $path, string $name = null ) : \Aimeos\Client\JsonApi\Iface
 	{
 		$path = trim( $path, '/' );
 
@@ -80,7 +80,7 @@ class JsonApi extends \Aimeos\Client\JsonApi\Common\Factory\Base
 	 * @return \Aimeos\Client\JsonApi\Iface JSON client instance
 	 * @throws \Aimeos\Client\JsonApi\Exception If the client couldn't be created
 	 */
-	protected static function createRoot( \Aimeos\MShop\Context\Item\Iface $context, $path, $name = null )
+	protected static function createRoot( \Aimeos\MShop\Context\Item\Iface $context, string $path, string $name = null ) : \Aimeos\Client\JsonApi\Iface
 	{
 		/** client/jsonapi/name
 		 * Class name of the used JSON API client implementation
@@ -119,14 +119,12 @@ class JsonApi extends \Aimeos\Client\JsonApi\Common\Factory\Base
 			$name = $context->getConfig()->get( 'client/jsonapi/name', 'Standard' );
 		}
 
-		if( ctype_alnum( $name ) === false )
-		{
-			$classname = is_string( $name ) ? '\\Aimeos\\Client\\JsonApi\\' . $name : '<not a string>';
-			throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid class name "%1$s"', $classname ) );
-		}
-
 		$iface = '\\Aimeos\\Client\\JsonApi\\Iface';
 		$classname = '\\Aimeos\\Client\\JsonApi\\' . $name;
+
+		if( ctype_alnum( $name ) === false ) {
+			throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid class name "%1$s"', $classname ) );
+		}
 
 		$client = self::createClient( $classname, $iface, $context, $path );
 
