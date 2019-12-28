@@ -37,7 +37,7 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, array $prices, arr
 	unset( $attributes['service.config'] ); // don't expose private information
 
 	$params = array( 'resource' => $type, 'id' => $id );
-	$basketParams = [ 'resource' => 'basket', 'id' => 'default', 'related' => 'service', 'relatedid' => $item->getType() ];
+	$basketParams = ['resource' => 'basket', 'id' => 'default', 'related' => 'service', 'relatedid' => $item->getType()];
 
 	if( isset( $fields[$type] ) ) {
 		$attributes = array_intersect_key( $attributes, $fields[$type] );

@@ -87,7 +87,7 @@ class Standard
 			else
 			{
 				$total = 0;
-				$items = $cntl->slice( $view->param( 'page/offset', 0), $view->param( 'page/limit', 25 ) )
+				$items = $cntl->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 25 ) )
 					->sort( $view->param( 'sort' ) )->parse( $view->param( 'filter', [] ) )->search( $total );
 
 				$view->items = $items;
