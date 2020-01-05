@@ -16,7 +16,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	private $view;
 
 
-	protected function setUp()
+	protected function setUp() : void
 	{
 		$context = \TestHelperJapi::getContext();
 		$this->view = $context->getView();
@@ -31,7 +31,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	protected function tearDown()
+	protected function tearDown() : void
 	{
 		unset( $this->object, $this->stub, $this->view );
 	}

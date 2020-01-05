@@ -16,7 +16,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	private $view;
 
 
-	protected function setUp()
+	protected function setUp() : void
 	{
 		\Aimeos\Controller\Frontend::cache( true );
 
@@ -28,7 +28,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	protected function tearDown()
+	protected function tearDown() : void
 	{
 		\Aimeos\Controller\Frontend::cache( false );
 		unset( $this->view, $this->object, $this->context );

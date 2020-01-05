@@ -17,7 +17,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	private $view;
 
 
-	protected function setUp()
+	protected function setUp() : void
 	{
 		$this->context = \TestHelperJapi::getContext();
 		$this->view = $this->context->getView();
@@ -64,7 +64,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$prefix = '\Aimeos\\Client\\JsonApi\\Common\\Decorator\\';
 		$params = [$this->client, ['Test'], $prefix, $this->context, ''];
 
-		$this->setExpectedException( \Aimeos\Client\JsonApi\Exception::class );
+		$this->expectException( \Aimeos\Client\JsonApi\Exception::class );
 		$this->access( 'addDecorators' )->invokeArgs( $this->object, $params );
 	}
 
@@ -74,7 +74,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$prefix = '\Aimeos\\Client\\JsonApi\\Common\\Decorator\\';
 		$params = [$this->client, [''], $prefix, $this->context, ''];
 
-		$this->setExpectedException( \Aimeos\Client\JsonApi\Exception::class );
+		$this->expectException( \Aimeos\Client\JsonApi\Exception::class );
 		$this->access( 'addDecorators' )->invokeArgs( $this->object, $params );
 	}
 
@@ -108,7 +108,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$iface = '\Aimeos\\Client\\JsonApi\\Iface';
 		$params = ['invalid', $iface, $this->context, ''];
 
-		$this->setExpectedException( \Aimeos\Client\JsonApi\Exception::class );
+		$this->expectException( \Aimeos\Client\JsonApi\Exception::class );
 		$this->access( 'createClient' )->invokeArgs( $this->object, $params );
 	}
 
@@ -119,7 +119,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$class = '\Aimeos\\Client\\JsonApi\\Product\\Standard';
 		$params = [$class, $iface, $this->context, ''];
 
-		$this->setExpectedException( \Aimeos\MW\Common\Exception::class );
+		$this->expectException( \Aimeos\MW\Common\Exception::class );
 		$this->access( 'createClient' )->invokeArgs( $this->object, $params );
 	}
 

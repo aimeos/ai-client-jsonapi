@@ -16,7 +16,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	private $view;
 
 
-	protected function setUp()
+	protected function setUp() : void
 	{
 		$this->context = \TestHelperJapi::getContext();
 		$this->view = $this->context->getView();
@@ -26,7 +26,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	protected function tearDown()
+	protected function tearDown() : void
 	{
 		\Aimeos\Controller\Frontend\Order\Factory::injectController( '\Aimeos\Controller\Frontend\Order\Standard', null );
 		unset( $this->context, $this->object, $this->view );
@@ -305,7 +305,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$basketId = $this->getOrderBaseItem()->getId();
 
-		$this->setExpectedException( \Aimeos\Client\JsonApi\Exception::class );
+		$this->expectException( \Aimeos\Client\JsonApi\Exception::class );
 		$this->access( 'getBasket' )->invokeArgs( $this->object, [$basketId] );
 	}
 

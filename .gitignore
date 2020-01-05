@@ -1,3 +1,4 @@
+.phpunit.result.cache
 node_modules
 *.junit.xml
 *.log
