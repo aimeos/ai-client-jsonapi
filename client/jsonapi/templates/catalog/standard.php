@@ -117,10 +117,10 @@ $catFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item, array $entry ) use (
 	<?php elseif( isset( $this->items ) ) : ?>
 		<?php
 			$data = $included = [];
-			$items = $this->get( 'items', [] );
+			$items = $this->get( 'items', new \Aimeos\Map() );
 			$included = $this->jincluded( $items, $fields, ['catalog' => $entryFcn] );
 
-			if( is_array( $items ) )
+			if( $items instanceof \Aimeos\Map )
 			{
 				foreach( $items as $item ) {
 					$data[] = $entryFcn( $item );

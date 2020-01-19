@@ -222,11 +222,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function getSubscription()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'subscription' );
+
 		$search = $manager->createSearch()->setSlice( 0, 1 );
 		$search->setConditions( $search->compare( '==', 'subscription.dateend', '2010-01-01' ) );
-		$items = $manager->searchItems( $search );
 
-		if( ( $item = reset( $items ) ) === false ) {
+		if( ( $item = $manager->searchItems( $search )->first() ) === null ) {
 			throw new \RuntimeException( 'No subscription item found' );
 		}
 

@@ -423,14 +423,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function getOrderBaseItem()
 	{
-		$baseManager = \Aimeos\MShop::create( $this->context, 'order/base' );
+		$manager = \Aimeos\MShop::create( $this->context, 'order/base' );
 
-		$search = $baseManager->createSearch();
+		$search = $manager->createSearch();
 		$search->setConditions( $search->compare( '==', 'order.base.price', '672.00' ) );
 
-		$items = $baseManager->searchItems( $search, ['order/base/product'] );
-
-		if( ( $item = reset( $items ) ) === false ) {
+		if( ( $item = $manager->searchItems( $search, ['order/base/product'] )->first() ) === null ) {
 			throw new \Exception( 'No order/base item with price "672.00" found' );
 		}
 

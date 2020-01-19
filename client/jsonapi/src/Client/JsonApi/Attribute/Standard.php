@@ -177,12 +177,12 @@ class Standard
 
 		if( !empty( $attrTypes ) )
 		{
-			$sorted = [];
+			$sorted = new \Aimeos\Map();
 
 			foreach( $attrTypes as $type )
 			{
 				if( isset( $attrMap[$type] ) ) {
-					$sorted = array_merge( $sorted, $attrMap[$type] );
+					$sorted->merge( $attrMap[$type] );
 				}
 			}
 

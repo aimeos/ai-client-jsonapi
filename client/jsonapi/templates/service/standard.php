@@ -27,7 +27,7 @@ foreach( (array) $fields as $resource => $list ) {
 }
 
 
-$entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, array $prices, array $feConfig ) use ( $fields, $target, $cntl, $action, $config )
+$entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, \Aimeos\Map $prices, array $feConfig ) use ( $fields, $target, $cntl, $action, $config )
 {
 	$metadata = [];
 	$id = $item->getId();
@@ -111,12 +111,12 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, array $prices, arr
 	<?php elseif( isset( $this->items ) ) : ?>
 		<?php
 			$data = [];
-			$items = $this->get( 'items', [] );
-			$prices = $this->get( 'prices', [] );
+			$items = $this->get( 'items', new \Aimeos\Map() );
+			$prices = $this->get( 'prices', new \Aimeos\Map() );
 			$feConfig = $this->get( 'attributes', [] );
 			$included = $this->jincluded( $this->items, $fields );
 
-			if( is_array( $items ) )
+			if( $items instanceof \Aimeos\Map )
 			{
 				foreach( $items as $item ) {
 					$data[] = $entryFcn( $item, $prices, $feConfig );

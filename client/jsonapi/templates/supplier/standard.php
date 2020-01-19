@@ -100,7 +100,7 @@ $entryFcn = function( \Aimeos\MShop\Supplier\Item\Iface $item ) use ( $fields, $
 
 	},
 	"links": {
-		<?php if( is_array( $this->get( 'items' ) ) ) : ?>
+		<?php if( $this->get( 'items' ) instanceof \Aimeos\Map ) : ?>
 			<?php if( $first !== null ) : ?>
 				"first": "<?php $params['page']['offset'] = $first; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
 			<?php endif; ?>
@@ -121,11 +121,11 @@ $entryFcn = function( \Aimeos\MShop\Supplier\Item\Iface $item ) use ( $fields, $
 
 	<?php elseif( isset( $this->items ) ) : ?>
 		<?php
-			$data = $included = [];
-			$items = $this->get( 'items', [] );
+			$data = [];
+			$items = $this->get( 'items', new \Aimeos\Map() );
 			$included = $this->jincluded( $items, $fields );
 
-			if( is_array( $items ) )
+			if( $items instanceof \Aimeos\Map )
 			{
 				foreach( $items as $item ) {
 					$data[] = $entryFcn( $item );

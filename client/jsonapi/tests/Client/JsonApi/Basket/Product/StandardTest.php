@@ -341,13 +341,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function getOrderProductItem()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'order/base/product' );
+		$search = $manager->createSearch()->setSlice( 0, 1 );
 
-		$search = $manager->createSearch();
-		$search->setSlice( 0, 1 );
-
-		$items = $manager->searchItems( $search );
-
-		if( ( $item = reset( $items ) ) === false ) {
+		if( ( $item = $manager->searchItems( $search )->first() ) === null ) {
 			throw new \Exception( 'No order/base/product item found' );
 		}
 

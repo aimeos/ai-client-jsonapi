@@ -28,20 +28,19 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetItem()
 	{
-		$localeManager = \Aimeos\MShop::create( $this->context, 'locale' );
-		$search = $localeManager->createSearch();
+		$manager = \Aimeos\MShop::create( $this->context, 'locale' );
+
+		$search = $manager->createSearch()->setSlice( 0, 1 );
 		$search->setConditions( $search->compare( '==', 'locale.status', 1 ) );
 		$search->setSortations( [$search->sort( '+', 'locale.position' )] );
-		$search->setSlice( 0, 1 );
-		$localeItems = $localeManager->searchItems( $search );
 
-		if( ( $localeItem = reset( $localeItems ) ) === false ) {
+		if( ( $item = $manager->searchItems( $search )->first() ) === null ) {
 			throw new \Exception( 'No locale item found' );
 		}
 
 
 		$params = array(
-			'id' => $localeItem->getId(),
+			'id' => $item->getId(),
 			'fields' => array(
 				'locale' => 'locale.id,locale.languageid,locale.currencyid'
 			)

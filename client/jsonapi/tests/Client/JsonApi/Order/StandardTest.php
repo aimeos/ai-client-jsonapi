@@ -65,9 +65,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$manager = \Aimeos\MShop::create( $this->context, 'order' );
 		$search = $manager->createSearch()->setSlice( 0, 1 );
 		$search->setConditions( $search->compare( '==', 'order.type', 'phone' ) );
-		$items = $manager->searchItems( $search );
 
-		if( ( $item = reset( $items ) ) === false ) {
+		if( ( $item = $manager->searchItems( $search )->first() ) === null ) {
 			throw new \RuntimeException( 'No order item found' );
 		}
 
@@ -393,17 +392,15 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function getOrderBaseItem()
 	{
-		$baseManager = \Aimeos\MShop::create( $this->context, 'order/base' );
+		$manager = \Aimeos\MShop::create( $this->context, 'order/base' );
 
-		$search = $baseManager->createSearch();
+		$search = $manager->createSearch();
 		$search->setConditions( $search->compare( '==', 'order.base.price', '672.00' ) );
 
-		$items = $baseManager->searchItems( $search );
-
-		if( ( $item = reset( $items ) ) === false ) {
+		if( ( $item = $manager->searchItems( $search )->first() ) === null ) {
 			throw new \Exception( 'No order/base item with price "672.00" found' );
 		}
 
-		return $baseManager->load( $item->getId() );
+		return $manager->load( $item->getId() );
 	}
 }
