@@ -111,8 +111,8 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, \Aimeos\Map $price
 	<?php elseif( isset( $this->items ) ) : ?>
 		<?php
 			$data = [];
-			$items = $this->get( 'items', new \Aimeos\Map() );
-			$prices = $this->get( 'prices', new \Aimeos\Map() );
+			$items = $this->get( 'items', map() );
+			$prices = $this->get( 'prices', map() );
 			$feConfig = $this->get( 'attributes', [] );
 			$included = $this->jincluded( $this->items, $fields );
 

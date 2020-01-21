@@ -104,7 +104,7 @@ $entryFcn = function( \Aimeos\MShop\Stock\Item\Iface $item ) use ( $fields, $tar
 	<?php elseif( isset( $this->items ) ) : ?>
 		<?php
 			$data = [];
-			$items = $this->get( 'items', new \Aimeos\Map() );
+			$items = $this->get( 'items', map() );
 
 			if( $items instanceof \Aimeos\Map )
 			{

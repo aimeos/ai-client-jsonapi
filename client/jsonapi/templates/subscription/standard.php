@@ -78,7 +78,7 @@ $entryFcn = function( \Aimeos\MShop\Subscription\Item\Iface $item ) use ( $field
 	<?php elseif( isset( $this->items ) ) : ?>
 		<?php
 			$data = [];
-			$items = $this->get( 'items', new \Aimeos\Map() );
+			$items = $this->get( 'items', map() );
 
 			if( $items instanceof \Aimeos\Map )
 			{

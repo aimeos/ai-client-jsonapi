@@ -177,7 +177,7 @@ class Standard
 
 		if( !empty( $attrTypes ) )
 		{
-			$sorted = new \Aimeos\Map();
+			$sorted = map();
 
 			foreach( $attrTypes as $type )
 			{

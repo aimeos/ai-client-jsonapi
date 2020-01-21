@@ -87,7 +87,7 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Iface $item, \Aimeos\MShop\Common
 	<?php elseif( isset( $this->items ) ) : ?>
 		<?php
 			$data = [];
-			$items = $this->get( 'items', new \Aimeos\Map() );
+			$items = $this->get( 'items', map() );
 
 			if( $items instanceof \Aimeos\Map )
 			{

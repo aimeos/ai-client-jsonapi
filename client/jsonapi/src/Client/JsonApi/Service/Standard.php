@@ -53,7 +53,7 @@ class Standard
 
 				if( $provider->isAvailable( $basket ) === true )
 				{
-					$view->prices = new \Aimeos\Map( [$id => $provider->calcPrice( $basket )] );
+					$view->prices = map( [$id => $provider->calcPrice( $basket )] );
 					$view->attributes = [$id => $provider->getConfigFE( $basket )];
 					$view->items = $provider->getServiceItem();
 					$view->total = 1;
@@ -62,8 +62,8 @@ class Standard
 			else
 			{
 				$attributes = [];
-				$items = new \Aimeos\Map();
-				$prices = new \Aimeos\Map();
+				$items = map();
+				$prices = map();
 				$cntl->type( $view->param( 'filter/cs_type' ) );
 
 				foreach( $cntl->getProviders() as $id => $provider )
