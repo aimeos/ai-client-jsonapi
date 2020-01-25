@@ -57,8 +57,8 @@ class Standard
 						throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'ID is missing' ), 400 );
 					}
 
-					if( isset( $items[$entry->id] ) ) {
-						$cntl->deleteAddressItem( $items[$entry->id] );
+					if( ( $item = $items->get( $entry->id ) ) !== null ) {
+						$cntl->deleteAddressItem( $item );
 					}
 				}
 
@@ -66,8 +66,8 @@ class Standard
 			}
 			else
 			{
-				if( isset( $items[$relId] ) ) {
-					$cntl->deleteAddressItem( $items[$relId] )->store();
+				if( ( $item = $items->get( $relId ) ) !== null ) {
+					$cntl->deleteAddressItem( $item )->store();
 				}
 			}
 

@@ -57,8 +57,8 @@ class Standard
 						throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'ID is missing' ), 400 );
 					}
 
-					if( isset( $items[$entry->id] ) ) {
-						$cntl->deletePropertyItem( $items[$entry->id] );
+					if( ( $item = $items->get( $entry->id ) ) !== null ) {
+						$cntl->deletePropertyItem( $item );
 					}
 				}
 
@@ -66,8 +66,8 @@ class Standard
 			}
 			else
 			{
-				if( isset( $items[$relId] ) ) {
-					$cntl->deletePropertyItem( $items[$relId] )->store();
+				if( ( $item = $items->get( $relId ) ) !== null ) {
+					$cntl->deletePropertyItem( $item )->store();
 				}
 			}
 
@@ -116,8 +116,8 @@ class Standard
 			}
 			else
 			{
-				$view->items = isset( $items[$relId] ) ? $items[$relId] : null;
-				$view->total = empty( $view->items ) ? 0 : 1;
+				$view->items = $items->get( $relId );
+				$view->total = $items->isEmpty() ? 0 : 1;
 			}
 
 			$status = 200;
@@ -168,10 +168,10 @@ class Standard
 			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
 			$items = $cntl->uses( ['customer/property'] )->get()->getPropertyItems();
 
-			if( isset( $items[$relId] ) )
+			if( ( $item = $items->get( $relId ) ) !== null )
 			{
 				$attributes = (array) $payload->data->attributes;
-				$propItem = $items[$relId]->fromArray( $attributes );
+				$propItem = $item->fromArray( $attributes );
 				$cntl->addPropertyItem( $propItem )->store();
 
 				$view->items = $propItem;

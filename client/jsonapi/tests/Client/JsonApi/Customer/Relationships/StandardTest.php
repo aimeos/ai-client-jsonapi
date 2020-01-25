@@ -47,7 +47,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$body = '{"data": {"type": "product", "id": ' . current( $customer->getListItems() )->getId() . '}}';
+		$body = '{"data": {"type": "product", "id": ' . $customer->getListItems()->first()->getId() . '}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 
@@ -74,7 +74,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context->setUserId( $customer->getId() );
 
 
-		$params = ['id' => $customer->getId(), 'relatedid' => current( $customer->getListItems() )->getId()];
+		$params = ['id' => $customer->getId(), 'relatedid' => $customer->getListItems()->first()->getId()];
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
@@ -180,7 +180,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$params = array(
 			'id' => $customer->getId(),
 			'related' => 'relationships',
-			'relatedid' => current( $customer->getListItems() )->getId(),
+			'relatedid' => $customer->getListItems()->first()->getId(),
 			'fields' => array( 'customer/lists' => 'customer.lists.id,customer.lists.refid' ),
 			'include' => 'product',
 		);
@@ -261,7 +261,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
 		$customer = $custManager->findItem( 'UTC001', ['product'] )->setCode( 'unittest-jsonapi' );
 		$customer = $custManager->saveItem( $customer->setId( null ) );
-		$id = current( $customer->getListItems( 'product' ) )->getId();
+		$id = $customer->getListItems( 'product' )->first()->getId();
 		$this->context->setUserId( $customer->getId() );
 
 

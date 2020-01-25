@@ -85,7 +85,7 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item ) use ( $f
 			$data = [];
 			$items = $this->get( 'items', [] );
 
-			if( is_array( $items ) )
+			if( is_map( $items ) )
 			{
 				foreach( $items as $addrItem ) {
 					$data[] = $entryFcn( $addrItem );

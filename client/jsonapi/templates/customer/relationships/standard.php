@@ -88,7 +88,7 @@ $entryFcn = function( \Aimeos\MShop\Common\Item\Lists\Iface $item ) use ( $field
 			$data = [];
 			$items = $this->get( 'items', [] );
 
-			if( is_array( $items ) )
+			if( is_map( $items ) )
 			{
 				foreach( $items as $item ) {
 					$data[] = $entryFcn( $item );

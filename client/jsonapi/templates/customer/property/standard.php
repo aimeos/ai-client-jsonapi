@@ -80,7 +80,7 @@ $entryFcn = function( \Aimeos\MShop\Common\Item\Property\Iface $item ) use ( $fi
 			$data = [];
 			$items = $this->get( 'items', [] );
 
-			if( is_array( $items ) )
+			if( is_map( $items ) )
 			{
 				foreach( $items as $propItem ) {
 					$data[] = $entryFcn( $propItem );

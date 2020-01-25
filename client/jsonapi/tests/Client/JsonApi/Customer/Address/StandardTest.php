@@ -47,7 +47,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$body = '{"data": {"type": "customer/address", "id": ' . current( $customer->getAddressItems() )->getId() . '}}';
+		$body = '{"data": {"type": "customer/address", "id": ' . $customer->getAddressItems()->first()->getId() . '}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 
@@ -74,7 +74,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context->setUserId( $customer->getId() );
 
 
-		$params = ['id' => $customer->getId(), 'relatedid' => current( $customer->getAddressItems() )->getId()];
+		$params = ['id' => $customer->getId(), 'relatedid' => $customer->getAddressItems()->first()->getId()];
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
@@ -159,7 +159,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetById()
 	{
 		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001', ['customer/address'] );
-		$id = current( $customer->getAddressItems() )->getId();
+		$id = $customer->getAddressItems()->first()->getId();
 		$this->context->setUserId( $customer->getId() );
 
 		$params = array(
@@ -232,7 +232,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context->setUserId( $customer->getId() );
 
 
-		$params = ['id' => $customer->getId(), 'relatedid' => current( $customer->getAddressItems() )->getId()];
+		$params = ['id' => $customer->getId(), 'relatedid' => $customer->getAddressItems()->first()->getId()];
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
