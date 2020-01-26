@@ -43,8 +43,8 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, \Aimeos\Map $price
 		$attributes = array_intersect_key( $attributes, $fields[$type] );
 	}
 
-	if( isset( $prices[$id] ) ) {
-		$attributes['price'] = $prices[$id]->toArray();
+	if( ( $price = $prices->get( $id ) ) !== null ) {
+		$attributes['price'] = $price->toArray();
 	}
 
 	if( isset( $feConfig[$id] ) )
