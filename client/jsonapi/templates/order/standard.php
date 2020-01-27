@@ -89,7 +89,7 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Iface $item, \Aimeos\MShop\Common
 			$data = [];
 			$items = $this->get( 'items', map() );
 
-			if( $items instanceof \Aimeos\Map )
+			if( is_map( $items ) )
 			{
 				foreach( $items as $item ) {
 					$data[] = $entryFcn( $item, $this->get( 'form' ) );

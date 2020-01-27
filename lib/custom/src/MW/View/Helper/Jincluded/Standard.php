@@ -34,7 +34,7 @@ class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
 	{
 		$this->map = [];
 
-		if( $item instanceof \Aimeos\Map || is_array( $item ) )
+		if( is_map( $item ) || is_array( $item ) )
 		{
 			foreach( $item as $entry ) {
 				$this->entry( $entry, $fields, $fcn );

@@ -90,7 +90,7 @@ $entryFcn = function( \Aimeos\MShop\Locale\Item\Iface $item ) use ( $fields, $ta
 			$data = [];
 			$items = $this->get( 'items', map() );
 
-			if( $items instanceof \Aimeos\Map )
+			if( is_map( $items ) )
 			{
 				foreach( $items as $localeItem ) {
 					$data[] = $entryFcn( $localeItem );

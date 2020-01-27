@@ -116,7 +116,7 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, \Aimeos\Map $price
 			$feConfig = $this->get( 'attributes', [] );
 			$included = $this->jincluded( $this->items, $fields );
 
-			if( $items instanceof \Aimeos\Map )
+			if( is_map( $items ) )
 			{
 				foreach( $items as $item ) {
 					$data[] = $entryFcn( $item, $prices, $feConfig );
