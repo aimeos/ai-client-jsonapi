@@ -34,10 +34,15 @@ class Standard
 	public function get( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view = $this->getView();
+		$ref = $view->param( 'include', [] );
+
+		if( is_string( $ref ) ) {
+			$ref = explode( ',', $ref );
+		}
 
 		try
 		{
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'order' );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'order' )->uses( $ref );
 
 			if( ( $id = $view->param( 'id' ) ) != '' )
 			{

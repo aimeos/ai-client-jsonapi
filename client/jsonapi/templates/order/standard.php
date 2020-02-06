@@ -37,6 +37,68 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Iface $item, \Aimeos\MShop\Common
 		$attributes = array_intersect_key( $attributes, $fields[$type] );
 	}
 
+	if( $baseItem = $item->getBaseItem() )
+	{
+		$baseattr = $baseItem->toArray();
+		$basetype = $baseItem->getResourceType();
+
+		if( isset( $fields[$basetype] ) ) {
+			$baseattr = array_intersect_key( $baseattr, $fields[$basetype] );
+		}
+
+		$attributes += $baseattr;
+		$attributes['product'] = $attributes['service'] = [];
+		$attributes['address'] = $attributes['coupon'] = [];
+
+		foreach( $baseItem->getProducts() as $product )
+		{
+			$entry = $product->toArray();
+
+			if( isset( $fields[$product->getResourceType()] ) ) {
+				$entry = array_intersect_key( $entry, $fields[$product->getResourceType()] );
+			}
+
+			foreach( $product->getProducts() as $subproduct )
+			{
+				if( isset( $fields[$product->getResourceType()] ) ) {
+					$entry['product'][] = array_intersect_key( $subproduct->toArray(), $fields[$product->getResourceType()] );
+				} else {
+					$entry['product'][] = $subproduct->toArray();
+				}
+			}
+
+			$attributes['product'][] = $entry;
+		}
+
+		foreach( $baseItem->getServices() as $list )
+		{
+			foreach( $list as $service )
+			{
+				if( isset( $fields[$service->getResourceType()] ) ) {
+					$attributes['service'][] = array_intersect_key( $service->toArray(), $fields[$service->getResourceType()] );
+				} else {
+					$attributes['service'][] = $service->toArray();
+				}
+			}
+		}
+
+		foreach( $baseItem->getAddresses() as $list )
+		{
+			foreach( $list as $address )
+			{
+				if( isset( $fields[$address->getResourceType()] ) ) {
+					$attributes['address'][] = array_intersect_key( $address->toArray(), $fields[$address->getResourceType()] );
+				} else {
+					$attributes['address'][] = $address->toArray();
+				}
+			}
+		}
+
+		foreach( $baseItem->getCoupons() as $code => $x ) {
+			$attributes['coupon'][] = $code;
+		}
+	}
+
 	$entry = array(
 		'id' => $id,
 		'type' => $type,

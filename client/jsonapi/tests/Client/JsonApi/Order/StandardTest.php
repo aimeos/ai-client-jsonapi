@@ -70,7 +70,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'No order item found' );
 		}
 
-		$params = array( 'id' => $item->getId() );
+		$params = array( 'id' => $item->getId(), 'include' => 'order/base,order/base/product,order/base/service,order/base/address,order/base/coupon' );
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
@@ -84,7 +84,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'order', $result['data']['type'] );
-		$this->assertEquals( 7, count( $result['data']['attributes'] ) );
+		$this->assertEquals( 23, count( $result['data']['attributes'] ) );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
