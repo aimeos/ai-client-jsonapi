@@ -118,12 +118,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' );
 		$this->context->setUserId( $user->getId() );
 
-		$params = array(
-			'id' => $this->getOrderBaseItem()->getId(),
-			'fields' => array(
-				'basket' => 'order.base.comment'
-			),
-		);
+		$params = ['id' => $this->getOrderBaseItem()->getId()];
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
@@ -137,7 +132,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
 		$this->assertNotNull( $result['data']['id'] );
-		$this->assertEquals( 1, count( $result['data']['attributes'] ) );
+		$this->assertEquals( 12, count( $result['data']['attributes'] ) );
 		$this->assertEquals( 'This is another comment.', $result['data']['attributes']['order.base.comment'] );
 		$this->assertEquals( 8, count( $result['included'] ) );
 
@@ -196,6 +191,44 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertArrayHasKey( 'basket/product', $result['data']['relationships'] );
 		$this->assertEquals( 2, count( $result['data']['relationships']['basket/product']['data'] ) );
 		$this->assertEquals( 2, count( $result['included'] ) );
+
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
+	public function testGetFieldsIncluded()
+	{
+		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' );
+		$this->context->setUserId( $user->getId() );
+
+		$params = array(
+			'id' => $this->getOrderBaseItem()->getId(),
+			'fields' => array(
+				'basket' => 'order.base.comment',
+				'basket/address' => 'order.base.address.firstname,order.base.address.lastname',
+				'basket/product' => 'order.base.product.name,order.base.product.price',
+				'basket/service' => 'order.base.service.name,order.base.service.price'
+			),
+			'included' => 'basket/address,basket/product,basket/service'
+		);
+		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
+		$this->assertEquals( 1, $result['meta']['total'] );
+		$this->assertEquals( 'basket', $result['data']['type'] );
+		$this->assertEquals( 1, count( $result['data']['attributes'] ) );
+		$this->assertEquals( 6, count( $result['included'] ) );
+
+		foreach( $result['included'] as $entry ) {
+			$this->assertCount( 2, $entry['attributes'] );
+		}
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}

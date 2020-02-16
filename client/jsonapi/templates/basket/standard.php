@@ -106,6 +106,10 @@ $productFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) u
 		$entry = ['id' => $position, 'type' => 'basket/product'];
 		$entry['attributes'] = $orderProduct->toArray();
 
+		if( isset( $fields['basket/product'] ) ) {
+			$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['basket/product'] );
+		}
+
 		if( $item->getId() === null && $orderProduct->getFlags() !== \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
 		{
 			$params = ['resource' => 'basket', 'id' => $basketId, 'related' => 'product', 'relatedid' => $position];
@@ -150,6 +154,10 @@ $serviceFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) u
 			$entry = ['id' => $type, 'type' => 'basket/service'];
 			$entry['attributes'] = $service->toArray();
 
+			if( isset( $fields['basket/service'] ) ) {
+				$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['basket/service'] );
+			}
+
 			if( $item->getId() === null )
 			{
 				$params = ['resource' => 'basket', 'id' => $basketId, 'related' => 'service', 'relatedid' => $type];
@@ -183,6 +191,10 @@ $addressFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) u
 		{
 			$entry = ['id' => $type, 'type' => 'basket/address'];
 			$entry['attributes'] = $address->toArray();
+
+			if( isset( $fields['basket/address'] ) ) {
+				$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['basket/address'] );
+			}
 
 			if( $item->getId() === null )
 			{
