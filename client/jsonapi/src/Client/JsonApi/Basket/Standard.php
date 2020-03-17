@@ -263,10 +263,10 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 			'basket/service' => \Aimeos\MShop\Order\Item\Base\Base::PARTS_SERVICE,
 		);
 
-		$included = explode( ',', $view->param( 'included', 'basket/address,basket/coupon,basket/product,basket/service' ) );
+		$include = explode( ',', $view->param( 'include', 'basket/address,basket/coupon,basket/product,basket/service' ) );
 
 		$parts = \Aimeos\MShop\Order\Item\Base\Base::PARTS_NONE;
-		foreach( $included as $type )
+		foreach( $include as $type )
 		{
 			if( isset( $available[$type] ) ) {
 				$parts |= $available[$type];
