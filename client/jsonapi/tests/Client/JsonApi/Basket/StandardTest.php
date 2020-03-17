@@ -172,7 +172,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$params = array(
 			'id' => $this->getOrderBaseItem()->getId(),
-			'included' => 'basket/product',
+			'include' => 'basket/product',
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
@@ -209,7 +209,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 				'basket/product' => 'order.base.product.name,order.base.product.price',
 				'basket/service' => 'order.base.service.name,order.base.service.price'
 			),
-			'included' => 'basket/address,basket/product,basket/service'
+			'include' => 'basket/address,basket/product,basket/service'
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
@@ -241,7 +241,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$params = array(
 			'id' => $this->getOrderBaseItem()->getId(),
-			'included' => '',
+			'include' => '',
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );

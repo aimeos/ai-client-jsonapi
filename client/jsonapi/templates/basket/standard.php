@@ -48,7 +48,7 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) use
 
 
 	$relationships = [];
-	$types = explode( ',', $this->param( 'included', 'basket/product,basket/service,basket/address,basket/coupon' ) );
+	$types = explode( ',', $this->param( 'include', 'basket/product,basket/service,basket/address,basket/coupon' ) );
 
 	if( in_array( 'basket/product', $types ) )
 	{
@@ -296,7 +296,7 @@ $couponFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) us
 	<?php elseif( isset( $this->item ) ) : ?>
 		<?php
 			$included = [];
-			$types = explode( ',', $this->param( 'included', 'basket/product,basket/service,basket/address,basket/coupon' ) );
+			$types = explode( ',', $this->param( 'include', 'basket/product,basket/service,basket/address,basket/coupon' ) );
 
 			if( in_array( 'basket/product', $types ) ) {
 				$included = array_merge( $included, $productFcn( $this->item, $basketId ) );
