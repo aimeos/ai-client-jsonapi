@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-03 10:01+0200\n"
+"POT-Creation-Date: 2020-04-02 15:27+0200\n"
 "PO-Revision-Date: 2017-02-28 11:36+0000\n"
 "Language-Team: Romanian (https://www.transifex.com/aimeos/teams/39015/ro/)\n"
 "Language: ro\n"
@@ -125,6 +125,8 @@ msgstr ""
 #: src/Client/JsonApi/Customer/Property/Standard.php:47
 #: src/Client/JsonApi/Customer/Property/Standard.php:161
 #: src/Client/JsonApi/Customer/Property/Standard.php:218
+#: src/Client/JsonApi/Order/Standard.php:102
+#: src/Client/JsonApi/Basket/Product/Standard.php:196
 #, php-format
 msgid "Invalid JSON in body"
 msgstr ""
@@ -162,6 +164,18 @@ msgstr ""
 #: src/Client/JsonApi/Locale/Factory.php:81
 #: src/Client/JsonApi/Supplier/Factory.php:81
 #: src/Client/JsonApi/Customer/Property/Factory.php:79
+#: src/Client/JsonApi/Order/Factory.php:80
+#: src/Client/JsonApi/Locale/Factory.php:80
+#: src/Client/JsonApi/Catalog/Factory.php:80
+#: src/Client/JsonApi/Service/Factory.php:80
+#: src/Client/JsonApi/Attribute/Factory.php:80
+#: src/Client/JsonApi/Basket/Factory.php:80
+#: src/Client/JsonApi/Supplier/Factory.php:80
+#: src/Client/JsonApi/Product/Factory.php:80
+#: src/Client/JsonApi/Stock/Factory.php:80
+#: src/Client/JsonApi/Customer/Property/Factory.php:80
+#: src/Client/JsonApi/Customer/Factory.php:80
+#: src/Client/JsonApi/Subscription/Factory.php:80
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
 msgstr ""
@@ -172,6 +186,7 @@ msgstr ""
 #: src/Client/JsonApi/Common/Factory/Base.php:133
 #: src/Client/JsonApi/Factory.php:195
 #: src/Client/JsonApi/Common/Factory/Base.php:131 src/Client/JsonApi.php:125
+#: src/Client/JsonApi.php:126
 #, php-format
 msgid "Invalid class name \"%1$s\""
 msgstr ""
@@ -209,7 +224,17 @@ msgstr ""
 #: src/Client/JsonApi/Locale/Factory.php:38
 #: src/Client/JsonApi/Supplier/Factory.php:38
 #: src/Client/JsonApi/Customer/Property/Factory.php:36
-#: src/Client/JsonApi.php:50
+#: src/Client/JsonApi.php:50 src/Client/JsonApi/Order/Factory.php:36
+#: src/Client/JsonApi/Locale/Factory.php:36
+#: src/Client/JsonApi/Catalog/Factory.php:36
+#: src/Client/JsonApi/Service/Factory.php:36
+#: src/Client/JsonApi/Attribute/Factory.php:36
+#: src/Client/JsonApi/Basket/Factory.php:36
+#: src/Client/JsonApi/Supplier/Factory.php:36
+#: src/Client/JsonApi/Product/Factory.php:36
+#: src/Client/JsonApi/Stock/Factory.php:36
+#: src/Client/JsonApi/Customer/Factory.php:36
+#: src/Client/JsonApi/Subscription/Factory.php:36
 #, php-format
 msgid "Invalid client \"%1$s\""
 msgstr ""
@@ -227,6 +252,7 @@ msgstr ""
 
 #: src/Client/JsonApi/Order/Standard.php:207
 #: src/Client/JsonApi/Order/Standard.php:201
+#: src/Client/JsonApi/Order/Standard.php:206
 #, php-format
 msgid "No basket for the \"order.baseid\" (\"%1$s\") found"
 msgstr ""
@@ -247,6 +273,7 @@ msgstr ""
 #: src/Client/JsonApi/Basket/Product/Standard.php:204
 #: src/Client/JsonApi/Basket/Product/Standard.php:196
 #: src/Client/JsonApi/Basket/Product/Standard.php:207
+#: src/Client/JsonApi/Basket/Product/Standard.php:206
 #, php-format
 msgid "Product ID is missing"
 msgstr ""
@@ -254,6 +281,7 @@ msgstr ""
 #: src/Client/JsonApi/Order/Standard.php:103
 #: src/Client/JsonApi/Order/Standard.php:99
 #: src/Client/JsonApi/Order/Standard.php:101
+#: src/Client/JsonApi/Order/Standard.php:106
 #, php-format
 msgid "Required attribute \"order.baseid\" is missing"
 msgstr ""
