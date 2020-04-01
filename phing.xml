@@ -27,7 +27,6 @@
 	</target>
 
 	<target name="i18n" description="Creates all translation files">
-		<phing target="i18n" haltonfailure="true" dir="lib/custom" />
 		<phing target="i18n" haltonfailure="true" dir="client/jsonapi" />
 	</target>
 
