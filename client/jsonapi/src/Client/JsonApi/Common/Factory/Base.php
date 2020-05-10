@@ -80,7 +80,7 @@ class Base
 			$dpath = ( $dpath !== '' ? $dpath . '/' : $dpath );
 
 			$excludes = $config->get( 'client/jsonapi/' . $dpath . 'decorators/excludes', [] );
-			$localClass = str_replace( ' ', '\\', ucwords( str_replace( '/', ' ', $path ) ) );
+			$localClass = str_replace( '/', '\\', ucwords( $path, '/' ) );
 
 			foreach( $decorators as $key => $name )
 			{
