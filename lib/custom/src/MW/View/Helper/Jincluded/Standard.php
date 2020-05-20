@@ -116,6 +116,13 @@ class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
 					$this->map( $supItem, $fields, $fcn );
 				}
 			}
+
+			foreach( $item->getStockItems() as $stockItem )
+			{
+				if( $stockItem->isAvailable() ) {
+					$this->map( $stockItem, $fields, $fcn );
+				}
+			}
 		}
 	}
 
