@@ -46,18 +46,18 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testTransformProduct()
 	{
-		$domains = ['attribute', 'catalog', 'media', 'price', 'product', 'product/property', 'supplier', 'text'];
+		$domains = ['attribute', 'catalog', 'media', 'price', 'product', 'product/property', 'stock', 'supplier', 'text'];
 		$item = \Aimeos\MShop::create( \TestHelperCustom::getContext(), 'product' )->findItem( 'CNE', $domains );
 
-		$this->assertGreaterThanOrEqual( 70, count( $this->object->transform( $item, [] ) ) );
+		$this->assertGreaterThanOrEqual( 71, count( $this->object->transform( $item, [] ) ) );
 	}
 
 
 	public function testTransformProducts()
 	{
-		$domains = ['attribute', 'catalog', 'media', 'price', 'product', 'product/property', 'supplier', 'text'];
+		$domains = ['attribute', 'catalog', 'media', 'price', 'product', 'product/property', 'stock', 'supplier', 'text'];
 		$item = \Aimeos\MShop::create( \TestHelperCustom::getContext(), 'product' )->findItem( 'CNE', $domains );
 
-		$this->assertEquals( 70, count( $this->object->transform( [$item], [] ) ) );
+		$this->assertEquals( 71, count( $this->object->transform( [$item], [] ) ) );
 	}
 }

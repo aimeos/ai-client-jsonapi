@@ -156,6 +156,10 @@ $entryFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, $t
 		$entry['relationships']['supplier']['data'][] = array( 'id' => $supItem->getId(), 'type' => 'supplier' );
 	}
 
+	foreach( $item->getStockItems() as $stockItem ) {
+		$entry['relationships']['stock']['data'][] = array( 'id' => $stockItem->getId(), 'type' => 'stock' );
+	}
+
 	return $entry;
 };
 
