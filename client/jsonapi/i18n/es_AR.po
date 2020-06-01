@@ -1,0 +1,408 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Rodolfo Ruival <ruileo1977@yahoo.com>, 2020
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-02 15:27+0200\n"
+"PO-Revision-Date: 2017-02-28 11:36+0000\n"
+"Last-Translator: Rodolfo Ruival <ruileo1977@yahoo.com>, 2020\n"
+"Language-Team: Spanish (Argentina) (https://www.transifex.com/aimeos/teams/39015/es_AR/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es_AR\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/Client/JsonApi/Basket/Address/Standard.php:141
+#: src/Client/JsonApi/Basket/Address/Standard.php:135
+#: src/Client/JsonApi/Basket/Address/Standard.php:141
+#, php-format
+msgid "Address type or attributes are missing"
+msgstr ""
+
+#: src/Client/JsonApi/Customer/Address/Standard.php:233
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:238
+#: src/Client/JsonApi/Customer/Address/Standard.php:227
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:228
+#: src/Client/JsonApi/Customer/Address/Standard.php:228
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:237
+#: src/Client/JsonApi/Customer/Property/Standard.php:230
+#: src/Client/JsonApi/Customer/Address/Standard.php:228
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:237
+#: src/Client/JsonApi/Customer/Property/Standard.php:230
+#, php-format
+msgid "Attributes are missing"
+msgstr ""
+
+#: src/Client/JsonApi/Common/Factory/Base.php:147
+#: src/Client/JsonApi/Common/Factory/Base.php:180
+#: src/Client/JsonApi/Common/Factory/Base.php:149
+#: src/Client/JsonApi/Common/Factory/Base.php:182
+#: src/Client/JsonApi/Common/Factory/Base.php:145
+#: src/Client/JsonApi/Common/Factory/Base.php:175
+#, php-format
+msgid "Class \"%1$s\" does not implement \"%2$s\""
+msgstr ""
+
+#: src/Client/JsonApi/Common/Factory/Base.php:141
+#: src/Client/JsonApi/Common/Factory/Base.php:174
+#: src/Client/JsonApi/Common/Factory/Base.php:143
+#: src/Client/JsonApi/Common/Factory/Base.php:176
+#: src/Client/JsonApi/Common/Factory/Base.php:139
+#: src/Client/JsonApi/Common/Factory/Base.php:169
+#: src/Client/JsonApi/Common/Factory/Base.php:137
+#: src/Client/JsonApi/Common/Factory/Base.php:165
+#: src/Client/JsonApi/Common/Factory/Base.php:137
+#: src/Client/JsonApi/Common/Factory/Base.php:165
+#, php-format
+msgid "Class \"%1$s\" not found"
+msgstr ""
+
+#: src/Client/JsonApi/Basket/Coupon/Standard.php:141
+#: src/Client/JsonApi/Basket/Coupon/Standard.php:135
+#: src/Client/JsonApi/Basket/Coupon/Standard.php:141
+#, php-format
+msgid "Coupon code is missing"
+msgstr ""
+
+#: src/Client/JsonApi/Customer/Address/Standard.php:77
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:77
+#: src/Client/JsonApi/Customer/Address/Standard.php:73
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:73
+#: src/Client/JsonApi/Customer/Address/Standard.php:57
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:60
+#: src/Client/JsonApi/Customer/Property/Standard.php:57
+#: src/Client/JsonApi/Customer/Address/Standard.php:57
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:60
+#: src/Client/JsonApi/Customer/Property/Standard.php:57
+#, php-format
+msgid "ID is missing"
+msgstr ""
+
+#: src/Client/JsonApi/Order/Standard.php:99
+#: src/Client/JsonApi/Customer/Address/Standard.php:67
+#: src/Client/JsonApi/Customer/Address/Standard.php:175
+#: src/Client/JsonApi/Customer/Address/Standard.php:223
+#: src/Client/JsonApi/Customer/Standard.php:130
+#: src/Client/JsonApi/Customer/Standard.php:176
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:67
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:180
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:228
+#: src/Client/JsonApi/Basket/Product/Standard.php:70
+#: src/Client/JsonApi/Basket/Product/Standard.php:132
+#: src/Client/JsonApi/Basket/Product/Standard.php:194
+#: src/Client/JsonApi/Basket/Coupon/Standard.php:70
+#: src/Client/JsonApi/Basket/Coupon/Standard.php:131
+#: src/Client/JsonApi/Basket/Service/Standard.php:70
+#: src/Client/JsonApi/Basket/Service/Standard.php:131
+#: src/Client/JsonApi/Basket/Address/Standard.php:70
+#: src/Client/JsonApi/Basket/Address/Standard.php:131
+#: src/Client/JsonApi/Basket/Standard.php:145
+#: src/Client/JsonApi/Order/Standard.php:95
+#: src/Client/JsonApi/Customer/Address/Standard.php:63
+#: src/Client/JsonApi/Customer/Address/Standard.php:171
+#: src/Client/JsonApi/Customer/Address/Standard.php:217
+#: src/Client/JsonApi/Customer/Standard.php:124
+#: src/Client/JsonApi/Customer/Standard.php:168
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:63
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:172
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:218
+#: src/Client/JsonApi/Basket/Product/Standard.php:66
+#: src/Client/JsonApi/Basket/Product/Standard.php:126
+#: src/Client/JsonApi/Basket/Product/Standard.php:186
+#: src/Client/JsonApi/Basket/Coupon/Standard.php:66
+#: src/Client/JsonApi/Basket/Coupon/Standard.php:125
+#: src/Client/JsonApi/Basket/Service/Standard.php:66
+#: src/Client/JsonApi/Basket/Service/Standard.php:125
+#: src/Client/JsonApi/Basket/Address/Standard.php:66
+#: src/Client/JsonApi/Basket/Address/Standard.php:125
+#: src/Client/JsonApi/Basket/Standard.php:137
+#: src/Client/JsonApi/Order/Standard.php:97
+#: src/Client/JsonApi/Basket/Standard.php:143
+#: src/Client/JsonApi/Basket/Product/Standard.php:197
+#: src/Client/JsonApi/Customer/Address/Standard.php:47
+#: src/Client/JsonApi/Customer/Address/Standard.php:161
+#: src/Client/JsonApi/Customer/Address/Standard.php:216
+#: src/Client/JsonApi/Customer/Standard.php:119
+#: src/Client/JsonApi/Customer/Standard.php:162
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:50
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:167
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:227
+#: src/Client/JsonApi/Customer/Property/Standard.php:47
+#: src/Client/JsonApi/Customer/Property/Standard.php:161
+#: src/Client/JsonApi/Customer/Property/Standard.php:218
+#: src/Client/JsonApi/Order/Standard.php:102
+#: src/Client/JsonApi/Basket/Product/Standard.php:196
+#: src/Client/JsonApi/Order/Standard.php:102
+#: src/Client/JsonApi/Basket/Address/Standard.php:66
+#: src/Client/JsonApi/Basket/Address/Standard.php:131
+#: src/Client/JsonApi/Basket/Standard.php:143
+#: src/Client/JsonApi/Basket/Service/Standard.php:66
+#: src/Client/JsonApi/Basket/Service/Standard.php:131
+#: src/Client/JsonApi/Basket/Product/Standard.php:66
+#: src/Client/JsonApi/Basket/Product/Standard.php:132
+#: src/Client/JsonApi/Basket/Product/Standard.php:196
+#: src/Client/JsonApi/Basket/Coupon/Standard.php:66
+#: src/Client/JsonApi/Basket/Coupon/Standard.php:131
+#: src/Client/JsonApi/Customer/Address/Standard.php:47
+#: src/Client/JsonApi/Customer/Address/Standard.php:161
+#: src/Client/JsonApi/Customer/Address/Standard.php:216
+#: src/Client/JsonApi/Customer/Standard.php:119
+#: src/Client/JsonApi/Customer/Standard.php:162
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:50
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:167
+#: src/Client/JsonApi/Customer/Relationships/Standard.php:227
+#: src/Client/JsonApi/Customer/Property/Standard.php:47
+#: src/Client/JsonApi/Customer/Property/Standard.php:161
+#: src/Client/JsonApi/Customer/Property/Standard.php:218
+#, php-format
+msgid "Invalid JSON in body"
+msgstr ""
+
+#: src/Client/JsonApi/Order/Factory.php:82
+#: src/Client/JsonApi/Customer/Address/Factory.php:80
+#: src/Client/JsonApi/Customer/Factory.php:82
+#: src/Client/JsonApi/Customer/Relationships/Factory.php:80
+#: src/Client/JsonApi/Product/Factory.php:82
+#: src/Client/JsonApi/Attribute/Factory.php:82
+#: src/Client/JsonApi/Catalog/Factory.php:82
+#: src/Client/JsonApi/Basket/Product/Factory.php:80
+#: src/Client/JsonApi/Basket/Coupon/Factory.php:80
+#: src/Client/JsonApi/Basket/Service/Factory.php:80
+#: src/Client/JsonApi/Basket/Address/Factory.php:80
+#: src/Client/JsonApi/Basket/Factory.php:82
+#: src/Client/JsonApi/Service/Factory.php:82
+#: src/Client/JsonApi/Stock/Factory.php:82
+#: src/Client/JsonApi/Locale/Factory.php:82
+#: src/Client/JsonApi/Order/Factory.php:81
+#: src/Client/JsonApi/Customer/Address/Factory.php:79
+#: src/Client/JsonApi/Customer/Factory.php:81
+#: src/Client/JsonApi/Customer/Relationships/Factory.php:79
+#: src/Client/JsonApi/Subscription/Factory.php:81
+#: src/Client/JsonApi/Product/Factory.php:81
+#: src/Client/JsonApi/Attribute/Factory.php:81
+#: src/Client/JsonApi/Catalog/Factory.php:81
+#: src/Client/JsonApi/Basket/Product/Factory.php:79
+#: src/Client/JsonApi/Basket/Coupon/Factory.php:79
+#: src/Client/JsonApi/Basket/Service/Factory.php:79
+#: src/Client/JsonApi/Basket/Address/Factory.php:79
+#: src/Client/JsonApi/Basket/Factory.php:81
+#: src/Client/JsonApi/Service/Factory.php:81
+#: src/Client/JsonApi/Stock/Factory.php:81
+#: src/Client/JsonApi/Locale/Factory.php:81
+#: src/Client/JsonApi/Supplier/Factory.php:81
+#: src/Client/JsonApi/Customer/Property/Factory.php:79
+#: src/Client/JsonApi/Order/Factory.php:80
+#: src/Client/JsonApi/Locale/Factory.php:80
+#: src/Client/JsonApi/Catalog/Factory.php:80
+#: src/Client/JsonApi/Service/Factory.php:80
+#: src/Client/JsonApi/Attribute/Factory.php:80
+#: src/Client/JsonApi/Basket/Factory.php:80
+#: src/Client/JsonApi/Supplier/Factory.php:80
+#: src/Client/JsonApi/Product/Factory.php:80
+#: src/Client/JsonApi/Stock/Factory.php:80
+#: src/Client/JsonApi/Customer/Property/Factory.php:80
+#: src/Client/JsonApi/Customer/Factory.php:80
+#: src/Client/JsonApi/Subscription/Factory.php:80
+#: src/Client/JsonApi/Order/Factory.php:80
+#: src/Client/JsonApi/Locale/Factory.php:80
+#: src/Client/JsonApi/Catalog/Factory.php:80
+#: src/Client/JsonApi/Service/Factory.php:80
+#: src/Client/JsonApi/Attribute/Factory.php:80
+#: src/Client/JsonApi/Basket/Address/Factory.php:80
+#: src/Client/JsonApi/Basket/Service/Factory.php:80
+#: src/Client/JsonApi/Basket/Product/Factory.php:80
+#: src/Client/JsonApi/Basket/Coupon/Factory.php:80
+#: src/Client/JsonApi/Basket/Factory.php:80
+#: src/Client/JsonApi/Supplier/Factory.php:80
+#: src/Client/JsonApi/Product/Factory.php:80
+#: src/Client/JsonApi/Stock/Factory.php:80
+#: src/Client/JsonApi/Customer/Address/Factory.php:80
+#: src/Client/JsonApi/Customer/Relationships/Factory.php:80
+#: src/Client/JsonApi/Customer/Property/Factory.php:80
+#: src/Client/JsonApi/Customer/Factory.php:80
+#: src/Client/JsonApi/Subscription/Factory.php:80
+#, php-format
+msgid "Invalid characters in class name \"%1$s\""
+msgstr ""
+
+#: src/Client/JsonApi/Common/Factory/Base.php:135
+#: src/Client/JsonApi/Factory.php:203
+#: src/Client/JsonApi/Common/Factory/Base.php:137
+#: src/Client/JsonApi/Common/Factory/Base.php:133
+#: src/Client/JsonApi/Factory.php:195
+#: src/Client/JsonApi/Common/Factory/Base.php:131 src/Client/JsonApi.php:125
+#: src/Client/JsonApi.php:126 src/Client/JsonApi/Common/Factory/Base.php:131
+#: src/Client/JsonApi.php:126
+#, php-format
+msgid "Invalid class name \"%1$s\""
+msgstr ""
+
+#: src/Client/JsonApi/Order/Factory.php:39
+#: src/Client/JsonApi/Customer/Address/Factory.php:37
+#: src/Client/JsonApi/Customer/Factory.php:39
+#: src/Client/JsonApi/Customer/Relationships/Factory.php:37
+#: src/Client/JsonApi/Product/Factory.php:39
+#: src/Client/JsonApi/Attribute/Factory.php:39
+#: src/Client/JsonApi/Catalog/Factory.php:39
+#: src/Client/JsonApi/Basket/Product/Factory.php:37
+#: src/Client/JsonApi/Basket/Coupon/Factory.php:37
+#: src/Client/JsonApi/Basket/Service/Factory.php:37
+#: src/Client/JsonApi/Basket/Address/Factory.php:37
+#: src/Client/JsonApi/Basket/Factory.php:39
+#: src/Client/JsonApi/Service/Factory.php:39
+#: src/Client/JsonApi/Stock/Factory.php:39
+#: src/Client/JsonApi/Locale/Factory.php:39
+#: src/Client/JsonApi/Order/Factory.php:38
+#: src/Client/JsonApi/Customer/Address/Factory.php:36
+#: src/Client/JsonApi/Customer/Factory.php:38
+#: src/Client/JsonApi/Customer/Relationships/Factory.php:36
+#: src/Client/JsonApi/Subscription/Factory.php:38
+#: src/Client/JsonApi/Product/Factory.php:38
+#: src/Client/JsonApi/Attribute/Factory.php:38
+#: src/Client/JsonApi/Catalog/Factory.php:38
+#: src/Client/JsonApi/Basket/Product/Factory.php:36
+#: src/Client/JsonApi/Basket/Coupon/Factory.php:36
+#: src/Client/JsonApi/Basket/Service/Factory.php:36
+#: src/Client/JsonApi/Basket/Address/Factory.php:36
+#: src/Client/JsonApi/Basket/Factory.php:38
+#: src/Client/JsonApi/Service/Factory.php:38
+#: src/Client/JsonApi/Stock/Factory.php:38
+#: src/Client/JsonApi/Locale/Factory.php:38
+#: src/Client/JsonApi/Supplier/Factory.php:38
+#: src/Client/JsonApi/Customer/Property/Factory.php:36
+#: src/Client/JsonApi.php:50 src/Client/JsonApi/Order/Factory.php:36
+#: src/Client/JsonApi/Locale/Factory.php:36
+#: src/Client/JsonApi/Catalog/Factory.php:36
+#: src/Client/JsonApi/Service/Factory.php:36
+#: src/Client/JsonApi/Attribute/Factory.php:36
+#: src/Client/JsonApi/Basket/Factory.php:36
+#: src/Client/JsonApi/Supplier/Factory.php:36
+#: src/Client/JsonApi/Product/Factory.php:36
+#: src/Client/JsonApi/Stock/Factory.php:36
+#: src/Client/JsonApi/Customer/Factory.php:36
+#: src/Client/JsonApi/Subscription/Factory.php:36
+#: src/Client/JsonApi/Order/Factory.php:36
+#: src/Client/JsonApi/Locale/Factory.php:36
+#: src/Client/JsonApi/Catalog/Factory.php:36
+#: src/Client/JsonApi/Service/Factory.php:36
+#: src/Client/JsonApi/Attribute/Factory.php:36
+#: src/Client/JsonApi/Basket/Address/Factory.php:36
+#: src/Client/JsonApi/Basket/Service/Factory.php:36
+#: src/Client/JsonApi/Basket/Product/Factory.php:36
+#: src/Client/JsonApi/Basket/Coupon/Factory.php:36
+#: src/Client/JsonApi/Basket/Factory.php:36
+#: src/Client/JsonApi/Supplier/Factory.php:36
+#: src/Client/JsonApi/Product/Factory.php:36
+#: src/Client/JsonApi/Stock/Factory.php:36
+#: src/Client/JsonApi/Customer/Address/Factory.php:36
+#: src/Client/JsonApi/Customer/Relationships/Factory.php:36
+#: src/Client/JsonApi/Customer/Property/Factory.php:36
+#: src/Client/JsonApi/Customer/Factory.php:36
+#: src/Client/JsonApi/Subscription/Factory.php:36 src/Client/JsonApi.php:50
+#, php-format
+msgid "Invalid client \"%1$s\""
+msgstr ""
+
+#: src/Client/JsonApi/Factory.php:121 src/Client/JsonApi/Factory.php:117
+#, php-format
+msgid "Invalid client \"%1$s\" in \"%2$s\""
+msgstr ""
+
+#: src/Client/JsonApi/Factory.php:137 src/Client/JsonApi/Factory.php:132
+#: src/Client/JsonApi.php:62 src/Client/JsonApi.php:62
+#, php-format
+msgid "Invalid factory \"%1$s\""
+msgstr ""
+
+#: src/Client/JsonApi/Order/Standard.php:207
+#: src/Client/JsonApi/Order/Standard.php:201
+#: src/Client/JsonApi/Order/Standard.php:206
+#: src/Client/JsonApi/Order/Standard.php:206
+#, php-format
+msgid "No basket for the \"order.baseid\" (\"%1$s\") found"
+msgstr ""
+
+#: src/Client/JsonApi/Base.php:142 src/Client/JsonApi/Base.php:142
+#, php-format
+msgid "No view available"
+msgstr "Vista no disponible"
+
+#: src/Client/JsonApi/Basket/Product/Standard.php:80
+#: src/Client/JsonApi/Basket/Product/Standard.php:146
+#: src/Client/JsonApi/Basket/Product/Standard.php:76
+#: src/Client/JsonApi/Basket/Product/Standard.php:140
+#: src/Client/JsonApi/Basket/Product/Standard.php:76
+#: src/Client/JsonApi/Basket/Product/Standard.php:146
+#, php-format
+msgid "Position (ID) is missing"
+msgstr ""
+
+#: src/Client/JsonApi/Basket/Product/Standard.php:204
+#: src/Client/JsonApi/Basket/Product/Standard.php:196
+#: src/Client/JsonApi/Basket/Product/Standard.php:207
+#: src/Client/JsonApi/Basket/Product/Standard.php:206
+#: src/Client/JsonApi/Basket/Product/Standard.php:206
+#, php-format
+msgid "Product ID is missing"
+msgstr ""
+
+#: src/Client/JsonApi/Order/Standard.php:103
+#: src/Client/JsonApi/Order/Standard.php:99
+#: src/Client/JsonApi/Order/Standard.php:101
+#: src/Client/JsonApi/Order/Standard.php:106
+#: src/Client/JsonApi/Order/Standard.php:106
+#, php-format
+msgid "Required attribute \"order.baseid\" is missing"
+msgstr ""
+
+#: src/Client/JsonApi/Basket/Service/Standard.php:149
+#: src/Client/JsonApi/Basket/Service/Standard.php:143
+#: src/Client/JsonApi/Basket/Service/Standard.php:151
+#: src/Client/JsonApi/Basket/Service/Standard.php:151
+#, php-format
+msgid "Service ID in attributes is missing"
+msgstr ""
+
+#: src/Client/JsonApi/Basket/Service/Standard.php:145
+#: src/Client/JsonApi/Basket/Service/Standard.php:139
+#: src/Client/JsonApi/Basket/Service/Standard.php:147
+#: src/Client/JsonApi/Basket/Service/Standard.php:147
+#, php-format
+msgid "Service attributes are missing"
+msgstr ""
+
+#: src/Client/JsonApi/Basket/Service/Standard.php:141
+#: src/Client/JsonApi/Basket/Service/Standard.php:135
+#: src/Client/JsonApi/Basket/Service/Standard.php:143
+#: src/Client/JsonApi/Basket/Service/Standard.php:143
+#, php-format
+msgid "Service type (ID) is missing"
+msgstr ""
+
+#: src/Client/JsonApi/Basket/Coupon/Standard.php:80
+#: src/Client/JsonApi/Basket/Service/Standard.php:80
+#: src/Client/JsonApi/Basket/Address/Standard.php:80
+#: src/Client/JsonApi/Basket/Coupon/Standard.php:76
+#: src/Client/JsonApi/Basket/Service/Standard.php:76
+#: src/Client/JsonApi/Basket/Address/Standard.php:76
+#: src/Client/JsonApi/Basket/Address/Standard.php:76
+#: src/Client/JsonApi/Basket/Service/Standard.php:76
+#: src/Client/JsonApi/Basket/Coupon/Standard.php:76
+#, php-format
+msgid "Type (ID) is missing"
+msgstr ""
+
+#: src/Client/JsonApi/Base.php:57 src/Client/JsonApi/Base.php:52
+#: src/Client/JsonApi/Base.php:52
+#, php-format
+msgid "Unable to call method \"%1$s\""
+msgstr ""
