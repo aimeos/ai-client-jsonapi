@@ -27,13 +27,6 @@ foreach( (array) $fields as $resource => $list ) {
 }
 
 
-$removeFcn = function( $key, $array )
-{
-	unset( $array[$key] );
-	return $array;
-};
-
-
 $entryFcn = function( \Aimeos\MShop\Common\Item\Lists\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
 {
 	$relid = $item->getId();
@@ -78,7 +71,7 @@ $entryFcn = function( \Aimeos\MShop\Common\Item\Lists\Iface $item ) use ( $field
 	},
 	"links": {
 		"self": "<?= $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
-		"related": "<?= $this->url( $target, $cntl, $action, $removeFcn( 'relatedid', $params ), [], $config ); ?>"
+		"related": "<?= $this->url( $target, $cntl, $action, map( $params )->except( 'relatedid' )->toArray(), [], $config ); ?>"
 	}
 	<?php if( isset( $this->errors ) ) : ?>
 		,"errors": <?= json_encode( $this->errors, $pretty ); ?>
