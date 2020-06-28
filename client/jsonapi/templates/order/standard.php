@@ -141,7 +141,7 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Iface $item, \Aimeos\MShop\Common
 };
 
 
-$productFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
+$productFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields )
 {
 	$result = [];
 	$baseItem = $item->getBaseItem();
@@ -186,7 +186,7 @@ $productFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields, $t
 };
 
 
-$serviceFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
+$serviceFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields )
 {
 	$result = [];
 	$baseItem = $item->getBaseItem();
@@ -223,7 +223,7 @@ $serviceFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields, $t
 };
 
 
-$addressFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
+$addressFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields )
 {
 	$list = [];
 	$baseItem = $item->getBaseItem();
@@ -250,7 +250,7 @@ $addressFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields, $t
 };
 
 
-$couponFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
+$couponFcn = function( \Aimeos\MShop\Order\Item\Iface $item )
 {
 	$coupons = [];
 	$baseItem = $item->getBaseItem();
