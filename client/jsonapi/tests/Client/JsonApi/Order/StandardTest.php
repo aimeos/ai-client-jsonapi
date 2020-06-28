@@ -70,13 +70,18 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'No order item found' );
 		}
 
-		$params = array( 'id' => $item->getId(), 'include' => 'order/base,order/base/product,order/base/service,order/base/address,order/base/coupon' );
+		$params = [
+			'id' => $item->getId(),
+			'include' => 'order/base,order/base/product,order/base/service,order/base/address,order/base/coupon,customer',
+			'fields' => ['customer' => 'customer.id,customer.email']
+		];
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
+
 
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
@@ -85,6 +90,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'order', $result['data']['type'] );
 		$this->assertEquals( 23, count( $result['data']['attributes'] ) );
+		$this->assertEquals( 5, count( $result['data']['relationships'] ) );
+		$this->assertEquals( 9, count( $result['included'] ) );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
