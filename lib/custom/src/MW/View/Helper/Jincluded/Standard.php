@@ -100,30 +100,6 @@ class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
 				$this->map( $propItem, $fields, $fcn );
 			}
 		}
-
-		if( $item instanceof \Aimeos\MShop\Product\Item\Iface )
-		{
-			foreach( $item->getCatalogItems() as $catItem )
-			{
-				if( $catItem->isAvailable() ) {
-					$this->map( $catItem, $fields, $fcn );
-				}
-			}
-
-			foreach( $item->getSupplierItems() as $supItem )
-			{
-				if( $supItem->isAvailable() ) {
-					$this->map( $supItem, $fields, $fcn );
-				}
-			}
-
-			foreach( $item->getStockItems() as $stockItem )
-			{
-				if( $stockItem->isAvailable() ) {
-					$this->map( $stockItem, $fields, $fcn );
-				}
-			}
-		}
 	}
 
 

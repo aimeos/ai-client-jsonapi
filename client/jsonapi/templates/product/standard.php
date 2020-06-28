@@ -148,19 +148,107 @@ $entryFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, $t
 		}
 	}
 
-	foreach( $item->getCatalogItems() as $catItem ) {
-		$entry['relationships']['catalog']['data'][] = array( 'id' => $catItem->getId(), 'type' => 'catalog' );
+	foreach( $item->getCatalogItems() as $catItem )
+	{
+		if( $catItem->isAvailable() ) {
+			$entry['relationships']['catalog']['data'][] = array( 'id' => $catItem->getId(), 'type' => 'catalog' );
+		}
 	}
 
-	foreach( $item->getSupplierItems() as $supItem ) {
-		$entry['relationships']['supplier']['data'][] = array( 'id' => $supItem->getId(), 'type' => 'supplier' );
+	foreach( $item->getSupplierItems() as $supItem )
+	{
+		if( $supItem->isAvailable() ) {
+			$entry['relationships']['supplier']['data'][] = array( 'id' => $supItem->getId(), 'type' => 'supplier' );
+		}
 	}
 
-	foreach( $item->getStockItems() as $stockItem ) {
-		$entry['relationships']['stock']['data'][] = array( 'id' => $stockItem->getId(), 'type' => 'stock' );
+	foreach( $item->getStockItems() as $stockItem )
+	{
+		if( $stockItem->isAvailable() ) {
+			$entry['relationships']['stock']['data'][] = array( 'id' => $stockItem->getId(), 'type' => 'stock' );
+		}
 	}
 
 	return $entry;
+};
+
+
+$includeFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
+{
+	$result = [];
+
+	foreach( $item->getCatalogItems() as $catItem )
+	{
+		if( $catItem->isAvailable() )
+		{
+			$params = ['resource' => 'catalog', 'id' => $catItem->getId()];
+			$entry = ['id' => $catItem->getId(), 'type' => 'catalog'];
+			$entry['attributes'] = $catItem->toArray();
+
+			if( isset( $fields['catalog'] ) ) {
+				$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['catalog'] );
+			}
+
+			$entry['links'] = array(
+				'self' => array(
+					'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
+					'allow' => ['GET'],
+				),
+			);
+
+			$result[] = $entry;
+			$result = array_merge( $result, $this->jincluded( $catItem, $fields ) );
+		}
+	}
+
+	foreach( $item->getSupplierItems() as $supItem )
+	{
+		if( $supItem->isAvailable() )
+		{
+			$params = ['resource' => 'supplier', 'id' => $supItem->getId()];
+			$entry = ['id' => $supItem->getId(), 'type' => 'supplier'];
+			$entry['attributes'] = $supItem->toArray();
+
+			if( isset( $fields['supplier'] ) ) {
+				$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['supplier'] );
+			}
+
+			$entry['links'] = array(
+				'self' => array(
+					'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
+					'allow' => ['GET'],
+				),
+			);
+
+			$result[] = $entry;
+			$result = array_merge( $result, $this->jincluded( $supItem, $fields ) );
+		}
+	}
+
+	foreach( $item->getStockItems() as $stockItem )
+	{
+		if( $stockItem->isAvailable() )
+		{
+			$params = ['resource' => 'stock', 'id' => $stockItem->getId()];
+			$entry = ['id' => $stockItem->getId(), 'type' => 'stock'];
+			$entry['attributes'] = $stockItem->toArray();
+
+			if( isset( $fields['stock'] ) ) {
+				$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['stock'] );
+			}
+
+			$entry['links'] = array(
+				'self' => array(
+					'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
+					'allow' => ['GET'],
+				),
+			);
+
+			$result[] = $entry;
+		}
+	}
+
+	return $result;
 };
 
 
@@ -199,25 +287,27 @@ $entryFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, $t
 
 	<?php elseif( isset( $this->items ) ) : ?>
 		<?php
-			$data = [];
+			$data = $included = [];
 			$items = $this->get( 'items', map() );
-			$included = $this->jincluded( $items, $fields );
 
 			if( is_map( $items ) )
 			{
-				foreach( $items as $item ) {
+				foreach( $items as $item )
+				{
 					$data[] = $entryFcn( $item );
+					$included = array_merge( $included, $includeFcn( $item ) );
 				}
 			}
 			else
 			{
 				$data = $entryFcn( $items );
+				$included = array_merge( $included, $includeFcn( $items ) );
 			}
 		?>
 
 		,"data": <?= json_encode( $data, $pretty ); ?>
 
-		,"included": <?= json_encode( $included, $pretty ); ?>
+		,"included": <?= json_encode( array_merge( $this->jincluded( $items, $fields ), $included ), $pretty ); ?>
 
 	<?php endif; ?>
 
