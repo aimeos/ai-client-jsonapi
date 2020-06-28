@@ -172,7 +172,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$params = array(
 			'id' => $this->getOrderBaseItem()->getId(),
-			'include' => 'basket/product',
+			'include' => 'basket/product,customer',
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
@@ -187,10 +187,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertEquals( 1, count( $result['data']['relationships'] ) );
+		$this->assertEquals( 2, count( $result['data']['relationships'] ) );
+		$this->assertArrayHasKey( 'customer', $result['data']['relationships'] );
 		$this->assertArrayHasKey( 'basket/product', $result['data']['relationships'] );
 		$this->assertEquals( 2, count( $result['data']['relationships']['basket/product']['data'] ) );
-		$this->assertEquals( 2, count( $result['included'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['customer']['data'] ) );
+		$this->assertEquals( 3, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -207,9 +209,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 				'basket' => 'order.base.comment',
 				'basket/address' => 'order.base.address.firstname,order.base.address.lastname',
 				'basket/product' => 'order.base.product.name,order.base.product.price',
-				'basket/service' => 'order.base.service.name,order.base.service.price'
+				'basket/service' => 'order.base.service.name,order.base.service.price',
+				'customer' => 'customer.id,customer.email'
 			),
-			'include' => 'basket/address,basket/product,basket/service'
+			'include' => 'basket/address,basket/product,basket/service,customer'
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
@@ -224,7 +227,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
 		$this->assertEquals( 1, count( $result['data']['attributes'] ) );
-		$this->assertEquals( 6, count( $result['included'] ) );
+		$this->assertEquals( 7, count( $result['included'] ) );
 
 		foreach( $result['included'] as $entry ) {
 			$this->assertCount( 2, $entry['attributes'] );

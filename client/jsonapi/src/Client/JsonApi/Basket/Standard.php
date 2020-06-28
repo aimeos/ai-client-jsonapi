@@ -88,16 +88,18 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 */
 	public function get( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$view = $this->getView();
-
 		$allow = false;
+		$view = $this->getView();
 		$id = $view->param( 'id', 'default' );
+
+		$include = $view->param( 'include', 'basket/address,basket/coupon,basket/product,basket/service' );
+		$include = explode( ',', str_replace( 'basket', 'order/base', $include ) );
 
 		try
 		{
 			try
 			{
-				$view->item = $this->controller->load( $id, $this->getParts( $view ) );
+				$view->item = $this->controller->load( $id, $include );
 			}
 			catch( \Aimeos\MShop\Exception $e )
 			{
@@ -253,6 +255,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 *
 	 * @param \Aimeos\MW\View\Iface $view View instance
 	 * @return int Constant from Aimeos\MShop\Order\Item\Base\Base
+	 * @deprecated Use strings like "basket/product" directly
 	 */
 	protected function getParts( \Aimeos\MW\View\Iface $view ) : int
 	{
