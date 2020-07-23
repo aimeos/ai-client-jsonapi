@@ -21,7 +21,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context = \TestHelperJapi::getContext();
 		$this->view = $this->context->getView();
 
-		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' );
+		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com' );
 		$this->context->setUserId( $user->getId() );
 
 		$this->object = new \Aimeos\Client\JsonApi\Subscription\Standard( $this->context, 'subscription' );

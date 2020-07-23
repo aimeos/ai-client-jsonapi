@@ -38,7 +38,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testDelete()
 	{
 		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
-		$customer = $custManager->findItem( 'UTC001', ['product'] )->setCode( 'unittest-jsonapi' );
+		$customer = $custManager->findItem( 'test@example.com', ['product'] )->setCode( 'unittest-jsonapi' );
 		$customer = $custManager->saveItem( $customer->setId( null ) );
 		$this->context->setUserId( $customer->getId() );
 
@@ -69,7 +69,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testDeleteById()
 	{
 		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
-		$customer = $custManager->findItem( 'UTC001', ['product'] )->setCode( 'unittest-jsonapi' );
+		$customer = $custManager->findItem( 'test@example.com', ['product'] )->setCode( 'unittest-jsonapi' );
 		$customer = $custManager->saveItem( $customer->setId( null ) );
 		$this->context->setUserId( $customer->getId() );
 
@@ -147,7 +147,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' );
+		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com' );
 		$this->context->setUserId( $customer->getId() );
 
 		$params = ['id' => $customer->getId(), 'include' => 'product'];
@@ -174,7 +174,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetById()
 	{
-		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001', ['product'] );
+		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com', ['product'] );
 		$this->context->setUserId( $customer->getId() );
 
 		$params = array(
@@ -259,7 +259,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testPatch()
 	{
 		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
-		$customer = $custManager->findItem( 'UTC001', ['product'] )->setCode( 'unittest-jsonapi' );
+		$customer = $custManager->findItem( 'test@example.com', ['product'] )->setCode( 'unittest-jsonapi' );
 		$customer = $custManager->saveItem( $customer->setId( null ) );
 		$id = $customer->getListItems( 'product' )->first()->getId();
 		$this->context->setUserId( $customer->getId() );

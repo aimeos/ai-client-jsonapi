@@ -37,7 +37,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDelete()
 	{
-		$id = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' )->getId();
+		$id = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com' )->getId();
 		$this->context->setUserId( $id );
 
 		$this->getObject( 'delete', $this->returnSelf() );
@@ -94,7 +94,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' );
+		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com' );
 		$this->context->setUserId( $user->getId() );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -134,7 +134,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetIncluded()
 	{
-		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' );
+		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com' );
 		$this->context->setUserId( $user->getId() );
 
 		$params = ['include' => 'customer/address,customer/property'];
@@ -162,7 +162,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetIncludedNone()
 	{
-		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' );
+		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com' );
 		$this->context->setUserId( $user->getId() );
 
 		$params = ['include' => ''];
@@ -228,7 +228,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatch()
 	{
-		$id = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' )->getId();
+		$id = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com' )->getId();
 		$this->context->setUserId( $id );
 
 		$this->getObject( 'store', $this->returnSelf() );
@@ -248,7 +248,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'customer', $result['data']['type'] );
 		$this->assertGreaterThan( 24, count( $result['data']['attributes'] ) );
-		$this->assertEquals( 'UTC001', $result['data']['attributes']['customer.code'] );
+		$this->assertEquals( 'test@example.com', $result['data']['attributes']['customer.code'] );
 		$this->assertEquals( 0, $result['data']['attributes']['customer.status'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -393,7 +393,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function getObject( $method, $result )
 	{
-		$id = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' )->getId();
+		$id = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com' )->getId();
 		$this->context->setUserId( $id );
 
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Customer\Standard::class )

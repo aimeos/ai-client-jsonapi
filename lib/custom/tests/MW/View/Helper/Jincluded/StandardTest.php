@@ -38,7 +38,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testTransformCustomer()
 	{
 		$domains = ['customer/address', 'customer/property'];
-		$item = \Aimeos\MShop::create( \TestHelperCustom::getContext(), 'customer' )->findItem( 'UTC001', $domains );
+		$item = \Aimeos\MShop::create( \TestHelperCustom::getContext(), 'customer' )->findItem( 'test@example.com', $domains );
 
 		$this->assertEquals( 2, count( $this->object->transform( $item, [] ) ) );
 	}
