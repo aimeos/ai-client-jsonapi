@@ -233,7 +233,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->getObject( 'store', $this->returnSelf() );
 
-		$body = '{"data": {"attributes": {"customer.status": 0}}}	';
+		$body = '{"data": {"attributes": {"customer.status": 0,"customer.latitude": 50.1}}}	';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 
@@ -247,10 +247,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'customer', $result['data']['type'] );
-		$this->assertGreaterThan( 24, count( $result['data']['attributes'] ) );
+		$this->assertGreaterThanOrEqual( 24, count( $result['data']['attributes'] ) );
 		$this->assertEquals( 'test@example.com', $result['data']['attributes']['customer.code'] );
-		$this->assertEquals( 0, $result['data']['attributes']['customer.status'] );
+		$this->assertEquals( '50.1', $result['data']['attributes']['customer.latitude'] );
 
+		$this->assertArrayNotHasKey( 'customer.status', $result['data']['attributes'] );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
