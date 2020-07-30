@@ -93,7 +93,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$params = array(
 			'id' => $prodId,
 			'fields' => array(
-				'product' => 'product.id,product.label'
+				'product' => 'product.id,product.label',
+				'product/lists' => 'product.lists.type'
 			),
 			'sort' => 'product.id',
 			'include' => 'attribute,catalog,media,price,product,product/property,stock,supplier,text'
@@ -104,7 +105,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
-
 
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
@@ -121,6 +121,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 2, count( $result['data']['relationships']['catalog']['data'] ) );
 		$this->assertEquals( 1, count( $result['data']['relationships']['supplier']['data'] ) );
 		$this->assertEquals( 1, count( $result['data']['relationships']['stock']['data'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['text']['data'][0]['attributes'] ) );
 		$this->assertGreaterThanOrEqual( 71, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );

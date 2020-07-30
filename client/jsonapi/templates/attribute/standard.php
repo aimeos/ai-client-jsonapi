@@ -72,12 +72,16 @@ $entryFcn = function( \Aimeos\MShop\Attribute\Item\Iface $item ) use ( $fields, 
 	{
 		if( ( $refItem = $listItem->getRefItem() ) !== null && $refItem->isAvailable() )
 		{
-			$domain = $listItem->getDomain();
-			$entry['relationships'][$domain]['data'][] = [
-				'id' => $refItem->getId(),
-				'type' => $refItem->getResourceType(),
-				'attributes' => $listItem->toArray(),
-			];
+			$ltype = $listItem->getResourceType();
+			$type = $refItem->getResourceType();
+			$attributes = $listItem->toArray();
+
+			if( isset( $fields[$ltype] ) ) {
+				$attributes = array_intersect_key( $attributes, $fields[$ltype] );
+			}
+
+			$data = array( 'id' => $refItem->getId(), 'type' => $type, 'attributes' => $attributes );
+			$entry['relationships'][$type]['data'][] = $data;
 		}
 	}
 

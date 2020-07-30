@@ -75,12 +75,16 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, \Aimeos\Map $price
 	{
 		if( ( $refItem = $listItem->getRefItem() ) !== null && $refItem->isAvailable() )
 		{
+			$ltype = $listItem->getResourceType();
 			$type = $refItem->getResourceType();
-			$entry['relationships'][$type]['data'][] = [
-				'id' => $refItem->getId(),
-				'type' => $type,
-				'attributes' => $listItem->toArray(),
-			];
+			$attributes = $listItem->toArray();
+
+			if( isset( $fields[$ltype] ) ) {
+				$attributes = array_intersect_key( $attributes, $fields[$ltype] );
+			}
+
+			$data = array( 'id' => $refItem->getId(), 'type' => $type, 'attributes' => $attributes );
+			$entry['relationships'][$type]['data'][] = $data;
 		}
 	}
 

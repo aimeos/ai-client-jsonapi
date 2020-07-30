@@ -67,20 +67,25 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Iface $item ) use ( $fields, $
 	{
 		if( ( $refItem = $listItem->getRefItem() ) !== null && $refItem->isAvailable() )
 		{
+			$ltype = $listItem->getResourceType();
 			$type = $refItem->getResourceType();
-			$params = array( 'resource' => $type, 'id' => $id, 'related' => 'relationships', 'relatedid' => $listId );
+			$attributes = $listItem->toArray();
 
-			$entry['relationships'][$type]['data'][] = [
-				'id' => $refItem->getId(),
-				'type' => $type,
-				'attributes' => $listItem->toArray(),
+			if( isset( $fields[$ltype] ) ) {
+				$attributes = array_intersect_key( $attributes, $fields[$ltype] );
+			}
+
+			$params = ['resource' => $type, 'id' => $id, 'related' => 'relationships', 'relatedid' => $listId];
+			$data = [
+				'id' => $refItem->getId(), 'type' => $type, 'attributes' => $attributes,
 				'links' => [
 					'self' => [
 						'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
 						'allow' => ['DELETE', 'PATCH'],
 					],
-				],
+				]
 			];
+			$entry['relationships'][$type]['data'][] = $data;
 		}
 	}
 

@@ -152,8 +152,15 @@ class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
 			{
 				if( ( $refItem = $listItem->getRefItem() ) !== null && $refItem->isAvailable() )
 				{
+					$ltype = $listItem->getResourceType();
 					$rtype = $refItem->getResourceType();
-					$data = ['id' => $refItem->getId(), 'type' => $rtype, 'attributes' => $listItem->toArray()];
+					$attributes = $listItem->toArray();
+
+					if( isset( $fields[$ltype] ) ) {
+						$attributes = array_intersect_key( $attributes, $fields[$ltype] );
+					}
+
+					$data = ['id' => $refItem->getId(), 'type' => $rtype, 'attributes' => $attributes];
 					$entry['relationships'][$rtype]['data'][] = $data;
 					$this->map( $refItem, $fields, $fcn );
 				}
