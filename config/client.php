@@ -10,6 +10,7 @@ return [
 			'locale' => 'locale',
 			'order' => 'order',
 			'product' => 'product',
+			'review' => 'review',
 			'service' => 'service',
 			'stock' => 'stock',
 			'supplier' => 'supplier',
