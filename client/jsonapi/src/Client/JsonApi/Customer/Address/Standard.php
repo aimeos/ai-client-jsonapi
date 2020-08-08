@@ -348,21 +348,9 @@ class Standard
 				'label' => 'Latitude of the customer location as float value',
 				'type' => 'float', 'default' => '', 'required' => false,
 			],
-			'customer.address.label' => [
-				'label' => 'Label to identify the customer, usually the full name',
-				'type' => 'string', 'default' => '', 'required' => true,
-			],
-			'customer.address.code' => [
-				'label' => 'Unique customer identifier, usually e-mail address',
-				'type' => 'string', 'default' => '', 'required' => true,
-			],
 			'customer.address.birthday' => [
 				'label' => 'ISO date in YYYY-MM-DD format of the birthday',
 				'type' => 'string', 'default' => '', 'required' => false,
-			],
-			'customer.address.status' => [
-				'label' => 'Customer account status, i.e. "0" for disabled, "1" for enabled',
-				'type' => 'integer', 'default' => '1', 'required' => false,
 			],
 		];
 
