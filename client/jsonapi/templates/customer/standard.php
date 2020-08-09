@@ -65,28 +65,20 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Iface $item ) use ( $fields, $
 
 	foreach( $item->getListItems() as $listId => $listItem )
 	{
-		if( ( $refItem = $listItem->getRefItem() ) !== null && $refItem->isAvailable() )
-		{
-			$ltype = $listItem->getResourceType();
-			$type = $refItem->getResourceType();
-			$attributes = $listItem->toArray();
+		$type = $listItem->getDomain();
+		$params = array( 'resource' => $type, 'id' => $id, 'related' => 'relationships', 'relatedid' => $listId );
 
-			if( isset( $fields[$ltype] ) ) {
-				$attributes = array_intersect_key( $attributes, $fields[$ltype] );
-			}
-
-			$params = ['resource' => $type, 'id' => $id, 'related' => 'relationships', 'relatedid' => $listId];
-			$data = [
-				'id' => $refItem->getId(), 'type' => $type, 'attributes' => $attributes,
-				'links' => [
-					'self' => [
-						'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
-						'allow' => ['DELETE', 'PATCH'],
-					],
-				]
-			];
-			$entry['relationships'][$type]['data'][] = $data;
-		}
+		$entry['relationships'][$type]['data'][] = [
+			'id' => $listItem->getRefId(),
+			'type' => $type,
+			'attributes' => $listItem->toArray(),
+			'links' => [
+				'self' => [
+					'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
+					'allow' => ['DELETE', 'PATCH'],
+				],
+			],
+		];
 	}
 
 	foreach( $item->getPropertyItems() as $propItem )
@@ -122,6 +114,24 @@ $custAddrFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item, array 
 };
 
 
+$custPropFcn = function( \Aimeos\MShop\Common\Item\Property\Iface $item, array $entry ) use ( $target, $cntl, $action, $config )
+{
+	$id = $item->getId();
+	$type = $item->getResourceType();
+
+	$params = ['resource' => 'customer', 'id' => $item->getParentId(), 'related' => $type, 'relatedid' => $id];
+
+	$entry['links'] = [
+		'self' => [
+			'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
+			'allow' => ['DELETE', 'GET', 'PATCH'],
+		],
+	];
+
+	return $entry;
+};
+
+
 ?>
 {
 	"meta": {
@@ -143,6 +153,14 @@ $custAddrFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item, array 
 				"href": "<?= $this->url( $target, $cntl, $action, ['resource' => 'customer', 'id' => $this->item->getId(), 'related' => 'address'], [], $config ); ?>",
 				"allow": ["GET","POST"]
 			}
+			,"customer/property": {
+				"href": "<?= $this->url( $target, $cntl, $action, ['resource' => 'customer', 'id' => $this->item->getId(), 'related' => 'property'], [], $config ); ?>",
+				"allow": ["GET","POST"]
+			}
+			,"customer/relationships": {
+				"href": "<?= $this->url( $target, $cntl, $action, ['resource' => 'customer', 'id' => $this->item->getId(), 'related' => 'relationships'], [], $config ); ?>",
+				"allow": ["GET","POST"]
+			}
 		<?php endif; ?>
 	}
 	<?php if( isset( $this->errors ) ) : ?>
@@ -151,7 +169,7 @@ $custAddrFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item, array 
 	<?php elseif( isset( $this->item ) ) : ?>
 		,"data": <?= json_encode( $entryFcn( $this->item ), $pretty ); ?>
 
-		,"included": <?= json_encode( $this->jincluded( $this->item, $fields, ['customer/address' => $custAddrFcn] ), $pretty ); ?>
+		,"included": <?= json_encode( $this->jincluded( $this->item, $fields, ['customer/address' => $custAddrFcn, 'customer/property' => $custPropFcn] ), $pretty ); ?>
 
 	<?php endif; ?>
 
