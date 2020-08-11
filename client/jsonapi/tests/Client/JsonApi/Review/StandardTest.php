@@ -50,7 +50,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
-		$this->assertEquals( 2, $result['meta']['total'] );
+		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'review', $result['data'][0]['type'] );
 		$this->assertEquals( 3, count( $result['data'][0]['attributes'] ) );
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -125,8 +125,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( null, $result['meta']['prefix'] );
 		$this->assertEquals( 0, count( $result['meta']['attributes'] ) );
-		$this->assertArrayNotHasKey( 'filter', $result['meta'] );
-		$this->assertArrayNotHasKey( 'sort', $result['meta'] );
+		$this->assertArrayHasKey( 'filter', $result['meta'] );
+		$this->assertArrayHasKey( 'sort', $result['meta'] );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 

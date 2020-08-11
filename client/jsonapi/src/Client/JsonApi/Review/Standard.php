@@ -47,8 +47,15 @@ class Standard
 			else
 			{
 				$total = 0;
+				$cntl->for( $view->param( 'filter/f_domain', 'product' ), $view->param( 'filter/f_refid' ) );
+
+				$params = (array) $view->param( 'filter', [] );
+				unset( $params['f_domain'], $params['f_refid'] );
+
 				$items = $cntl->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 25 ) )
-					->sort( $view->param( 'sort' ) )->parse( $view->param( 'filter', [] ) )->search( $total );
+					->sort( $view->param( 'sort', '-ctime' ) )
+					->parse( $params )
+					->search( $total );
 
 				$view->items = $items;
 				$view->total = $total;
@@ -68,6 +75,7 @@ class Standard
 		}
 		catch( \Exception $e )
 		{
+echo $e->getMessage();
 			$status = 500;
 			$view->errors = $this->getErrorDetails( $e );
 		}
@@ -87,6 +95,28 @@ class Standard
 	{
 		$view = $this->getView();
 		$view->attributes = [];
+
+		$view->filter = [
+			'f_domain' => [
+				'label' => 'Return reviews for that domain, e.g. "product"',
+				'type' => 'string', 'default' => '', 'required' => true,
+			],
+			'f_refid' => [
+				'label' => 'Return reviews for the ID of the specified domain',
+				'type' => 'string', 'default' => '', 'required' => true,
+			],
+		];
+
+		$view->sort = [
+			'ctime' => [
+				'label' => 'Sort reviews by creation date/time',
+				'type' => 'string', 'default' => false, 'required' => false,
+			],
+			'rating' => [
+				'label' => 'Sort reviews by rating (ascending, "-rating" for descending)',
+				'type' => 'string', 'default' => false, 'required' => false,
+			],
+		];
 
 		$tplconf = 'client/jsonapi/standard/template-options';
 		$default = 'options-standard';
