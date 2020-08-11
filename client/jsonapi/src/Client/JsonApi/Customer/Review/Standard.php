@@ -186,8 +186,11 @@ class Standard
 			}
 
 			$manager = \Aimeos\MShop::create( $context, 'review' );
-			$filter = $manager->filter()->add( 'review.customerid', '==', $context->getUserId() );
-			$item = $manager->get( $id, [], false, $filter );
+			$item = $manager->get( $id, [], false );
+
+			if( $item->getCustomerId() !== $context->getUserId() ) {
+				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Item not found' ), 404 );
+			}
 
 			$attr = (array) $payload->data->attributes;
 			unset( $attr['review.response'], $attr['review.status'] );

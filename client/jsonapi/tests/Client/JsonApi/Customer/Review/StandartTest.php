@@ -328,6 +328,33 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testPatchDenied()
+	{
+		$this->context->setUserId( -1 );
+
+		$params = ['id' => -2, 'related' => 'review', 'relatedid' => -1];
+		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$body = '{"data": {"type": "review", "id": "-1", "attributes": {
+			"review.domain": "test",
+			"review.refid": "456"
+		}}}';
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
+
+
+		$response = $this->object->patch( $request, $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 404, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
+		$this->assertEquals( 0, $result['meta']['total'] );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
 	public function testPatchControllerException()
 	{
 		$mock = $this->getObject( 'getBody', $this->throwException( new \Aimeos\Controller\Frontend\Review\Exception() ) );
