@@ -161,6 +161,10 @@ $custPropFcn = function( \Aimeos\MShop\Common\Item\Property\Iface $item, array $
 				"href": "<?= $this->url( $target, $cntl, $action, ['resource' => 'customer', 'id' => $this->item->getId(), 'related' => 'relationships'], [], $config ); ?>",
 				"allow": ["GET","POST"]
 			}
+			,"customer/review": {
+				"href": "<?= $this->url( $target, $cntl, $action, ['resource' => 'customer', 'id' => $this->item->getId(), 'related' => 'review'], [], $config ); ?>",
+				"allow": ["GET","POST"]
+			}
 		<?php endif; ?>
 	}
 	<?php if( isset( $this->errors ) ) : ?>
