@@ -54,7 +54,7 @@ class Standard
 		}
 		catch( \Exception $e )
 		{
-			$status = 500;
+			$status = $e->getCode() >= 100 && $e->getCode() < 600 ? $e->getCode() : 500;
 			$view->errors = $this->getErrorDetails( $e );
 		}
 

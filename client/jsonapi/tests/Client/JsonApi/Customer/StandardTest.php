@@ -364,7 +364,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$response = $this->object->post( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 500, $response->getStatusCode() );
+		$this->assertEquals( 400, $response->getStatusCode() );
 		$this->assertArrayHasKey( 'errors', $result );
 	}
 
