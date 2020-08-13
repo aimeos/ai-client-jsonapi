@@ -247,9 +247,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'customer', $result['data']['type'] );
-		$this->assertGreaterThan( 24, count( $result['data']['attributes'] ) );
+		$this->assertGreaterThanOrEqual( 24, count( $result['data']['attributes'] ) );
 		$this->assertEquals( 'UTC001', $result['data']['attributes']['customer.code'] );
-		$this->assertEquals( 0, $result['data']['attributes']['customer.status'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
