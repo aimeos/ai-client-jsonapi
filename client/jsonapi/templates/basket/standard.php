@@ -20,7 +20,7 @@ $basketId = ( isset( $this->item ) && $this->item->getId() ? $this->item->getId(
 $ref = array( 'resource', 'id', 'related', 'relatedid', 'filter', 'page', 'sort', 'include', 'fields' );
 $params = array_intersect_key( $this->param(), array_flip( $ref ) );
 
-$pretty = $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0;
+$pretty = $this->param( 'pretty' ) ? JSON_PRETTY_PRINT | JSON_FORCE_OBJECT : JSON_FORCE_OBJECT;
 $fields = $this->param( 'fields', [] );
 
 foreach( (array) $fields as $resource => $list ) {

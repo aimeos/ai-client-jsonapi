@@ -18,7 +18,7 @@ $config = $this->config( 'client/jsonapi/url/config', [] );
 $ref = array( 'resource', 'id', 'filter', 'page', 'sort', 'include', 'fields' );
 $params = array_intersect_key( $this->param(), array_flip( $ref ) );
 
-$pretty = $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0;
+$pretty = $this->param( 'pretty' ) ? JSON_PRETTY_PRINT | JSON_FORCE_OBJECT : JSON_FORCE_OBJECT;
 $fields = $this->param( 'fields', [] );
 
 foreach( (array) $fields as $resource => $list ) {
