@@ -23,7 +23,7 @@ $limit = max( $this->param( 'page/limit', 100 ), 1 );
 $ref = array( 'resource', 'id', 'related', 'relatedid', 'filter', 'page', 'sort', 'include', 'fields' );
 $params = array_intersect_key( $this->param(), array_flip( $ref ) );
 
-$pretty = $this->param( 'pretty' ) ? JSON_PRETTY_PRINT | JSON_FORCE_OBJECT : JSON_FORCE_OBJECT;
+$pretty = $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0;
 $fields = $this->param( 'fields', [] );
 
 foreach( (array) $fields as $resource => $list ) {
