@@ -171,7 +171,7 @@ $custPropFcn = function( \Aimeos\MShop\Common\Item\Property\Iface $item, array $
 		,"errors": <?= json_encode( $this->errors, $pretty ); ?>
 
 	<?php elseif( isset( $this->item ) ) : ?>
-		,"data": <?= json_encode( $entryFcn( $this->item ), $pretty ); ?>
+		,"data": <?= json_encode( $entryFcn( $this->item ), $pretty | JSON_FORCE_OBJECT ); ?>
 
 		,"included": <?= json_encode( $this->jincluded( $this->item, $fields, ['customer/address' => $custAddrFcn, 'customer/property' => $custPropFcn] ), $pretty ); ?>
 

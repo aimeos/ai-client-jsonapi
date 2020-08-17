@@ -118,7 +118,7 @@ $entryFcn = function( \Aimeos\MShop\Stock\Item\Iface $item ) use ( $fields, $tar
 			}
 		 ?>
 
-		,"data": <?= json_encode( $data, $pretty ); ?>
+		,"data": <?= json_encode( $data, $pretty | JSON_FORCE_OBJECT ); ?>
 
 	<?php endif; ?>
 

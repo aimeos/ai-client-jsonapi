@@ -92,7 +92,7 @@ $entryFcn = function( \Aimeos\MShop\Review\Item\Iface $item ) use ( $fields, $ta
 			}
 		 ?>
 
-		,"data": <?= json_encode( $data, $pretty ); ?>
+		,"data": <?= json_encode( $data, $pretty | JSON_FORCE_OBJECT ); ?>
 
 	<?php endif; ?>
 

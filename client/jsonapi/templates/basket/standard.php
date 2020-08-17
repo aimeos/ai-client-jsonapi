@@ -365,7 +365,7 @@ $customerFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $fiel
 			}
 		?>
 
-		,"data": <?= json_encode( $entryFcn( $this->item, $basketId ), $pretty ); ?>
+		,"data": <?= json_encode( $entryFcn( $this->item, $basketId ), $pretty | JSON_FORCE_OBJECT ); ?>
 
 		,"included": <?= json_encode( $included, $pretty ); ?>
 
