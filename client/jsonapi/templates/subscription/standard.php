@@ -92,7 +92,7 @@ $entryFcn = function( \Aimeos\MShop\Subscription\Item\Iface $item ) use ( $field
 			}
 		 ?>
 
-		,"data": <?= json_encode( $data, $pretty ); ?>
+		,"data": <?= json_encode( $data, $pretty | JSON_FORCE_OBJECT ); ?>
 
 	<?php endif; ?>
 
