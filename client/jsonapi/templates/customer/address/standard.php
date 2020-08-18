@@ -97,7 +97,7 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item ) use ( $f
 			}
 		 ?>
 
-		,"data": <?= json_encode( $data, $pretty | JSON_FORCE_OBJECT ); ?>
+		,"data": <?= json_encode( $data, $pretty ); ?>
 
 	<?php endif; ?>
 

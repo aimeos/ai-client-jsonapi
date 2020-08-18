@@ -346,7 +346,7 @@ $customerFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields, $
 
 		,"data": <?= json_encode( $data, $pretty ); ?>
 
-		,"included": <?= json_encode( $included, $pretty | JSON_FORCE_OBJECT ); ?>
+		,"included": <?= json_encode( $included, $pretty ); ?>
 
 	<?php endif; ?>
 
