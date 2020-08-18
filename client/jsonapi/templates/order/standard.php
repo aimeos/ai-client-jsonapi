@@ -123,7 +123,7 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Iface $item, \Aimeos\MShop\Common
 			),
 		),
 		'attributes' => $attributes,
-		'relationships' => $relationships,
+		'relationships' => (object) $relationships,
 	);
 
 	if( $form !== null )

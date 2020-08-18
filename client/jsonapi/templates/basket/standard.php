@@ -96,7 +96,7 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) use
 			),
 		),
 		'attributes' => $attributes,
-		'relationships' => $relationships,
+		'relationships' => (object) $relationships,
 	);
 };
 
