@@ -128,7 +128,7 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, \Aimeos\Map $price
 			}
 		?>
 
-		,"data": <?= json_encode( $data, $pretty | JSON_FORCE_OBJECT ); ?>
+		,"data": <?= json_encode( $data, $pretty ); ?>
 
 		,"included": <?= json_encode( $included, $pretty ); ?>
 

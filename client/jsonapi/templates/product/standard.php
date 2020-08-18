@@ -305,7 +305,7 @@ $includeFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, 
 			}
 		?>
 
-		,"data": <?= json_encode( $data, $pretty | JSON_FORCE_OBJECT ); ?>
+		,"data": <?= json_encode( $data, $pretty ); ?>
 
 		,"included": <?= json_encode( array_merge( $this->jincluded( $items, $fields ), $included ), $pretty ); ?>
 

@@ -102,7 +102,7 @@ $entryFcn = function( \Aimeos\MShop\Locale\Item\Iface $item ) use ( $fields, $ta
 			}
 		 ?>
 
-		,"data": <?= json_encode( $data, $pretty | JSON_FORCE_OBJECT ); ?>
+		,"data": <?= json_encode( $data, $pretty ); ?>
 
 	<?php endif; ?>
 
