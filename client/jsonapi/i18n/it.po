@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-02 15:27+0200\n"
+"POT-Creation-Date: 2020-07-07 11:14+0200\n"
 "PO-Revision-Date: 2017-02-28 11:36+0000\n"
 "Last-Translator: R M <roberto@proprionoi.it>, 2019\n"
 "Language-Team: Italian (https://www.transifex.com/aimeos/teams/39015/it/)\n"
@@ -146,7 +146,7 @@ msgstr "Manca l'ID"
 #: src/Client/JsonApi/Order/Standard.php:102
 #: src/Client/JsonApi/Basket/Address/Standard.php:66
 #: src/Client/JsonApi/Basket/Address/Standard.php:131
-#: src/Client/JsonApi/Basket/Standard.php:143
+#: src/Client/JsonApi/Basket/Standard.php:145
 #: src/Client/JsonApi/Basket/Service/Standard.php:66
 #: src/Client/JsonApi/Basket/Service/Standard.php:131
 #: src/Client/JsonApi/Basket/Product/Standard.php:66
