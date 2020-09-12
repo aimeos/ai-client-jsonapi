@@ -186,44 +186,17 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testGetByIdDenied()
-	{
-		$manager = \Aimeos\MShop::create( $this->context, 'review' );
-		$item = $manager->search( $manager->filter() )->first();
-
-
-		$params = array(
-			'id' => -1,
-			'related' => 'review',
-			'relatedid' => $item->getId(),
-			'fields' => ['review' => 'review.id,review.rating'],
-		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
-		$this->view->addHelper( 'param', $helper );
-
-
-		$response = $this->object->get( $this->view->request(), $this->view->response() );
-		$result = json_decode( (string) $response->getBody(), true );
-
-		$this->assertEquals( 404, $response->getStatusCode() );
-		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
-		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
-
-		$this->assertArrayHasKey( 'errors', $result );
-	}
-
-
 	public function testGetControllerException()
 	{
-		$manager = $this->getMockBuilder( \Aimeos\MShop\Review\Manager\Standard::class )
+		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Review\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['search'] )
+			->setMethods( ['list'] )
 			->getMock();
 
-		$manager->expects( $this->once() )->method( 'search' )
+		$cntl->expects( $this->once() )->method( 'list' )
 			->will( $this->throwException( new \Aimeos\Controller\Frontend\Review\Exception() ) );
 
-		\Aimeos\MShop::inject( 'review', $manager );
+		\Aimeos\Controller\Frontend::inject( 'review', $cntl );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -235,15 +208,15 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetMShopException()
 	{
-		$manager = $this->getMockBuilder( \Aimeos\MShop\Review\Manager\Standard::class )
+		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Review\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['search'] )
+			->setMethods( ['list'] )
 			->getMock();
 
-		$manager->expects( $this->once() )->method( 'search' )
+		$cntl->expects( $this->once() )->method( 'list' )
 			->will( $this->throwException( new \Aimeos\MShop\Exception() ) );
 
-		\Aimeos\MShop::inject( 'review', $manager );
+		\Aimeos\Controller\Frontend::inject( 'review', $cntl );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -255,15 +228,15 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetException()
 	{
-		$manager = $this->getMockBuilder( \Aimeos\MShop\Review\Manager\Standard::class )
+		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Review\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['search'] )
+			->setMethods( ['list'] )
 			->getMock();
 
-		$manager->expects( $this->once() )->method( 'search' )
+		$cntl->expects( $this->once() )->method( 'list' )
 			->will( $this->throwException( new \Exception() ) );
 
-		\Aimeos\MShop::inject( 'review', $manager );
+		\Aimeos\Controller\Frontend::inject( 'review', $cntl );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -275,16 +248,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatch()
 	{
-		$manager = \Aimeos\MShop::create( $this->context, 'review' );
-		$item = $manager->create( [
-			'review.customerid' => '-1',
-			'review.domain' => 'product',
-			'review.refid' => '-1',
-			'review.response' => 'none'
-		] );
-		$item = $manager->save( $item->setId( null ) );
-
-		$this->context->setUserId( -1 );
+		$customerId = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
+		$this->context->setUserId( $customerId );
+		$item = $this->getReviewItem();
 
 
 		$params = ['id' => -1, 'related' => 'review', 'relatedid' => $item->getId()];
@@ -292,10 +258,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->view->addHelper( 'param', $helper );
 
 		$body = '{"data": {"type": "review", "id": "-1", "attributes": {
-			"review.orderproductid": "123",
-			"review.customerid": -2,
-			"review.domain": "test",
-			"review.refid": "456",
+			"review.orderproductid": "' . $item->getOrderProductId() . '",
+			"review.customerid": "' . $customerId . '",
+			"review.domain": "product",
 			"review.name": "test user",
 			"review.comment": "test comment",
 			"review.response": "not allowed",
@@ -308,18 +273,18 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$response = $this->object->patch( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-		$manager->delete( $item );
+		\Aimeos\MShop::create( $this->context, 'review' )->save( $item->setModified() );
 
 
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
-		$this->assertEquals( 'test', $result['data']['attributes']['review.domain'] );
-		$this->assertEquals( '456', $result['data']['attributes']['review.refid'] );
+		$this->assertNotNull( $result['data']['attributes']['review.refid'] );
+		$this->assertEquals( 'product', $result['data']['attributes']['review.domain'] );
 		$this->assertEquals( 'test user', $result['data']['attributes']['review.name'] );
 		$this->assertEquals( 'test comment', $result['data']['attributes']['review.comment'] );
-		$this->assertEquals( 'none', $result['data']['attributes']['review.response'] );
+		$this->assertEquals( 'owner response', $result['data']['attributes']['review.response'] );
 		$this->assertEquals( '5', $result['data']['attributes']['review.rating'] );
 		$this->assertEquals( '1', $result['data']['attributes']['review.status'] );
 
@@ -337,8 +302,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->view->addHelper( 'param', $helper );
 
 		$body = '{"data": {"type": "review", "id": "-1", "attributes": {
-			"review.domain": "test",
-			"review.refid": "456"
+			"review.domain": "test"
 		}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
@@ -346,7 +310,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$response = $this->object->patch( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 404, $response->getStatusCode() );
+		$this->assertEquals( 403, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
@@ -390,17 +354,21 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPost()
 	{
-		$this->context->setUserId( -1 );
+		$customerId = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
+		$this->context->setUserId( $customerId );
+
+		$manager = \Aimeos\MShop::create( $this->context, 'order/base/product' );
+		$filter = $manager->filter()->add( ['order.base.product.prodcode' => 'ABCD'] );
+		$item = $manager->search( $filter )->first( new \RuntimeException( 'Order product item not found' ) );
 
 		$params = ['id' => -1, 'related' => 'review'];
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$body = '{"data": {"type": "review", "attributes": {
-			"review.orderproductid": "123",
-			"review.customerid": -2,
-			"review.domain": "test",
-			"review.refid": "456",
+			"review.orderproductid": "' . $item->getId() . '",
+			"review.customerid": "' . $customerId . '",
+			"review.domain": "product",
 			"review.name": "test user",
 			"review.comment": "test comment",
 			"review.response": "not allowed",
@@ -413,15 +381,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-
 		$this->assertEquals( 201, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		\Aimeos\MShop::create( $this->context, 'review' )->delete( $result['data'][0]['id'] );
 
-		$this->assertEquals( 'test', $result['data'][0]['attributes']['review.domain'] );
-		$this->assertEquals( '456', $result['data'][0]['attributes']['review.refid'] );
+		$this->assertNotNull( $result['data'][0]['attributes']['review.refid'] );
+		$this->assertEquals( 'product', $result['data'][0]['attributes']['review.domain'] );
 		$this->assertEquals( 'test user', $result['data'][0]['attributes']['review.name'] );
 		$this->assertEquals( 'test comment', $result['data'][0]['attributes']['review.comment'] );
 		$this->assertEquals( '', $result['data'][0]['attributes']['review.response'] );
@@ -434,7 +401,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostMultiple()
 	{
-		$this->context->setUserId( -1 );
+		$customerId = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
+		$this->context->setUserId( $customerId );
+
+		$manager = \Aimeos\MShop::create( $this->context, 'order/base/product' );
+		$items = $manager->search( $manager->filter()->add( ['order.base.product.prodcode' => 'ABCD'] ) );
 
 		$params = ['id' => -1, 'related' => 'review'];
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
@@ -442,15 +413,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$body = '{"data": [{
 			"type": "review", "attributes": {
-				"review.domain": "test",
-				"review.refid": "456",
+				"review.orderproductid": "' . $items->first()->getId() . '",
+				"review.customerid": "' . $customerId . '",
+				"review.domain": "product",
 				"review.comment": "test comment"
-			}
-		}, {
-			"type": "review", "attributes": {
-				"review.domain": "test",
-				"review.refid": "789",
-				"review.comment": "more comment"
 			}
 		}]}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -459,22 +425,17 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-
 		$this->assertEquals( 201, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
-		\Aimeos\MShop::create( $this->context, 'review' )
-			->delete( [$result['data'][0]['id'], $result['data'][1]['id']] );
+		\Aimeos\MShop::create( $this->context, 'review' )->delete( $result['data'][0]['id'] );
 
-		$this->assertEquals( 'test', $result['data'][0]['attributes']['review.domain'] );
-		$this->assertEquals( '456', $result['data'][0]['attributes']['review.refid'] );
+		$this->assertNotNull( $result['data'][0]['attributes']['review.refid'] );
+		$this->assertEquals( 'product', $result['data'][0]['attributes']['review.domain'] );
 		$this->assertEquals( 'test comment', $result['data'][0]['attributes']['review.comment'] );
-		$this->assertEquals( 'test', $result['data'][1]['attributes']['review.domain'] );
-		$this->assertEquals( '789', $result['data'][1]['attributes']['review.refid'] );
-		$this->assertEquals( 'more comment', $result['data'][1]['attributes']['review.comment'] );
 
-		$this->assertEquals( 2, $result['meta']['total'] );
+		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
@@ -541,5 +502,19 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$object->expects( $this->once() )->method( $method )->will( $result );
 
 		return $object;
+	}
+
+
+	protected function getReviewItem()
+	{
+		$manager = \Aimeos\MShop::create( $this->context, 'review' );
+
+		$search = $manager->createSearch()->setSlice( 0, 1 );
+		$search->setConditions( $search->combine( '&&', [
+			$search->compare( '==', 'review.domain', 'product' ),
+			$search->compare( '>', 'review.status', 0 )
+		] ) );
+
+		return $manager->searchItems( $search )->first( new \RuntimeException( 'No review item found' ) );
 	}
 }

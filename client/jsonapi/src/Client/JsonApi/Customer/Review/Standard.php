@@ -39,7 +39,7 @@ class Standard
 		try
 		{
 			$body = (string) $request->getBody();
-			$manager = \Aimeos\MShop::create( $context, 'review' );
+			$cntl = \Aimeos\Controller\Frontend::create( $context, 'review' );
 
 			if( ( $relId = $view->param( 'relatedid' ) ) === null )
 			{
@@ -51,33 +51,11 @@ class Standard
 					$payload->data = [$payload->data];
 				}
 
-				$ids = [];
-
-				foreach( $payload->data as $entry )
-				{
-					if( !isset( $entry->id ) ) {
-						throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'ID is missing' ), 400 );
-					}
-
-					$ids[] = $entry->id;
-				}
-
-				$filter = $manager->filter()->add( [
-					'review.customerid' => $context->getUserId(),
-					'review.id' => $ids
-				] );
-
-				$manager->delete( $manager->search( $filter )->toArray() );
+				$cntl->delete( array_column( $payload->data, 'id' ) );
 			}
 			else
 			{
-				$item = $manager->get( $relId );
-
-				if( $item->getCustomerId() !== $context->getUserId() ) {
-					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Operation not allowed' ), 403 );
-				}
-
-				$manager->delete( $item );
+				$cntl->delete( $relId );
 			}
 
 			$status = 200;
@@ -116,26 +94,17 @@ class Standard
 
 		try
 		{
-			$manager = \Aimeos\MShop::create( $context, 'review' );
+			$cntl = \Aimeos\Controller\Frontend::create( $context, 'review' );
 
 			if( ( $relId = $view->param( 'relatedid' ) ) == null )
 			{
 				$total = 0;
-				$filter = $manager->filter()->add( 'review.customerid', '==', $context->getUserId() );
-				$filter->add( $filter->parse( $view->param( 'filter', [] ) ) ?: [] );
-
-				$view->items = $manager->search( $filter, [], $total );
+				$view->items = $cntl->parse( $view->param( 'filter', [] ) )->list( $total );
 				$view->total = $total;
 			}
 			else
 			{
-				$item = $manager->get( $relId );
-
-				if( $item->getCustomerId() !== $context->getUserId() ) {
-					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Item not found' ), 404 );
-				}
-
-				$view->items = $item;
+				$view->items = $cntl->get( $relId );
 				$view->total = 1;
 			}
 
@@ -185,19 +154,10 @@ class Standard
 				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Required "relatedid" is missing' ), 400 );
 			}
 
-			$manager = \Aimeos\MShop::create( $context, 'review' );
-			$item = $manager->get( $id, [], false );
+			$cntl = \Aimeos\Controller\Frontend::create( $context, 'review' );
+			$item = $cntl->create( (array) $payload->data->attributes )->setId( $id );
 
-			if( $item->getCustomerId() !== $context->getUserId() ) {
-				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Item not found' ), 404 );
-			}
-
-			$attr = (array) $payload->data->attributes;
-			unset( $attr['review.response'], $attr['review.status'] );
-
-			$manager->save( $item->fromArray( $attr )->setCustomerId( $context->getUserId() ) );
-
-			$view->items = $item;
+			$view->items = $cntl->save( $item );
 			$view->total = 1;
 			$status = 200;
 		}
@@ -246,7 +206,7 @@ class Standard
 			}
 
 			$items = [];
-			$manager = \Aimeos\MShop::create( $context, 'review' );
+			$cntl = \Aimeos\Controller\Frontend::create( $context, 'review' );
 
 			foreach( $payload->data as $entry )
 			{
@@ -254,14 +214,11 @@ class Standard
 					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Attributes are missing', 400 ) );
 				}
 
-				$attr = (array) $entry->attributes;
-				unset( $attr['review.response'], $attr['review.status'] );
-
-				$items[] = $manager->create()->fromArray( $attr )->setCustomerId( $context->getUserId() );
+				$items[] = $cntl->save( $cntl->create( (array) $entry->attributes ) );
 			}
 
-			$view->items = map( $manager->save( $items ) );
-			$view->total = count( $view->items );
+			$view->total = count( $items );
+			$view->items = map( $items );
 			$status = 201;
 		}
 		catch( \Aimeos\Controller\Frontend\Review\Exception $e )
