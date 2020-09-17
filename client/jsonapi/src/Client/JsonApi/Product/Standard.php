@@ -255,13 +255,14 @@ class Standard
 		$cntl->allOf( $view->param( 'filter/f_attrid', [] ) )
 			->oneOf( $view->param( 'filter/f_optid', [] ) )
 			->text( $view->param( 'filter/f_search' ) )
+			->price( $view->param( 'filter/f_price' ) )
 			->supplier( $view->param( 'filter/f_supid', [] ), $view->param( 'filter/f_listtype', 'default' ) )
 			->category( $view->param( 'filter/f_catid' ), $view->param( 'filter/f_listtype', 'default' ), $level );
 
 		$params = (array) $view->param( 'filter', [] );
 
-		unset( $params['f_supid'], $params['f_search'] );
 		unset( $params['f_catid'], $params['f_listtype'] );
+		unset( $params['f_supid'], $params['f_search'], $params['f_price'] );
 		unset( $params['f_attrid'], $params['f_optid'], $params['f_oneid'] );
 
 		return $cntl->parse( $params )
