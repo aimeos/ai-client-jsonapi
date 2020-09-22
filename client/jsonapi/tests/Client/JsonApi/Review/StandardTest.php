@@ -73,7 +73,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'review', $result['data']['type'] );
-		$this->assertEquals( 8, count( $result['data']['attributes'] ) );
+		$this->assertEquals( 9, count( $result['data']['attributes'] ) );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
