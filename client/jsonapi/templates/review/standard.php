@@ -15,6 +15,16 @@ $action = $this->config( 'client/jsonapi/url/action', 'get' );
 $config = $this->config( 'client/jsonapi/url/config', [] );
 
 
+$total = $this->get( 'total', 0 );
+$offset = max( $this->param( 'page/offset', 0 ), 0 );
+$limit = max( $this->param( 'page/limit', 2 ), 1 );
+
+$first = ( $offset > 0 ? 0 : null );
+$prev = ( $offset - $limit >= 0 ? $offset - $limit : null );
+$next = ( $offset + $limit < $total ? $offset + $limit : null );
+$last = ( ( (int) ( $total / $limit ) ) * $limit > $offset ? ( (int) ( $total / $limit ) ) * $limit : null );
+
+
 $ref = array( 'resource', 'id', 'filter', 'page', 'sort', 'include', 'fields' );
 $params = array_intersect_key( $this->param(), array_flip( $ref ) );
 
@@ -69,6 +79,20 @@ $entryFcn = function( \Aimeos\MShop\Review\Item\Iface $item ) use ( $fields, $ta
 
 	},
 	"links": {
+		<?php if( is_map( $this->get( 'items' ) ) ) : ?>
+			<?php if( $first !== null ) : ?>
+				"first": "<?php $params['page']['offset'] = $first; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
+			<?php endif; ?>
+			<?php if( $prev !== null ) : ?>
+				"prev": "<?php $params['page']['offset'] = $prev; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
+			<?php endif; ?>
+			<?php if( $next !== null ) : ?>
+				"next": "<?php $params['page']['offset'] = $next; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
+			<?php endif; ?>
+			<?php if( $last !== null ) : ?>
+				"last": "<?php $params['page']['offset'] = $last; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
+			<?php endif; ?>
+		<?php endif; ?>
 		"self": "<?= $this->url( $target, $cntl, $action, $params, [], $config ); ?>"
 	}
 
