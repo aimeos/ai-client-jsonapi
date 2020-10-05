@@ -151,7 +151,7 @@ class Standard
 			}
 
 			if( ( $id = $view->param( 'relatedid' ) ) === null ) {
-				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Required "relatedid" is missing' ), 400 );
+				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Required parameter "%1$s" is missing', 'relatedid' ), 400 );
 			}
 
 			$cntl = \Aimeos\Controller\Frontend::create( $context, 'review' );
