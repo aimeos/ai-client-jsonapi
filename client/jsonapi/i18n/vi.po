@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-07 11:14+0200\n"
+"POT-Creation-Date: 2020-10-05 10:23+0200\n"
 "PO-Revision-Date: 2017-02-28 11:36+0000\n"
 "Last-Translator: Aimeos, 2018\n"
 "Language-Team: Vietnamese (https://www.transifex.com/aimeos/teams/39015/vi/)\n"
@@ -35,9 +35,11 @@ msgstr ""
 #: src/Client/JsonApi/Customer/Address/Standard.php:228
 #: src/Client/JsonApi/Customer/Relationships/Standard.php:237
 #: src/Client/JsonApi/Customer/Property/Standard.php:230
+#: src/Client/JsonApi/Customer/Review/Standard.php:214
 #: src/Client/JsonApi/Customer/Address/Standard.php:228
 #: src/Client/JsonApi/Customer/Relationships/Standard.php:237
 #: src/Client/JsonApi/Customer/Property/Standard.php:230
+#: src/Client/JsonApi/Customer/Review/Standard.php:214
 #, php-format
 msgid "Attributes are missing"
 msgstr ""
@@ -141,6 +143,9 @@ msgstr ""
 #: src/Client/JsonApi/Customer/Property/Standard.php:218
 #: src/Client/JsonApi/Order/Standard.php:102
 #: src/Client/JsonApi/Basket/Product/Standard.php:196
+#: src/Client/JsonApi/Customer/Review/Standard.php:47
+#: src/Client/JsonApi/Customer/Review/Standard.php:150
+#: src/Client/JsonApi/Customer/Review/Standard.php:201
 #: src/Client/JsonApi/Order/Standard.php:102
 #: src/Client/JsonApi/Basket/Address/Standard.php:66
 #: src/Client/JsonApi/Basket/Address/Standard.php:131
@@ -163,6 +168,9 @@ msgstr ""
 #: src/Client/JsonApi/Customer/Property/Standard.php:47
 #: src/Client/JsonApi/Customer/Property/Standard.php:161
 #: src/Client/JsonApi/Customer/Property/Standard.php:218
+#: src/Client/JsonApi/Customer/Review/Standard.php:47
+#: src/Client/JsonApi/Customer/Review/Standard.php:150
+#: src/Client/JsonApi/Customer/Review/Standard.php:201
 #, php-format
 msgid "Invalid JSON in body"
 msgstr ""
@@ -212,6 +220,8 @@ msgstr ""
 #: src/Client/JsonApi/Customer/Property/Factory.php:80
 #: src/Client/JsonApi/Customer/Factory.php:80
 #: src/Client/JsonApi/Subscription/Factory.php:80
+#: src/Client/JsonApi/Review/Factory.php:80
+#: src/Client/JsonApi/Customer/Review/Factory.php:80
 #: src/Client/JsonApi/Order/Factory.php:80
 #: src/Client/JsonApi/Locale/Factory.php:80
 #: src/Client/JsonApi/Catalog/Factory.php:80
@@ -224,11 +234,13 @@ msgstr ""
 #: src/Client/JsonApi/Basket/Factory.php:80
 #: src/Client/JsonApi/Supplier/Factory.php:80
 #: src/Client/JsonApi/Product/Factory.php:80
+#: src/Client/JsonApi/Review/Factory.php:80
 #: src/Client/JsonApi/Stock/Factory.php:80
 #: src/Client/JsonApi/Customer/Address/Factory.php:80
 #: src/Client/JsonApi/Customer/Relationships/Factory.php:80
 #: src/Client/JsonApi/Customer/Property/Factory.php:80
 #: src/Client/JsonApi/Customer/Factory.php:80
+#: src/Client/JsonApi/Customer/Review/Factory.php:80
 #: src/Client/JsonApi/Subscription/Factory.php:80
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
@@ -290,6 +302,8 @@ msgstr ""
 #: src/Client/JsonApi/Stock/Factory.php:36
 #: src/Client/JsonApi/Customer/Factory.php:36
 #: src/Client/JsonApi/Subscription/Factory.php:36
+#: src/Client/JsonApi/Review/Factory.php:36
+#: src/Client/JsonApi/Customer/Review/Factory.php:36
 #: src/Client/JsonApi/Order/Factory.php:36
 #: src/Client/JsonApi/Locale/Factory.php:36
 #: src/Client/JsonApi/Catalog/Factory.php:36
@@ -302,11 +316,13 @@ msgstr ""
 #: src/Client/JsonApi/Basket/Factory.php:36
 #: src/Client/JsonApi/Supplier/Factory.php:36
 #: src/Client/JsonApi/Product/Factory.php:36
+#: src/Client/JsonApi/Review/Factory.php:36
 #: src/Client/JsonApi/Stock/Factory.php:36
 #: src/Client/JsonApi/Customer/Address/Factory.php:36
 #: src/Client/JsonApi/Customer/Relationships/Factory.php:36
 #: src/Client/JsonApi/Customer/Property/Factory.php:36
 #: src/Client/JsonApi/Customer/Factory.php:36
+#: src/Client/JsonApi/Customer/Review/Factory.php:36
 #: src/Client/JsonApi/Subscription/Factory.php:36 src/Client/JsonApi.php:50
 #, php-format
 msgid "Invalid client \"%1$s\""
@@ -362,6 +378,12 @@ msgstr ""
 #: src/Client/JsonApi/Order/Standard.php:106
 #, php-format
 msgid "Required attribute \"order.baseid\" is missing"
+msgstr ""
+
+#: src/Client/JsonApi/Customer/Review/Standard.php:154
+#: src/Client/JsonApi/Customer/Review/Standard.php:154
+#, php-format
+msgid "Required parameter \"%1$s\" is missing"
 msgstr ""
 
 #: src/Client/JsonApi/Basket/Service/Standard.php:149
