@@ -286,7 +286,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 'test comment', $result['data']['attributes']['review.comment'] );
 		$this->assertEquals( 'owner response', $result['data']['attributes']['review.response'] );
 		$this->assertEquals( '5', $result['data']['attributes']['review.rating'] );
-		$this->assertEquals( '1', $result['data']['attributes']['review.status'] );
+		$this->assertEquals( '-1', $result['data']['attributes']['review.status'] );
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertArrayNotHasKey( 'errors', $result );
