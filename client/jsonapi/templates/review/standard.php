@@ -17,7 +17,7 @@ $config = $this->config( 'client/jsonapi/url/config', [] );
 
 $total = $this->get( 'total', 0 );
 $offset = max( $this->param( 'page/offset', 0 ), 0 );
-$limit = max( $this->param( 'page/limit', 2 ), 1 );
+$limit = max( $this->param( 'page/limit', 10 ), 1 );
 
 $first = ( $offset > 0 ? 0 : null );
 $prev = ( $offset - $limit >= 0 ? $offset - $limit : null );
@@ -93,7 +93,7 @@ $entryFcn = function( \Aimeos\MShop\Review\Item\Iface $item ) use ( $fields, $ta
 				"last": "<?php $params['page']['offset'] = $last; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
 			<?php endif; ?>
 		<?php endif; ?>
-		"self": "<?= $this->url( $target, $cntl, $action, $params, [], $config ); ?>"
+		"self": "<?php $params['page']['offset'] = $offset; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>"
 	}
 
 	<?php if( isset( $this->errors ) ) : ?>
