@@ -515,6 +515,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			$search->compare( '>', 'review.status', 0 )
 		] ) );
 
-		return $manager->searchItems( $search )->first( new \RuntimeException( 'No review item found' ) );
+		return $manager->search( $search )->first( new \RuntimeException( 'No review item found' ) );
 	}
 }

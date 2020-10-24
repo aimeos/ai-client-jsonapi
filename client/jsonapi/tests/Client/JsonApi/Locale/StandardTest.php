@@ -34,7 +34,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$search->setConditions( $search->compare( '==', 'locale.status', 1 ) );
 		$search->setSortations( [$search->sort( '+', 'locale.position' )] );
 
-		if( ( $item = $manager->searchItems( $search )->first() ) === null ) {
+		if( ( $item = $manager->search( $search )->first() ) === null ) {
 			throw new \Exception( 'No locale item found' );
 		}
 

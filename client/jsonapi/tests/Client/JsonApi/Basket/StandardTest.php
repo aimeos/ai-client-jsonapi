@@ -464,7 +464,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$search = $manager->createSearch();
 		$search->setConditions( $search->compare( '==', 'order.base.price', '672.00' ) );
 
-		if( ( $item = $manager->searchItems( $search, ['order/base/product'] )->first() ) === null ) {
+		if( ( $item = $manager->search( $search, ['order/base/product'] )->first() ) === null ) {
 			throw new \Exception( 'No order/base item with price "672.00" found' );
 		}
 
