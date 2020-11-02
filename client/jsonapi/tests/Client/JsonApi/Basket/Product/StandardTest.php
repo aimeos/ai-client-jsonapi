@@ -34,13 +34,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDelete()
 	{
-		$prodId = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'CNC' )->getId();
+		$prodId = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNC' )->getId();
 		$body = '{"data": {"type": "basket/product", "attributes": {"product.id": ' . $prodId . '}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$this->object->post( $request, $this->view->response() );
 
-		$prodId = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'CNE' )->getId();
+		$prodId = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNE' )->getId();
 		$body = '{"data": {"type": "basket/product", "attributes": {"product.id": ' . $prodId . '}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
@@ -70,13 +70,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteById()
 	{
-		$prodId = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'CNC' )->getId();
+		$prodId = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNC' )->getId();
 		$body = '{"data": {"type": "basket/product", "attributes": {"product.id": ' . $prodId . '}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$this->object->post( $request, $this->view->response() );
 
-		$prodId = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'CNE' )->getId();
+		$prodId = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNE' )->getId();
 		$body = '{"data": {"type": "basket/product", "attributes": {"product.id": ' . $prodId . '}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
@@ -146,7 +146,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatch()
 	{
-		$prodId = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'CNC' )->getId();
+		$prodId = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNC' )->getId();
 		$body = '{"data": {"type": "basket/product", "attributes": {"product.id": ' . $prodId . '}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
@@ -226,7 +226,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPost()
 	{
-		$prodId = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'CNC' )->getId();
+		$prodId = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNC' )->getId();
 		$body = '{"data": {"type": "basket/product", "attributes": {"product.id": ' . $prodId . '}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
@@ -249,8 +249,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostMultiple()
 	{
-		$prodId = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'CNC' )->getId();
-		$prodId2 = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'CNE' )->getId();
+		$prodId = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNC' )->getId();
+		$prodId2 = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNE' )->getId();
 
 		$body = '{"data": [{
 			"type": "basket/product", "attributes": {"product.id": ' . $prodId . '}

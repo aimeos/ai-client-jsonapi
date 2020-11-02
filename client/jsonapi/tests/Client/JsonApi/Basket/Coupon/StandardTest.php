@@ -242,7 +242,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function addProduct( $code )
 	{
-		$prodId = \Aimeos\MShop::create( $this->context, 'product' )->findItem( $code )->getId();
+		$prodId = \Aimeos\MShop::create( $this->context, 'product' )->find( $code )->getId();
 
 		$body = '{"data": {"type": "basket/product", "attributes": {"product.id": ' . $prodId . '}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );

@@ -29,7 +29,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetItem()
 	{
 		$stockManager = \Aimeos\MShop::create( $this->context, 'stock' );
-		$stockId = $stockManager->findItem( 'CNE', [], 'product', 'default' )->getId();
+		$stockId = $stockManager->find( 'CNE', [], 'product', 'default' )->getId();
 
 		$params = array(
 			'id' => $stockId,

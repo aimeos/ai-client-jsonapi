@@ -38,7 +38,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testDelete()
 	{
 		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
-		$customer = $custManager->findItem( 'test@example.com', ['customer/property'] )->setCode( 'unittest-jsonapi' );
+		$customer = $custManager->find( 'test@example.com', ['customer/property'] )->setCode( 'unittest-jsonapi' );
 		$customer = $custManager->saveItem( $customer->setId( null ) );
 		$this->context->setUserId( $customer->getId() );
 
@@ -69,7 +69,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testDeleteById()
 	{
 		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
-		$customer = $custManager->findItem( 'test@example.com', ['customer/property'] )->setCode( 'unittest-jsonapi' );
+		$customer = $custManager->find( 'test@example.com', ['customer/property'] )->setCode( 'unittest-jsonapi' );
 		$customer = $custManager->saveItem( $customer->setId( null ) );
 		$this->context->setUserId( $customer->getId() );
 
@@ -132,7 +132,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com' );
+		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
 		$this->context->setUserId( $customer->getId() );
 
 		$params = ['id' => $customer->getId()];
@@ -158,7 +158,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetById()
 	{
-		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com', ['customer/property'] );
+		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com', ['customer/property'] );
 		$id = $customer->getPropertyItems()->first()->getId();
 		$this->context->setUserId( $customer->getId() );
 
@@ -227,7 +227,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testPatch()
 	{
 		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
-		$customer = $custManager->findItem( 'test@example.com', ['customer/property'] )->setCode( 'unittest-jsonapi' );
+		$customer = $custManager->find( 'test@example.com', ['customer/property'] )->setCode( 'unittest-jsonapi' );
 		$customer = $custManager->saveItem( $customer->setId( null ) );
 		$this->context->setUserId( $customer->getId() );
 

@@ -37,7 +37,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDelete()
 	{
-		$id = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com' )->getId();
+		$id = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
 		$this->context->setUserId( $id );
 
 		$this->getObject( 'delete', $this->returnSelf() );
@@ -94,7 +94,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com' );
+		$user = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
 		$this->context->setUserId( $user->getId() );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -134,7 +134,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetIncluded()
 	{
-		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com' );
+		$user = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
 		$this->context->setUserId( $user->getId() );
 
 		$params = ['include' => 'customer/address,customer/property'];
@@ -162,7 +162,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetIncludedNone()
 	{
-		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com' );
+		$user = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
 		$this->context->setUserId( $user->getId() );
 
 		$params = ['include' => ''];
@@ -228,7 +228,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatch()
 	{
-		$id = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com' )->getId();
+		$id = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
 		$this->context->setUserId( $id );
 
 		$this->getObject( 'store', $this->returnSelf() );
@@ -394,7 +394,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function getObject( $method, $result )
 	{
-		$id = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com' )->getId();
+		$id = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
 		$this->context->setUserId( $id );
 
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Customer\Standard::class )

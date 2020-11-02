@@ -35,7 +35,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com' );
+		$user = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
 		$this->context->setUserId( $user->getId() );
 
 		$params = array( 'fields' => array( 'order' => 'order.id,order.type' ) );
@@ -59,7 +59,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetById()
 	{
-		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com' );
+		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
 		$this->context->setUserId( $customer->getId() );
 
 		$manager = \Aimeos\MShop::create( $this->context, 'order' );

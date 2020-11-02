@@ -89,7 +89,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetItem()
 	{
-		$prodId = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'CNE' )->getId();
+		$prodId = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNE' )->getId();
 		$params = array(
 			'id' => $prodId,
 			'fields' => array(
@@ -130,7 +130,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetItems()
 	{
-		$catId = \Aimeos\MShop::create( $this->context, 'catalog' )->findItem( 'cafe' )->getId();
+		$catId = \Aimeos\MShop::create( $this->context, 'catalog' )->find( 'cafe' )->getId();
 		$params = array(
 			'filter' => array( 'f_catid' => $catId, 'f_listtype' => 'promotion' ),
 			'fields' => array(
@@ -165,7 +165,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetItemsCriteria()
 	{
-		$catId = \Aimeos\MShop::create( $this->context, 'catalog' )->findItem( 'cafe' )->getId();
+		$catId = \Aimeos\MShop::create( $this->context, 'catalog' )->find( 'cafe' )->getId();
 		$params = array(
 			'filter' => array(
 				'f_catid' => $catId,

@@ -35,7 +35,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testDelete()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
-		$servId = $manager->findItem( 'unitcode', [], 'service', 'delivery' )->getId();
+		$servId = $manager->find( 'unitcode', [], 'service', 'delivery' )->getId();
 
 		$body = '{"data": {"type": "basket/service", "id": "delivery", "attributes": {"service.id": ' . $servId . '}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -67,7 +67,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testDeleteById()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
-		$servId = $manager->findItem( 'unitcode', [], 'service', 'delivery' )->getId();
+		$servId = $manager->find( 'unitcode', [], 'service', 'delivery' )->getId();
 
 		$body = '{"data": {"type": "basket/service", "id": "delivery", "attributes": {"service.id": ' . $servId . '}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -139,7 +139,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testPost()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
-		$servId = $manager->findItem( 'unitcode', [], 'service', 'delivery' )->getId();
+		$servId = $manager->find( 'unitcode', [], 'service', 'delivery' )->getId();
 
 		$body = '{"data": {"type": "basket/service", "id": "delivery", "attributes": {"service.id": ' . $servId . '}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -163,8 +163,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testPostMultiple()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
-		$servId = $manager->findItem( 'unitcode', [], 'service', 'delivery' )->getId();
-		$servId2 = $manager->findItem( 'unitpaymentcode', [], 'service', 'payment' )->getId();
+		$servId = $manager->find( 'unitcode', [], 'service', 'delivery' )->getId();
+		$servId2 = $manager->find( 'unitpaymentcode', [], 'service', 'payment' )->getId();
 
 		$body = '{"data": [{
 			"type": "basket/service", "id": "delivery", "attributes": {"service.id": ' . $servId . '}

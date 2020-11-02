@@ -61,7 +61,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetById()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
-		$item = $manager->findItem( 'directdebit-test', [], 'service', 'payment' );
+		$item = $manager->find( 'directdebit-test', [], 'service', 'payment' );
 
 		$params = array(
 			'id' => $item->getId(),
@@ -95,7 +95,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetIncluded()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
-		$item = $manager->findItem( 'unitcode', [], 'service', 'delivery' );
+		$item = $manager->find( 'unitcode', [], 'service', 'delivery' );
 
 		$params = array(
 			'id' => $item->getId(),

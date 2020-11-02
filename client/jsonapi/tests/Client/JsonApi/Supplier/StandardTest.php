@@ -29,7 +29,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetItem()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'supplier' );
-		$supId = $manager->findItem( 'unitCode001' )->getId();
+		$supId = $manager->find( 'unitCode001' )->getId();
 
 		$params = array(
 			'id' => $supId,
@@ -63,7 +63,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetItemAddress()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'supplier' );
-		$supId = $manager->findItem( 'unitCode001' )->getId();
+		$supId = $manager->find( 'unitCode001' )->getId();
 
 		$params = array(
 			'id' => $supId,

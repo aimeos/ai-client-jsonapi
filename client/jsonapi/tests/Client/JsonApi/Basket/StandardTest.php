@@ -115,7 +115,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetById()
 	{
-		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com' );
+		$user = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
 		$this->context->setUserId( $user->getId() );
 
 		$params = ['id' => $this->getOrderBaseItem()->getId()];
@@ -167,7 +167,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetIncluded()
 	{
-		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com' );
+		$user = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
 		$this->context->setUserId( $user->getId() );
 
 		$params = array(
@@ -200,7 +200,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetFieldsIncluded()
 	{
-		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com' );
+		$user = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
 		$this->context->setUserId( $user->getId() );
 
 		$params = array(
@@ -239,7 +239,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetIncludedNone()
 	{
-		$user = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com' );
+		$user = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
 		$this->context->setUserId( $user->getId() );
 
 		$params = array(
