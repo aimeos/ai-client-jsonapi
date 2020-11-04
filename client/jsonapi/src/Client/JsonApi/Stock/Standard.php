@@ -100,8 +100,12 @@ class Standard
 		$view = $this->getView();
 
 		$view->filter = [
+			's_prodid' => [
+				'label' => 'List of product IDs for which the stock level should be returned',
+				'type' => 'array', 'default' => '[]', 'required' => false,
+			],
 			's_prodcode' => [
-				'label' => 'List of product codes for which the stock level should be returned',
+				'label' => 'Deprecated: List of product codes for which the stock level should be returned',
 				'type' => 'array', 'default' => '[]', 'required' => false,
 			],
 			's_typecode' => [
@@ -152,11 +156,23 @@ class Standard
 	{
 		$total = 0;
 		$params = $view->param( 'filter', [] );
-		unset( $params['s_prodcode'], $params['s_typecode'] );
+		$prodIds = (array) $view->param( 'filter/s_prodid', [] );
+
+		if( isset( $params['s_prodcode'] ) ) // backwards compatibility
+		{
+			$manager = \Aimeos\MShop::create( $this->getContext(), 'product' );
+			$filter = $manager->filter()
+				->slice( 0, count( (array) $params['s_prodcode'] ) )
+				->add( ['product.code' => $view->param( 'filter/s_prodcode' )] );
+
+			$prodIds = array_merge( $prodIds, $manager->search( $filter )->keys()->toArray() );
+		}
+
+		unset( $params['s_prodid'], $params['s_prodcode'], $params['s_typecode'] );
 
 		$items = \Aimeos\Controller\Frontend::create( $this->getContext(), 'stock' )
-			->code( $view->param( 'filter/s_prodcode' ) )->type( $view->param( 'filter/s_typecode' ) )
 			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 100 ) )
+			->product( $prodIds )->type( $view->param( 'filter/s_typecode' ) )
 			->sort( $view->param( 'sort' ) )->parse( $params )
 			->search( $total );
 

@@ -28,13 +28,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetItem()
 	{
-		$stockManager = \Aimeos\MShop::create( $this->context, 'stock' );
-		$stockId = $stockManager->find( 'CNE', [], 'product', 'default' )->getId();
+		$manager = \Aimeos\MShop::create( $this->context, 'stock' );
+		$stockId = $manager->search( $manager->filter()->slice( 0, 1 ) )->getId()->first();
 
 		$params = array(
 			'id' => $stockId,
 			'fields' => array(
-				'stock' => 'stock.id,stock.productcode,stock.stocklevel'
+				'stock' => 'stock.id,stock.productid,stock.stocklevel'
 			),
 			'sort' => 'stock.id'
 		);
@@ -52,7 +52,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'stock', $result['data']['type'] );
 		$this->assertEquals( 3, count( $result['data']['attributes'] ) );
-		$this->assertEquals( 'CNE', $result['data']['attributes']['stock.productcode'] );
+		$this->assertNotEquals( '', $result['data']['attributes']['stock.productid'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -60,9 +60,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetItems()
 	{
+		$prodId = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNC' )->getId();
+
 		$params = array(
-			'filter' => array( 's_prodcode' => ['CNC', 'CNE'] ),
-			'sort' => 'stock.productcode,-stock.dateback',
+			'filter' => ['s_prodid' => [$prodId]],
+			'sort' => 'stock.productid,-stock.dateback',
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
@@ -74,8 +76,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
-		$this->assertEquals( 2, $result['meta']['total'] );
-		$this->assertEquals( 2, count( $result['data'] ) );
+		$this->assertEquals( 1, $result['meta']['total'] );
+		$this->assertEquals( 1, count( $result['data'] ) );
 		$this->assertEquals( 'stock', $result['data'][0]['type'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -134,7 +136,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( null, $result['meta']['prefix'] );
-		$this->assertEquals( 2, count( $result['meta']['filter'] ) );
+		$this->assertEquals( 3, count( $result['meta']['filter'] ) );
 		$this->assertArrayNotHasKey( 'attributes', $result['meta'] );
 		$this->assertArrayNotHasKey( 'sort', $result['meta'] );
 		$this->assertArrayNotHasKey( 'errors', $result );
