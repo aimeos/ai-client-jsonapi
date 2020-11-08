@@ -364,8 +364,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPost()
 	{
-		$price = \Aimeos\MShop::create( $this->context, 'price' )->createItem();
-		$locale = \Aimeos\MShop::create( $this->context, 'locale' )->createItem();
+		$price = \Aimeos\MShop::create( $this->context, 'price' )->create();
+		$locale = \Aimeos\MShop::create( $this->context, 'locale' )->create();
 
 		$basket = $this->getMockBuilder( \Aimeos\MShop\Order\Item\Base\Standard::class )
 			->setConstructorArgs( [$price, $locale] )

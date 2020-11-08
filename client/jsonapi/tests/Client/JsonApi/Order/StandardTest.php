@@ -134,8 +134,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPost()
 	{
-		$basket = \Aimeos\MShop::create( $this->context, 'order/base' )->createItem();
-		$order = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
+		$basket = \Aimeos\MShop::create( $this->context, 'order/base' )->create();
+		$order = \Aimeos\MShop::create( $this->context, 'order' )->create();
 		$form = new \Aimeos\MShop\Common\Helper\Form\Standard();
 		$templatePaths = \TestHelperJapi::getTemplatePaths();
 
@@ -280,7 +280,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testCreateOrder()
 	{
-		$order = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
+		$order = \Aimeos\MShop::create( $this->context, 'order' )->create();
 
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Order\Standard::class )
 			->setConstructorArgs( [$this->context] )
@@ -319,7 +319,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetPaymentForm()
 	{
 		$basket = $this->getOrderBaseItem();
-		$order = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
+		$order = \Aimeos\MShop::create( $this->context, 'order' )->create();
 
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Service\Standard::class )
 			->setConstructorArgs( [$this->context] )
@@ -339,8 +339,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetPaymentFormNoPayment()
 	{
-		$basket = \Aimeos\MShop::create( $this->context, 'order/base' )->createItem();
-		$order = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
+		$basket = \Aimeos\MShop::create( $this->context, 'order/base' )->create();
+		$order = \Aimeos\MShop::create( $this->context, 'order' )->create();
 
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Order\Standard::class )
 			->setConstructorArgs( [$this->context] )

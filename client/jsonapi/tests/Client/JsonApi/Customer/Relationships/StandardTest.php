@@ -345,7 +345,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testPost()
 	{
 		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
-		$customer = $custManager->createItem()->setCode( 'unittest-jsonapi' );
+		$customer = $custManager->create()->setCode( 'unittest-jsonapi' );
 		$customer = $custManager->saveItem( $customer->setId( null ) );
 		$this->context->setUserId( $customer->getId() );
 
@@ -380,7 +380,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testPostMultiple()
 	{
 		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
-		$customer = $custManager->createItem()->setCode( 'unittest-jsonapi' );
+		$customer = $custManager->create()->setCode( 'unittest-jsonapi' );
 		$customer = $custManager->saveItem( $customer->setId( null ) );
 		$this->context->setUserId( $customer->getId() );
 
