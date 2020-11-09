@@ -54,7 +54,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$response = $this->object->delete( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-		$custManager->deleteItem( $customer->getId() );
+		$custManager->delete( $customer->getId() );
 
 
 		$this->assertEquals( 200, $response->getStatusCode() );
@@ -82,7 +82,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$response = $this->object->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-		$custManager->deleteItem( $customer->getId() );
+		$custManager->delete( $customer->getId() );
 
 
 		$this->assertEquals( 200, $response->getStatusCode() );
@@ -243,7 +243,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$response = $this->object->patch( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-		$custManager->deleteItem( $customer->getId() );
+		$custManager->delete( $customer->getId() );
 
 
 		$this->assertEquals( 200, $response->getStatusCode() );
@@ -326,7 +326,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-		$custManager->deleteItem( $customer->getId() );
+		$custManager->delete( $customer->getId() );
 
 
 		$this->assertEquals( 201, $response->getStatusCode() );
@@ -364,7 +364,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-		$custManager->deleteItem( $customer->getId() );
+		$custManager->delete( $customer->getId() );
 
 
 		$this->assertEquals( 201, $response->getStatusCode() );
