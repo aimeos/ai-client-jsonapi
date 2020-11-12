@@ -39,7 +39,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
 		$customer = $custManager->find( 'test@example.com', ['product'] )->setCode( 'unittest-jsonapi' );
-		$customer = $custManager->saveItem( $customer->setId( null ) );
+		$customer = $custManager->save( $customer->setId( null ) );
 		$this->context->setUserId( $customer->getId() );
 
 
@@ -70,7 +70,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
 		$customer = $custManager->find( 'test@example.com', ['product'] )->setCode( 'unittest-jsonapi' );
-		$customer = $custManager->saveItem( $customer->setId( null ) );
+		$customer = $custManager->save( $customer->setId( null ) );
 		$this->context->setUserId( $customer->getId() );
 
 
@@ -260,7 +260,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
 		$customer = $custManager->find( 'test@example.com', ['product'] )->setCode( 'unittest-jsonapi' );
-		$customer = $custManager->saveItem( $customer->setId( null ) );
+		$customer = $custManager->save( $customer->setId( null ) );
 		$id = $customer->getListItems( 'product' )->first()->getId();
 		$this->context->setUserId( $customer->getId() );
 
@@ -346,7 +346,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
 		$customer = $custManager->create()->setCode( 'unittest-jsonapi' );
-		$customer = $custManager->saveItem( $customer->setId( null ) );
+		$customer = $custManager->save( $customer->setId( null ) );
 		$this->context->setUserId( $customer->getId() );
 
 
@@ -381,7 +381,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
 		$customer = $custManager->create()->setCode( 'unittest-jsonapi' );
-		$customer = $custManager->saveItem( $customer->setId( null ) );
+		$customer = $custManager->save( $customer->setId( null ) );
 		$this->context->setUserId( $customer->getId() );
 
 
