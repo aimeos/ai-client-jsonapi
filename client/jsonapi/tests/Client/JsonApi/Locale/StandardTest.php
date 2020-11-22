@@ -30,7 +30,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'locale' );
 
-		$search = $manager->filter()->setSlice( 0, 1 );
+		$search = $manager->filter()->slice( 0, 1 );
 		$search->setConditions( $search->compare( '==', 'locale.status', 1 ) );
 		$search->setSortations( [$search->sort( '+', 'locale.position' )] );
 

@@ -223,7 +223,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'subscription' );
 
-		$search = $manager->filter()->setSlice( 0, 1 );
+		$search = $manager->filter()->slice( 0, 1 );
 		$search->setConditions( $search->compare( '==', 'subscription.dateend', '2010-01-01' ) );
 
 		if( ( $item = $manager->search( $search )->first() ) === null ) {

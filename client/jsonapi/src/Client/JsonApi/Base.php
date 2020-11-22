@@ -320,7 +320,7 @@ abstract class Base implements \Aimeos\Client\JsonApi\Iface
 		$start = ( isset( $params['page']['offset'] ) ? (int) $params['page']['offset'] : 0 );
 		$size = ( isset( $params['page']['limit'] ) ? (int) $params['page']['limit'] : 25 );
 
-		return $criteria->setSlice( $start, $size );
+		return $criteria->slice( $start, $size );
 	}
 
 
