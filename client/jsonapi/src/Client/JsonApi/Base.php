@@ -279,76 +279,9 @@ abstract class Base implements \Aimeos\Client\JsonApi\Iface
 	 */
 	protected function initCriteria( \Aimeos\MW\Criteria\Iface $criteria, array $params ) : \Aimeos\MW\Criteria\Iface
 	{
-		$this->initCriteriaConditions( $criteria, $params );
-		$this->initCriteriaSortations( $criteria, $params );
-		$this->initCriteriaSlice( $criteria, $params );
-
-		return $criteria;
-	}
-
-
-	/**
-	 * Initializes the criteria object with conditions based on the given parameter
-	 *
-	 * @param \Aimeos\MW\Criteria\Iface $criteria Criteria object
-	 * @param array $params List of criteria data with condition, sorting and paging
-	 * @return \Aimeos\MW\Criteria\Iface Initialized criteria object
-	 */
-	protected function initCriteriaConditions( \Aimeos\MW\Criteria\Iface $criteria, array $params ) : \Aimeos\MW\Criteria\Iface
-	{
-		if( !isset( $params['filter'] ) ) {
-			return $criteria;
-		}
-
-		if( ( $cond = $criteria->toConditions( (array) $params['filter'] ) ) !== null ) {
-			return $criteria->setConditions( $criteria->combine( '&&', [$cond, $criteria->getConditions()] ) );
-		}
-
-		return $criteria;
-	}
-
-
-	/**
-	 * Initializes the criteria object with the slice based on the given parameter.
-	 *
-	 * @param \Aimeos\MW\Criteria\Iface $criteria Criteria object
-	 * @param array $params List of criteria data with condition, sorting and paging
-	 * @return \Aimeos\MW\Criteria\Iface Initialized criteria object
-	 */
-	protected function initCriteriaSlice( \Aimeos\MW\Criteria\Iface $criteria, array $params ) : \Aimeos\MW\Criteria\Iface
-	{
-		$start = ( isset( $params['page']['offset'] ) ? (int) $params['page']['offset'] : 0 );
-		$size = ( isset( $params['page']['limit'] ) ? (int) $params['page']['limit'] : 25 );
-
-		return $criteria->slice( $start, $size );
-	}
-
-
-	/**
-	 * Initializes the criteria object with sortations based on the given parameter
-	 *
-	 * @param \Aimeos\MW\Criteria\Iface $criteria Criteria object
-	 * @param array $params List of criteria data with condition, sorting and paging
-	 * @return \Aimeos\MW\Criteria\Iface Initialized criteria object
-	 */
-	protected function initCriteriaSortations( \Aimeos\MW\Criteria\Iface $criteria, array $params ) : \Aimeos\MW\Criteria\Iface
-	{
-		if( !isset( $params['sort'] ) ) {
-			return $criteria;
-		}
-
-		$sortation = [];
-
-		foreach( explode( ',', $params['sort'] ) as $sort )
-		{
-			if( $sort[0] === '-' ) {
-				$sortation[] = $criteria->sort( '-', substr( $sort, 1 ) );
-			} else {
-				$sortation[] = $criteria->sort( '+', $sort );
-			}
-		}
-
-		return $criteria->setSortations( $sortation );
+		return $criteria->order( $params['sort'] ?? [] )
+			->add( $criteria->parse( $params['filter'] ?? [] ) )
+			->slice( $params['page']['offset'] ?? 0, $params['page']['limit'] ?? 25 );
 	}
 
 
