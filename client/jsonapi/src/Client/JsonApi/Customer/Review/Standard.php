@@ -275,7 +275,7 @@ class Standard
 			],
 		];
 
-		$tplconf = 'client/jsonapi/standard/template-options';
+		$tplconf = 'client/jsonapi/template-options';
 		$default = 'options-standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
@@ -298,7 +298,7 @@ class Standard
 	 */
 	protected function render( ResponseInterface $response, \Aimeos\MW\View\Iface $view, int $status ) : \Psr\Http\Message\ResponseInterface
 	{
-		/** client/jsonapi/customer/review/standard/template
+		/** client/jsonapi/customer/review/template
 		 * Relative path to the customer review JSON API template
 		 *
 		 * The template file contains the code and processing instructions
@@ -317,7 +317,7 @@ class Standard
 		 * @since 2017.07
 		 * @category Developer
 		 */
-		$tplconf = 'client/jsonapi/customer/review/standard/template';
+		$tplconf = 'client/jsonapi/customer/review/template';
 		$default = 'customer/review/standard';
 
 		$view->customerid = $this->getContext()->getUserId();

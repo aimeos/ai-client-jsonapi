@@ -237,7 +237,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 			],
 		];
 
-		$tplconf = 'client/jsonapi/standard/template-options';
+		$tplconf = 'client/jsonapi/template-options';
 		$default = 'options-standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
@@ -291,7 +291,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 */
 	protected function render( ResponseInterface $response, \Aimeos\MW\View\Iface $view, int $status, bool $allow = true ) : \Psr\Http\Message\ResponseInterface
 	{
-		/** client/jsonapi/basket/standard/template
+		/** client/jsonapi/basket/template
 		 * Relative path to the basket JSON API template
 		 *
 		 * The template file contains the code and processing instructions
@@ -310,7 +310,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 		 * @since 2017.04
 		 * @category Developer
 		 */
-		$tplconf = 'client/jsonapi/basket/standard/template';
+		$tplconf = 'client/jsonapi/basket/template';
 		$default = 'basket/standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );

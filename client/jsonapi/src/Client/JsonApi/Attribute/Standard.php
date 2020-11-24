@@ -56,7 +56,7 @@ class Standard
 			$view->errors = $this->getErrorDetails( $e );
 		}
 
-		/** client/jsonapi/attribute/standard/template
+		/** client/jsonapi/attribute/template
 		 * Relative path to the attribute lists JSON API template
 		 *
 		 * The template file contains the code and processing instructions
@@ -75,7 +75,7 @@ class Standard
 		 * @since 2017.03
 		 * @category Developer
 		 */
-		$tplconf = 'client/jsonapi/attribute/standard/template';
+		$tplconf = 'client/jsonapi/attribute/template';
 		$default = 'attribute/standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );

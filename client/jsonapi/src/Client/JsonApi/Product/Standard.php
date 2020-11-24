@@ -60,7 +60,7 @@ class Standard
 
 		if( $view->param( 'aggregate' ) != '' )
 		{
-			/** client/jsonapi/product/standard/template-aggregate
+			/** client/jsonapi/product/template-aggregate
 			 * Relative path to the product aggregate JSON API template
 			 *
 			 * The template file contains the code and processing instructions
@@ -79,12 +79,12 @@ class Standard
 			 * @since 2017.03
 			 * @category Developer
 			 */
-			$tplconf = 'client/jsonapi/product/standard/template-aggregate';
+			$tplconf = 'client/jsonapi/product/template-aggregate';
 			$default = 'aggregate-standard';
 		}
 		else
 		{
-			/** client/jsonapi/product/standard/template
+			/** client/jsonapi/product/template
 			 * Relative path to the product JSON API template
 			 *
 			 * The template file contains the code and processing instructions
@@ -103,7 +103,7 @@ class Standard
 			 * @since 2017.03
 			 * @category Developer
 			 */
-			$tplconf = 'client/jsonapi/product/standard/template';
+			$tplconf = 'client/jsonapi/product/template';
 			$default = 'product/standard';
 		}
 
@@ -178,7 +178,7 @@ class Standard
 			],
 		];
 
-		$tplconf = 'client/jsonapi/standard/template-options';
+		$tplconf = 'client/jsonapi/template-options';
 		$default = 'options-standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );

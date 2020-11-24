@@ -101,7 +101,7 @@ class Standard
 			],
 		];
 
-		$tplconf = 'client/jsonapi/standard/template-options';
+		$tplconf = 'client/jsonapi/template-options';
 		$default = 'options-standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
@@ -204,7 +204,7 @@ class Standard
 	{
 		if( $view->param( 'aggregate' ) != '' )
 		{
-			/** client/jsonapi/review/standard/template-aggregate
+			/** client/jsonapi/review/template-aggregate
 			 * Relative path to the review aggregate JSON API template
 			 *
 			 * The template file contains the code and processing instructions
@@ -223,12 +223,12 @@ class Standard
 			 * @since 2020.10
 			 * @category Developer
 			 */
-			$tplconf = 'client/jsonapi/review/standard/template-aggregate';
+			$tplconf = 'client/jsonapi/review/template-aggregate';
 			$default = 'aggregate-standard';
 		}
 		else
 		{
-			/** client/jsonapi/review/standard/template
+			/** client/jsonapi/review/template
 			 * Relative path to the review JSON API template
 			 *
 			 * The template file contains the code and processing instructions
@@ -247,7 +247,7 @@ class Standard
 			 * @since 2017.03
 			 * @category Developer
 			 */
-			$tplconf = 'client/jsonapi/review/standard/template';
+			$tplconf = 'client/jsonapi/review/template';
 			$default = 'review/standard';
 		}
 

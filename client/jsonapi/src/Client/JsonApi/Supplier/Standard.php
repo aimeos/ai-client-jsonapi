@@ -56,7 +56,7 @@ class Standard
 			$view->errors = $this->getErrorDetails( $e );
 		}
 
-		/** client/jsonapi/supplier/standard/template
+		/** client/jsonapi/supplier/template
 		 * Relative path to the supplier lists JSON API template
 		 *
 		 * The template file contains the code and processing instructions
@@ -75,7 +75,7 @@ class Standard
 		 * @since 2017.03
 		 * @category Developer
 		 */
-		$tplconf = 'client/jsonapi/supplier/standard/template';
+		$tplconf = 'client/jsonapi/supplier/template';
 		$default = 'supplier/standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );

@@ -95,7 +95,7 @@ class Standard
 			$view->errors = $this->getErrorDetails( $e );
 		}
 
-		/** client/jsonapi/service/standard/template
+		/** client/jsonapi/service/template
 		 * Relative path to the service JSON API template
 		 *
 		 * The template file contains the code and processing instructions
@@ -114,7 +114,7 @@ class Standard
 		 * @since 2017.03
 		 * @category Developer
 		 */
-		$tplconf = 'client/jsonapi/service/standard/template';
+		$tplconf = 'client/jsonapi/service/template';
 		$default = 'service/standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
@@ -145,7 +145,7 @@ class Standard
 			],
 		];
 
-		$tplconf = 'client/jsonapi/standard/template-options';
+		$tplconf = 'client/jsonapi/template-options';
 		$default = 'options-standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );

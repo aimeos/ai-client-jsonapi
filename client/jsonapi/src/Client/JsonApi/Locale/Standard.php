@@ -56,7 +56,7 @@ class Standard
 			$view->errors = $this->getErrorDetails( $e );
 		}
 
-		/** client/jsonapi/locale/standard/template
+		/** client/jsonapi/locale/template
 		 * Relative path to the locale lists JSON API template
 		 *
 		 * The template file contains the code and processing instructions
@@ -75,7 +75,7 @@ class Standard
 		 * @since 2017.03
 		 * @category Developer
 		 */
-		$tplconf = 'client/jsonapi/locale/standard/template';
+		$tplconf = 'client/jsonapi/locale/template';
 		$default = 'locale/standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );

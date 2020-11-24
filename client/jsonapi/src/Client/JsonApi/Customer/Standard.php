@@ -301,7 +301,7 @@ class Standard
 			],
 		];
 
-		$tplconf = 'client/jsonapi/standard/template-options';
+		$tplconf = 'client/jsonapi/template-options';
 		$default = 'options-standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
@@ -324,7 +324,7 @@ class Standard
 	 */
 	protected function render( ResponseInterface $response, \Aimeos\MW\View\Iface $view, int $status ) : \Psr\Http\Message\ResponseInterface
 	{
-		/** client/jsonapi/customer/standard/template
+		/** client/jsonapi/customer/template
 		 * Relative path to the customer JSON API template
 		 *
 		 * The template file contains the code and processing instructions
@@ -343,7 +343,7 @@ class Standard
 		 * @since 2017.04
 		 * @category Developer
 		 */
-		$tplconf = 'client/jsonapi/customer/standard/template';
+		$tplconf = 'client/jsonapi/customer/template';
 		$default = 'customer/standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );

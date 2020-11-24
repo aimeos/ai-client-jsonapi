@@ -51,7 +51,7 @@ class Standard
 			$view->errors = $this->getErrorDetails( $e );
 		}
 
-		/** client/jsonapi/catalog/standard/template
+		/** client/jsonapi/catalog/template
 		 * Relative path to the catalog lists JSON API template
 		 *
 		 * The template file contains the code and processing instructions
@@ -70,7 +70,7 @@ class Standard
 		 * @since 2017.03
 		 * @category Developer
 		 */
-		$tplconf = 'client/jsonapi/catalog/standard/template';
+		$tplconf = 'client/jsonapi/catalog/template';
 		$default = 'catalog/standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );

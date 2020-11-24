@@ -128,7 +128,7 @@ class Standard
 		$view = $this->getView();
 		$view->attributes = [];
 
-		$tplconf = 'client/jsonapi/standard/template-options';
+		$tplconf = 'client/jsonapi/template-options';
 		$default = 'options-standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
@@ -151,7 +151,7 @@ class Standard
 	 */
 	protected function render( ResponseInterface $response, \Aimeos\MW\View\Iface $view, $status ) : \Psr\Http\Message\ResponseInterface
 	{
-		/** client/jsonapi/subscription/standard/template
+		/** client/jsonapi/subscription/template
 		 * Relative path to the subscription JSON API template
 		 *
 		 * The template file contains the code and processing instructions
@@ -170,7 +170,7 @@ class Standard
 		 * @since 2017.03
 		 * @category Developer
 		 */
-		$tplconf = 'client/jsonapi/subscription/standard/template';
+		$tplconf = 'client/jsonapi/subscription/template';
 		$default = 'subscription/standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );

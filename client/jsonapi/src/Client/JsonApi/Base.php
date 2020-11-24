@@ -175,7 +175,7 @@ abstract class Base implements \Aimeos\Client\JsonApi\Iface
 			'title' => $this->getContext()->getI18n()->dt( 'client/jsonapi', 'Not allowed for this resource' ),
 		) );
 
-		/** client/jsonapi/standard/template-error
+		/** client/jsonapi/template-error
 		 * Relative path to the default JSON API template
 		 *
 		 * The template file contains the code and processing instructions
@@ -193,13 +193,13 @@ abstract class Base implements \Aimeos\Client\JsonApi\Iface
 		 * @param string Relative path to the template creating the body for the JSON API response
 		 * @since 2017.02
 		 * @category Developer
-		 * @see client/jsonapi/standard/template-delete
-		 * @see client/jsonapi/standard/template-patch
-		 * @see client/jsonapi/standard/template-post
-		 * @see client/jsonapi/standard/template-get
-		 * @see client/jsonapi/standard/template-options
+		 * @see client/jsonapi/template-delete
+		 * @see client/jsonapi/template-patch
+		 * @see client/jsonapi/template-post
+		 * @see client/jsonapi/template-get
+		 * @see client/jsonapi/template-options
 		 */
-		$tplconf = 'client/jsonapi/standard/template-error';
+		$tplconf = 'client/jsonapi/template-error';
 		$default = 'error-standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
@@ -297,7 +297,7 @@ abstract class Base implements \Aimeos\Client\JsonApi\Iface
 	{
 		$view = $this->getView();
 
-		$tplconf = 'client/jsonapi/standard/template-options';
+		$tplconf = 'client/jsonapi/template-options';
 		$default = 'options-standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );

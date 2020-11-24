@@ -192,7 +192,7 @@ class Standard
 	 */
 	protected function render( ResponseInterface $response, \Aimeos\MW\View\Iface $view, int $status ) : \Psr\Http\Message\ResponseInterface
 	{
-		$tplconf = 'client/jsonapi/basket/standard/template';
+		$tplconf = 'client/jsonapi/basket/template';
 		$default = 'basket/standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );

@@ -35,7 +35,7 @@ class Standard
 	{
 		$view = $this->getView();
 
-		/** client/jsonapi/standard/template-get
+		/** client/jsonapi/template-get
 		 * Relative path to the default JSON API template for unknown GET request
 		 *
 		 * The template file contains the code and processing instructions
@@ -53,9 +53,9 @@ class Standard
 		 * @param string Relative path to the template creating the body for the JSON API GET response
 		 * @since 2017.05
 		 * @category Developer
-		 * @see client/jsonapi/standard/template-options
+		 * @see client/jsonapi/template-options
 		 */
-		$tplconf = 'client/jsonapi/standard/template-get';
+		$tplconf = 'client/jsonapi/template-get';
 		$default = 'get-standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
@@ -109,7 +109,7 @@ class Standard
 			$view->errors = $this->getErrorDetails( $e );
 		}
 
-		/** client/jsonapi/standard/template-options
+		/** client/jsonapi/template-options
 		 * Relative path to the JSON API template for OPTIONS requests
 		 *
 		 * The template file contains the code and processing instructions
@@ -127,9 +127,9 @@ class Standard
 		 * @param string Relative path to the template creating the body for the OPTIONS method of the JSON API
 		 * @since 2017.02
 		 * @category Developer
-		 * @see client/jsonapi/standard/template-get
+		 * @see client/jsonapi/template-get
 		 */
-		$tplconf = 'client/jsonapi/standard/template-options';
+		$tplconf = 'client/jsonapi/template-options';
 		$default = 'options-standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
