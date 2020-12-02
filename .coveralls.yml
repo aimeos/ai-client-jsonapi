@@ -1,3 +1,0 @@
-src_dir: ext/ai-client-jsonapi
-json_path: ext/ai-client-jsonapi/coveralls.json
-coverage_clover: ext/ai-client-jsonapi/client/jsonapi/tests/coverage.xml
