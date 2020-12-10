@@ -161,7 +161,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$manager = \Aimeos\MShop::create( $this->context, 'review' );
 
 		$search = $manager->filter()->slice( 0, 1 );
-		$search->setConditions( $search->combine( '&&', [
+		$search->setConditions( $search->and( [
 			$search->compare( '==', 'review.domain', 'product' ),
 			$search->compare( '>', 'review.status', 0 )
 		] ) );
