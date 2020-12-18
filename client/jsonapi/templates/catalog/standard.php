@@ -122,7 +122,7 @@ $catFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item, array $entry ) use (
 		<?php
 			$data = $included = [];
 			$items = $this->get( 'items', map() );
-			$included = $this->jincluded( $items, $fields, ['catalog' => $entryFcn] );
+			$included = $this->jincluded( $items, $fields, ['catalog' => $catFcn] );
 
 			if( is_map( $items ) )
 			{
