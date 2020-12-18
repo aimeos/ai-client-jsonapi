@@ -88,7 +88,7 @@ class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
 		{
 			foreach( $item->getListItems() as $listItem )
 			{
-				if( ( $refItem = $listItem->getRefItem() ) !== null ) {
+				if( $refItem = $listItem->getRefItem() ) {
 					$this->map( $refItem, $fields, $fcn );
 				}
 			}
