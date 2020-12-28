@@ -94,7 +94,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 2, count( $result['data'][0]['relationships']['media']['data'] ) );
 		$this->assertEquals( 'catalog', $result['data'][1]['type'] );
 		$this->assertEquals( 5, count( $result['data'][1]['relationships']['text']['data'] ) );
-		$this->assertEquals( 9, count( $result['included'] ) );
+		$this->assertEquals( 8, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}

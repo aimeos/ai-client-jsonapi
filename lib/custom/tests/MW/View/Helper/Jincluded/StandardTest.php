@@ -49,7 +49,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$domains = ['attribute', 'catalog', 'media', 'price', 'product', 'product/property', 'text'];
 		$item = \Aimeos\MShop::create( \TestHelperCustom::getContext(), 'product' )->find( 'CNE', $domains );
 
-		$this->assertGreaterThanOrEqual( 67, count( $this->object->transform( $item, [] ) ) );
+		$this->assertGreaterThanOrEqual( 68, count( $this->object->transform( $item, [] ) ) );
 	}
 
 
@@ -58,6 +58,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$domains = ['attribute', 'catalog', 'media', 'price', 'product', 'product/property', 'text'];
 		$item = \Aimeos\MShop::create( \TestHelperCustom::getContext(), 'product' )->find( 'CNE', $domains );
 
-		$this->assertEquals( 67, count( $this->object->transform( [$item], [] ) ) );
+		$this->assertEquals( 68, count( $this->object->transform( [$item], [] ) ) );
 	}
 }
