@@ -218,7 +218,7 @@ class Standard
 	protected function getController( \Aimeos\MW\View\Iface $view )
 	{
 		$context = $this->getContext();
-		$cntl = \Aimeos\Controller\Frontend::create( $context, 'product' );
+		$cntl = \Aimeos\Controller\Frontend::create( $context, 'product' )->sort( $view->param( 'sort', 'relevance' ) );
 
 		/** client/jsonapi/product/levels
 		 * Include products of sub-categories in the product list of the current category
@@ -265,9 +265,7 @@ class Standard
 		unset( $params['f_supid'], $params['f_search'], $params['f_price'] );
 		unset( $params['f_attrid'], $params['f_optid'], $params['f_oneid'] );
 
-		return $cntl->parse( $params )
-			->sort( $view->param( 'sort', 'relevance' ) )
-			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 48 ) );
+		return $cntl->parse( $params )->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 48 ) );
 	}
 
 

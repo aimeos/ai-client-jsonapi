@@ -166,10 +166,10 @@ class Standard
 		}
 
 		$items = \Aimeos\Controller\Frontend::create( $this->getContext(), 'attribute' )
+			->uses( $ref )->sort( $view->param( 'sort', 'position' ) )->type( $attrTypes )
 			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 25 ) )
-			->type( $attrTypes )->parse( (array) $view->param( 'filter', [] ) )
-			->sort( $view->param( 'sort', 'position' ) )
-			->uses( $ref )->search( $total );
+			->parse( (array) $view->param( 'filter', [] ) )
+			->search( $total );
 
 		foreach( $items as $id => $item ) {
 			$attrMap[$item->getType()][$id] = $item;

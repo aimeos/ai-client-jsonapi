@@ -148,8 +148,7 @@ class Standard
 		$params = (array) $view->param( 'filter', [] );
 		unset( $params['f_domain'], $params['f_refid'] );
 
-		return $cntl->parse( $params )
-			->sort( $view->param( 'sort', '-ctime' ) )
+		return $cntl->sort( $view->param( 'sort', '-ctime' ) )->parse( $params )
 			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 10 ) );
 	}
 
