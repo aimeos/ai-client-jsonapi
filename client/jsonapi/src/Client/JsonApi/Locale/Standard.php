@@ -131,7 +131,7 @@ class Standard
 		$total = 0;
 
 		$view->items = \Aimeos\Controller\Frontend::create( $this->getContext(), 'locale' )
-			->parse( $view->param( 'filter', [] ) )->sort( $view->param( 'sort', 'position' ) )
+			->sort( $view->param( 'sort', 'position' ) )->parse( $view->param( 'filter', [] ) )
 			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 25 ) )
 			->search( $total );
 		$view->total = $total;

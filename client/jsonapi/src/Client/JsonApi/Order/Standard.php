@@ -52,9 +52,9 @@ class Standard
 			else
 			{
 				$total = 0;
-				$items = $cntl->parse( (array) $view->param( 'filter', [] ) )
+				$items = $cntl->sort( $view->param( 'sort', '-order.id' ) )
 					->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 48 ) )
-					->sort( $view->param( 'sort', '-order.id' ) )
+					->parse( (array) $view->param( 'filter', [] ) )
 					->search( $total );
 
 				$view->items = $items;
