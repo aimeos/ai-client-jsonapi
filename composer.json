@@ -15,7 +15,7 @@
 	"require": {
 		"php": "~7.1",
 		"composer/installers": "^1.0",
-		"aimeos/aimeos-core": ,
+		"aimeos/aimeos-core": "~2021.01",
 		"aimeos/ai-controller-frontend":
 	},
 	"require-dev": {
