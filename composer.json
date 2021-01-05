@@ -15,8 +15,8 @@
 	"require": {
 		"php": "~7.1",
 		"composer/installers": "^1.0",
-		"aimeos/aimeos-core": "dev-master",
-		"aimeos/ai-controller-frontend": "dev-master"
+		"aimeos/aimeos-core": ,
+		"aimeos/ai-controller-frontend":
 	},
 	"require-dev": {
 		"phpunit/phpunit": "~7.0||~8.0",
