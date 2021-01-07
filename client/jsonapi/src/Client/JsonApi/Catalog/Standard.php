@@ -115,7 +115,7 @@ class Standard
 		}
 
 		if( in_array( 'catalog', $ref, true ) ) {
-			$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_LIST;
+			$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE;
 		}
 
 		$total = 1;
