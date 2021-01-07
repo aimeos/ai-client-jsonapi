@@ -122,7 +122,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 'Root', $result['data']['attributes']['catalog.label'] );
 		$this->assertEquals( 2, count( $result['data']['relationships']['catalog']['data'] ) );
 		$this->assertEquals( 'catalog', $result['data']['relationships']['catalog']['data'][0]['type'] );
-		$this->assertEquals( 3, count( $result['included'] ) );
+		$this->assertEquals( 11, count( $result['included'] ) );
 		$this->assertArrayHaskey( 'self', $result['included'][0]['links'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
