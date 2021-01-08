@@ -114,8 +114,29 @@ class Standard
 			$ref = explode( ',', $ref );
 		}
 
-		if( in_array( 'catalog', $ref, true ) ) {
-			$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE;
+		if( in_array( 'catalog', $ref, true ) )
+		{
+			/** client/jsonapi/catalog/deep
+			 * Load the category tree instead of the nodes of the first level only
+			 *
+			 * If you want to use the catalog filter component to display the whole
+			 * category tree without loading data in an asynchcron way, set this
+			 * configuration option to "1" or true.
+			 *
+			 * **Warning:** If your category tree has a lot of nodes, it will
+			 * take a very long time to render all categories. Thus, it's only
+			 * recommended for small category trees with a limited node size
+			 * (less than 50).
+			 *
+			 * @param bool True for category tree, false for first level only
+			 * @since 2020.10
+			 * @see controller/frontend/catalog/levels-always
+			 * @see controller/frontend/catalog/levels-only
+			 * @see client/html/catalog/filter/tree/deep
+			 */
+			$deep = $view->config( 'client/jsonapi/catalog/deep', false );
+
+			$level = $deep ? \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE :  \Aimeos\MW\Tree\Manager\Base::LEVEL_LIST;
 		}
 
 		$total = 1;

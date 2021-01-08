@@ -122,9 +122,28 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 'Root', $result['data']['attributes']['catalog.label'] );
 		$this->assertEquals( 2, count( $result['data']['relationships']['catalog']['data'] ) );
 		$this->assertEquals( 'catalog', $result['data']['relationships']['catalog']['data'][0]['type'] );
-		$this->assertEquals( 11, count( $result['included'] ) );
+		$this->assertEquals( 3, count( $result['included'] ) );
 		$this->assertArrayHaskey( 'self', $result['included'][0]['links'] );
 
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
+	public function testGetItemNoIdDeep()
+	{
+		$config = $this->context->getConfig()->set( 'client/jsonapi/catalog/deep', true );
+		$helper = new \Aimeos\MW\View\Helper\Config\Standard( $this->view, $config );
+		$this->view->addHelper( 'config', $helper );
+
+		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, ['include' => 'catalog'] );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, $result['meta']['total'] );
+		$this->assertEquals( 7, count( $result['included'] ) );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
