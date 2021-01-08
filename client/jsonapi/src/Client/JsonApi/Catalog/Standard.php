@@ -136,7 +136,7 @@ class Standard
 			 */
 			$deep = $view->config( 'client/jsonapi/catalog/deep', false );
 
-			$level = $deep ? \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE :  \Aimeos\MW\Tree\Manager\Base::LEVEL_LIST;
+			$level = $deep ? \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE : \Aimeos\MW\Tree\Manager\Base::LEVEL_LIST;
 		}
 
 		$total = 1;
