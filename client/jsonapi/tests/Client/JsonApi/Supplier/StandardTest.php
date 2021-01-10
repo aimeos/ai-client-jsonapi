@@ -29,7 +29,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetItem()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'supplier' );
-		$supId = $manager->find( 'unitCode001' )->getId();
+		$supId = $manager->find( 'unitSupplier001' )->getId();
 
 		$params = array(
 			'id' => $supId,
@@ -63,7 +63,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetItemAddress()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'supplier' );
-		$supId = $manager->find( 'unitCode001' )->getId();
+		$supId = $manager->find( 'unitSupplier001' )->getId();
 
 		$params = array(
 			'id' => $supId,
@@ -97,7 +97,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$params = array(
 			'filter' => array(
-				'=~' => array( 'supplier.code' => 'unitCode00' ),
+				'=~' => array( 'supplier.code' => 'unitSupplier00' ),
 			),
 			'fields' => array(
 				'supplier' => 'supplier.id,supplier.label,supplier.code'
@@ -119,8 +119,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 2, count( $result['data'] ) );
 		$this->assertEquals( 'supplier', $result['data'][0]['type'] );
 		$this->assertEquals( 3, count( $result['data'][0]['attributes'] ) );
-		$this->assertEquals( 'unitCode001', $result['data'][0]['attributes']['supplier.code'] );
-		$this->assertEquals( 'unitCode002', $result['data'][1]['attributes']['supplier.code'] );
+		$this->assertEquals( 'unitSupplier001', $result['data'][0]['attributes']['supplier.code'] );
+		$this->assertEquals( 'unitSupplier002', $result['data'][1]['attributes']['supplier.code'] );
 		$this->assertEquals( 6, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -131,7 +131,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$params = array(
 			'filter' => array(
-				'=~' => array( 'supplier.code' => 'unitCode00' ),
+				'=~' => array( 'supplier.code' => 'unitSupplier00' ),
 			),
 			'sort' => 'supplier.label',
 		);
