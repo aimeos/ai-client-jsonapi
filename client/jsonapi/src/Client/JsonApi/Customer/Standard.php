@@ -200,7 +200,7 @@ class Standard
 
 		$view->attributes = [
 			'customer.salutation' => [
-				'label' => 'Customer salutation, i.e. "comany" ,"mr", "mrs", "miss" or ""',
+				'label' => 'Customer salutation, i.e. "comany" ,"mr", "ms" or ""',
 				'type' => 'string', 'default' => '', 'required' => false,
 			],
 			'customer.company' => [
