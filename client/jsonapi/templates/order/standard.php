@@ -178,7 +178,7 @@ $productFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields )
 				$result = array_merge( $result, $this->jincluded( $product, $fields ) );
 			}
 
-			$result[] = $entry;
+			$result['order/base/product'][] = $entry;
 		}
 	}
 
@@ -214,7 +214,7 @@ $serviceFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields )
 					$result = array_merge( $result, $this->jincluded( $service, $fields ) );
 				}
 
-				$result[] = $entry;
+				$result['order/base/service'][] = $entry;
 			}
 		}
 	}
@@ -241,7 +241,7 @@ $addressFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields )
 					$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['order/base/address'] );
 				}
 
-				$list[] = $entry;
+				$list['order/base/address'][] = $entry;
 			}
 		}
 	}
@@ -258,7 +258,7 @@ $couponFcn = function( \Aimeos\MShop\Order\Item\Iface $item )
 	if( $baseItem )
 	{
 		foreach( $baseItem->getCoupons() as $code => $list ) {
-			$coupons[] = ['id' => $code, 'type' => 'order/base/coupon'];
+			$coupons['order/base/coupon'][] = ['id' => $code, 'type' => 'order/base/coupon'];
 		}
 	}
 
@@ -288,8 +288,8 @@ $customerFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields, $
 			),
 		);
 
-		$result[] = $entry;
-		$result = array_merge( $result, $this->jincluded( $customer, $fields ) );
+		$result['customer'][$customer->getId()] = $entry;
+		$result = array_replace_recursive( $result, $this->jincluded( $customer, $fields ) );
 	}
 
 	return $result;
@@ -326,27 +326,27 @@ $customerFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields, $
 				foreach( $items as $item )
 				{
 					$data[] = $entryFcn( $item, $this->get( 'form' ) );
-					$included = array_merge( $included, $couponFcn( $item ) );
-					$included = array_merge( $included, $addressFcn( $item ) );
-					$included = array_merge( $included, $productFcn( $item ) );
-					$included = array_merge( $included, $serviceFcn( $item ) );
-					$included = array_merge( $included, $customerFcn( $item ) );
+					$included = array_replace_recursive( $included, $couponFcn( $item ) );
+					$included = array_replace_recursive( $included, $addressFcn( $item ) );
+					$included = array_replace_recursive( $included, $productFcn( $item ) );
+					$included = array_replace_recursive( $included, $serviceFcn( $item ) );
+					$included = array_replace_recursive( $included, $customerFcn( $item ) );
 				}
 			}
 			else
 			{
 				$data = $entryFcn( $items, $this->get( 'form' ) );
-				$included = array_merge( $included, $couponFcn( $items ) );
-				$included = array_merge( $included, $addressFcn( $items ) );
-				$included = array_merge( $included, $productFcn( $items ) );
-				$included = array_merge( $included, $serviceFcn( $items ) );
-				$included = array_merge( $included, $customerFcn( $items ) );
+				$included = array_replace_recursive( $included, $couponFcn( $items ) );
+				$included = array_replace_recursive( $included, $addressFcn( $items ) );
+				$included = array_replace_recursive( $included, $productFcn( $items ) );
+				$included = array_replace_recursive( $included, $serviceFcn( $items ) );
+				$included = array_replace_recursive( $included, $customerFcn( $items ) );
 			}
 		 ?>
 
 		,"data": <?= json_encode( $data, $pretty ); ?>
 
-		,"included": <?= json_encode( $included, $pretty ); ?>
+		,"included": <?= map( $included )->flat( 1 )->toJson( $pretty ) ?>
 
 	<?php endif; ?>
 

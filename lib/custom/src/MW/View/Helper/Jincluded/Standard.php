@@ -45,16 +45,7 @@ class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
 			$this->entry( $item, $fields, $fcn );
 		}
 
-		$result = [];
-
-		foreach( $this->map as $list )
-		{
-			foreach( $list as $entry ) {
-				$result[] = $entry;
-			}
-		}
-
-		return $result;
+		return $this->map;
 	}
 
 

@@ -120,7 +120,7 @@ $catFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item, array $entry ) use (
 
 	<?php elseif( isset( $this->items ) ) : ?>
 		<?php
-			$data = $included = [];
+			$data = [];
 			$items = $this->get( 'items', map() );
 			$included = $this->jincluded( $items, $fields, ['catalog' => $catFcn] );
 
@@ -138,7 +138,7 @@ $catFcn = function( \Aimeos\MShop\Catalog\Item\Iface $item, array $entry ) use (
 
 		,"data": <?= json_encode( $data, $pretty ); ?>
 
-		,"included": <?= json_encode( $included, $pretty ); ?>
+		,"included": <?= map( $included )->flat( 1 )->toJson( $pretty ) ?>
 
 	<?php endif; ?>
 

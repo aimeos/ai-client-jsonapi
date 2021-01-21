@@ -134,7 +134,7 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, \Aimeos\Map $price
 
 		,"data": <?= json_encode( $data, $pretty ); ?>
 
-		,"included": <?= json_encode( $included, $pretty ); ?>
+		,"included": <?= map( $included )->flat( 1 )->toJson( $pretty ) ?>
 
 	<?php endif; ?>
 

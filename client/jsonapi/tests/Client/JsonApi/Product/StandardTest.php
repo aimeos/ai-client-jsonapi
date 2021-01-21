@@ -137,7 +137,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 				'product' => 'product.id,product.code,product.label'
 			),
 			'sort' => '-code,-product.status',
-			'include' => 'attribute,text,product,product/property'
+			'include' => 'attribute,text,product,product/property,catalog'
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
@@ -157,7 +157,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 4, count( $result['data'][0]['relationships']['product/property']['data'] ) );
 		$this->assertEquals( 6, count( $result['data'][0]['relationships']['attribute']['data'] ) );
 		$this->assertEquals( 5, count( $result['data'][0]['relationships']['product']['data'] ) );
-		$this->assertGreaterThanOrEqual( 44, count( $result['included'] ) );
+		$this->assertEquals( 2, count( $result['data'][0]['relationships']['catalog']['data'] ) );
+		$this->assertEquals( 2, count( $result['data'][1]['relationships']['catalog']['data'] ) );
+		$this->assertGreaterThanOrEqual( 47, count( $result['included'] ) );
+		$this->assertEquals( 3, count( map( $result['included'] )->groupBy( 'type' )->get( 'catalog', [] ) ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}

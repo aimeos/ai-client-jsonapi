@@ -146,7 +146,7 @@ $productFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) u
 			$result = array_merge( $result, $this->jincluded( $product, $fields ) );
 		}
 
-		$result[] = $entry;
+		$result['order/base/product'][] = $entry;
 	}
 
 	return $result;
@@ -189,7 +189,7 @@ $serviceFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) u
 				$result = array_merge( $result, $this->jincluded( $service, $fields ) );
 			}
 
-			$result[] = $entry;
+			$result['order/base/service'][] = $entry;
 		}
 	}
 
@@ -223,7 +223,7 @@ $addressFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) u
 				);
 			}
 
-			$list[] = $entry;
+			$list['order/base/address'][] = $entry;
 		}
 	}
 
@@ -250,7 +250,7 @@ $couponFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) us
 			);
 		}
 
-		$coupons[] = $entry;
+		$coupons['order/base/coupon'][] = $entry;
 	}
 
 	return $coupons;
@@ -279,8 +279,8 @@ $customerFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $fiel
 			),
 		);
 
-		$result[] = $entry;
-		$result = array_merge( $result, $this->jincluded( $customer, $fields ) );
+		$result['customer'][$customer->getId()] = $entry;
+		$result = array_replace_recursive( $result, $this->jincluded( $customer, $fields ) );
 	}
 
 	return $result;
@@ -345,29 +345,29 @@ $customerFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $fiel
 			$types = explode( ',', $this->param( 'include', 'basket/product,basket/service,basket/address,basket/coupon' ) );
 
 			if( in_array( 'basket/product', $types ) ) {
-				$included = array_merge( $included, $productFcn( $this->item, $basketId ) );
+				$included = array_replace_recursive( $included, $productFcn( $this->item, $basketId ) );
 			}
 
 			if( in_array( 'basket/service', $types ) ) {
-				$included = array_merge( $included, $serviceFcn( $this->item, $basketId ) );
+				$included = array_replace_recursive( $included, $serviceFcn( $this->item, $basketId ) );
 			}
 
 			if( in_array( 'basket/address', $types ) ) {
-				$included = array_merge( $included, $addressFcn( $this->item, $basketId ) );
+				$included = array_replace_recursive( $included, $addressFcn( $this->item, $basketId ) );
 			}
 
 			if( in_array( 'basket/coupon', $types ) ) {
-				$included = array_merge( $included, $couponFcn( $this->item, $basketId ) );
+				$included = array_replace_recursive( $included, $couponFcn( $this->item, $basketId ) );
 			}
 
 			if( in_array( 'customer', $types ) ) {
-				$included = array_merge( $included, $customerFcn( $this->item ) );
+				$included = array_replace_recursive( $included, $customerFcn( $this->item ) );
 			}
 		?>
 
 		,"data": <?= json_encode( $entryFcn( $this->item, $basketId ), $pretty ); ?>
 
-		,"included": <?= json_encode( $included, $pretty ); ?>
+		,"included": <?= map( $included )->flat( 1 )->toJson( $pretty ) ?>
 
 	<?php endif; ?>
 

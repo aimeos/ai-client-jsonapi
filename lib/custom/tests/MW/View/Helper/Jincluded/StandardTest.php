@@ -31,7 +31,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$manager = \Aimeos\MShop::create( \TestHelperCustom::getContext(), 'catalog' );
 		$tree = $manager->getTree( $manager->find( 'group' )->getId(), ['media', 'text'] );
 
-		$this->assertEquals( 13, count( $this->object->transform( $tree, [] ) ) );
+		$this->assertEquals( 13, map( $this->object->transform( $tree, [] ) )->flat( 1 )->count() );
 	}
 
 
@@ -40,7 +40,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$domains = ['customer/address', 'customer/property'];
 		$item = \Aimeos\MShop::create( \TestHelperCustom::getContext(), 'customer' )->find( 'test@example.com', $domains );
 
-		$this->assertEquals( 2, count( $this->object->transform( $item, [] ) ) );
+		$this->assertEquals( 2, map( $this->object->transform( $item, [] ) )->flat( 1 )->count() );
 	}
 
 
@@ -49,7 +49,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$domains = ['attribute', 'catalog', 'media', 'price', 'product', 'product/property', 'text'];
 		$item = \Aimeos\MShop::create( \TestHelperCustom::getContext(), 'product' )->find( 'CNE', $domains );
 
-		$this->assertGreaterThanOrEqual( 68, count( $this->object->transform( $item, [] ) ) );
+		$this->assertGreaterThanOrEqual( 68, map( $this->object->transform( $item, [] ) )->flat( 1 )->count() );
 	}
 
 
@@ -58,6 +58,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$domains = ['attribute', 'catalog', 'media', 'price', 'product', 'product/property', 'text'];
 		$item = \Aimeos\MShop::create( \TestHelperCustom::getContext(), 'product' )->find( 'CNE', $domains );
 
-		$this->assertEquals( 68, count( $this->object->transform( [$item], [] ) ) );
+		$this->assertEquals( 68, map( $this->object->transform( [$item], [] ) )->flat( 1 )->count() );
 	}
 }

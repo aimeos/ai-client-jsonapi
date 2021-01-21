@@ -184,12 +184,12 @@ $includeFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, 
 {
 	$result = [];
 
-	foreach( $item->getCatalogItems() as $catItem )
+	foreach( $item->getCatalogItems() as $id => $catItem )
 	{
 		if( $catItem->isAvailable() )
 		{
-			$params = ['resource' => 'catalog', 'id' => $catItem->getId()];
-			$entry = ['id' => $catItem->getId(), 'type' => 'catalog'];
+			$params = ['resource' => 'catalog', 'id' => $id];
+			$entry = ['id' => $id, 'type' => 'catalog'];
 			$entry['attributes'] = $catItem->toArray();
 
 			if( isset( $fields['catalog'] ) ) {
@@ -203,17 +203,17 @@ $includeFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, 
 				),
 			);
 
-			$result[] = $entry;
-			$result = array_merge( $result, $this->jincluded( $catItem, $fields ) );
+			$result['catalog'][$id] = $entry;
+			$result = array_replace_recursive( $result, $this->jincluded( $catItem, $fields ) );
 		}
 	}
 
-	foreach( $item->getSupplierItems() as $supItem )
+	foreach( $item->getSupplierItems() as $id => $supItem )
 	{
 		if( $supItem->isAvailable() )
 		{
-			$params = ['resource' => 'supplier', 'id' => $supItem->getId()];
-			$entry = ['id' => $supItem->getId(), 'type' => 'supplier'];
+			$params = ['resource' => 'supplier', 'id' => $id];
+			$entry = ['id' => $id, 'type' => 'supplier'];
 			$entry['attributes'] = $supItem->toArray();
 
 			if( isset( $fields['supplier'] ) ) {
@@ -227,17 +227,17 @@ $includeFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, 
 				),
 			);
 
-			$result[] = $entry;
-			$result = array_merge( $result, $this->jincluded( $supItem, $fields ) );
+			$result['supplier'][$id] = $entry;
+			$result = array_replace_recursive( $result, $this->jincluded( $supItem, $fields ) );
 		}
 	}
 
-	foreach( $item->getStockItems() as $stockItem )
+	foreach( $item->getStockItems() as $id => $stockItem )
 	{
 		if( $stockItem->isAvailable() )
 		{
-			$params = ['resource' => 'stock', 'id' => $stockItem->getId()];
-			$entry = ['id' => $stockItem->getId(), 'type' => 'stock'];
+			$params = ['resource' => 'stock', 'id' => $id];
+			$entry = ['id' => $id, 'type' => 'stock'];
 			$entry['attributes'] = $stockItem->toArray();
 
 			if( isset( $fields['stock'] ) ) {
@@ -251,7 +251,7 @@ $includeFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, 
 				),
 			);
 
-			$result[] = $entry;
+			$result['stock'][$id] = $entry;
 		}
 	}
 
@@ -302,19 +302,19 @@ $includeFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, 
 				foreach( $items as $item )
 				{
 					$data[] = $entryFcn( $item );
-					$included = array_merge( $included, $includeFcn( $item ) );
+					$included = array_replace_recursive( $included, $includeFcn( $item ) );
 				}
 			}
 			else
 			{
 				$data = $entryFcn( $items );
-				$included = array_merge( $included, $includeFcn( $items ) );
+				$included = array_replace_recursive( $included, $includeFcn( $items ) );
 			}
 		?>
 
 		,"data": <?= json_encode( $data, $pretty ); ?>
 
-		,"included": <?= json_encode( array_merge( $this->jincluded( $items, $fields ), $included ), $pretty ); ?>
+		,"included": <?= map( $this->jincluded( $items, $fields ) )->replace( $included )->flat( 1 )->toJson( $pretty ); ?>
 
 	<?php endif; ?>
 

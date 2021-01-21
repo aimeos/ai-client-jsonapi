@@ -142,7 +142,7 @@ $entryFcn = function( \Aimeos\MShop\Attribute\Item\Iface $item ) use ( $fields, 
 
 		,"data": <?= json_encode( $data, $pretty ); ?>
 
-		,"included": <?= json_encode( $included, $pretty ); ?>
+		,"included": <?= map( $included )->flat( 1 )->toJson( $pretty ) ?>
 
 	<?php endif; ?>
 
