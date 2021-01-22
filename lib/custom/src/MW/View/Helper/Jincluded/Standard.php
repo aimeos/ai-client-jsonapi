@@ -75,7 +75,7 @@ class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
 			}
 		}
 
-		if( $item instanceof \Aimeos\MShop\Common\Item\ListRef\Iface )
+		if( $item instanceof \Aimeos\MShop\Common\Item\ListsRef\Iface )
 		{
 			foreach( $item->getListItems() as $listItem )
 			{
@@ -137,7 +137,7 @@ class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
 			}
 		}
 
-		if( $item instanceof \Aimeos\MShop\Common\Item\ListRef\Iface )
+		if( $item instanceof \Aimeos\MShop\Common\Item\ListsRef\Iface )
 		{
 			foreach( $item->getListItems() as $listItem )
 			{
