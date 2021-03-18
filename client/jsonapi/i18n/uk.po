@@ -5,6 +5,7 @@
 # 
 # Translators:
 # Федір Вільгота <fredy31415@gmail.com>, 2019
+# Alex k <akropivko@gmail.com>, 2021
 # 
 #, fuzzy
 msgid ""
@@ -13,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-02 15:52+0100\n"
 "PO-Revision-Date: 2017-02-28 11:36+0000\n"
-"Last-Translator: Федір Вільгота <fredy31415@gmail.com>, 2019\n"
+"Last-Translator: Alex k <akropivko@gmail.com>, 2021\n"
 "Language-Team: Ukrainian (https://www.transifex.com/aimeos/teams/39015/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -337,7 +338,7 @@ msgstr ""
 #: src/Client/JsonApi.php:62 src/Client/JsonApi.php:62
 #, php-format
 msgid "Invalid factory \"%1$s\""
-msgstr ""
+msgstr "Неприпустиме підприємство \"%1$s\""
 
 #: src/Client/JsonApi/Order/Standard.php:207
 #: src/Client/JsonApi/Order/Standard.php:201
@@ -384,7 +385,7 @@ msgstr ""
 #: src/Client/JsonApi/Customer/Review/Standard.php:154
 #, php-format
 msgid "Required parameter \"%1$s\" is missing"
-msgstr ""
+msgstr "Відсутній обов`язковий параметр \"%1$s\""
 
 #: src/Client/JsonApi/Basket/Service/Standard.php:149
 #: src/Client/JsonApi/Basket/Service/Standard.php:143
