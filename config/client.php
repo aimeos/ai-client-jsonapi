@@ -11,6 +11,7 @@ return [
 			'order' => 'order',
 			'product' => 'product',
 			'review' => 'review',
+			'site' => 'site',
 			'service' => 'service',
 			'stock' => 'stock',
 			'supplier' => 'supplier',
