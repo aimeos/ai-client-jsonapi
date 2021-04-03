@@ -119,7 +119,8 @@ class Standard
 		}
 
 		$total = 1;
-		$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'catalog' )->uses( $ref );
+		$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'catalog' )->uses( $ref )
+			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 100 ) );
 
 		if( ( $cond = (array) $view->param( 'filter', [] ) ) === [] ) {
 			$view->items = $cntl->root( $view->param( 'id' ) )->getTree( $level );
