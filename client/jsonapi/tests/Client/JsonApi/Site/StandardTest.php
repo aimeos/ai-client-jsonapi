@@ -92,15 +92,27 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testGetItemNoID()
+	public function testGetItemDeep()
 	{
-		$params = [];
+		$config = $this->context->getConfig()->set( 'client/jsonapi/site/deep', true );
+		$helper = new \Aimeos\MW\View\Helper\Config\Standard( $this->view, $config );
+		$this->view->addHelper( 'config', $helper );
+
+		$siteId = \Aimeos\MShop::create( $this->context, 'locale/site' )->find( 'unittest' )->getId();
+		$params = [
+			'id' => $siteId,
+			'fields' => [
+				'locale/site' => 'locale.site.id,locale.site.label'
+			],
+			'sort' => 'locale.site.id',
+			'include' => 'locale/site'
+		];
+
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
-
 
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
@@ -108,29 +120,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'locale/site', $result['data']['type'] );
-		$this->assertEquals( 'unittest', $result['data']['attributes']['locale.site.code'] );
-		$this->assertEquals( 'Unit test site', $result['data']['attributes']['locale.site.label'] );
-		$this->assertEquals( 0, count( $result['included'] ) );
-
-		$this->assertArrayNotHasKey( 'errors', $result );
-	}
-
-
-	public function testGetItemNoIdDeep()
-	{
-		$config = $this->context->getConfig()->set( 'client/jsonapi/site/deep', true );
-		$helper = new \Aimeos\MW\View\Helper\Config\Standard( $this->view, $config );
-		$this->view->addHelper( 'config', $helper );
-
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, ['include' => 'locale/site'] );
-		$this->view->addHelper( 'param', $helper );
-
-		$response = $this->object->get( $this->view->request(), $this->view->response() );
-		$result = json_decode( (string) $response->getBody(), true );
-
-		$this->assertEquals( 200, $response->getStatusCode() );
-		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertGreaterThanOrEqual( 0, count( $result['included'] ) );
+
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
