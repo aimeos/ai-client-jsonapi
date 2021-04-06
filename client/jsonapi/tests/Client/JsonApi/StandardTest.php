@@ -49,7 +49,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( null, $result['meta']['prefix'] );
-		$this->assertGreaterThan( 8, count( $result['meta']['resources'] ) );
+		$this->assertGreaterThanOrEqual( 12, count( $result['meta']['resources'] ) );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
