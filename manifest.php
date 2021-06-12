@@ -1,24 +1,24 @@
 <?php
 
-return array(
+return [
 	'name' => 'ai-client-jsonapi',
-	'depends' => array(
+	'depends' => [
 		'aimeos-core',
 		'ai-controller-frontend',
-	),
-	'config' => array(
+	],
+	'config' => [
 		'config',
-	),
-	'include' => array(
+	],
+	'include' => [
 		'client/jsonapi/src',
 		'lib/custom/src',
-	),
-	'i18n' => array(
+	],
+	'i18n' => [
 		'client/jsonapi' => 'client/jsonapi/i18n',
-	),
-	'custom' => array(
-		'client/jsonapi/templates' => array(
+	],
+	'template' => [
+		'client/jsonapi/templates' => [
 			'client/jsonapi/templates',
-		),
-	),
-);
+		],
+	],
+];
