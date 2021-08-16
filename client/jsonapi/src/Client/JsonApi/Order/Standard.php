@@ -234,7 +234,7 @@ class Standard
 		if( $services === [] || $total <= '0.00' && $this->isSubscription( $basket->getProducts() ) === false )
 		{
 			$cntl = \Aimeos\Controller\Frontend::create( $context, 'order' );
-			$cntl->save( $orderItem->setPaymentStatus( \Aimeos\MShop\Order\Item\Base::PAY_AUTHORIZED ) );
+			$cntl->save( $orderItem->setStatusPayment( \Aimeos\MShop\Order\Item\Base::PAY_AUTHORIZED ) );
 
 			$url = $this->getUrlConfirm( $view, [], ['absoluteUri' => true, 'namespace' => false] );
 			return new \Aimeos\MShop\Common\Helper\Form\Standard( $url, 'GET' );
