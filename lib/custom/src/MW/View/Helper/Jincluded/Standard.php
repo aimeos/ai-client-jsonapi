@@ -91,6 +91,21 @@ class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
 				$this->map( $propItem, $fields, $fcn );
 			}
 		}
+
+		if( $item instanceof \Aimeos\MShop\Product\Item\Iface )
+		{
+			foreach( $item->getCatalogItems() as $catItem ) {
+				$this->map( $catItem, $fields, $fcn );
+			}
+
+			foreach( $item->getSupplierItems() as $supItem ) {
+				$this->map( $supItem, $fields, $fcn );
+			}
+
+			foreach( $item->getStockItems() as $stockItem ) {
+				$this->map( $stockItem, $fields, $fcn );
+			}
+		}
 	}
 
 
@@ -168,6 +183,42 @@ class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
 					$rtype = $propItem->getResourceType();
 					$entry['relationships'][$rtype]['data'][] = ['id' => $propId, 'type' => $rtype];
 					$this->map( $propItem, $fields, $fcn );
+				}
+			}
+		}
+
+		if( $item instanceof \Aimeos\MShop\Product\Item\Iface )
+		{
+			foreach( $item->getCatalogItems() as $catItem )
+			{
+				if( $catItem->isAvailable() )
+				{
+					$catId = $catItem->getId();
+					$rtype = $catItem->getResourceType();
+					$entry['relationships'][$rtype]['data'][] = ['id' => $catId, 'type' => $rtype];
+					$this->map( $catItem, $fields, $fcn );
+				}
+			}
+
+			foreach( $item->getSupplierItems() as $supItem )
+			{
+				if( $supItem->isAvailable() )
+				{
+					$supId = $supItem->getId();
+					$rtype = $supItem->getResourceType();
+					$entry['relationships'][$rtype]['data'][] = ['id' => $supId, 'type' => $rtype];
+					$this->map( $supItem, $fields, $fcn );
+				}
+			}
+
+			foreach( $item->getStockItems() as $stockItem )
+			{
+				if( $stockItem->isAvailable() )
+				{
+					$stockId = $stockItem->getId();
+					$rtype = $stockItem->getResourceType();
+					$entry['relationships'][$rtype]['data'][] = ['id' => $stockId, 'type' => $rtype];
+					$this->map( $stockItem, $fields, $fcn );
 				}
 			}
 		}
