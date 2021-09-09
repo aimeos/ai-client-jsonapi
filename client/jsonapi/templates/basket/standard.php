@@ -17,7 +17,7 @@ $config = $this->config( 'client/jsonapi/url/config', [] );
 
 
 $basketId = ( isset( $this->item ) && $this->item->getId() ? $this->item->getId() : ( $this->param( 'id' ) ?: 'default' ) );
-$ref = array( 'resource', 'id', 'related', 'relatedid', 'filter', 'page', 'sort', 'include', 'fields' );
+$ref = array( 'resource', 'id', 'filter', 'page', 'sort', 'include', 'fields' ); // no related/relatedid for basket self URL
 $params = array_intersect_key( $this->param(), array_flip( $ref ) );
 
 $pretty = $this->param( 'pretty' ) ? JSON_PRETTY_PRINT : 0;
