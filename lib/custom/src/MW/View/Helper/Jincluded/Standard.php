@@ -146,6 +146,7 @@ class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
 				if( $childItem->isAvailable() )
 				{
 					$rtype = $childItem->getResourceType();
+					$rtype = ( $pos = strrpos( $rtype, '/' ) ) !== false ? substr( $rtype, $pos + 1 ) : $rtype;
 					$entry['relationships'][$rtype]['data'][] = ['id' => $childItem->getId(), 'type' => $rtype];
 					$this->map( $childItem, $fields, $fcn );
 				}
