@@ -148,9 +148,9 @@ $productFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields )
 
 	if( $baseItem )
 	{
-		foreach( $baseItem->getProducts() as $position => $orderProduct )
+		foreach( $baseItem->getProducts() as $orderProduct )
 		{
-			$entry = ['id' => $position, 'type' => 'order/base/product'];
+			$entry = ['id' => $orderProduct->getId(), 'type' => 'order/base/product'];
 			$entry['attributes'] = $orderProduct->toArray();
 
 			if( isset( $fields['order/base/product'] ) ) {
@@ -197,7 +197,7 @@ $serviceFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields )
 		{
 			foreach( $list as $orderService )
 			{
-				$entry = ['id' => $type, 'type' => 'order/base/service'];
+				$entry = ['id' => $orderService->getId(), 'type' => 'order/base/service'];
 				$entry['attributes'] = $orderService->toArray();
 
 				if( isset( $fields['order/base/service'] ) ) {
@@ -234,7 +234,7 @@ $addressFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields )
 		{
 			foreach( $addresses as $address )
 			{
-				$entry = ['id' => $type, 'type' => 'order/base/address'];
+				$entry = ['id' => $address->getId(), 'type' => 'order/base/address'];
 				$entry['attributes'] = $address->toArray();
 
 				if( isset( $fields['order/base/address'] ) ) {
