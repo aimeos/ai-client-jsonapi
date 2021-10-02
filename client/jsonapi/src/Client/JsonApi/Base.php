@@ -172,7 +172,7 @@ abstract class Base implements \Aimeos\Client\JsonApi\Iface
 		$view = $this->getView();
 
 		$view->errors = array( array(
-			'title' => $this->getContext()->getI18n()->dt( 'client/jsonapi', 'Not allowed for this resource' ),
+			'title' => $this->getContext()->translate( 'client/jsonapi', 'Not allowed for this resource' ),
 		) );
 
 		/** client/jsonapi/template-error
@@ -233,7 +233,7 @@ abstract class Base implements \Aimeos\Client\JsonApi\Iface
 		$details = [];
 
 		if( $domain !== null ) {
-			$details['title'] = $this->context->getI18n()->dt( $domain, $e->getMessage() );
+			$details['title'] = $this->context->translate( $domain, $e->getMessage() );
 		} else {
 			$details['title'] = $e->getMessage();
 		}
