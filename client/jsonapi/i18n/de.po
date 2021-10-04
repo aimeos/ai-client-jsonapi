@@ -4,16 +4,15 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Aimeos, 2020
+# Aimeos, 2021
 # 
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: ai-client-jsonapi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-21 11:32+0200\n"
+"POT-Creation-Date: 2021-10-04 18:31+0200\n"
 "PO-Revision-Date: 2017-02-28 11:36+0000\n"
-"Last-Translator: Aimeos, 2020\n"
+"Last-Translator: Aimeos, 2021\n"
 "Language-Team: German (https://www.transifex.com/aimeos/teams/39015/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -353,6 +352,10 @@ msgstr "Kein Warenkorb für \"order.baseid\" (\"%1$s\") gefunden"
 #, php-format
 msgid "No view available"
 msgstr "Es ist kein View vorhanden"
+
+#: src/Client/JsonApi/Base.php:175
+msgid "Not allowed for this resource"
+msgstr "Für diese Resource nicht erlaubt"
 
 #: src/Client/JsonApi/Basket/Product/Standard.php:80
 #: src/Client/JsonApi/Basket/Product/Standard.php:146

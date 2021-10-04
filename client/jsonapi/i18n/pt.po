@@ -7,12 +7,11 @@
 # Aimeos, 2017
 # b5fdd37cec45d8078af7e530465bb050, 2018
 # 
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: ai-client-jsonapi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-21 11:32+0200\n"
+"POT-Creation-Date: 2021-10-04 18:31+0200\n"
 "PO-Revision-Date: 2017-02-28 11:36+0000\n"
 "Last-Translator: b5fdd37cec45d8078af7e530465bb050, 2018\n"
 "Language-Team: Portuguese (https://www.transifex.com/aimeos/teams/39015/pt/)\n"
@@ -354,6 +353,10 @@ msgstr ""
 #, php-format
 msgid "No view available"
 msgstr "Sem visualização disponível"
+
+#: src/Client/JsonApi/Base.php:175
+msgid "Not allowed for this resource"
+msgstr ""
 
 #: src/Client/JsonApi/Basket/Product/Standard.php:80
 #: src/Client/JsonApi/Basket/Product/Standard.php:146

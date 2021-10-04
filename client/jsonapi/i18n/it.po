@@ -9,12 +9,11 @@
 # R M <roberto@proprionoi.it>, 2019
 # isabella carlin <isabella@vg7.it>, 2020
 # 
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: ai-client-jsonapi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-21 11:32+0200\n"
+"POT-Creation-Date: 2021-10-04 18:31+0200\n"
 "PO-Revision-Date: 2017-02-28 11:36+0000\n"
 "Last-Translator: isabella carlin <isabella@vg7.it>, 2020\n"
 "Language-Team: Italian (https://www.transifex.com/aimeos/teams/39015/it/)\n"
@@ -356,6 +355,10 @@ msgstr "Nessun carrello trovato per \"order.baseid\" (\"%1$s\") "
 #, php-format
 msgid "No view available"
 msgstr "Nessuna vista disponibile"
+
+#: src/Client/JsonApi/Base.php:175
+msgid "Not allowed for this resource"
+msgstr ""
 
 #: src/Client/JsonApi/Basket/Product/Standard.php:80
 #: src/Client/JsonApi/Basket/Product/Standard.php:146
