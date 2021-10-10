@@ -93,10 +93,7 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Iface $item ) use ( $fields, $
 
 $custAddrFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item, array $entry ) use ( $target, $cntl, $action, $config )
 {
-	$id = $item->getId();
-	$type = $item->getResourceType();
-
-	$params = ['resource' => 'customer', 'id' => $item->getParentId(), 'related' => $type, 'relatedid' => $id];
+	$params = ['resource' => 'customer', 'id' => $item->getParentId(), 'related' => 'address', 'relatedid' => $item->getId()];
 	$basketParams = ['resource' => 'basket', 'id' => 'default', 'related' => 'address', 'relatedid' => 'payment'];
 
 	$entry['links'] = [
@@ -116,10 +113,7 @@ $custAddrFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item, array 
 
 $custPropFcn = function( \Aimeos\MShop\Common\Item\Property\Iface $item, array $entry ) use ( $target, $cntl, $action, $config )
 {
-	$id = $item->getId();
-	$type = $item->getResourceType();
-
-	$params = ['resource' => 'customer', 'id' => $item->getParentId(), 'related' => $type, 'relatedid' => $id];
+	$params = ['resource' => 'customer', 'id' => $item->getParentId(), 'related' => 'property', 'relatedid' => $item->getId()];
 
 	$entry['links'] = [
 		'self' => [
