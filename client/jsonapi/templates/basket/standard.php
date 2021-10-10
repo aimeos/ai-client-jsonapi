@@ -312,19 +312,19 @@ $customerFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $fiel
 				,
 				"basket/product": {
 					"href": "<?= $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $basketId, 'related' => 'product'], [], $config ); ?>",
-					"allow": ["POST"]
+					"allow": ["DELETE", "POST"]
 				},
 				"basket/service": {
 					"href": "<?= $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $basketId, 'related' => 'service'], [], $config ); ?>",
-					"allow": ["POST"]
+					"allow": ["DELETE", "POST"]
 				},
 				"basket/address": {
 					"href": "<?= $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $basketId, 'related' => 'address'], [], $config ); ?>",
-					"allow": ["POST"]
+					"allow": ["DELETE", "POST"]
 				},
 				"basket/coupon": {
 					"href": "<?= $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $basketId, 'related' => 'coupon'], [], $config ); ?>",
-					"allow": ["POST"]
+					"allow": ["DELETE", "POST"]
 				}
 			<?php else : ?>
 				,
