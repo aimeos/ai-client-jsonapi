@@ -20,8 +20,12 @@ use Psr\Http\Message\ServerRequestInterface;
  * @package Client
  * @subpackage JsonApi
  */
-abstract class Base implements \Aimeos\Client\JsonApi\Iface
+abstract class Base
+	implements \Aimeos\Client\JsonApi\Iface, \Aimeos\MW\Macro\Iface
 {
+	use \Aimeos\MW\Macro\Traits;
+
+
 	private $view;
 	private $context;
 	private $path;
