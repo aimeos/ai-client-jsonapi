@@ -95,7 +95,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetIncluded()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
-		$item = $manager->find( 'unitcode', [], 'service', 'delivery' );
+		$item = $manager->find( 'unitdeliverycode', [], 'service', 'delivery' );
 
 		$params = array(
 			'id' => $item->getId(),

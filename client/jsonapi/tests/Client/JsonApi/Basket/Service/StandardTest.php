@@ -35,7 +35,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testDelete()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
-		$servId = $manager->find( 'unitcode', [], 'service', 'delivery' )->getId();
+		$servId = $manager->find( 'unitdeliverycode', [], 'service', 'delivery' )->getId();
 
 		$body = '{"data": {"type": "basket/service", "id": "delivery", "attributes": {"service.id": ' . $servId . '}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -67,7 +67,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testDeleteById()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
-		$servId = $manager->find( 'unitcode', [], 'service', 'delivery' )->getId();
+		$servId = $manager->find( 'unitdeliverycode', [], 'service', 'delivery' )->getId();
 
 		$body = '{"data": {"type": "basket/service", "id": "delivery", "attributes": {"service.id": ' . $servId . '}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -139,7 +139,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testPost()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
-		$servId = $manager->find( 'unitcode', [], 'service', 'delivery' )->getId();
+		$servId = $manager->find( 'unitdeliverycode', [], 'service', 'delivery' )->getId();
 
 		$body = '{"data": {"type": "basket/service", "id": "delivery", "attributes": {"service.id": ' . $servId . '}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -154,7 +154,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
 		$this->assertEquals( 1, count( $result['data']['relationships']['basket/service']['data'] ) );
-		$this->assertEquals( 'unitcode', $result['included'][0]['attributes']['order.base.service.code'] );
+		$this->assertEquals( 'unitdeliverycode', $result['included'][0]['attributes']['order.base.service.code'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -163,7 +163,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testPostMultiple()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
-		$servId = $manager->find( 'unitcode', [], 'service', 'delivery' )->getId();
+		$servId = $manager->find( 'unitdeliverycode', [], 'service', 'delivery' )->getId();
 		$servId2 = $manager->find( 'unitpaymentcode', [], 'service', 'payment' )->getId();
 
 		$body = '{"data": [{
@@ -184,7 +184,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
 		$this->assertEquals( 2, count( $result['data']['relationships']['basket/service']['data'] ) );
-		$this->assertEquals( 'unitcode', $result['included'][0]['attributes']['order.base.service.code'] );
+		$this->assertEquals( 'unitdeliverycode', $result['included'][0]['attributes']['order.base.service.code'] );
 		$this->assertEquals( 'unitpaymentcode', $result['included'][1]['attributes']['order.base.service.code'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
