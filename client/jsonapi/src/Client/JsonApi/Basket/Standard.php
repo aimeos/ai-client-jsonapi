@@ -48,7 +48,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 */
 	public function delete( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$view = $this->getView();
+		$view = $this->view();
 
 		try
 		{
@@ -89,7 +89,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	public function get( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$allow = false;
-		$view = $this->getView();
+		$view = $this->view();
 		$id = $view->param( 'id', 'default' );
 
 		$include = $view->param( 'include', 'basket/address,basket/coupon,basket/product,basket/service' );
@@ -133,7 +133,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 */
 	public function patch( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$view = $this->getView();
+		$view = $this->view();
 
 		try
 		{
@@ -181,7 +181,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 */
 	public function post( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$view = $this->getView();
+		$view = $this->view();
 
 		try
 		{
@@ -225,7 +225,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 */
 	public function options( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$view = $this->getView();
+		$view = $this->view();
 
 		$view->attributes = [
 			'order.base.comment' => [

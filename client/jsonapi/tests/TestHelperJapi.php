@@ -24,14 +24,14 @@ class TestHelperJapi
 	{
 		if( !isset( self::$context[$site] ) ) {
 			self::$context[$site] = self::createContext( $site );
-			self::$context[$site]->setView( self::getView( self::$context[$site]->getConfig() ) );
+			self::$context[$site]->setView( self::view( self::$context[$site]->getConfig() ) );
 		}
 
 		return clone self::$context[$site];
 	}
 
 
-	public static function getView( \Aimeos\MW\Config\Iface $config )
+	public static function view( \Aimeos\MW\Config\Iface $config )
 	{
 		$view = new \Aimeos\MW\View\Standard( self::getTemplatePaths() );
 

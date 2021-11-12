@@ -208,6 +208,6 @@ class JsonApi extends \Aimeos\Client\JsonApi\Common\Factory\Base
 
 		$client = self::addClientDecorators( $client, $context, $path );
 
-		return $client->setView( $context->getView() );
+		return $client->setView( $context->view() );
 	}
 }

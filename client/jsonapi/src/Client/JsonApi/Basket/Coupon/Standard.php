@@ -50,7 +50,7 @@ class Standard
 	 */
 	public function delete( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$view = $this->getView();
+		$view = $this->view();
 
 		try
 		{
@@ -118,7 +118,7 @@ class Standard
 	 */
 	public function post( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$view = $this->getView();
+		$view = $this->view();
 
 		try
 		{

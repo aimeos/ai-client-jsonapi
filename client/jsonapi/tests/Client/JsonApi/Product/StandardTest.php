@@ -19,7 +19,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function setUp() : void
 	{
 		$this->context = \TestHelperJapi::getContext();
-		$this->view = $this->context->getView();
+		$this->view = $this->context->view();
 
 		$this->object = new \Aimeos\Client\JsonApi\Product\Standard( $this->context, 'product' );
 		$this->object->setView( $this->view );
@@ -28,7 +28,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetView()
 	{
-		$this->assertInstanceOf( \Aimeos\MW\View\Iface::class, $this->object->getView() );
+		$this->assertInstanceOf( \Aimeos\MW\View\Iface::class, $this->object->view() );
 	}
 
 

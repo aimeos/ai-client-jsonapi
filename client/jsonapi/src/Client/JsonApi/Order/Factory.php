@@ -163,7 +163,7 @@ class Factory
 
 		$client = self::addClientDecorators( $client, $context, $path );
 
-		return $client->setView( $context->getView() );
+		return $client->setView( $context->view() );
 	}
 
 }

@@ -33,7 +33,7 @@ class Standard
 	 */
 	public function get( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$view = $this->getView();
+		$view = $this->view();
 		$ref = $view->param( 'include', [] );
 
 		if( is_string( $ref ) ) {
@@ -92,7 +92,7 @@ class Standard
 	 */
 	public function post( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$view = $this->getView();
+		$view = $this->view();
 
 		try
 		{
@@ -149,7 +149,7 @@ class Standard
 	 */
 	public function options( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$view = $this->getView();
+		$view = $this->view();
 
 		$view->attributes = [
 			'order.baseid' => [
@@ -226,7 +226,7 @@ class Standard
 	protected function getPaymentForm( \Aimeos\MShop\Order\Item\Base\Iface $basket,
 		\Aimeos\MShop\Order\Item\Iface $orderItem, array $attributes ) : ?\Aimeos\MShop\Common\Helper\Form\Iface
 	{
-		$view = $this->getView();
+		$view = $this->view();
 		$context = $this->getContext();
 		$total = $basket->getPrice()->getValue() + $basket->getPrice()->getCosts();
 		$services = $basket->getService( \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_PAYMENT );

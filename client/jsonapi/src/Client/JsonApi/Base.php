@@ -140,7 +140,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\MW\View\Iface The view object which generates the admin output
 	 */
-	public function getView() : \Aimeos\MW\View\Iface
+	public function view() : \Aimeos\MW\View\Iface
 	{
 		if( !isset( $this->view ) ) {
 			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'No view available' ) );
@@ -173,7 +173,7 @@ abstract class Base
 	protected function defaultAction( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$status = 403;
-		$view = $this->getView();
+		$view = $this->view();
 
 		$view->errors = array( array(
 			'title' => $this->getContext()->translate( 'client/jsonapi', 'Not allowed for this resource' ),
@@ -299,7 +299,7 @@ abstract class Base
 	 */
 	public function getOptionsResponse( ServerRequestInterface $request, ResponseInterface $response, string $allow ) : \Psr\Http\Message\ResponseInterface
 	{
-		$view = $this->getView();
+		$view = $this->view();
 
 		$tplconf = 'client/jsonapi/template-options';
 		$default = 'options-standard';

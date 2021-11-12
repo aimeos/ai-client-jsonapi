@@ -21,7 +21,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		\Aimeos\Controller\Frontend::cache( true );
 
 		$this->context = \TestHelperJapi::getContext();
-		$this->view = $this->context->getView();
+		$this->view = $this->context->view();
 
 		$this->object = new \Aimeos\Client\JsonApi\Customer\Address\Standard( $this->context, 'customer/address' );
 		$this->object->setView( $this->view );

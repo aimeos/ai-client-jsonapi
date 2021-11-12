@@ -22,7 +22,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		\Aimeos\MShop::cache( true );
 
 		$this->context = \TestHelperJapi::getContext();
-		$this->view = $this->context->getView();
+		$this->view = $this->context->view();
 
 		$this->object = new \Aimeos\Client\JsonApi\Customer\Review\Standard( $this->context, 'customer/review' );
 		$this->object->setView( $this->view );
