@@ -26,12 +26,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testGetView()
-	{
-		$this->assertInstanceOf( \Aimeos\MW\View\Iface::class, $this->object->view() );
-	}
-
-
 	public function testSetView()
 	{
 		$result = $this->object->setView( $this->view );

@@ -140,17 +140,6 @@ abstract class Base
 
 
 	/**
-	 * Returns the view object that will generate the admin output.
-	 *
-	 * @return \Aimeos\MW\View\Iface The view object which generates the admin output
-	 */
-	public function view() : \Aimeos\MW\View\Iface
-	{
-		return $this->client->view();
-	}
-
-
-	/**
 	 * Sets the view object that will generate the admin output.
 	 *
 	 * @param \Aimeos\MW\View\Iface $view The view object which generates the admin output

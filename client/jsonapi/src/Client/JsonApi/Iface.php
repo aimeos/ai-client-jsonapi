@@ -80,4 +80,12 @@ interface Iface
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
 	public function options( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface;
+
+	/**
+	 * Sets the view object that will generate the HTML output.
+	 *
+	 * @param \Aimeos\MW\View\Iface $view The view object which generates the HTML output
+	 * @return \Aimeos\Client\JsonApi\Iface Reference to this object for fluent calls
+	 */
+	public function setView( \Aimeos\MW\View\Iface $view ) : \Aimeos\Client\JsonApi\Iface;
 }

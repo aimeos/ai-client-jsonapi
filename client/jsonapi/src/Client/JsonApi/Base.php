@@ -123,21 +123,6 @@ abstract class Base
 
 
 	/**
-	 * Returns the view object that will generate the admin output.
-	 *
-	 * @return \Aimeos\MW\View\Iface The view object which generates the admin output
-	 */
-	public function view() : \Aimeos\MW\View\Iface
-	{
-		if( !isset( $this->view ) ) {
-			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'No view available' ) );
-		}
-
-		return $this->view;
-	}
-
-
-	/**
 	 * Sets the view object that will generate the admin output.
 	 *
 	 * @param \Aimeos\MW\View\Iface $view The view object which generates the admin output
@@ -298,5 +283,20 @@ abstract class Base
 			->withHeader( 'Content-Type', 'application/vnd.api+json' )
 			->withBody( $view->response()->createStreamFromString( $body ) )
 			->withStatus( 200 );
+	}
+
+
+	/**
+	 * Returns the view object that will generate the admin output.
+	 *
+	 * @return \Aimeos\MW\View\Iface The view object which generates the admin output
+	 */
+	protected function view() : \Aimeos\MW\View\Iface
+	{
+		if( !isset( $this->view ) ) {
+			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'No view available' ) );
+		}
+
+		return $this->view;
 	}
 }
