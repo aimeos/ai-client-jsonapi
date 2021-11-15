@@ -98,7 +98,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetControllerException()
 	{
-		$object = $this->getObject( 'parse', $this->throwException( new \Aimeos\Controller\Frontend\Exception() ) );
+		$object = $this->object( 'parse', $this->throwException( new \Aimeos\Controller\Frontend\Exception() ) );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -110,7 +110,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetMShopException()
 	{
-		$object = $this->getObject( 'parse', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$object = $this->object( 'parse', $this->throwException( new \Aimeos\MShop\Exception() ) );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -122,7 +122,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetException()
 	{
-		$object = $this->getObject( 'parse', $this->throwException( new \Exception() ) );
+		$object = $this->object( 'parse', $this->throwException( new \Exception() ) );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -373,7 +373,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 * @param string $method Order controller method name to mock
 	 * @param mixed $result Return value of the mocked method
 	 */
-	protected function getObject( $method, $result )
+	protected function object( $method, $result )
 	{
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Order\Standard::class )
 			->setConstructorArgs( [$this->context] )

@@ -93,7 +93,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeletePluginException()
 	{
-		$object = $this->getObject( 'setType', $this->throwException( new \Aimeos\MShop\Plugin\Provider\Exception() ) );
+		$object = $this->object( 'setType', $this->throwException( new \Aimeos\MShop\Plugin\Provider\Exception() ) );
 
 		$response = $object->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -106,7 +106,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteMShopException()
 	{
-		$object = $this->getObject( 'setType', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$object = $this->object( 'setType', $this->throwException( new \Aimeos\MShop\Exception() ) );
 
 		$response = $object->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -119,7 +119,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteException()
 	{
-		$object = $this->getObject( 'setType', $this->throwException( new \Exception() ) );
+		$object = $this->object( 'setType', $this->throwException( new \Exception() ) );
 
 		$response = $object->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -181,7 +181,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostPluginException()
 	{
-		$object = $this->getObject( 'setType', $this->throwException( new \Aimeos\MShop\Plugin\Provider\Exception() ) );
+		$object = $this->object( 'setType', $this->throwException( new \Aimeos\MShop\Plugin\Provider\Exception() ) );
 
 		$response = $object->post( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -194,7 +194,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostMShopException()
 	{
-		$object = $this->getObject( 'setType', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$object = $this->object( 'setType', $this->throwException( new \Aimeos\MShop\Exception() ) );
 
 		$response = $object->post( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -207,7 +207,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostException()
 	{
-		$object = $this->getObject( 'setType', $this->throwException( new \Exception() ) );
+		$object = $this->object( 'setType', $this->throwException( new \Exception() ) );
 
 		$response = $object->post( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -241,7 +241,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 * @param string $method Basket controller method name to mock
 	 * @param mixed $result Return value of the mocked method
 	 */
-	protected function getObject( $method, $result )
+	protected function object( $method, $result )
 	{
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )

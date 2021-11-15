@@ -44,7 +44,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->view->addHelper( 'param', $helper );
 
 
-		$object = $this->getObject( 'cancel', $this->returnValue( $item ) );
+		$object = $this->object( 'cancel', $this->returnValue( $item ) );
 
 		$response = $object->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -62,7 +62,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testCancelControllerException()
 	{
-		$object = $this->getObject( 'cancel', $this->throwException( new \Aimeos\Controller\Frontend\Exception() ) );
+		$object = $this->object( 'cancel', $this->throwException( new \Aimeos\Controller\Frontend\Exception() ) );
 
 		$response = $object->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -74,7 +74,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testCancelMShopException()
 	{
-		$object = $this->getObject( 'cancel', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$object = $this->object( 'cancel', $this->throwException( new \Aimeos\MShop\Exception() ) );
 
 		$response = $object->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -86,7 +86,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testCancelException()
 	{
-		$object = $this->getObject( 'cancel', $this->throwException( new \Exception() ) );
+		$object = $this->object( 'cancel', $this->throwException( new \Exception() ) );
 
 		$response = $object->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -143,7 +143,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetControllerException()
 	{
-		$object = $this->getObject( 'search', $this->throwException( new \Aimeos\Controller\Frontend\Exception() ) );
+		$object = $this->object( 'search', $this->throwException( new \Aimeos\Controller\Frontend\Exception() ) );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -155,7 +155,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetMShopException()
 	{
-		$object = $this->getObject( 'search', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$object = $this->object( 'search', $this->throwException( new \Aimeos\MShop\Exception() ) );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -167,7 +167,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetException()
 	{
-		$object = $this->getObject( 'search', $this->throwException( new \Exception() ) );
+		$object = $this->object( 'search', $this->throwException( new \Exception() ) );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -200,7 +200,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 * @param string $method Subscription controller method name to mock
 	 * @param mixed $result Return value of the mocked method
 	 */
-	protected function getObject( $method, $result )
+	protected function object( $method, $result )
 	{
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Subscription\Standard::class )
 			->setConstructorArgs( [$this->context] )

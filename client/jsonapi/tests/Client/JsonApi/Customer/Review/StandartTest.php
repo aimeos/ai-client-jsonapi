@@ -96,7 +96,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteControllerException()
 	{
-		$mock = $this->getObject( 'getBody', $this->throwException( new \Aimeos\Controller\Frontend\Review\Exception() ) );
+		$mock = $this->object( 'getBody', $this->throwException( new \Aimeos\Controller\Frontend\Review\Exception() ) );
 		$response = $this->object->delete( $mock, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
@@ -108,7 +108,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteMShopException()
 	{
-		$mock = $this->getObject( 'getBody', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$mock = $this->object( 'getBody', $this->throwException( new \Aimeos\MShop\Exception() ) );
 		$response = $this->object->delete( $mock, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
@@ -120,7 +120,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteException()
 	{
-		$mock = $this->getObject( 'getBody', $this->throwException( new \Exception() ) );
+		$mock = $this->object( 'getBody', $this->throwException( new \Exception() ) );
 		$response = $this->object->delete( $mock, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
@@ -321,7 +321,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatchControllerException()
 	{
-		$mock = $this->getObject( 'getBody', $this->throwException( new \Aimeos\Controller\Frontend\Review\Exception() ) );
+		$mock = $this->object( 'getBody', $this->throwException( new \Aimeos\Controller\Frontend\Review\Exception() ) );
 		$response = $this->object->patch( $mock, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
@@ -332,7 +332,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatchMShopException()
 	{
-		$mock = $this->getObject( 'getBody', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$mock = $this->object( 'getBody', $this->throwException( new \Aimeos\MShop\Exception() ) );
 		$response = $this->object->patch( $mock, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
@@ -343,7 +343,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatchException()
 	{
-		$mock = $this->getObject( 'getBody', $this->throwException( new \Exception() ) );
+		$mock = $this->object( 'getBody', $this->throwException( new \Exception() ) );
 		$response = $this->object->patch( $mock, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
@@ -442,7 +442,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostControllerException()
 	{
-		$mock = $this->getObject( 'getBody', $this->throwException( new \Aimeos\Controller\Frontend\Review\Exception() ) );
+		$mock = $this->object( 'getBody', $this->throwException( new \Aimeos\Controller\Frontend\Review\Exception() ) );
 		$response = $this->object->post( $mock, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
@@ -453,7 +453,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostMShopException()
 	{
-		$mock = $this->getObject( 'getBody', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$mock = $this->object( 'getBody', $this->throwException( new \Aimeos\MShop\Exception() ) );
 		$response = $this->object->post( $mock, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
@@ -464,7 +464,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostException()
 	{
-		$mock = $this->getObject( 'getBody', $this->throwException( new \Exception() ) );
+		$mock = $this->object( 'getBody', $this->throwException( new \Exception() ) );
 		$response = $this->object->post( $mock, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
@@ -496,7 +496,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 * @param string $method Review manager method name to mock
 	 * @param mixed $result Return value of the mocked method
 	 */
-	protected function getObject( $method, $result )
+	protected function object( $method, $result )
 	{
 		$object = $this->getMockForAbstractClass( \Psr\Http\Message\ServerRequestInterface::class );
 		$object->expects( $this->once() )->method( $method )->will( $result );

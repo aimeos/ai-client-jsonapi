@@ -125,7 +125,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetMShopException()
 	{
-		$object = $this->getObject( 'getProvider', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$object = $this->object( 'getProvider', $this->throwException( new \Aimeos\MShop\Exception() ) );
 
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, ['id' => -1] );
 		$this->view->addHelper( 'param', $helper );
@@ -141,7 +141,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetException()
 	{
-		$object = $this->getObject( 'getProvider', $this->throwException( new \Exception() ) );
+		$object = $this->object( 'getProvider', $this->throwException( new \Exception() ) );
 
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, ['id' => -1] );
 		$this->view->addHelper( 'param', $helper );
@@ -178,7 +178,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 * @param string $method Service controller method name to mock
 	 * @param mixed $result Return value of the mocked method
 	 */
-	protected function getObject( $method, $result )
+	protected function object( $method, $result )
 	{
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Service\Standard::class )
 			->setConstructorArgs( [$this->context] )

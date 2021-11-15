@@ -40,7 +40,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$id = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
 		$this->context->setUserId( $id );
 
-		$this->getObject( 'delete', $this->returnSelf() );
+		$this->object( 'delete', $this->returnSelf() );
 
 		$response = $this->object->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -57,7 +57,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteControllerException()
 	{
-		$object = $this->getObject( 'delete', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
+		$object = $this->object( 'delete', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
 
 		$response = $object->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -69,7 +69,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteMShopException()
 	{
-		$object = $this->getObject( 'delete', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$object = $this->object( 'delete', $this->throwException( new \Aimeos\MShop\Exception() ) );
 
 		$response = $object->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -81,7 +81,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteException()
 	{
-		$object = $this->getObject( 'delete', $this->throwException( new \Exception() ) );
+		$object = $this->object( 'delete', $this->throwException( new \Exception() ) );
 
 		$response = $object->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -189,7 +189,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetControllerException()
 	{
-		$object = $this->getObject( 'get', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
+		$object = $this->object( 'get', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -202,7 +202,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetMShopException()
 	{
-		$object = $this->getObject( 'get', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$object = $this->object( 'get', $this->throwException( new \Aimeos\MShop\Exception() ) );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -215,7 +215,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetException()
 	{
-		$object = $this->getObject( 'get', $this->throwException( new \Exception() ) );
+		$object = $this->object( 'get', $this->throwException( new \Exception() ) );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -231,7 +231,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$id = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
 		$this->context->setUserId( $id );
 
-		$this->getObject( 'store', $this->returnSelf() );
+		$this->object( 'store', $this->returnSelf() );
 
 		$body = '{"data": {"attributes": {"customer.status": 0,"customer.latitude": 50.1}}}	';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -258,7 +258,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatchControllerException()
 	{
-		$object = $this->getObject( 'store', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
+		$object = $this->object( 'store', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
 
 		$body = '{"data": {"attributes": []}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -274,7 +274,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatchMShopException()
 	{
-		$object = $this->getObject( 'store', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$object = $this->object( 'store', $this->throwException( new \Aimeos\MShop\Exception() ) );
 
 		$body = '{"data": {"attributes": []}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -290,7 +290,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatchException()
 	{
-		$object = $this->getObject( 'store', $this->throwException( new \Exception() ) );
+		$object = $this->object( 'store', $this->throwException( new \Exception() ) );
 
 		$body = '{"data": {"attributes": []}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -310,7 +310,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 
-		$object = $this->getObject( 'store', $this->returnSelf() );
+		$object = $this->object( 'store', $this->returnSelf() );
 		$response = $object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
@@ -329,7 +329,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostControllerException()
 	{
-		$object = $this->getObject( 'store', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
+		$object = $this->object( 'store', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
 
 		$body = '{"data": {"attributes": {}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -345,7 +345,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostMShopException()
 	{
-		$object = $this->getObject( 'store', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$object = $this->object( 'store', $this->throwException( new \Aimeos\MShop\Exception() ) );
 
 		$body = '{"data": {"attributes": {}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
@@ -392,7 +392,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 * @param string $method Customer controller method name to mock
 	 * @param mixed $result Return value of the mocked method
 	 */
-	protected function getObject( $method, $result )
+	protected function object( $method, $result )
 	{
 		$id = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
 		$this->context->setUserId( $id );
