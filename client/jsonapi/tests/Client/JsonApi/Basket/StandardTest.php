@@ -475,7 +475,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Returns a test object with a mocked basket controller
 	 *
-	 * @param string $method Basket controller method name to mock
+	 * @param array|string $method Basket controller method name to mock
 	 * @param mixed $result Return value of the mocked method
 	 */
 	protected function object( $method, $result )
