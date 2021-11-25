@@ -38,7 +38,7 @@ class Standard
 		try
 		{
 			$body = (string) $request->getBody();
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
 			$items = $cntl->uses( ['customer/property'] )->get()->getPropertyItems();
 
 			if( ( $relId = $view->param( 'relatedid' ) ) === null )
@@ -106,7 +106,7 @@ class Standard
 
 		try
 		{
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
 			$items = $cntl->uses( ['customer/property'] )->get()->getPropertyItems();
 
 			if( ( $relId = $view->param( 'relatedid' ) ) == null )
@@ -165,7 +165,7 @@ class Standard
 			$view->total = 0;
 			$relId = $view->param( 'relatedid' );
 
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
 			$items = $cntl->uses( ['customer/property'] )->get()->getPropertyItems();
 
 			if( ( $item = $items->get( $relId ) ) !== null )
@@ -222,7 +222,7 @@ class Standard
 				$payload->data = [$payload->data];
 			}
 
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' )->uses( ['customer/property'] );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' )->uses( ['customer/property'] );
 
 			foreach( $payload->data as $entry )
 			{

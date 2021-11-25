@@ -137,7 +137,7 @@ class Standard
 	 */
 	protected function getItem( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$view->items = \Aimeos\Controller\Frontend::create( $this->getContext(), 'stock' )->get( $view->param( 'id' ) );
+		$view->items = \Aimeos\Controller\Frontend::create( $this->context(), 'stock' )->get( $view->param( 'id' ) );
 		$view->total = 1;
 
 		return $response;
@@ -160,7 +160,7 @@ class Standard
 
 		if( isset( $params['s_prodcode'] ) ) // backwards compatibility
 		{
-			$manager = \Aimeos\MShop::create( $this->getContext(), 'product' );
+			$manager = \Aimeos\MShop::create( $this->context(), 'product' );
 			$filter = $manager->filter()
 				->slice( 0, count( (array) $params['s_prodcode'] ) )
 				->add( ['product.code' => $view->param( 'filter/s_prodcode' )] );
@@ -170,7 +170,7 @@ class Standard
 
 		unset( $params['s_prodid'], $params['s_prodcode'], $params['s_typecode'] );
 
-		$items = \Aimeos\Controller\Frontend::create( $this->getContext(), 'stock' )
+		$items = \Aimeos\Controller\Frontend::create( $this->context(), 'stock' )
 			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 100 ) )
 			->product( $prodIds )->type( $view->param( 'filter/s_typecode' ) )
 			->sort( $view->param( 'sort' ) )->parse( $params )

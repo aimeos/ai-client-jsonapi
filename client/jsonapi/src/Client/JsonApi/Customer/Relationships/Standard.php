@@ -41,7 +41,7 @@ class Standard
 			$relId = $view->param( 'relatedid' );
 			$ref = ( $inc = $view->param( 'include' ) ) ? explode( ',', $inc ) : [];
 
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
 			$items = $cntl->uses( $ref )->get()->getListItems( $ref );
 
 			if( $relId == null )
@@ -112,7 +112,7 @@ class Standard
 			$relId = $view->param( 'relatedid' );
 			$ref = ( $inc = $view->param( 'include' ) ) ? explode( ',', $inc ) : [];
 
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
 			$items = $cntl->uses( $ref )->get()->getListItems( $ref );
 
 			if( $relId === null )
@@ -172,7 +172,7 @@ class Standard
 			$relId = $view->param( 'relatedid' );
 			$ref = ( $inc = $view->param( 'include' ) ) ? explode( ',', $inc ) : [];
 
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
 			$items = $cntl->uses( $ref )->get()->getListItems( $ref );
 
 			if( isset( $items[$relId] ) )
@@ -221,7 +221,7 @@ class Standard
 		{
 			$body = (string) $request->getBody();
 			$ref = ( $inc = $view->param( 'include' ) ) ? explode( ',', $inc ) : [];
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' )->uses( $ref );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' )->uses( $ref );
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
 				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );

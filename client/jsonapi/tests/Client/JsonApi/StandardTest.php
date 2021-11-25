@@ -18,7 +18,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp() : void
 	{
-		$this->context = \TestHelperJapi::getContext();
+		$this->context = \TestHelperJapi::context();
 		$this->view = $this->context->view();
 
 		$this->object = new \Aimeos\Client\JsonApi\Standard( $this->context, '' );
@@ -58,10 +58,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$object = $this->getMockBuilder( \Aimeos\Client\JsonApi\Standard::class )
 			->setConstructorArgs( [$this->context, ''] )
-			->setMethods( ['getContext'] )
+			->setMethods( ['context'] )
 			->getMock();
 
-		$object->expects( $this->once() )->method( 'getContext' )
+		$object->expects( $this->once() )->method( 'context' )
 			->will( $this->throwException( new \Exception() ) );
 
 

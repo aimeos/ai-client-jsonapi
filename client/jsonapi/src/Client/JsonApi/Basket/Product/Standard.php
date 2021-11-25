@@ -37,7 +37,7 @@ class Standard
 	{
 		parent::__construct( $context, $path );
 
-		$this->controller = \Aimeos\Controller\Frontend\Basket\Factory::create( $this->getContext() );
+		$this->controller = \Aimeos\Controller\Frontend\Basket\Factory::create( $this->context() );
 	}
 
 
@@ -207,7 +207,7 @@ class Standard
 				}
 			}
 
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'product' )
+			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'product' )
 				->uses( ['attribute', 'media', 'price', 'product', 'text'] );
 
 			foreach( $payload->data as $entry )

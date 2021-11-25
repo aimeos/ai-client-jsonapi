@@ -111,7 +111,7 @@ class Standard
 	 */
 	protected function getItem( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$view->items = \Aimeos\Controller\Frontend::create( $this->getContext(), 'locale' )->get( $view->param( 'id' ) );
+		$view->items = \Aimeos\Controller\Frontend::create( $this->context(), 'locale' )->get( $view->param( 'id' ) );
 		$view->total = 1;
 
 		return $response;
@@ -130,7 +130,7 @@ class Standard
 	{
 		$total = 0;
 
-		$view->items = \Aimeos\Controller\Frontend::create( $this->getContext(), 'locale' )
+		$view->items = \Aimeos\Controller\Frontend::create( $this->context(), 'locale' )
 			->sort( $view->param( 'sort', 'position' ) )->parse( $view->param( 'filter', [] ) )
 			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 25 ) )
 			->search( $total );

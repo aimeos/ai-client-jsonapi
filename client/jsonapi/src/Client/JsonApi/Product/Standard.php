@@ -217,7 +217,7 @@ class Standard
 	 */
 	protected function getController( \Aimeos\MW\View\Iface $view )
 	{
-		$context = $this->getContext();
+		$context = $this->context();
 		$cntl = \Aimeos\Controller\Frontend::create( $context, 'product' )->sort( $view->param( 'sort', 'relevance' ) );
 
 		/** client/jsonapi/product/levels
@@ -285,7 +285,7 @@ class Standard
 			$ref = explode( ',', $ref );
 		}
 
-		$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'product' );
+		$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'product' );
 
 		$view->items = $cntl->uses( $ref )->get( $view->param( 'id' ) );
 		$view->total = 1;

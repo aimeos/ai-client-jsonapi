@@ -117,7 +117,7 @@ class Standard
 			$ref = explode( ',', $ref );
 		}
 
-		$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'attribute' );
+		$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'attribute' );
 
 		$view->items = $cntl->uses( $ref )->get( $view->param( 'id' ) );
 		$view->total = 1;
@@ -154,7 +154,7 @@ class Standard
 		 * @since 2017.03
 		 * @category Developer
 		 */
-		$attrTypes = $this->getContext()->getConfig()->get( 'client/jsonapi/attribute/types', [] );
+		$attrTypes = $this->context()->getConfig()->get( 'client/jsonapi/attribute/types', [] );
 
 		$total = 0;
 		$attrMap = [];
@@ -165,7 +165,7 @@ class Standard
 			$ref = explode( ',', $ref );
 		}
 
-		$items = \Aimeos\Controller\Frontend::create( $this->getContext(), 'attribute' )
+		$items = \Aimeos\Controller\Frontend::create( $this->context(), 'attribute' )
 			->uses( $ref )->sort( $view->param( 'sort', 'position' ) )->type( $attrTypes )
 			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 25 ) )
 			->parse( (array) $view->param( 'filter', [] ) )

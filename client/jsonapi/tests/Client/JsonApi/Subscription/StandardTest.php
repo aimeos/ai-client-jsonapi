@@ -18,7 +18,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp() : void
 	{
-		$this->context = \TestHelperJapi::getContext();
+		$this->context = \TestHelperJapi::context();
 		$this->view = $this->context->view();
 
 		$user = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );

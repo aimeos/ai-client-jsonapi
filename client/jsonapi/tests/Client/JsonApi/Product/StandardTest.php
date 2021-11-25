@@ -18,7 +18,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp() : void
 	{
-		$this->context = \TestHelperJapi::getContext();
+		$this->context = \TestHelperJapi::context();
 		$this->view = $this->context->view();
 
 		$this->object = new \Aimeos\Client\JsonApi\Product\Standard( $this->context, 'product' );

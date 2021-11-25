@@ -13,7 +13,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 {
 	public function testCreateClient()
 	{
-		$context = \TestHelperJapi::getContext();
+		$context = \TestHelperJapi::context();
 
 		$client = \Aimeos\Client\JsonApi\Basket\Service\Factory::create( $context, 'basket/service' );
 		$this->assertInstanceOf( \Aimeos\Client\JsonApi\Iface::class, $client );
@@ -22,7 +22,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 
 	public function testCreateClientEmpty()
 	{
-		$context = \TestHelperJapi::getContext();
+		$context = \TestHelperJapi::context();
 
 		$this->expectException( \Aimeos\Client\JsonApi\Exception::class );
 		\Aimeos\Client\JsonApi\Basket\Service\Factory::create( $context, '' );
@@ -31,7 +31,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 
 	public function testCreateClientInvalidPath()
 	{
-		$context = \TestHelperJapi::getContext();
+		$context = \TestHelperJapi::context();
 
 		$this->expectException( \Aimeos\Client\JsonApi\Exception::class );
 		\Aimeos\Client\JsonApi\Basket\Service\Factory::create( $context, '%^' );
@@ -40,7 +40,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 
 	public function testCreateClientInvalidName()
 	{
-		$context = \TestHelperJapi::getContext();
+		$context = \TestHelperJapi::context();
 
 		$this->expectException( \Aimeos\Client\JsonApi\Exception::class );
 		\Aimeos\Client\JsonApi\Basket\Service\Factory::create( $context, 'basket/service', '%^' );

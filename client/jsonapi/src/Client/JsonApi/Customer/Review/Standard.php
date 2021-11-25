@@ -34,7 +34,7 @@ class Standard
 	public function delete( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view = $this->view();
-		$context = $this->getContext();
+		$context = $this->context();
 
 		try
 		{
@@ -90,7 +90,7 @@ class Standard
 	public function get( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view = $this->view();
-		$context = $this->getContext();
+		$context = $this->context();
 
 		try
 		{
@@ -140,7 +140,7 @@ class Standard
 	public function patch( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view = $this->view();
-		$context = $this->getContext();
+		$context = $this->context();
 
 		try
 		{
@@ -191,7 +191,7 @@ class Standard
 	public function post( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view = $this->view();
-		$context = $this->getContext();
+		$context = $this->context();
 
 		try
 		{
@@ -320,7 +320,7 @@ class Standard
 		$tplconf = 'client/jsonapi/customer/review/template';
 		$default = 'customer/review/standard';
 
-		$view->customerid = $this->getContext()->getUserId();
+		$view->customerid = $this->context()->getUserId();
 		$body = $view->render( $view->config( $tplconf, $default ) );
 
 		return $response->withHeader( 'Allow', 'DELETE,GET,OPTIONS,PATCH,POST' )

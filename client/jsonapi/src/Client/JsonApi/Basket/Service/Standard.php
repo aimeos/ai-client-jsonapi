@@ -37,7 +37,7 @@ class Standard
 	{
 		parent::__construct( $context, $path );
 
-		$this->controller = \Aimeos\Controller\Frontend\Basket\Factory::create( $this->getContext() );
+		$this->controller = \Aimeos\Controller\Frontend\Basket\Factory::create( $this->context() );
 	}
 
 
@@ -135,7 +135,7 @@ class Standard
 				$payload->data = [$payload->data];
 			}
 
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'service' );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'service' );
 
 			foreach( $payload->data as $entry )
 			{

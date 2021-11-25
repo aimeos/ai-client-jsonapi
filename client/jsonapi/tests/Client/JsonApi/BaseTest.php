@@ -18,7 +18,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp() : void
 	{
-		$this->context = \TestHelperJapi::getContext();
+		$this->context = \TestHelperJapi::context();
 		$this->view = $this->context->view();
 
 		$this->object = $this->getMockBuilder( \Aimeos\Client\JsonApi\Base::class )
@@ -97,7 +97,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetContext()
 	{
-		$result = $this->access( 'getContext' )->invokeArgs( $this->object, [] );
+		$result = $this->access( 'context' )->invokeArgs( $this->object, [] );
 		$this->assertInstanceOf( \Aimeos\MShop\Context\Item\Iface::class, $result );
 	}
 

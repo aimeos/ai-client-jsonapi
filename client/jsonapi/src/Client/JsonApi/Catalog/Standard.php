@@ -140,7 +140,7 @@ class Standard
 		}
 
 		$total = 1;
-		$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'catalog' )->uses( $ref )
+		$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'catalog' )->uses( $ref )
 			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 100 ) );
 
 		if( ( $cond = (array) $view->param( 'filter', [] ) ) === [] ) {

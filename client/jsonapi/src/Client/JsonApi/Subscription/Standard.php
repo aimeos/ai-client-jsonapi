@@ -37,7 +37,7 @@ class Standard
 
 		try
 		{
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'subscription' );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'subscription' );
 
 			$view->items = $cntl->cancel( $view->param( 'id', '' ) );
 			$view->total = 1;
@@ -77,7 +77,7 @@ class Standard
 
 		try
 		{
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'subscription' );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'subscription' );
 
 			if( ( $id = $view->param( 'id' ) ) != '' )
 			{

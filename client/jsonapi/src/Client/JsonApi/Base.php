@@ -148,7 +148,7 @@ abstract class Base
 		$view = $this->view();
 
 		$view->errors = array( array(
-			'title' => $this->getContext()->translate( 'client/jsonapi', 'Not allowed for this resource' ),
+			'title' => $this->context()->translate( 'client/jsonapi', 'Not allowed for this resource' ),
 		) );
 
 		/** client/jsonapi/template-error
@@ -191,7 +191,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\MShop\Context\Item\Iface Context object
 	 */
-	protected function getContext() : \Aimeos\MShop\Context\Item\Iface
+	protected function context() : \Aimeos\MShop\Context\Item\Iface
 	{
 		return $this->context;
 	}

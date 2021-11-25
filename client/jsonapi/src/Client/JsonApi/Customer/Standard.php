@@ -37,7 +37,7 @@ class Standard
 
 		try
 		{
-			\Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' )->uses( [] )->delete();
+			\Aimeos\Controller\Frontend::create( $this->context(), 'customer' )->uses( [] )->delete();
 			$status = 200;
 		}
 		catch( \Aimeos\Controller\Frontend\Customer\Exception $e )
@@ -75,7 +75,7 @@ class Standard
 		{
 			$ref = ( $inc = $view->param( 'include' ) ) ? explode( ',', $inc ) : [];
 
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
 			$view->item = $cntl->uses( $ref )->get();
 			$status = 200;
 		}
@@ -119,7 +119,7 @@ class Standard
 				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
 			}
 
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' )->uses( $ref );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' )->uses( $ref );
 			$view->item = $cntl->add( (array) $payload->data->attributes )->store()->get();
 			$status = 200;
 		}
@@ -162,7 +162,7 @@ class Standard
 				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
 			}
 
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' )->uses( [] );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' )->uses( [] );
 			$view->item = $cntl->add( (array) $payload->data->attributes )->store()->get();
 			$view->nodata = true; // only expose customer ID to attackers
 			$status = 201;

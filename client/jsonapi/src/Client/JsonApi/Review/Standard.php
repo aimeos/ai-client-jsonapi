@@ -140,7 +140,7 @@ class Standard
 	 */
 	protected function getController( \Aimeos\MW\View\Iface $view )
 	{
-		$context = $this->getContext();
+		$context = $this->context();
 		$cntl = \Aimeos\Controller\Frontend::create( $context, 'review' );
 
 		$cntl->for( $view->param( 'filter/f_domain', 'product' ), $view->param( 'filter/f_refid' ) );
@@ -163,7 +163,7 @@ class Standard
 	 */
 	protected function getItem( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'review' );
+		$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'review' );
 
 		$view->items = $cntl->get( $view->param( 'id' ) );
 		$view->total = 1;

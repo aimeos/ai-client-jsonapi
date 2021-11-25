@@ -24,7 +24,7 @@ class Base extends \Aimeos\Client\JsonApi\Base
 	 */
 	protected function clearCache()
 	{
-		$session = $this->getContext()->getSession();
+		$session = $this->context()->getSession();
 
 		foreach( $session->get( 'aimeos/basket/cache', [] ) as $key => $value ) {
 			$session->set( $key, null );
@@ -41,7 +41,7 @@ class Base extends \Aimeos\Client\JsonApi\Base
 	protected function translatePluginErrorCodes( array $codes ) : array
 	{
 		$errors = [];
-		$i18n = $this->getContext()->getI18n();
+		$i18n = $this->context()->getI18n();
 
 		foreach( $codes as $scope => $list )
 		{

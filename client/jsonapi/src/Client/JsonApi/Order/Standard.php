@@ -42,7 +42,7 @@ class Standard
 
 		try
 		{
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'order' )->uses( $ref );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'order' )->uses( $ref );
 
 			if( ( $id = $view->param( 'id' ) ) != '' )
 			{
@@ -179,7 +179,7 @@ class Standard
 	 */
 	protected function createOrder( string $baseId ) : \Aimeos\MShop\Order\Item\Iface
 	{
-		$context = $this->getContext();
+		$context = $this->context();
 		$cntl = \Aimeos\Controller\Frontend::create( $context, 'order' );
 		$item = $cntl->add( $baseId, ['order.type' => 'jsonapi'] )->store();
 
@@ -198,7 +198,7 @@ class Standard
 	 */
 	protected function getBasket( string $basketId ) : \Aimeos\MShop\Order\Item\Base\Iface
 	{
-		$context = $this->getContext();
+		$context = $this->context();
 		$baseId = $context->getSession()->get( 'aimeos/order.baseid' );
 
 		if( $baseId != $basketId )
@@ -227,7 +227,7 @@ class Standard
 		\Aimeos\MShop\Order\Item\Iface $orderItem, array $attributes ) : ?\Aimeos\MShop\Common\Helper\Form\Iface
 	{
 		$view = $this->view();
-		$context = $this->getContext();
+		$context = $this->context();
 		$total = $basket->getPrice()->getValue() + $basket->getPrice()->getCosts();
 		$services = $basket->getService( \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_PAYMENT );
 

@@ -35,7 +35,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	{
 		parent::__construct( $context, $path );
 
-		$this->controller = \Aimeos\Controller\Frontend\Basket\Factory::create( $this->getContext() );
+		$this->controller = \Aimeos\Controller\Frontend\Basket\Factory::create( $this->context() );
 	}
 
 
@@ -190,7 +190,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 			$this->clearCache();
 
 			$item = $this->controller->store();
-			$this->getContext()->getSession()->set( 'aimeos/order.baseid', $item->getId() );
+			$this->context()->getSession()->set( 'aimeos/order.baseid', $item->getId() );
 
 			$view->item = $item;
 			$status = 200;

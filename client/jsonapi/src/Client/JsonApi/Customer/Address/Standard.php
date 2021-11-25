@@ -38,7 +38,7 @@ class Standard
 		try
 		{
 			$body = (string) $request->getBody();
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
 			$items = $cntl->uses( ['customer/address'] )->get()->getAddressItems();
 
 			if( ( $relId = $view->param( 'relatedid' ) ) === null )
@@ -106,7 +106,7 @@ class Standard
 
 		try
 		{
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
 			$item = $cntl->uses( ['customer/address'] )->get();
 
 			if( ( $relId = $view->param( 'relatedid' ) ) == null )
@@ -164,7 +164,7 @@ class Standard
 			$status = 404;
 			$view->total = 0;
 			$id = $view->param( 'relatedid' );
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
 
 			if( ( $item = $cntl->uses( ['customer/address'] )->get()->getAddressItem( $id ) ) !== null )
 			{
@@ -220,7 +220,7 @@ class Standard
 				$payload->data = [$payload->data];
 			}
 
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'customer' )->uses( ['customer/address'] );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' )->uses( ['customer/address'] );
 
 			foreach( $payload->data as $entry )
 			{
