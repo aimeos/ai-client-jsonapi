@@ -227,7 +227,7 @@ abstract class Base
 		 * @since 2017.07
 		 * @category Developer
 		 */
-		if( $this->context->getConfig()->get( 'client/jsonapi/debug', false ) == true ) {
+		if( $this->context->config()->get( 'client/jsonapi/debug', false ) == true ) {
 			$details['detail'] = $e->getTraceAsString();
 		}
 

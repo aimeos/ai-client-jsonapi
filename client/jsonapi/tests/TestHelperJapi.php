@@ -24,7 +24,7 @@ class TestHelperJapi
 	{
 		if( !isset( self::$context[$site] ) ) {
 			self::$context[$site] = self::createContext( $site );
-			self::$context[$site]->setView( self::view( self::$context[$site]->getConfig() ) );
+			self::$context[$site]->setView( self::view( self::$context[$site]->config() ) );
 		}
 
 		return clone self::$context[$site];

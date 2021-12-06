@@ -116,7 +116,7 @@ class JsonApi extends \Aimeos\Client\JsonApi\Common\Factory\Base
 		 * @category Developer
 		 */
 		if( $name === null ) {
-			$name = $context->getConfig()->get( 'client/jsonapi/name', 'Standard' );
+			$name = $context->config()->get( 'client/jsonapi/name', 'Standard' );
 		}
 
 		$iface = '\\Aimeos\\Client\\JsonApi\\Iface';

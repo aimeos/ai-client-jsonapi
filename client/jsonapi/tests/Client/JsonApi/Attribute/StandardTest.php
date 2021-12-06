@@ -96,7 +96,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetItems()
 	{
-		$this->context->getConfig()->set( 'client/jsonapi/attribute/types', ['size', 'length', 'width'] );
+		$this->context->config()->set( 'client/jsonapi/attribute/types', ['size', 'length', 'width'] );
 
 		$params = array(
 			'fields' => array(

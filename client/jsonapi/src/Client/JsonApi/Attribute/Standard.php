@@ -154,7 +154,7 @@ class Standard
 		 * @since 2017.03
 		 * @category Developer
 		 */
-		$attrTypes = $this->context()->getConfig()->get( 'client/jsonapi/attribute/types', [] );
+		$attrTypes = $this->context()->config()->get( 'client/jsonapi/attribute/types', [] );
 
 		$total = 0;
 		$attrMap = [];

@@ -97,7 +97,7 @@ class Standard
 			 * @since 2017.03
 			 * @category Developer
 			 */
-			$resources = $this->context()->getConfig()->get( 'client/jsonapi/resources', [] );
+			$resources = $this->context()->config()->get( 'client/jsonapi/resources', [] );
 
 			$view->locale = $this->context()->getLocale()->toArray();
 			$view->resources = (array) $resources;

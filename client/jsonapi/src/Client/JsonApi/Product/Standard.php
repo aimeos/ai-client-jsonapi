@@ -246,7 +246,7 @@ class Standard
 		 * @since 2017.03
 		 * @category Developer
 		 */
-		$level = $context->getConfig()->get( 'client/jsonapi/product/levels', \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE );
+		$level = $context->config()->get( 'client/jsonapi/product/levels', \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE );
 
 		foreach( (array) $view->param( 'filter/f_oneid', [] ) as $list ) {
 			$cntl->oneOf( $list );

@@ -94,7 +94,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetItemDeep()
 	{
-		$config = $this->context->getConfig()->set( 'client/jsonapi/site/deep', true );
+		$config = $this->context->config()->set( 'client/jsonapi/site/deep', true );
 		$helper = new \Aimeos\MW\View\Helper\Config\Standard( $this->view, $config );
 		$this->view->addHelper( 'config', $helper );
 

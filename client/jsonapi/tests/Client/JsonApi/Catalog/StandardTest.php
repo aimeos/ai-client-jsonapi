@@ -131,7 +131,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetItemNoIdDeep()
 	{
-		$config = $this->context->getConfig()->set( 'client/jsonapi/catalog/deep', true );
+		$config = $this->context->config()->set( 'client/jsonapi/catalog/deep', true );
 		$helper = new \Aimeos\MW\View\Helper\Config\Standard( $this->view, $config );
 		$this->view->addHelper( 'config', $helper );
 

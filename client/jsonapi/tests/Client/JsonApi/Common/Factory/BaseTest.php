@@ -37,7 +37,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddClientDecorators()
 	{
-		$config = $this->context->getConfig();
+		$config = $this->context->config();
 		$config->set( 'client/jsonapi/common/decorators/default', ['Test'] );
 		$config->set( 'client/jsonapi/product/decorators/excludes', ['Test'] );
 

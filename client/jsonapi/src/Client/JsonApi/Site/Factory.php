@@ -70,7 +70,7 @@ class Factory
 		 * @category Developer
 		 */
 		if( $name === null ) {
-			$name = $context->getConfig()->get( 'client/jsonapi/site/name', 'Standard' );
+			$name = $context->config()->get( 'client/jsonapi/site/name', 'Standard' );
 		}
 
 		$iface = '\\Aimeos\\Client\\JsonApi\\Iface';
