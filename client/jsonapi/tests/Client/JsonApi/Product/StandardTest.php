@@ -112,7 +112,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 4, count( $result['data']['relationships']['product/property']['data'] ) );
 		$this->assertEquals( 5, count( $result['data']['relationships']['product']['data'] ) );
 		$this->assertEquals( 6, count( $result['data']['relationships']['attribute']['data'] ) );
-		$this->assertEquals( 2, count( $result['data']['relationships']['catalog']['data'] ) );
+		$this->assertEquals( 5, count( $result['data']['relationships']['catalog']['data'] ) );
 		$this->assertEquals( 1, count( $result['data']['relationships']['supplier']['data'] ) );
 		$this->assertEquals( 1, count( $result['data']['relationships']['stock']['data'] ) );
 		$this->assertEquals( 1, count( $result['data']['relationships']['text']['data'][0]['attributes'] ) );
@@ -151,8 +151,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 4, count( $result['data'][0]['relationships']['product/property']['data'] ) );
 		$this->assertEquals( 6, count( $result['data'][0]['relationships']['attribute']['data'] ) );
 		$this->assertEquals( 5, count( $result['data'][0]['relationships']['product']['data'] ) );
-		$this->assertEquals( 2, count( $result['data'][0]['relationships']['catalog']['data'] ) );
-		$this->assertEquals( 2, count( $result['data'][1]['relationships']['catalog']['data'] ) );
+		$this->assertEquals( 5, count( $result['data'][0]['relationships']['catalog']['data'] ) );
+		$this->assertEquals( 5, count( $result['data'][1]['relationships']['catalog']['data'] ) );
 		$this->assertGreaterThanOrEqual( 47, count( $result['included'] ) );
 		$this->assertEquals( 3, count( map( $result['included'] )->groupBy( 'type' )->get( 'catalog', [] ) ) );
 

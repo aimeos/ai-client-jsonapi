@@ -155,13 +155,6 @@ $entryFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, $t
 		}
 	}
 
-	foreach( $item->getCatalogItems() as $catItem )
-	{
-		if( $catItem->isAvailable() ) {
-			$entry['relationships']['catalog']['data'][] = array( 'id' => $catItem->getId(), 'type' => 'catalog' );
-		}
-	}
-
 	foreach( $item->getSupplierItems() as $supItem )
 	{
 		if( $supItem->isAvailable() ) {
@@ -183,30 +176,6 @@ $entryFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, $t
 $includeFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
 {
 	$result = [];
-
-	foreach( $item->getCatalogItems() as $id => $catItem )
-	{
-		if( $catItem->isAvailable() )
-		{
-			$params = ['resource' => 'catalog', 'id' => $id];
-			$entry = ['id' => $id, 'type' => 'catalog'];
-			$entry['attributes'] = $catItem->toArray();
-
-			if( isset( $fields['catalog'] ) ) {
-				$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['catalog'] );
-			}
-
-			$entry['links'] = array(
-				'self' => array(
-					'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
-					'allow' => ['GET'],
-				),
-			);
-
-			$result['catalog'][$id] = $entry;
-			$result = array_replace_recursive( $result, $this->jincluded( $catItem, $fields ) );
-		}
-	}
 
 	foreach( $item->getSupplierItems() as $id => $supItem )
 	{
