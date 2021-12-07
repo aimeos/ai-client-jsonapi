@@ -94,10 +94,6 @@ class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
 
 		if( $item instanceof \Aimeos\MShop\Product\Item\Iface )
 		{
-			foreach( $item->getSupplierItems() as $supItem ) {
-				$this->map( $supItem, $fields, $fcn );
-			}
-
 			foreach( $item->getStockItems() as $stockItem ) {
 				$this->map( $stockItem, $fields, $fcn );
 			}
@@ -186,17 +182,6 @@ class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
 
 		if( $item instanceof \Aimeos\MShop\Product\Item\Iface )
 		{
-			foreach( $item->getSupplierItems() as $supItem )
-			{
-				if( $supItem->isAvailable() )
-				{
-					$supId = $supItem->getId();
-					$rtype = $supItem->getResourceType();
-					$entry['relationships'][$rtype]['data'][] = ['id' => $supId, 'type' => $rtype];
-					$this->map( $supItem, $fields, $fcn );
-				}
-			}
-
 			foreach( $item->getStockItems() as $stockItem )
 			{
 				if( $stockItem->isAvailable() )
