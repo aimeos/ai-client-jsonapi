@@ -21,9 +21,9 @@ use Psr\Http\Message\ServerRequestInterface;
  * @subpackage JsonApi
  */
 abstract class Base
-	implements \Aimeos\Client\JsonApi\Iface, \Aimeos\MW\Macro\Iface
+	implements \Aimeos\Client\JsonApi\Iface, \Aimeos\Macro\Iface
 {
-	use \Aimeos\MW\Macro\Traits;
+	use \Aimeos\Macro\Macroable;
 
 
 	private $view;
