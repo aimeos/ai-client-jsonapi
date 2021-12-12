@@ -41,7 +41,7 @@ class Base extends \Aimeos\Client\JsonApi\Base
 	protected function translatePluginErrorCodes( array $codes ) : array
 	{
 		$errors = [];
-		$i18n = $this->context()->getI18n();
+		$i18n = $this->context()->i18n();
 
 		foreach( $codes as $scope => $list )
 		{
