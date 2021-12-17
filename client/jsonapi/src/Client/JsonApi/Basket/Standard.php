@@ -190,7 +190,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 			$this->clearCache();
 
 			$item = $this->controller->store();
-			$this->context()->getSession()->set( 'aimeos/order.baseid', $item->getId() );
+			$this->context()->session()->set( 'aimeos/order.baseid', $item->getId() );
 
 			$view->item = $item;
 			$status = 200;

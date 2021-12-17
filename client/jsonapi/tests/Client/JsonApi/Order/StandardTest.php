@@ -300,7 +300,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetBasket()
 	{
 		$basketId = $this->getOrderBaseItem()->getId();
-		$this->context->getSession()->set( 'aimeos/order.baseid', $basketId );
+		$this->context->session()->set( 'aimeos/order.baseid', $basketId );
 
 		$result = $this->access( 'getBasket' )->invokeArgs( $this->object, [$basketId] );
 		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Iface::class, $result );

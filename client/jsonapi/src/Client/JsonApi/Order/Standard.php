@@ -183,7 +183,7 @@ class Standard
 		$cntl = \Aimeos\Controller\Frontend::create( $context, 'order' );
 		$item = $cntl->add( $baseId, ['order.type' => 'jsonapi'] )->store();
 
-		$context->getSession()->set( 'aimeos/orderid', $item->getId() );
+		$context->session()->set( 'aimeos/orderid', $item->getId() );
 
 		return $item;
 	}
@@ -199,7 +199,7 @@ class Standard
 	protected function getBasket( string $basketId ) : \Aimeos\MShop\Order\Item\Base\Iface
 	{
 		$context = $this->context();
-		$baseId = $context->getSession()->get( 'aimeos/order.baseid' );
+		$baseId = $context->session()->get( 'aimeos/order.baseid' );
 
 		if( $baseId != $basketId )
 		{

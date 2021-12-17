@@ -24,7 +24,7 @@ class Base extends \Aimeos\Client\JsonApi\Base
 	 */
 	protected function clearCache()
 	{
-		$session = $this->context()->getSession();
+		$session = $this->context()->session();
 
 		foreach( $session->get( 'aimeos/basket/cache', [] ) as $key => $value ) {
 			$session->set( $key, null );
