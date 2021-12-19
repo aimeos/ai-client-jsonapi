@@ -47,8 +47,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
-		$this->assertEquals( 15, $result['meta']['total'] );
-		$this->assertEquals( 15, count( $result['data'] ) );
+		$this->assertEquals( 14, $result['meta']['total'] );
+		$this->assertEquals( 14, count( $result['data'] ) );
 		$this->assertGreaterThan( 0, $result['data'][0]['id'] );
 		$this->assertGreaterThan( 0, $result['data'][0]['attributes'] );
 		$this->assertEquals( 'index.attribute.id', $result['data'][0]['type'] );
@@ -110,7 +110,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 2, count( $result['data']['relationships']['price']['data'] ) );
 		$this->assertEquals( 3, count( $result['data']['relationships']['media']['data'] ) );
 		$this->assertEquals( 4, count( $result['data']['relationships']['product/property']['data'] ) );
-		$this->assertEquals( 5, count( $result['data']['relationships']['product']['data'] ) );
+		$this->assertEquals( 2, count( $result['data']['relationships']['product']['data'] ) );
 		$this->assertEquals( 6, count( $result['data']['relationships']['attribute']['data'] ) );
 		$this->assertEquals( 5, count( $result['data']['relationships']['catalog']['data'] ) );
 		$this->assertEquals( 1, count( $result['data']['relationships']['supplier']['data'] ) );
@@ -150,7 +150,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 7, count( $result['data'][0]['relationships']['text']['data'] ) );
 		$this->assertEquals( 4, count( $result['data'][0]['relationships']['product/property']['data'] ) );
 		$this->assertEquals( 6, count( $result['data'][0]['relationships']['attribute']['data'] ) );
-		$this->assertEquals( 5, count( $result['data'][0]['relationships']['product']['data'] ) );
+		$this->assertEquals( 2, count( $result['data'][0]['relationships']['product']['data'] ) );
 		$this->assertEquals( 5, count( $result['data'][0]['relationships']['catalog']['data'] ) );
 		$this->assertEquals( 5, count( $result['data'][1]['relationships']['catalog']['data'] ) );
 		$this->assertGreaterThanOrEqual( 47, count( $result['included'] ) );
