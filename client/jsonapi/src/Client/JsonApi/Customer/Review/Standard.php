@@ -320,7 +320,7 @@ class Standard
 		$tplconf = 'client/jsonapi/customer/review/template';
 		$default = 'customer/review/standard';
 
-		$view->customerid = $this->context()->getUserId();
+		$view->customerid = $this->context()->user();
 		$body = $view->render( $view->config( $tplconf, $default ) );
 
 		return $response->withHeader( 'Allow', 'DELETE,GET,OPTIONS,PATCH,POST' )
