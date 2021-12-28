@@ -181,7 +181,7 @@ class Standard
 	{
 		$context = $this->context();
 		$cntl = \Aimeos\Controller\Frontend::create( $context, 'order' );
-		$item = $cntl->add( $baseId, ['order.type' => 'jsonapi'] )->store();
+		$item = $cntl->add( $baseId, ['order.channel' => 'jsonapi'] )->store();
 
 		$context->session()->set( 'aimeos/orderid', $item->getId() );
 

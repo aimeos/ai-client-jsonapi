@@ -38,7 +38,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$user = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
 		$this->context->setUserId( $user->getId() );
 
-		$params = array( 'fields' => array( 'order' => 'order.id,order.type' ) );
+		$params = array( 'fields' => array( 'order' => 'order.id,order.channel' ) );
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
@@ -64,7 +64,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$manager = \Aimeos\MShop::create( $this->context, 'order' );
 		$search = $manager->filter()->slice( 0, 1 );
-		$search->setConditions( $search->compare( '==', 'order.type', 'phone' ) );
+		$search->setConditions( $search->compare( '==', 'order.channel', 'phone' ) );
 
 		if( ( $item = $manager->search( $search )->first() ) === null ) {
 			throw new \RuntimeException( 'No order item found' );
