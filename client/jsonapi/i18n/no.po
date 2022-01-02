@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ai-client-jsonapi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-04 18:31+0200\n"
+"POT-Creation-Date: 2021-12-30 16:30+0100\n"
 "PO-Revision-Date: 2017-02-28 11:36+0000\n"
 "Language-Team: Norwegian (https://www.transifex.com/aimeos/teams/39015/no/)\n"
 "Language: no\n"
@@ -266,12 +266,12 @@ msgstr ""
 msgid "No basket for the \"order.baseid\" (\"%1$s\") found"
 msgstr ""
 
-#: src/Client/JsonApi/Base.php:142
+#: src/Client/JsonApi/Base.php:142 src/Client/JsonApi/Base.php:297
 #, php-format
 msgid "No view available"
 msgstr ""
 
-#: src/Client/JsonApi/Base.php:175
+#: src/Client/JsonApi/Base.php:175 src/Client/JsonApi/Base.php:151
 msgid "Not allowed for this resource"
 msgstr ""
 
