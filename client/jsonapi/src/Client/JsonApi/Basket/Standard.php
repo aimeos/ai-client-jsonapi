@@ -252,36 +252,6 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 
 
 	/**
-	 * Returns the integer constant for the basket parts that should be included
-	 *
-	 * @param \Aimeos\MW\View\Iface $view View instance
-	 * @return int Constant from Aimeos\MShop\Order\Item\Base\Base
-	 * @deprecated Use strings like "basket/product" directly
-	 */
-	protected function getParts( \Aimeos\MW\View\Iface $view ) : int
-	{
-		$available = array(
-			'basket/address' => \Aimeos\MShop\Order\Item\Base\Base::PARTS_ADDRESS,
-			'basket/coupon' => \Aimeos\MShop\Order\Item\Base\Base::PARTS_COUPON,
-			'basket/product' => \Aimeos\MShop\Order\Item\Base\Base::PARTS_PRODUCT,
-			'basket/service' => \Aimeos\MShop\Order\Item\Base\Base::PARTS_SERVICE,
-		);
-
-		$include = explode( ',', $view->param( 'include', 'basket/address,basket/coupon,basket/product,basket/service' ) );
-
-		$parts = \Aimeos\MShop\Order\Item\Base\Base::PARTS_NONE;
-		foreach( $include as $type )
-		{
-			if( isset( $available[$type] ) ) {
-				$parts |= $available[$type];
-			}
-		}
-
-		return $parts;
-	}
-
-
-	/**
 	 * Returns the response object with the rendered header and body
 	 *
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
