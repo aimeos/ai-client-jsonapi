@@ -5,14 +5,16 @@
 # 
 # Translators:
 # iulian iulian <iulian.abc@gmail.com>, 2020
+# Yolo San, 2021
 # 
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: ai-client-jsonapi\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-04 18:31+0200\n"
+"POT-Creation-Date: 2021-12-30 16:30+0100\n"
 "PO-Revision-Date: 2017-02-28 11:36+0000\n"
-"Last-Translator: iulian iulian <iulian.abc@gmail.com>, 2020\n"
+"Last-Translator: Yolo San, 2021\n"
 "Language-Team: Romanian (https://www.transifex.com/aimeos/teams/39015/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -221,6 +223,7 @@ msgstr ""
 #: src/Client/JsonApi/Subscription/Factory.php:80
 #: src/Client/JsonApi/Review/Factory.php:80
 #: src/Client/JsonApi/Customer/Review/Factory.php:80
+#: src/Client/JsonApi/Site/Factory.php:80
 #: src/Client/JsonApi/Order/Factory.php:80
 #: src/Client/JsonApi/Locale/Factory.php:80
 #: src/Client/JsonApi/Catalog/Factory.php:80
@@ -304,6 +307,7 @@ msgstr "Nume clasa nevalid \"%1$s\""
 #: src/Client/JsonApi/Subscription/Factory.php:36
 #: src/Client/JsonApi/Review/Factory.php:36
 #: src/Client/JsonApi/Customer/Review/Factory.php:36
+#: src/Client/JsonApi/Site/Factory.php:36
 #: src/Client/JsonApi/Order/Factory.php:36
 #: src/Client/JsonApi/Locale/Factory.php:36
 #: src/Client/JsonApi/Catalog/Factory.php:36
@@ -338,7 +342,7 @@ msgstr ""
 #: src/Client/JsonApi.php:62 src/Client/JsonApi.php:62
 #, php-format
 msgid "Invalid factory \"%1$s\""
-msgstr ""
+msgstr "Factory incorect \"%1$s\""
 
 #: src/Client/JsonApi/Order/Standard.php:207
 #: src/Client/JsonApi/Order/Standard.php:201
@@ -348,12 +352,12 @@ msgstr ""
 msgid "No basket for the \"order.baseid\" (\"%1$s\") found"
 msgstr ""
 
-#: src/Client/JsonApi/Base.php:142 src/Client/JsonApi/Base.php:142
+#: src/Client/JsonApi/Base.php:142 src/Client/JsonApi/Base.php:297
 #, php-format
 msgid "No view available"
 msgstr "Nicio vizualizare disponibilă"
 
-#: src/Client/JsonApi/Base.php:175
+#: src/Client/JsonApi/Base.php:175 src/Client/JsonApi/Base.php:151
 msgid "Not allowed for this resource"
 msgstr ""
 
@@ -429,7 +433,6 @@ msgid "Type (ID) is missing"
 msgstr ""
 
 #: src/Client/JsonApi/Base.php:57 src/Client/JsonApi/Base.php:52
-#: src/Client/JsonApi/Base.php:52
 #, php-format
 msgid "Unable to call method \"%1$s\""
 msgstr "Imposibil de apelat metoda \"%1$s\""
