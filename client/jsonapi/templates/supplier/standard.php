@@ -18,7 +18,7 @@ $config = $this->config( 'client/jsonapi/url/config', [] );
 
 $total = $this->get( 'total', 0 );
 $offset = max( $this->param( 'page/offset', 0 ), 0 );
-$limit = max( $this->param( 'page/limit', 100 ), 1 );
+$limit = max( $this->param( 'page/limit', 25 ), 1 );
 
 $first = ( $offset > 0 ? 0 : null );
 $prev = ( $offset - $limit >= 0 ? $offset - $limit : null );
