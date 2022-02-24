@@ -35,7 +35,7 @@ class TestHelperJapi
 	{
 		$view = new \Aimeos\MW\View\Standard( self::getTemplatePaths() );
 
-		$trans = new \Aimeos\MW\Translation\None( 'en' );
+		$trans = new \Aimeos\Base\Translation\None( 'en' );
 		$helper = new \Aimeos\MW\View\Helper\Translate\Standard( $view, $trans );
 		$view->addHelper( 'translate', $helper );
 
@@ -115,7 +115,7 @@ class TestHelperJapi
 		$ctx->setCache( $cache );
 
 
-		$i18n = new \Aimeos\MW\Translation\None( 'en' );
+		$i18n = new \Aimeos\Base\Translation\None( 'en' );
 		$ctx->setI18n( array( 'en' => $i18n ) );
 
 
