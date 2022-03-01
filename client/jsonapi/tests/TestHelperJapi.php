@@ -31,7 +31,7 @@ class TestHelperJapi
 	}
 
 
-	public static function view( \Aimeos\MW\Config\Iface $config )
+	public static function view( \Aimeos\Base\Config\Iface $config )
 	{
 		$view = new \Aimeos\MW\View\Standard( self::getTemplatePaths() );
 
@@ -93,9 +93,9 @@ class TestHelperJapi
 		$paths[] = __DIR__ . DIRECTORY_SEPARATOR . 'config';
 		$file = __DIR__ . DIRECTORY_SEPARATOR . 'confdoc.ser';
 
-		$conf = new \Aimeos\MW\Config\PHPArray( [], $paths );
-		$conf = new \Aimeos\MW\Config\Decorator\Memory( $conf );
-		$conf = new \Aimeos\MW\Config\Decorator\Documentor( $conf, $file );
+		$conf = new \Aimeos\Base\Config\PHPArray( [], $paths );
+		$conf = new \Aimeos\Base\Config\Decorator\Memory( $conf );
+		$conf = new \Aimeos\Base\Config\Decorator\Documentor( $conf, $file );
 		$ctx->setConfig( $conf );
 
 
