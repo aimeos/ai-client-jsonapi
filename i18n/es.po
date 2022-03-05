@@ -1,0 +1,119 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Aimeos, 2018
+# Lara Merlotto <lara@vg7.it>, 2020
+# S 0l, 2021
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-05 08:51+0100\n"
+"PO-Revision-Date: 2017-02-28 11:36+0000\n"
+"Last-Translator: S 0l, 2021\n"
+"Language-Team: Spanish (https://www.transifex.com/aimeos/teams/39015/es/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, php-format
+msgid "Address type or attributes are missing"
+msgstr "Faltan tipos de dirección o atributos "
+
+#, php-format
+msgid "Attributes are missing"
+msgstr "Faltan atributos "
+
+#, php-format
+msgid "Class \"%1$s\" does not implement \"%2$s\""
+msgstr "La clase \"%1$s\" no implementa \"%2$s\""
+
+#, php-format
+msgid "Class \"%1$s\" not found"
+msgstr "Clase \"%1$s\" no encontrada"
+
+#, php-format
+msgid "Coupon code is missing"
+msgstr "Falta el código de cupón "
+
+#, php-format
+msgid "ID is missing"
+msgstr "Falta el ID"
+
+#, php-format
+msgid "Invalid JSON in body"
+msgstr "JSON no válido en el cuerpo"
+
+#, php-format
+msgid "Invalid characters in class name \"%1$s\""
+msgstr "Caracteres no válidos en el nombre de clase \"%1$s\""
+
+#, php-format
+msgid "Invalid class name \"%1$s\""
+msgstr "Nombre de clase no válido \"%1$s\""
+
+#, php-format
+msgid "Invalid client \"%1$s\""
+msgstr "Cliente %1$sinválida/o"
+
+#, php-format
+msgid "Invalid client \"%1$s\" in \"%2$s\""
+msgstr "Cliente no válido \"%1$s\" in \"%2$s\""
+
+#, php-format
+msgid "Invalid factory \"%1$s\""
+msgstr "Constructor no válido \"%1$s\""
+
+#, php-format
+msgid "No basket for the \"order.baseid\" (\"%1$s\") found"
+msgstr "No se ha encontrado ninguna cesta para \"order.baseid\" %1$s"
+
+#, php-format
+msgid "No view available"
+msgstr "No hay vistas disponibles"
+
+msgid "Not allowed for this resource"
+msgstr ""
+
+#, php-format
+msgid "Position (ID) is missing"
+msgstr "Falta la (ID) de la posición"
+
+#, php-format
+msgid "Product ID is missing"
+msgstr "Falta la ID del producto"
+
+#, php-format
+msgid "Required attribute \"order.baseid\" is missing"
+msgstr "Falta el atributo obligatorio \"order.baseid\" "
+
+#, php-format
+msgid "Required parameter \"%1$s\" is missing"
+msgstr "Falta el parámetro obligatorio \"%1$s\""
+
+#, php-format
+msgid "Service ID in attributes is missing"
+msgstr "Falta el ID de servicio en los atributos"
+
+#, php-format
+msgid "Service attributes are missing"
+msgstr "Faltan atributos de servicio "
+
+#, php-format
+msgid "Service type (ID) is missing"
+msgstr "Falta el tipo de servicio (ID) "
+
+#, php-format
+msgid "Type (ID) is missing"
+msgstr "Falta el tipo (ID) "
+
+#, php-format
+msgid "Unable to call method \"%1$s\""
+msgstr "No se ha podido invocar el método \"%1$s\""

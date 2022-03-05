@@ -10,15 +10,14 @@ return [
 		'config',
 	],
 	'include' => [
-		'client/jsonapi/src',
-		'lib/custom/src',
+		'src',
 	],
 	'i18n' => [
-		'client/jsonapi' => 'client/jsonapi/i18n',
+		'client/jsonapi' => 'i18n',
 	],
 	'template' => [
 		'client/jsonapi/templates' => [
-			'client/jsonapi/templates',
+			'templates/client/jsonapi',
 		],
 	],
 ];

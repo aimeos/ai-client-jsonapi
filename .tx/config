@@ -2,7 +2,7 @@
 host = https://www.transifex.com
 
 [aimeos-core.client-jsonapi]
-file_filter = client/jsonapi/i18n/<lang>.po
-source_file = client/jsonapi/i18n/core-client-jsonapi.pot
+file_filter = i18n/<lang>.po
+source_file = i18n/core-client-jsonapi.pot
 source_lang = en
 type = PO

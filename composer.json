@@ -1,6 +1,6 @@
 {
 	"name": "aimeos/ai-client-jsonapi",
-	"description": "Aimeos JSON API extension",
+	"description": "Aimeos frontend JSON REST API",
 	"keywords": ["aimeos", "extension", "json", "api"],
 	"type": "aimeos-extension",
 	"license": "LGPL-3.0-or-later",

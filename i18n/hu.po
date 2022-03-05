@@ -1,0 +1,118 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Aimeos, 2017
+# nzed <nemesreviz@gmail.com>, 2020
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-05 08:51+0100\n"
+"PO-Revision-Date: 2017-02-28 11:36+0000\n"
+"Last-Translator: nzed <nemesreviz@gmail.com>, 2020\n"
+"Language-Team: Hungarian (https://www.transifex.com/aimeos/teams/39015/hu/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: hu\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, php-format
+msgid "Address type or attributes are missing"
+msgstr "Címfajta vagy jellemzők hiányoznak"
+
+#, php-format
+msgid "Attributes are missing"
+msgstr "Jellemzők hiányoznak"
+
+#, php-format
+msgid "Class \"%1$s\" does not implement \"%2$s\""
+msgstr "\"%1$s\" class nem hajtja végre a \"%2$s\"-t"
+
+#, php-format
+msgid "Class \"%1$s\" not found"
+msgstr "A következő osztály nem található: \"%1$s\""
+
+#, php-format
+msgid "Coupon code is missing"
+msgstr "Kupon kód hiányzik"
+
+#, php-format
+msgid "ID is missing"
+msgstr "Azonosító hiányzik"
+
+#, php-format
+msgid "Invalid JSON in body"
+msgstr "Érvénytelen JSON a tartalomban"
+
+#, php-format
+msgid "Invalid characters in class name \"%1$s\""
+msgstr "Érvénytelen karakter a következő osztály nevében: \"%1$s\""
+
+#, php-format
+msgid "Invalid class name \"%1$s\""
+msgstr "Érvénytelen osztálynév: \"%1$s\""
+
+#, php-format
+msgid "Invalid client \"%1$s\""
+msgstr "Érvénytelen ügyfél: \"%1$s\""
+
+#, php-format
+msgid "Invalid client \"%1$s\" in \"%2$s\""
+msgstr "Érvénytelen ügyfél \"%1$s\" ebben: %2$s"
+
+#, php-format
+msgid "Invalid factory \"%1$s\""
+msgstr "Érvénytelen gyártó: \"%1$s\""
+
+#, php-format
+msgid "No basket for the \"order.baseid\" (\"%1$s\") found"
+msgstr "Nem található kosár az \"order.baseid\" (\"%1$s\") azonosítóhoz"
+
+#, php-format
+msgid "No view available"
+msgstr "Nincs elérhető nézet"
+
+msgid "Not allowed for this resource"
+msgstr ""
+
+#, php-format
+msgid "Position (ID) is missing"
+msgstr "Helyzet (ID) hiányzik"
+
+#, php-format
+msgid "Product ID is missing"
+msgstr "Termékazonosító hiányzik"
+
+#, php-format
+msgid "Required attribute \"order.baseid\" is missing"
+msgstr "\"order.baseid\" kötelező jellemző hiányzik"
+
+#, php-format
+msgid "Required parameter \"%1$s\" is missing"
+msgstr "\"%1$s\" kötelező segédváltozó hiányzik"
+
+#, php-format
+msgid "Service ID in attributes is missing"
+msgstr "A szolgáltatásazonosító a jellemzőkben hiányzik"
+
+#, php-format
+msgid "Service attributes are missing"
+msgstr "A szolgáltatásjellemzők hiányoznak"
+
+#, php-format
+msgid "Service type (ID) is missing"
+msgstr "Szolgáltatásfajta (ID) hiányzik"
+
+#, php-format
+msgid "Type (ID) is missing"
+msgstr "Fajta (ID) hiányzik"
+
+#, php-format
+msgid "Unable to call method \"%1$s\""
+msgstr "Nem lehet, meghívni a \"%1$s\" eljárást"

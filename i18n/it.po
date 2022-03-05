@@ -1,0 +1,120 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# alessandro massarelli <alessandro@botteega.com>, 2017
+# Enrico Porceddu <porceddu_enrico@yahoo.com>, 2018
+# R M <roberto@proprionoi.it>, 2019
+# isabella carlin <isabella@vg7.it>, 2020
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-05 08:51+0100\n"
+"PO-Revision-Date: 2017-02-28 11:36+0000\n"
+"Last-Translator: isabella carlin <isabella@vg7.it>, 2020\n"
+"Language-Team: Italian (https://www.transifex.com/aimeos/teams/39015/it/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: it\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, php-format
+msgid "Address type or attributes are missing"
+msgstr "Mancano il tipo di indirizzo o gli attributi"
+
+#, php-format
+msgid "Attributes are missing"
+msgstr "Attributi mancanti"
+
+#, php-format
+msgid "Class \"%1$s\" does not implement \"%2$s\""
+msgstr "La classe \"%1$s\" non implementa \"%2$s\""
+
+#, php-format
+msgid "Class \"%1$s\" not found"
+msgstr "Classe \" 1 %1$s\" non trovata"
+
+#, php-format
+msgid "Coupon code is missing"
+msgstr "Manca il codice del coupon"
+
+#, php-format
+msgid "ID is missing"
+msgstr "Manca l'ID"
+
+#, php-format
+msgid "Invalid JSON in body"
+msgstr "JSON non valido nel body"
+
+#, php-format
+msgid "Invalid characters in class name \"%1$s\""
+msgstr "Carattere non valido nel nome della classe \" 1 %1$s \""
+
+#, php-format
+msgid "Invalid class name \"%1$s\""
+msgstr "Il nome della classe \" 1 %1$s \" non è valido"
+
+#, php-format
+msgid "Invalid client \"%1$s\""
+msgstr "Client \" 1 %1$s \" non valido"
+
+#, php-format
+msgid "Invalid client \"%1$s\" in \"%2$s\""
+msgstr "Client \" 1 %1$s \" in \" 2 %2$s \" non valido"
+
+#, php-format
+msgid "Invalid factory \"%1$s\""
+msgstr "Fattore \" 1 %1$s \" non valido"
+
+#, php-format
+msgid "No basket for the \"order.baseid\" (\"%1$s\") found"
+msgstr "Nessun carrello trovato per \"order.baseid\" (\"%1$s\") "
+
+#, php-format
+msgid "No view available"
+msgstr "Nessuna vista disponibile"
+
+msgid "Not allowed for this resource"
+msgstr ""
+
+#, php-format
+msgid "Position (ID) is missing"
+msgstr "Manca la posizione (ID)"
+
+#, php-format
+msgid "Product ID is missing"
+msgstr "Manca l'ID prodotto"
+
+#, php-format
+msgid "Required attribute \"order.baseid\" is missing"
+msgstr "Manca l'attributo obbligatorio \"order.baseid\" "
+
+#, php-format
+msgid "Required parameter \"%1$s\" is missing"
+msgstr "Manca il parametro richiesto \"%1$s\""
+
+#, php-format
+msgid "Service ID in attributes is missing"
+msgstr "Manca l'ID del servizio negli attributi"
+
+#, php-format
+msgid "Service attributes are missing"
+msgstr "Manca il servizio degli attributi"
+
+#, php-format
+msgid "Service type (ID) is missing"
+msgstr "Manca il tipo di servizio (ID)"
+
+#, php-format
+msgid "Type (ID) is missing"
+msgstr "Manca il tipo (ID)"
+
+#, php-format
+msgid "Unable to call method \"%1$s\""
+msgstr "Impossibile chiamare il metodo \" 1 %1$s \""
