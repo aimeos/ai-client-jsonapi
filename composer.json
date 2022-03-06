@@ -23,12 +23,18 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Aimeos\\Client\\JsonApi\\": "client/jsonapi/src/Client/JsonApi/",
-			"Aimeos\\MW\\": "lib/custom/src/MW/"
+			"Aimeos\\": "src"
 		},
 		"classmap": [
-			"client/jsonapi/src",
-			"lib/custom/src"
+			"src"
+		]
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Aimeos\\": "tests"
+		},
+		"classmap": [
+			"tests"
 		]
 	}
 }
