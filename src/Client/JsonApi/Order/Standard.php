@@ -99,11 +99,11 @@ class Standard
 			$body = (string) $request->getBody();
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data->attributes ) ) {
-				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
+				throw new \Aimeos\Client\JsonApi\Exception( 'Invalid JSON in body', 400 );
 			}
 
 			if( !isset( $payload->data->attributes->{'order.baseid'} ) ) {
-				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Required attribute "order.baseid" is missing' ), 400 );
+				throw new \Aimeos\Client\JsonApi\Exception( 'Required attribute "order.baseid" is missing', 400 );
 			}
 
 			$basket = $this->getBasket( $payload->data->attributes->{'order.baseid'} );

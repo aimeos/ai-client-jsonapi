@@ -63,7 +63,7 @@ class Standard
 			if( $relId === '' || $relId === null )
 			{
 				if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
-					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
+					throw new \Aimeos\Client\JsonApi\Exception( 'Invalid JSON in body', 400 );
 				}
 
 				if( !is_array( $payload->data ) ) {
@@ -73,7 +73,7 @@ class Standard
 				foreach( $payload->data as $entry )
 				{
 					if( !isset( $entry->id ) ) {
-						throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Type (ID) is missing' ) );
+						throw new \Aimeos\Client\JsonApi\Exception( 'Type (ID) is missing', 400 );
 					}
 
 					$this->controller->deleteService( $entry->id );
@@ -128,7 +128,7 @@ class Standard
 			$body = (string) $request->getBody();
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
-				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
+				throw new \Aimeos\Client\JsonApi\Exception( 'Invalid JSON in body', 400 );
 			}
 
 			if( !is_array( $payload->data ) ) {
@@ -140,15 +140,15 @@ class Standard
 			foreach( $payload->data as $entry )
 			{
 				if( !isset( $entry->id ) ) {
-					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Service type (ID) is missing' ) );
+					throw new \Aimeos\Client\JsonApi\Exception( 'Service type (ID) is missing', 400 );
 				}
 
 				if( !isset( $entry->attributes ) ) {
-					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Service attributes are missing' ) );
+					throw new \Aimeos\Client\JsonApi\Exception( 'Service attributes are missing', 400 );
 				}
 
 				if( !isset( $entry->attributes->{'service.id'} ) ) {
-					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Service ID in attributes is missing' ) );
+					throw new \Aimeos\Client\JsonApi\Exception( 'Service ID in attributes is missing', 400 );
 				}
 
 				$item = $cntl->uses( ['media', 'price', 'text'] )->get( $entry->attributes->{'service.id'} );

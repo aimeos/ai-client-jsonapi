@@ -116,7 +116,7 @@ class Standard
 			$ref = ( $inc = $view->param( 'include' ) ) ? explode( ',', $inc ) : [];
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data->attributes ) ) {
-				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
+				throw new \Aimeos\Client\JsonApi\Exception( 'Invalid JSON in body', 400 );
 			}
 
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' )->uses( $ref );
@@ -159,7 +159,7 @@ class Standard
 			$body = (string) $request->getBody();
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data->attributes ) ) {
-				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
+				throw new \Aimeos\Client\JsonApi\Exception( 'Invalid JSON in body', 400 );
 			}
 
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' )->uses( [] );

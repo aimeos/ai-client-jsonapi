@@ -44,7 +44,7 @@ class Standard
 			if( ( $relId = $view->param( 'relatedid' ) ) === null )
 			{
 				if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
-					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
+					throw new \Aimeos\Client\JsonApi\Exception( 'Invalid JSON in body', 400 );
 				}
 
 				if( !is_array( $payload->data ) ) {
@@ -54,7 +54,7 @@ class Standard
 				foreach( $payload->data as $entry )
 				{
 					if( !isset( $entry->id ) ) {
-						throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'ID is missing' ), 400 );
+						throw new \Aimeos\Client\JsonApi\Exception( 'ID is missing', 400 );
 					}
 
 					if( ( $item = $items->get( $entry->id ) ) !== null ) {
@@ -158,7 +158,7 @@ class Standard
 			$body = (string) $request->getBody();
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data->attributes ) ) {
-				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
+				throw new \Aimeos\Client\JsonApi\Exception( 'Invalid JSON in body', 400 );
 			}
 
 			$status = 404;
@@ -215,7 +215,7 @@ class Standard
 			$body = (string) $request->getBody();
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
-				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
+				throw new \Aimeos\Client\JsonApi\Exception( 'Invalid JSON in body', 400 );
 			}
 
 			if( !is_array( $payload->data ) ) {
@@ -227,7 +227,7 @@ class Standard
 			foreach( $payload->data as $entry )
 			{
 				if( !isset( $entry->attributes ) ) {
-					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Attributes are missing' ) );
+					throw new \Aimeos\Client\JsonApi\Exception( 'Attributes are missing', 400 );
 				}
 
 				$propItem = $cntl->createPropertyItem( (array) $entry->attributes );

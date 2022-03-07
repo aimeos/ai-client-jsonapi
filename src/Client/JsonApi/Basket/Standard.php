@@ -142,7 +142,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 			$body = (string) $request->getBody();
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data->attributes ) ) {
-				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
+				throw new \Aimeos\Client\JsonApi\Exception( 'Invalid JSON in body', 400 );
 			}
 
 			$basket = $this->controller->setType( $view->param( 'id', 'default' ) )

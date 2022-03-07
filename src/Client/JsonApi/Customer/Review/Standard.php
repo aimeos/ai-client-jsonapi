@@ -44,7 +44,7 @@ class Standard
 			if( ( $relId = $view->param( 'relatedid' ) ) === null )
 			{
 				if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
-					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
+					throw new \Aimeos\Client\JsonApi\Exception( 'Invalid JSON in body', 400 );
 				}
 
 				if( !is_array( $payload->data ) ) {
@@ -147,11 +147,11 @@ class Standard
 			$body = (string) $request->getBody();
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data->attributes ) ) {
-				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
+				throw new \Aimeos\Client\JsonApi\Exception( 'Invalid JSON in body', 400 );
 			}
 
 			if( ( $id = $view->param( 'relatedid' ) ) === null ) {
-				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Required parameter "%1$s" is missing', 'relatedid' ), 400 );
+				throw new \Aimeos\Client\JsonApi\Exception( 'Required parameter "relatedid" is missing', 400 );
 			}
 
 			$cntl = \Aimeos\Controller\Frontend::create( $context, 'review' );
@@ -198,7 +198,7 @@ class Standard
 			$body = (string) $request->getBody();
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
-				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
+				throw new \Aimeos\Client\JsonApi\Exception( 'Invalid JSON in body', 400 );
 			}
 
 			if( !is_array( $payload->data ) ) {
@@ -211,7 +211,7 @@ class Standard
 			foreach( $payload->data as $entry )
 			{
 				if( !isset( $entry->attributes ) ) {
-					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Attributes are missing', 400 ) );
+					throw new \Aimeos\Client\JsonApi\Exception( 'Attributes are missing', 400 );
 				}
 
 				$items[] = $cntl->save( $cntl->create( (array) $entry->attributes ) );

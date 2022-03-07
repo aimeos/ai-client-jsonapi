@@ -147,9 +147,7 @@ abstract class Base
 		$status = 403;
 		$view = $this->view();
 
-		$view->errors = array( array(
-			'title' => $this->context()->translate( 'client/jsonapi', 'Not allowed for this resource' ),
-		) );
+		$view->errors = [['title' => 'Not allowed for this resource']];
 
 		/** client/jsonapi/template-error
 		 * Relative path to the default JSON API template
@@ -294,7 +292,7 @@ abstract class Base
 	protected function view() : \Aimeos\MW\View\Iface
 	{
 		if( !isset( $this->view ) ) {
-			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'No view available' ) );
+			throw new \Aimeos\Admin\JsonAdm\Exception( 'No view available' );
 		}
 
 		return $this->view;

@@ -63,7 +63,7 @@ class Standard
 			if( $relId === '' || $relId === null )
 			{
 				if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
-					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
+					throw new \Aimeos\Client\JsonApi\Exception( 'Invalid JSON in body', 400 );
 				}
 
 				if( !is_array( $payload->data ) ) {
@@ -73,7 +73,7 @@ class Standard
 				foreach( $payload->data as $entry )
 				{
 					if( !isset( $entry->id ) ) {
-						throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Position (ID) is missing' ) );
+						throw new \Aimeos\Client\JsonApi\Exception( 'Position (ID) is missing', 400 );
 					}
 
 					$this->controller->deleteProduct( $entry->id );
@@ -129,7 +129,7 @@ class Standard
 			$relId = $view->param( 'relatedid' );
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) || !isset( $payload->data->attributes ) ) {
-				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
+				throw new \Aimeos\Client\JsonApi\Exception( 'Invalid JSON in body', 400 );
 			}
 
 			if( !is_array( $payload->data ) ) {
@@ -143,7 +143,7 @@ class Standard
 				}
 
 				if( !isset( $entry->id ) ) {
-					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Position (ID) is missing' ) );
+					throw new \Aimeos\Client\JsonApi\Exception( 'Position (ID) is missing', 400 );
 				}
 
 				$qty = ( isset( $entry->attributes->quantity ) ? $entry->attributes->quantity : 1 );
@@ -193,7 +193,7 @@ class Standard
 			$body = (string) $request->getBody();
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
-				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid JSON in body' ), 400 );
+				throw new \Aimeos\Client\JsonApi\Exception( 'Invalid JSON in body', 400 );
 			}
 
 			if( !is_array( $payload->data ) ) {
@@ -203,7 +203,7 @@ class Standard
 			foreach( $payload->data as $entry )
 			{
 				if( !isset( $entry->attributes ) || !isset( $entry->attributes->{'product.id'} ) ) {
-					throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Product ID is missing' ) );
+					throw new \Aimeos\Client\JsonApi\Exception( 'Product ID is missing', 400 );
 				}
 			}
 
