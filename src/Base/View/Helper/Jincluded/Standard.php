@@ -8,7 +8,7 @@
  */
 
 
-namespace Aimeos\MW\View\Helper\Jincluded;
+namespace Aimeos\Base\View\Helper\Jincluded;
 
 
 /**
@@ -17,7 +17,7 @@ namespace Aimeos\MW\View\Helper\Jincluded;
  * @package MW
  * @subpackage View
  */
-class Standard extends \Aimeos\MW\View\Helper\Base implements Iface
+class Standard extends \Aimeos\Base\View\Helper\Base implements Iface
 {
 	private $map;
 

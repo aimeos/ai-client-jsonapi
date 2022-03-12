@@ -138,7 +138,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context->setUserId( $user->getId() );
 
 		$params = ['include' => 'customer/address,customer/property'];
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 
@@ -166,7 +166,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context->setUserId( $user->getId() );
 
 		$params = ['include' => ''];
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 

@@ -46,7 +46,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			)
 		);
 
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -70,7 +70,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetItems()
 	{
 		$params = array( 'sort' => '-locale.languageid,locale.position' );
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -100,7 +100,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			),
 			'sort' => '-locale.position',
 		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );

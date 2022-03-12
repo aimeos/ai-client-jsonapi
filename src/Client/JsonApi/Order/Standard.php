@@ -261,12 +261,12 @@ class Standard
 	/**
 	 * Returns the URL to the confirm page.
 	 *
-	 * @param \Aimeos\MW\View\Iface $view View object
+	 * @param \Aimeos\Base\View\Iface $view View object
 	 * @param array $params Parameters that should be part of the URL
 	 * @param array $config Default URL configuration
 	 * @return string URL string
 	 */
-	protected function getUrlConfirm( \Aimeos\MW\View\Iface $view, array $params, array $config ) : string
+	protected function getUrlConfirm( \Aimeos\Base\View\Iface $view, array $params, array $config ) : string
 	{
 		$target = $view->config( 'client/html/checkout/confirm/url/target' );
 		$cntl = $view->config( 'client/html/checkout/confirm/url/controller', 'checkout' );
@@ -280,12 +280,12 @@ class Standard
 	/**
 	 * Returns the URL to the update page.
 	 *
-	 * @param \Aimeos\MW\View\Iface $view View object
+	 * @param \Aimeos\Base\View\Iface $view View object
 	 * @param array $params Parameters that should be part of the URL
 	 * @param array $config Default URL configuration
 	 * @return string URL string
 	 */
-	protected function getUrlUpdate( \Aimeos\MW\View\Iface $view, array $params, array $config ) : string
+	protected function getUrlUpdate( \Aimeos\Base\View\Iface $view, array $params, array $config ) : string
 	{
 		$target = $view->config( 'client/html/checkout/update/url/target' );
 		$cntl = $view->config( 'client/html/checkout/update/url/controller', 'checkout' );
@@ -319,11 +319,11 @@ class Standard
 	 * Returns the response object with the rendered header and body
 	 *
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
-	 * @param \Aimeos\MW\View\Iface $view View instance
+	 * @param \Aimeos\Base\View\Iface $view View instance
 	 * @param int $status HTTP status code
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	protected function render( ResponseInterface $response, \Aimeos\MW\View\Iface $view, int $status ) : \Psr\Http\Message\ResponseInterface
+	protected function render( ResponseInterface $response, \Aimeos\Base\View\Iface $view, int $status ) : \Psr\Http\Message\ResponseInterface
 	{
 		/** client/jsonapi/order/template
 		 * Relative path to the order JSON API template

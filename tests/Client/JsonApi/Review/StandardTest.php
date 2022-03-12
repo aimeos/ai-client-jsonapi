@@ -39,7 +39,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'fields' => ['review' => 'review.id,review.name,review.comment'],
 			'sort' => '-rating'
 		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 
@@ -60,7 +60,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetById()
 	{
 		$params = ['id' => $this->getReview()->getId()];
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 

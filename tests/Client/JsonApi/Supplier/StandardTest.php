@@ -40,7 +40,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'include' => 'media,text'
 		);
 
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -74,7 +74,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'include' => 'supplier/address'
 		);
 
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -105,7 +105,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'include' => 'media,text,supplier/address',
 			'sort' => 'supplier.label,-supplier.id',
 		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -135,7 +135,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			),
 			'sort' => 'supplier.label',
 		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );

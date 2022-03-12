@@ -84,8 +84,8 @@ interface Iface
 	/**
 	 * Sets the view object that will generate the HTML output.
 	 *
-	 * @param \Aimeos\MW\View\Iface $view The view object which generates the HTML output
+	 * @param \Aimeos\Base\View\Iface $view The view object which generates the HTML output
 	 * @return \Aimeos\Client\JsonApi\Iface Reference to this object for fluent calls
 	 */
-	public function setView( \Aimeos\MW\View\Iface $view ) : \Aimeos\Client\JsonApi\Iface;
+	public function setView( \Aimeos\Base\View\Iface $view ) : \Aimeos\Client\JsonApi\Iface;
 }

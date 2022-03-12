@@ -40,7 +40,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'include' => 'media,price,text'
 		);
 
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -75,7 +75,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'include' => 'attribute/property'
 		);
 
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -105,7 +105,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'include' => 'media,price,text',
 			'sort' => '-attribute.type,attribute.position',
 		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -139,7 +139,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			),
 			'sort' => 'attribute.position',
 		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );

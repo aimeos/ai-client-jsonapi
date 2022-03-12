@@ -44,7 +44,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 
 		$params = ['id' => $customer->getId()];
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$body = '{"data": {"type": "customer/property", "id": ' . $customer->getPropertyItems()->first()->getId() . '}}';
@@ -75,7 +75,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 
 		$params = ['id' => $customer->getId(), 'relatedid' => $customer->getPropertyItems()->first()->getId()];
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 
@@ -136,7 +136,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context->setUserId( $customer->getId() );
 
 		$params = ['id' => $customer->getId()];
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 
@@ -168,7 +168,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'relatedid' => $id,
 			'fields' => ['customer/property' => 'customer.property.id,customer.property.value'],
 		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 
@@ -233,7 +233,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 
 		$params = ['id' => $customer->getId(), 'relatedid' => $customer->getPropertyItems()->first()->getId()];
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$body = '{"data": {"attributes": {"customer.property.value": "test"}}}	';
@@ -316,7 +316,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 
 		$params = ['id' => $customer->getId()];
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$body = '{"data": {"type": "customer/property", "attributes": {"customer.property.type": "testtype", "customer.property.value": "test"}}}';
@@ -351,7 +351,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 
 		$params = ['id' => $customer->getId()];
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$body = '{"data": [

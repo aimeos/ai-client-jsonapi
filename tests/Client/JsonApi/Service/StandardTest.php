@@ -36,7 +36,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGet()
 	{
 		$params = ['filter' => ['cs_type' => 'payment'], 'include' => ''];
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 
@@ -68,7 +68,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'fields' => array( 'service' => 'service.id,service.code' ),
 			'include' => '',
 		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 
@@ -102,7 +102,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'include' => 'media,price,text',
 			'sort' => 'service.type,-service.position'
 		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 
@@ -127,7 +127,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$object = $this->object( 'getProvider', $this->throwException( new \Aimeos\MShop\Exception() ) );
 
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, ['id' => -1] );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, ['id' => -1] );
 		$this->view->addHelper( 'param', $helper );
 
 
@@ -143,7 +143,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$object = $this->object( 'getProvider', $this->throwException( new \Exception() ) );
 
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, ['id' => -1] );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, ['id' => -1] );
 		$this->view->addHelper( 'param', $helper );
 
 

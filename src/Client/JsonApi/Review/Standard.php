@@ -117,12 +117,12 @@ class Standard
 	/**
 	 * Counts the number of products for the requested key
 	 *
-	 * @param \Aimeos\MW\View\Iface $view View instance
+	 * @param \Aimeos\Base\View\Iface $view View instance
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	protected function aggregate( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
+	protected function aggregate( \Aimeos\Base\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view->data = $this->getController( $view )->sort()
 			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 10000 ) )
@@ -135,10 +135,10 @@ class Standard
 	/**
 	 * Returns the initialized product controller
 	 *
-	 * @param \Aimeos\MW\View\Iface $view View instance
+	 * @param \Aimeos\Base\View\Iface $view View instance
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Initialized product controller
 	 */
-	protected function getController( \Aimeos\MW\View\Iface $view )
+	protected function getController( \Aimeos\Base\View\Iface $view )
 	{
 		$context = $this->context();
 		$cntl = \Aimeos\Controller\Frontend::create( $context, 'review' );
@@ -156,12 +156,12 @@ class Standard
 	/**
 	 * Retrieves the item and adds the data to the view
 	 *
-	 * @param \Aimeos\MW\View\Iface $view View instance
+	 * @param \Aimeos\Base\View\Iface $view View instance
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	protected function getItem( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
+	protected function getItem( \Aimeos\Base\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'review' );
 
@@ -175,12 +175,12 @@ class Standard
 	/**
 	 * Retrieves the items and adds the data to the view
 	 *
-	 * @param \Aimeos\MW\View\Iface $view View instance
+	 * @param \Aimeos\Base\View\Iface $view View instance
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
+	protected function getItems( \Aimeos\Base\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$total = 0;
 
@@ -195,11 +195,11 @@ class Standard
 	 * Returns the response object with the rendered header and body
 	 *
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
-	 * @param \Aimeos\MW\View\Iface $view View instance
+	 * @param \Aimeos\Base\View\Iface $view View instance
 	 * @param integer $status HTTP status code
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	protected function render( ResponseInterface $response, \Aimeos\MW\View\Iface $view, $status ) : \Psr\Http\Message\ResponseInterface
+	protected function render( ResponseInterface $response, \Aimeos\Base\View\Iface $view, $status ) : \Psr\Http\Message\ResponseInterface
 	{
 		if( $view->param( 'aggregate' ) != '' )
 		{

@@ -47,7 +47,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 
 		$params = ['id' => -1, 'related' => 'review'];
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$body = '{"data": [{"type": "review", "id": "' . $item->getId() . '"}]}';
@@ -77,7 +77,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 
 		$params = ['id' => -1, 'related' => 'review', 'relatedid' => $item->getId()];
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 
@@ -166,7 +166,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'relatedid' => $item->getId(),
 			'fields' => ['review' => 'review.id,review.rating'],
 		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 
@@ -254,7 +254,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 
 		$params = ['id' => -1, 'related' => 'review', 'relatedid' => $item->getId()];
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$body = '{"data": {"type": "review", "id": "-1", "attributes": {
@@ -298,7 +298,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context->setUserId( -1 );
 
 		$params = ['id' => -2, 'related' => 'review', 'relatedid' => -1];
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$body = '{"data": {"type": "review", "id": "-1", "attributes": {
@@ -362,7 +362,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = $manager->search( $filter )->first( new \RuntimeException( 'Order product item not found' ) );
 
 		$params = ['id' => -1, 'related' => 'review'];
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$body = '{"data": {"type": "review", "attributes": {
@@ -408,7 +408,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$items = $manager->search( $manager->filter()->add( ['order.base.product.prodcode' => 'ABCD'] ) );
 
 		$params = ['id' => -1, 'related' => 'review'];
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$body = '{"data": [{

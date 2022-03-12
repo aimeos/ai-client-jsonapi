@@ -33,29 +33,29 @@ class TestHelper
 
 	public static function view( \Aimeos\Base\Config\Iface $config )
 	{
-		$view = new \Aimeos\MW\View\Standard( self::getTemplatePaths() );
+		$view = new \Aimeos\Base\View\Standard( self::getTemplatePaths() );
 
 		$trans = new \Aimeos\Base\Translation\None( 'en' );
-		$helper = new \Aimeos\MW\View\Helper\Translate\Standard( $view, $trans );
+		$helper = new \Aimeos\Base\View\Helper\Translate\Standard( $view, $trans );
 		$view->addHelper( 'translate', $helper );
 
-		$helper = new \Aimeos\MW\View\Helper\Url\Standard( $view, 'baseurl' );
+		$helper = new \Aimeos\Base\View\Helper\Url\Standard( $view, 'baseurl' );
 		$view->addHelper( 'url', $helper );
 
-		$helper = new \Aimeos\MW\View\Helper\Number\Standard( $view, '.', '' );
+		$helper = new \Aimeos\Base\View\Helper\Number\Standard( $view, '.', '' );
 		$view->addHelper( 'number', $helper );
 
-		$helper = new \Aimeos\MW\View\Helper\Date\Standard( $view, 'Y-m-d' );
+		$helper = new \Aimeos\Base\View\Helper\Date\Standard( $view, 'Y-m-d' );
 		$view->addHelper( 'date', $helper );
 
-		$helper = new \Aimeos\MW\View\Helper\Config\Standard( $view, $config );
+		$helper = new \Aimeos\Base\View\Helper\Config\Standard( $view, $config );
 		$view->addHelper( 'config', $helper );
 
 		$psr17Factory = new \Nyholm\Psr7\Factory\Psr17Factory();
-		$helper = new \Aimeos\MW\View\Helper\Request\Standard( $view, $psr17Factory->createServerRequest( 'GET', 'https://aimeos.org' ) );
+		$helper = new \Aimeos\Base\View\Helper\Request\Standard( $view, $psr17Factory->createServerRequest( 'GET', 'https://aimeos.org' ) );
 		$view->addHelper( 'request', $helper );
 
-		$helper = new \Aimeos\MW\View\Helper\Response\Standard( $view, $psr17Factory->createResponse() );
+		$helper = new \Aimeos\Base\View\Helper\Response\Standard( $view, $psr17Factory->createResponse() );
 		$view->addHelper( 'response', $helper );
 
 		return $view;

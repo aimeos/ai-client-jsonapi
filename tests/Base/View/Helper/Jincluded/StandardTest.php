@@ -6,7 +6,7 @@
  */
 
 
-namespace Aimeos\MW\View\Helper\Jincluded;
+namespace Aimeos\Base\View\Helper\Jincluded;
 
 
 class StandardTest extends \PHPUnit\Framework\TestCase
@@ -16,7 +16,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp() : void
 	{
-		$this->object = new \Aimeos\MW\View\Helper\Jincluded\Standard( new \Aimeos\MW\View\Standard() );
+		$this->object = new \Aimeos\Base\View\Helper\Jincluded\Standard( new \Aimeos\Base\View\Standard() );
 	}
 
 

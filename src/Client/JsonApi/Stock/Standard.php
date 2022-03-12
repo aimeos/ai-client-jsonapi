@@ -130,12 +130,12 @@ class Standard
 	/**
 	 * Retrieves the item and adds the data to the view
 	 *
-	 * @param \Aimeos\MW\View\Iface $view View instance
+	 * @param \Aimeos\Base\View\Iface $view View instance
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	protected function getItem( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
+	protected function getItem( \Aimeos\Base\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view->items = \Aimeos\Controller\Frontend::create( $this->context(), 'stock' )->get( $view->param( 'id' ) );
 		$view->total = 1;
@@ -147,12 +147,12 @@ class Standard
 	/**
 	 * Retrieves the items and adds the data to the view
 	 *
-	 * @param \Aimeos\MW\View\Iface $view View instance
+	 * @param \Aimeos\Base\View\Iface $view View instance
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
+	protected function getItems( \Aimeos\Base\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$total = 0;
 		$params = $view->param( 'filter', [] );

@@ -8,7 +8,7 @@
  */
 
 
-namespace Aimeos\MW\View\Helper\Jincluded;
+namespace Aimeos\Base\View\Helper\Jincluded;
 
 
 /**
@@ -17,7 +17,7 @@ namespace Aimeos\MW\View\Helper\Jincluded;
  * @package MW
  * @subpackage View
  */
-interface Iface extends \Aimeos\MW\View\Helper\Iface
+interface Iface extends \Aimeos\Base\View\Helper\Iface
 {
 	/**
 	 * Returns the included data for the JSON:API response

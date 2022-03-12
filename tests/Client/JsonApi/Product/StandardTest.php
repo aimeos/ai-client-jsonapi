@@ -36,7 +36,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testAggregateAttribute()
 	{
 		$params = array( 'aggregate' => 'index.attribute.id' );
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -60,7 +60,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testAggregateCatalog()
 	{
 		$params = array( 'aggregate' => 'index.catalog.id' );
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -94,7 +94,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'include' => 'attribute,catalog,media,price,product,product/property,stock,supplier,text'
 		);
 
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -133,7 +133,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'sort' => '-code,-product.status',
 			'include' => 'attribute,text,product,product/property,catalog'
 		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -172,7 +172,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			),
 			'sort' => '-product.id',
 		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );

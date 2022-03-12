@@ -44,7 +44,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'include' => 'catalog,media,text'
 		);
 
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -78,7 +78,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'include' => 'media,text'
 		);
 
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -105,7 +105,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$params = array(
 			'include' => 'catalog,media'
 		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -132,10 +132,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetItemNoIdDeep()
 	{
 		$config = $this->context->config()->set( 'client/jsonapi/catalog/deep', true );
-		$helper = new \Aimeos\MW\View\Helper\Config\Standard( $this->view, $config );
+		$helper = new \Aimeos\Base\View\Helper\Config\Standard( $this->view, $config );
 		$this->view->addHelper( 'config', $helper );
 
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, ['include' => 'catalog'] );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, ['include' => 'catalog'] );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );

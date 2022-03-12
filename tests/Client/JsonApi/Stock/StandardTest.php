@@ -39,7 +39,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'sort' => 'stock.id'
 		);
 
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -66,7 +66,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'filter' => ['s_prodid' => [$prodId]],
 			'sort' => 'stock.productid,-stock.dateback',
 		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );

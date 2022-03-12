@@ -145,11 +145,11 @@ class Standard
 	 * Returns the response object with the rendered header and body
 	 *
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
-	 * @param \Aimeos\MW\View\Iface $view View instance
+	 * @param \Aimeos\Base\View\Iface $view View instance
 	 * @param integer $status HTTP status code
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	protected function render( ResponseInterface $response, \Aimeos\MW\View\Iface $view, $status ) : \Psr\Http\Message\ResponseInterface
+	protected function render( ResponseInterface $response, \Aimeos\Base\View\Iface $view, $status ) : \Psr\Http\Message\ResponseInterface
 	{
 		/** client/jsonapi/subscription/template
 		 * Relative path to the subscription JSON API template

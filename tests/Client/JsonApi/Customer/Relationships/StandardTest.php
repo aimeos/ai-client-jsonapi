@@ -44,7 +44,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 
 		$params = array( 'id' => $customer->getId() );
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$body = '{"data": {"type": "product", "id": ' . $customer->getListItems()->first()->getId() . '}}';
@@ -75,7 +75,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 
 		$params = ['id' => $customer->getId(), 'relatedid' => $customer->getListItems()->first()->getId()];
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 
@@ -99,7 +99,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$object = $this->object( 'uses', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
 
 		$params = array( 'relatedid' => -1 );
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $object->delete( $this->view->request(), $this->view->response() );
@@ -116,7 +116,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$object = $this->object( 'uses', $this->throwException( new \Aimeos\MShop\Exception() ) );
 
 		$params = array( 'relatedid' => -1 );
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $object->delete( $this->view->request(), $this->view->response() );
@@ -133,7 +133,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$object = $this->object( 'uses', $this->throwException( new \Exception() ) );
 
 		$params = array( 'relatedid' => -1 );
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $object->delete( $this->view->request(), $this->view->response() );
@@ -151,7 +151,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context->setUserId( $customer->getId() );
 
 		$params = ['id' => $customer->getId(), 'include' => 'product'];
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 
@@ -184,7 +184,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'fields' => array( 'customer/lists' => 'customer.lists.id,customer.lists.refid' ),
 			'include' => 'product',
 		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 
@@ -210,7 +210,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$object = $this->object( 'uses', $this->throwException( new \Aimeos\Controller\Frontend\Customer\Exception() ) );
 
 		$params = array( 'relatedid' => -1 );
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
@@ -227,7 +227,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$object = $this->object( 'uses', $this->throwException( new \Aimeos\MShop\Exception() ) );
 
 		$params = array( 'relatedid' => -1 );
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
@@ -244,7 +244,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$object = $this->object( 'uses', $this->throwException( new \Exception() ) );
 
 		$params = array( 'relatedid' => -1 );
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
@@ -266,7 +266,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 
 		$params = ['id' => $customer->getId(), 'relatedid' => $id, 'include' => 'product'];
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$body = '{"data": {"type": "product", "attributes": {
@@ -351,7 +351,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 
 		$params = ['id' => $customer->getId(), 'include' => 'product'];
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$body = '{"data": {"type": "product", "attributes": {
@@ -386,7 +386,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 
 		$params = ['id' => $customer->getId(), 'include' => 'product'];
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$body = '{"data": [{"type": "product", "attributes": {

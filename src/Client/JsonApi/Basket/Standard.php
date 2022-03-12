@@ -255,12 +255,12 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 * Returns the response object with the rendered header and body
 	 *
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
-	 * @param \Aimeos\MW\View\Iface $view View instance
+	 * @param \Aimeos\Base\View\Iface $view View instance
 	 * @param int $status HTTP status code
 	 * @param bool $allow True to allow all HTTP methods, false for GET only
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	protected function render( ResponseInterface $response, \Aimeos\MW\View\Iface $view, int $status, bool $allow = true ) : \Psr\Http\Message\ResponseInterface
+	protected function render( ResponseInterface $response, \Aimeos\Base\View\Iface $view, int $status, bool $allow = true ) : \Psr\Http\Message\ResponseInterface
 	{
 		/** client/jsonapi/basket/template
 		 * Relative path to the basket JSON API template

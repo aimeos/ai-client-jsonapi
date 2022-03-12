@@ -43,7 +43,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'sort' => 'locale.site.id'
 		];
 
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -74,7 +74,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'sort' => 'locale.site.id',
 		];
 
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -95,7 +95,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetItemDeep()
 	{
 		$config = $this->context->config()->set( 'client/jsonapi/site/deep', true );
-		$helper = new \Aimeos\MW\View\Helper\Config\Standard( $this->view, $config );
+		$helper = new \Aimeos\Base\View\Helper\Config\Standard( $this->view, $config );
 		$this->view->addHelper( 'config', $helper );
 
 		$siteId = \Aimeos\MShop::create( $this->context, 'locale/site' )->find( 'unittest' )->getId();
@@ -108,7 +108,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'include' => 'locale/site'
 		];
 
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
