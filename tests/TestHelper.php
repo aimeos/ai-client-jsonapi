@@ -103,7 +103,7 @@ class TestHelper
 		$ctx->setDatabaseManager( $dbm );
 
 
-		$mq = new \Aimeos\MW\MQueue\Manager\Standard( $conf );
+		$mq = new \Aimeos\Base\MQueue\Manager\Standard( $conf );
 		$ctx->setMessageQueueManager( $mq );
 
 
