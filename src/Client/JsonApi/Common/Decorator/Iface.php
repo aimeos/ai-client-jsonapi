@@ -24,9 +24,9 @@ interface Iface
 	 * Initializes a new client decorator object
 	 *
 	 * @param \Aimeos\Client\JsonApi\Iface $client Client object
-	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object with required objects
+	 * @param \Aimeos\MShop\ContextIface $context Context object with required objects
 	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
 	 */
 	public function __construct( \Aimeos\Client\JsonApi\Iface $client,
-		\Aimeos\MShop\Context\Item\Iface $context, string $path );
+		\Aimeos\MShop\ContextIface $context, string $path );
 }

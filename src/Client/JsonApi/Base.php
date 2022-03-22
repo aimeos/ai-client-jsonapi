@@ -34,10 +34,10 @@ abstract class Base
 	/**
 	 * Initializes the client
 	 *
-	 * @param \Aimeos\MShop\Context\Item\Iface $context MShop context object
+	 * @param \Aimeos\MShop\ContextIface $context MShop context object
 	 * @param string $path Name of the client separated by slashes, e.g "catalog/lists"
 	 */
-	public function __construct( \Aimeos\MShop\Context\Item\Iface $context, string $path )
+	public function __construct( \Aimeos\MShop\ContextIface $context, string $path )
 	{
 		$this->context = $context;
 		$this->path = $path;
@@ -187,9 +187,9 @@ abstract class Base
 	/**
 	 * Returns the context item object
 	 *
-	 * @return \Aimeos\MShop\Context\Item\Iface Context object
+	 * @return \Aimeos\MShop\ContextIface Context object
 	 */
-	protected function context() : \Aimeos\MShop\Context\Item\Iface
+	protected function context() : \Aimeos\MShop\ContextIface
 	{
 		return $this->context;
 	}

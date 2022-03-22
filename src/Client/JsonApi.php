@@ -27,13 +27,13 @@ class JsonApi extends \Aimeos\Client\JsonApi\Common\Factory\Base
 	 * retrieve a specific sub-client, e.g. "product/type" for the
 	 * \Aimeos\Client\JsonApi\Product\Type\Standard client.
 	 *
-	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object required by clients
+	 * @param \Aimeos\MShop\ContextIface $context Context object required by clients
 	 * @param string $path Name of the client separated by slashes, e.g "order/base"
 	 * @param string|null $name Name of the client implementation ("Standard" if null)
 	 * @return \Aimeos\Client\JsonApi\Iface JSON client instance
 	 * @throws \Aimeos\Client\JsonApi\Exception If the given path is invalid
 	 */
-	public static function create( \Aimeos\MShop\Context\Item\Iface $context, string $path, string $name = null ) : \Aimeos\Client\JsonApi\Iface
+	public static function create( \Aimeos\MShop\ContextIface $context, string $path, string $name = null ) : \Aimeos\Client\JsonApi\Iface
 	{
 		$path = trim( $path, '/' );
 
@@ -74,13 +74,13 @@ class JsonApi extends \Aimeos\Client\JsonApi\Common\Factory\Base
 	/**
 	 * Creates the top level client
 	 *
-	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object required by clients
+	 * @param \Aimeos\MShop\ContextIface $context Context object required by clients
 	 * @param string $path Name of the client separated by slashes, e.g "order/base"
 	 * @param string|null $name Name of the JsonApi client (default: "Standard")
 	 * @return \Aimeos\Client\JsonApi\Iface JSON client instance
 	 * @throws \Aimeos\Client\JsonApi\Exception If the client couldn't be created
 	 */
-	protected static function createRoot( \Aimeos\MShop\Context\Item\Iface $context, string $path, string $name = null ) : \Aimeos\Client\JsonApi\Iface
+	protected static function createRoot( \Aimeos\MShop\ContextIface $context, string $path, string $name = null ) : \Aimeos\Client\JsonApi\Iface
 	{
 		/** client/jsonapi/name
 		 * Class name of the used JSON API client implementation

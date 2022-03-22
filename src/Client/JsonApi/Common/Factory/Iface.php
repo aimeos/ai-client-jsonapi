@@ -22,10 +22,10 @@ interface Iface
 	/**
 	 * Creates a new client based on the name
 	 *
-	 * @param \Aimeos\MShop\Context\Item\Iface $context MShop context object
+	 * @param \Aimeos\MShop\ContextIface $context MShop context object
 	 * @param string $path Name of the client separated by slashes, e.g "product"
 	 * @param string|null $name Name of the client implementation ("Standard" if null)
 	 * @return \Aimeos\Client\JsonApi\Iface Client Interface
 	 */
-	public static function create( \Aimeos\MShop\Context\Item\Iface $context, string $path, string $name = null ) : \Aimeos\Client\JsonApi\Iface;
+	public static function create( \Aimeos\MShop\ContextIface $context, string $path, string $name = null ) : \Aimeos\Client\JsonApi\Iface;
 }

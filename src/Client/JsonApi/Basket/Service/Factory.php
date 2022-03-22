@@ -24,13 +24,13 @@ class Factory
 	/**
 	 * Creates a basket/service client object.
 	 *
-	 * @param \Aimeos\MShop\Context\Item\Iface $context Shop context instance with necessary objects
+	 * @param \Aimeos\MShop\ContextIface $context Shop context instance with necessary objects
 	 * @param string $path Name of the client separated by slashes, e.g "service"
 	 * @param string|null $name Client name (default: "Standard")
 	 * @return \Aimeos\Client\JsonApi\Iface JSON API client
 	 * @throws \Aimeos\Client\JsonApi\Exception If requested client implementation couldn't be found or initialisation fails
 	 */
-	public static function create( \Aimeos\MShop\Context\Item\Iface $context, string $path, string $name = null ) : \Aimeos\Client\JsonApi\Iface
+	public static function create( \Aimeos\MShop\ContextIface $context, string $path, string $name = null ) : \Aimeos\Client\JsonApi\Iface
 	{
 		if( is_string( $path ) === false || preg_match( '#^[a-zA-Z0-9/]+$#', $path ) !== 1 ) {
 			throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid client "%1$s"', $path ), 400 );
