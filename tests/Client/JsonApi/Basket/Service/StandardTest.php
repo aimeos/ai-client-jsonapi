@@ -267,7 +267,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		\Aimeos\Controller\Frontend::inject( '\Aimeos\Controller\Frontend\Basket\Standard', $cntl );
 
-		$object = new \Aimeos\Client\JsonApi\Basket\Service\Standard( $this->context, 'basket/service' );
+		$object = new \Aimeos\Client\JsonApi\Basket\Service\Standard( $this->context );
 		$object->setView( $this->view );
 
 		return $object;
