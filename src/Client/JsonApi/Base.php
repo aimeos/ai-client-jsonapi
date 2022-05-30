@@ -28,19 +28,16 @@ abstract class Base
 
 	private $view;
 	private $context;
-	private $path;
 
 
 	/**
 	 * Initializes the client
 	 *
 	 * @param \Aimeos\MShop\ContextIface $context MShop context object
-	 * @param string $path Name of the client separated by slashes, e.g "catalog/lists"
 	 */
-	public function __construct( \Aimeos\MShop\ContextIface $context, string $path )
+	public function __construct( \Aimeos\MShop\ContextIface $context )
 	{
 		$this->context = $context;
-		$this->path = $path;
 	}
 
 
@@ -230,17 +227,6 @@ abstract class Base
 		}
 
 		return [$details]; // jsonapi.org requires a list of error objects
-	}
-
-
-	/**
-	 * Returns the path to the client
-	 *
-	 * @return string Client path, e.g. "product/property"
-	 */
-	protected function getPath() : string
-	{
-		return $this->path;
 	}
 
 
