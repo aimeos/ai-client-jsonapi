@@ -18,6 +18,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp() : void
 	{
+		\Aimeos\Controller\Frontend::cache( true );
+
 		$this->context = \TestHelper::context();
 		$this->view = $this->context->view();
 
@@ -28,7 +30,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function tearDown() : void
 	{
-		\Aimeos\Controller\Frontend\Basket\Factory::injectController( '\Aimeos\Controller\Frontend\Basket\Standard', null );
+		\Aimeos\Controller\Frontend::cache( false );
+		unset( $this->view, $this->object, $this->context );
 	}
 
 
@@ -491,7 +494,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			$cntl->expects( $this->once() )->method( $method )->will( $result );
 		}
 
-		\Aimeos\Controller\Frontend\Basket\Factory::injectController( '\Aimeos\Controller\Frontend\Basket\Standard', $cntl );
+		\Aimeos\Controller\Frontend::inject( '\Aimeos\Controller\Frontend\Basket\Standard', $cntl );
 
 		$object = new \Aimeos\Client\JsonApi\Basket\Standard( $this->context, 'basket' );
 		$object->setView( $this->view );

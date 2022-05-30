@@ -497,7 +497,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$cntl->expects( $this->once() )->method( $method )->will( $result );
 
-		\Aimeos\Controller\Frontend::inject( 'customer', $cntl );
+		\Aimeos\Controller\Frontend::inject( \Aimeos\Controller\Frontend\Customer\Standard::class, $cntl );
 
 		$object = new \Aimeos\Client\JsonApi\Customer\Relationships\Standard( $this->context, 'customer/relationships' );
 		$object->setView( $this->view );

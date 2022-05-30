@@ -18,6 +18,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp() : void
 	{
+		\Aimeos\Controller\Frontend::cache( true );
+
 		$this->context = \TestHelper::context();
 		$this->view = $this->context->view();
 
@@ -31,8 +33,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function tearDown() : void
 	{
-		\Aimeos\Controller\Frontend\Subscription\Factory::injectController( '\Aimeos\Controller\Frontend\Subscription\Standard', null );
-		unset( $this->context, $this->object, $this->view );
+		\Aimeos\Controller\Frontend::cache( false );
+		unset( $this->view, $this->object, $this->context );
 	}
 
 
@@ -209,7 +211,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$cntl->expects( $this->once() )->method( $method )->will( $result );
 
-		\Aimeos\Controller\Frontend\Subscription\Factory::injectController( '\Aimeos\Controller\Frontend\Subscription\Standard', $cntl );
+		\Aimeos\Controller\Frontend::inject( '\Aimeos\Controller\Frontend\Subscription\Standard', $cntl );
 
 		$object = new \Aimeos\Client\JsonApi\Subscription\Standard( $this->context, 'subscription' );
 		$object->setView( $this->view );

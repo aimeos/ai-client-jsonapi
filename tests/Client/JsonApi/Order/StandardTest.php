@@ -18,6 +18,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp() : void
 	{
+		\Aimeos\Controller\Frontend::cache( true );
+
 		$this->context = \TestHelper::context();
 		$this->view = $this->context->view();
 
@@ -28,8 +30,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function tearDown() : void
 	{
-		\Aimeos\Controller\Frontend\Order\Factory::injectController( '\Aimeos\Controller\Frontend\Order\Standard', null );
-		unset( $this->context, $this->object, $this->view );
+		\Aimeos\Controller\Frontend::cache( false );
+		unset( $this->view, $this->object, $this->context );
 	}
 
 
@@ -289,9 +291,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$cntl->expects( $this->once() )->method( 'store' )->will( $this->returnValue( $order ) );
 
-		\Aimeos\Controller\Frontend\Order\Factory::injectController( '\Aimeos\Controller\Frontend\Order\Standard', $cntl );
+		\Aimeos\Controller\Frontend::inject( '\Aimeos\Controller\Frontend\Order\Standard', $cntl );
 		$result = $this->access( 'createOrder' )->invokeArgs( $this->object, [-1] );
-		\Aimeos\Controller\Frontend\Order\Factory::injectController( '\Aimeos\Controller\Frontend\Order\Standard', null );
+		\Aimeos\Controller\Frontend::inject( '\Aimeos\Controller\Frontend\Order\Standard', null );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Iface::class, $result );
 	}
@@ -329,9 +331,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$cntl->expects( $this->once() )->method( 'process' )
 			->will( $this->returnValue( new \Aimeos\MShop\Common\Helper\Form\Standard() ) );
 
-		\Aimeos\Controller\Frontend\Service\Factory::injectController( '\Aimeos\Controller\Frontend\Service\Standard', $cntl );
+		\Aimeos\Controller\Frontend::inject( '\Aimeos\Controller\Frontend\Service\Standard', $cntl );
 		$result = $this->access( 'getPaymentForm' )->invokeArgs( $this->object, [$basket, $order, []] );
-		\Aimeos\Controller\Frontend\Service\Factory::injectController( '\Aimeos\Controller\Frontend\Service\Standard', null );
+		\Aimeos\Controller\Frontend::inject( '\Aimeos\Controller\Frontend\Service\Standard', null );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Common\Helper\Form\Iface::class, $result );
 	}
@@ -349,9 +351,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$cntl->expects( $this->once() )->method( 'save' );
 
-		\Aimeos\Controller\Frontend\Order\Factory::injectController( '\Aimeos\Controller\Frontend\Order\Standard', $cntl );
+		\Aimeos\Controller\Frontend::inject( '\Aimeos\Controller\Frontend\Order\Standard', $cntl );
 		$result = $this->access( 'getPaymentForm' )->invokeArgs( $this->object, [$basket, $order, []] );
-		\Aimeos\Controller\Frontend\Order\Factory::injectController( '\Aimeos\Controller\Frontend\Order\Standard', null );
+		\Aimeos\Controller\Frontend::inject( '\Aimeos\Controller\Frontend\Order\Standard', null );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Common\Helper\Form\Iface::class, $result );
 	}
@@ -382,7 +384,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$cntl->expects( $this->once() )->method( $method )->will( $result );
 
-		\Aimeos\Controller\Frontend\Order\Factory::injectController( '\Aimeos\Controller\Frontend\Order\Standard', $cntl );
+		\Aimeos\Controller\Frontend::inject( '\Aimeos\Controller\Frontend\Order\Standard', $cntl );
 
 		$object = new \Aimeos\Client\JsonApi\Order\Standard( $this->context, 'order' );
 		$object->setView( $this->view );

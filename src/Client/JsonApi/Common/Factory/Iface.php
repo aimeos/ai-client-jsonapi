@@ -16,6 +16,7 @@ namespace Aimeos\Client\JsonApi\Common\Factory;
  *
  * @package Client
  * @subpackage JsonApi
+ * @deprecated 2023.01
  */
 interface Iface
 {

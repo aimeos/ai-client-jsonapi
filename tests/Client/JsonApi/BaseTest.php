@@ -102,13 +102,6 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testGetPath()
-	{
-		$result = $this->access( 'getPath' )->invokeArgs( $this->object, [] );
-		$this->assertEquals( 'test', $result );
-	}
-
-
 	protected function access( $name )
 	{
 		$class = new \ReflectionClass( \Aimeos\Client\JsonApi\Base::class );

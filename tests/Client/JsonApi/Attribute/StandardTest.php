@@ -18,11 +18,22 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp() : void
 	{
+		\Aimeos\Controller\Frontend::cache( true );
+		\Aimeos\MShop::cache( true );
+
 		$this->context = \TestHelper::context();
 		$this->view = $this->context->view();
 
 		$this->object = new \Aimeos\Client\JsonApi\Attribute\Standard( $this->context, 'attribute' );
 		$this->object->setView( $this->view );
+	}
+
+
+	protected function tearDown() : void
+	{
+		\Aimeos\MShop::cache( false );
+		\Aimeos\Controller\Frontend::cache( false );
+		unset( $this->view, $this->object, $this->context );
 	}
 
 
