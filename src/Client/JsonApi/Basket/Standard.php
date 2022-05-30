@@ -142,11 +142,10 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 * Initializes the client
 	 *
 	 * @param \Aimeos\MShop\ContextIface $context MShop context object
-	 * @param string $path Name of the client, e.g "basket"
 	 */
-	public function __construct( \Aimeos\MShop\ContextIface $context, string $path )
+	public function __construct( \Aimeos\MShop\ContextIface $context )
 	{
-		parent::__construct( $context, $path );
+		parent::__construct( $context );
 
 		$this->controller = \Aimeos\Controller\Frontend::create( $this->context(), 'basket' );
 	}

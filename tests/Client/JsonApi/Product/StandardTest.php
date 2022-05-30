@@ -23,7 +23,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context = \TestHelper::context();
 		$this->view = $this->context->view();
 
-		$this->object = new \Aimeos\Client\JsonApi\Product\Standard( $this->context, 'product' );
+		$this->object = new \Aimeos\Client\JsonApi\Product\Standard( $this->context );
 		$this->object->setView( $this->view );
 	}
 
