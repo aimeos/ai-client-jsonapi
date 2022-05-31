@@ -149,7 +149,8 @@ class JsonApi
 	 * @return \Aimeos\Client\JsonApi\Iface JSON client instance
 	 * @throws \Aimeos\Client\JsonApi\Exception If the given path is invalid
 	 */
-	public static function create( \Aimeos\MShop\ContextIface $context, string $path, string $name = null ) : \Aimeos\Client\JsonApi\Iface
+	public static function create( \Aimeos\MShop\ContextIface $context,
+		string $path, string $name = null ) : \Aimeos\Client\JsonApi\Iface
 	{
 		empty( $path = trim( $path, '/' ) ) ?: $path .= '/';
 
@@ -190,7 +191,7 @@ class JsonApi
 	 * Adds the decorators to the JSON API client object
 	 *
 	 * @param \Aimeos\MShop\ContextIface $context Context instance with necessary objects
-	 * @param \Aimeos\Client\JsonApi\Common\Iface $client Client object
+	 * @param \Aimeos\Client\JsonApi\Iface $client Client object
 	 * @param string $path Name of the client, e.g "product"
 	 * @return \Aimeos\Client\JsonApi\Iface Client object
 	 */
@@ -233,7 +234,7 @@ class JsonApi
 		}
 
 		$classprefix = '\\Aimeos\\Client\\JsonApi\\Common\\Decorator\\';
-		return self::addDecorators( $context, $client, $path, $decorators, $classprefix );
+		$client = self::addDecorators( $context, $client, $path, $decorators, $classprefix );
 
 		$classprefix = '\\Aimeos\\Client\\JsonApi\\Common\\Decorator\\';
 		$decorators = $config->get( 'client/jsonapi/' . $path . 'decorators/global', [] );
