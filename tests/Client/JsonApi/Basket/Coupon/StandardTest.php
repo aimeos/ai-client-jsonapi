@@ -272,7 +272,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$cntl->expects( $this->once() )->method( $method )->will( $result );
 
-		\Aimeos\Controller\Frontend::inject( '\Aimeos\Controller\Frontend\Basket\Standard', $cntl );
+		\Aimeos\Controller\Frontend::inject( \Aimeos\Controller\Frontend\Basket\Standard::class, $cntl );
 
 		$object = new \Aimeos\Client\JsonApi\Basket\Coupon\Standard( $this->context );
 		$object->setView( $this->view );
