@@ -165,8 +165,7 @@ class JsonApi
 			throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Class "%1$s" not found', $classname, 404 ) );
 		}
 
-		$client = self::createComponent( $context, $classname, $interface );
-		$client = self::addComponentDecorators( $context, $client, $path );
+		$client = self::createComponent( $context, $classname, $interface, $path );
 
 		return $client->setView( $context->view() );
 	}
@@ -295,10 +294,11 @@ class JsonApi
 	 * @param \Aimeos\MShop\ContextIface $context Context object
 	 * @param string $classname Name of the client class
 	 * @param string $interface Name of the client interface
+	 * @param string $path Name of the client separated by slashes, e.g "order/base"
 	 * @return \Aimeos\Client\JsonApi\Iface Client object
 	 */
 	protected static function createComponent( \Aimeos\MShop\ContextIface $context,
-		string $classname, string $interface ) : \Aimeos\Client\JsonApi\Iface
+		string $classname, string $interface, string $path ) : \Aimeos\Client\JsonApi\Iface
 	{
 		if( isset( self::$objects[$classname] ) ) {
 			return self::$objects[$classname];
@@ -316,6 +316,6 @@ class JsonApi
 			throw new \Aimeos\Client\JsonApi\Exception( $msg, 400 );
 		}
 
-		return $client;
+		return self::addComponentDecorators( $context, $client, $path );
 	}
 }
