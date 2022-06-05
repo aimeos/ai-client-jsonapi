@@ -128,7 +128,7 @@ class TestHelper
 		$ctx->setLocale( $locale );
 
 
-		$ctx->setEditor( 'ai-client-jsonapi:client/jsonapi' );
+		$ctx->setEditor( 'ai-client-jsonapi' );
 
 		return $ctx;
 	}
