@@ -208,7 +208,7 @@ class Standard
 			}
 
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'product' )
-				->uses( ['attribute', 'media', 'price', 'product', 'text'] );
+				->uses( ['attribute', 'catalog', 'locale/site', 'media', 'price', 'product', 'text'] );
 
 			foreach( $payload->data as $entry )
 			{
