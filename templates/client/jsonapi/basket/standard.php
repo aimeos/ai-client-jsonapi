@@ -174,7 +174,7 @@ $serviceFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) u
 				$entry['links'] = array(
 					'self' => array(
 						'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
-						'allow' => ['DELETE'],
+						'allow' => ['DELETE', 'PATCH'],
 					),
 				);
 			}
