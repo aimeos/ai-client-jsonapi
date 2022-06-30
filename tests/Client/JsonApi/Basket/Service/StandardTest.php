@@ -139,6 +139,130 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testPatch()
+	{
+		$manager = \Aimeos\MShop::create( $this->context, 'service' );
+		$servId = $manager->find( 'directdebit-test', [], 'service', 'payment' )->getId();
+		$servId2 = $manager->find( 'unitpaymentcode', [], 'service', 'payment' )->getId();
+
+		$body = '{"data": {"type": "basket/service", "id": "payment", "attributes": {
+			"service.id": "' . $servId . '",
+			"directdebit.accountowner": "test",
+			"directdebit.accountno": "1234",
+			"directdebit.bankcode": "5678",
+			"directdebit.bankname": "test"
+		}}}';
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
+
+		$response = $this->object->post( $request, $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 201, $response->getStatusCode() );
+		$this->assertEquals( 'directdebit-test', $result['included'][0]['attributes']['order.base.service.code'] );
+
+
+		$body = '{"data": {"type": "basket/service", "id": "payment", "attributes": {"service.id": ' . $servId2 . '}}}';
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
+
+		$params = array( 'id' => 'default', 'relatedid' => 'payment' );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->patch( $request, $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
+		$this->assertEquals( 1, $result['meta']['total'] );
+		$this->assertEquals( 'basket', $result['data']['type'] );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket/service']['data'] ) );
+		$this->assertEquals( 'unitpaymentcode', $result['included'][0]['attributes']['order.base.service.code'] );
+
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
+	public function testPatchMultiple()
+	{
+		$manager = \Aimeos\MShop::create( $this->context, 'service' );
+		$servId = $manager->find( 'directdebit-test', [], 'service', 'payment' )->getId();
+		$servId2 = $manager->find( 'unitpaymentcode', [], 'service', 'payment' )->getId();
+
+		$body = '{"data": [{
+			"type": "basket/service", "id": "payment", "attributes": {
+				"service.id": "' . $servId . '",
+				"directdebit.accountowner": "test",
+				"directdebit.accountno": "1234",
+				"directdebit.bankcode": "5678",
+				"directdebit.bankname": "test"
+			}
+		}, {
+			"type": "basket/service", "id": "payment", "attributes": {"service.id": ' . $servId2 . '}
+		}]}';
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
+
+		$params = array( 'id' => 'default', 'relatedid' => 'payment' );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->patch( $request, $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
+		$this->assertEquals( 1, $result['meta']['total'] );
+		$this->assertEquals( 'basket', $result['data']['type'] );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket/service']['data'] ) );
+		$this->assertEquals( 'directdebit-test', $result['included'][0]['attributes']['order.base.service.code'] );
+		$this->assertEquals( 'unitpaymentcode', $result['included'][1]['attributes']['order.base.service.code'] );
+
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
+	public function testPatchPluginException()
+	{
+		$object = $this->object( 'setType', $this->throwException( new \Aimeos\MShop\Plugin\Provider\Exception() ) );
+
+		$response = $object->patch( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+
+		$this->assertEquals( 409, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testPatchMShopException()
+	{
+		$object = $this->object( 'setType', $this->throwException( new \Aimeos\MShop\Exception() ) );
+
+		$response = $object->patch( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+
+		$this->assertEquals( 404, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testPatchException()
+	{
+		$object = $this->object( 'setType', $this->throwException( new \Exception() ) );
+
+		$response = $object->patch( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+
+		$this->assertEquals( 500, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
 	public function testPost()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );

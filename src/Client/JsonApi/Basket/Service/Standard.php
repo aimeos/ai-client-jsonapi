@@ -222,6 +222,83 @@ class Standard
 
 
 	/**
+	 * Updates the resource or the resource list partitially
+	 *
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
+	 */
+	public function patch( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
+	{
+		$view = $this->view();
+
+		try
+		{
+			$this->clearCache();
+			$this->controller->setType( $view->param( 'id', 'default' ) );
+
+			$body = (string) $request->getBody();
+
+			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
+				throw new \Aimeos\Client\JsonApi\Exception( 'Invalid JSON in body', 400 );
+			}
+
+			if( !is_array( $payload->data ) ) {
+				$payload->data = [$payload->data];
+			}
+
+			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'service' );
+
+			if( $relId = $view->param( 'relatedid' ) ) {
+				$this->controller->deleteService( $relId );
+			}
+
+			foreach( $payload->data as $entry )
+			{
+				if( !isset( $entry->id ) ) {
+					throw new \Aimeos\Client\JsonApi\Exception( 'Service type (ID) is missing', 400 );
+				}
+
+				if( !isset( $entry->attributes ) ) {
+					throw new \Aimeos\Client\JsonApi\Exception( 'Service attributes are missing', 400 );
+				}
+
+				if( !isset( $entry->attributes->{'service.id'} ) ) {
+					throw new \Aimeos\Client\JsonApi\Exception( 'Service ID in attributes is missing', 400 );
+				}
+
+				$item = $cntl->uses( ['media', 'price', 'text'] )->get( $entry->attributes->{'service.id'} );
+				unset( $entry->attributes->{'service.id'} );
+
+				$this->controller->addService( $item, (array) $entry->attributes );
+			}
+
+
+			$view->item = $this->controller->get();
+			$status = 200;
+		}
+		catch( \Aimeos\MShop\Plugin\Provider\Exception $e )
+		{
+			$status = 409;
+			$errors = $this->translatePluginErrorCodes( $e->getErrorCodes() );
+			$view->errors = $this->getErrorDetails( $e, 'mshop' ) + $errors;
+		}
+		catch( \Aimeos\MShop\Exception $e )
+		{
+			$status = 404;
+			$view->errors = $this->getErrorDetails( $e, 'mshop' );
+		}
+		catch( \Exception $e )
+		{
+			$status = $e->getCode() >= 100 && $e->getCode() < 600 ? $e->getCode() : 500;
+			$view->errors = $this->getErrorDetails( $e );
+		}
+
+		return $this->render( $response, $view, $status );
+	}
+
+
+	/**
 	 * Creates or updates the resource or the resource list
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
