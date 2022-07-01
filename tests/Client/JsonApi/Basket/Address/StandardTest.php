@@ -133,6 +133,102 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testPatch()
+	{
+		$body = '{"data": {"type": "basket/address", "id": "payment", "attributes": {"firstname": "test"}}}';
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
+
+		$params = array( 'id' => 'default', 'relatedid' => 'payment' );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->patch( $request, $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
+		$this->assertEquals( 1, $result['meta']['total'] );
+		$this->assertEquals( 'basket', $result['data']['type'] );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket/address']['data'] ) );
+		$this->assertEquals( 'test', $result['included'][0]['attributes']['order.base.address.firstname'] );
+
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
+	public function testPatchMultiple()
+	{
+		$body = '{"data": [{
+			"type": "basket/address", "id": "delivery", "attributes": {"firstname": "test"}
+		}, {
+			"type": "basket/address", "id": "delivery", "attributes": {"lastname": "test"}
+		}]}';
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
+
+		$params = array( 'id' => 'default', 'relatedid' => 'delivery' );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->patch( $request, $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
+		$this->assertEquals( 1, $result['meta']['total'] );
+		$this->assertEquals( 'basket', $result['data']['type'] );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket/address']['data'] ) );
+		$this->assertEquals( 'test', $result['included'][0]['attributes']['order.base.address.firstname'] );
+		$this->assertEquals( 'test', $result['included'][1]['attributes']['order.base.address.lastname'] );
+
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
+	public function testPatchPluginException()
+	{
+		$object = $this->object( 'setType', $this->throwException( new \Aimeos\MShop\Plugin\Provider\Exception() ) );
+
+		$response = $object->patch( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+
+		$this->assertEquals( 409, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testPatchMShopException()
+	{
+		$object = $this->object( 'setType', $this->throwException( new \Aimeos\MShop\Exception() ) );
+
+		$response = $object->patch( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+
+		$this->assertEquals( 404, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testPatchException()
+	{
+		$object = $this->object( 'setType', $this->throwException( new \Exception() ) );
+
+		$response = $object->patch( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+
+		$this->assertEquals( 500, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
 	public function testPost()
 	{
 		$body = '{"data": {"type": "basket/address", "id": "payment", "attributes": {"firstname": "test"}}}';
