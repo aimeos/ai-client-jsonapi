@@ -27,7 +27,7 @@ class TestHelper
 			self::$context[$site]->setView( self::view( self::$context[$site]->config() ) );
 		}
 
-		return clone self::$context[$site];
+		return ( clone self::$context[$site] )->setToken( md5( microtime( true ) ) );
 	}
 
 
@@ -93,7 +93,7 @@ class TestHelper
 		$paths[] = __DIR__ . DIRECTORY_SEPARATOR . 'config';
 		$file = __DIR__ . DIRECTORY_SEPARATOR . 'confdoc.ser';
 
-		$conf = new \Aimeos\Base\Config\PHPArray( [], $paths );
+		$conf = new \Aimeos\Base\Config\PHPArray( ['client' => ['jsonapi' => ['debug' => true]]], $paths );
 		$conf = new \Aimeos\Base\Config\Decorator\Memory( $conf );
 		$conf = new \Aimeos\Base\Config\Decorator\Documentor( $conf, $file );
 		$ctx->setConfig( $conf );
