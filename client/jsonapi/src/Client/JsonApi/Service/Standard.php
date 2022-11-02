@@ -43,7 +43,9 @@ class Standard
 				$ref = explode( ',', $ref );
 			}
 
-			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'service' )->uses( $ref );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'service' )->uses( $ref )
+				->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 100 ) );
+
 			$basketCntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'basket' );
 			$basket = $basketCntl->get();
 
