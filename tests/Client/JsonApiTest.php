@@ -29,20 +29,11 @@ class JsonApiTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testCreateInvalidPath()
-	{
-		$context = \TestHelper::context();
-
-		$this->expectException( \Aimeos\Client\JsonApi\Exception::class );
-		\Aimeos\Client\JsonApi::create( $context, '%^' );
-	}
-
-
 	public function testCreateInvalidName()
 	{
 		$context = \TestHelper::context();
 
 		$this->expectException( \Aimeos\Client\JsonApi\Exception::class );
-		\Aimeos\Client\JsonApi::create( $context, '', '%^' );
+		\Aimeos\Client\JsonApi::create( $context, '', '%^unknown' );
 	}
 }
