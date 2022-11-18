@@ -137,9 +137,19 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testPost()
 	{
 		$basket = \Aimeos\MShop::create( $this->context, 'order/base' )->create();
-		$order = \Aimeos\MShop::create( $this->context, 'order' )->create();
+		$order = \Aimeos\MShop::create( $this->context, 'order' )->create()->setBaseItem( $basket );
+
 		$form = new \Aimeos\MShop\Common\Helper\Form\Standard();
 		$templatePaths = \TestHelper::getTemplatePaths();
+
+		$manager = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
+			->setConstructorArgs( [$this->context] )
+			->setMethods( ['save'] )
+			->getMock();
+
+		$manager->expects( $this->once() )->method( 'save' )->will( $this->returnArgument( 0 ) );
+
+		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $manager );
 
 		$object = $this->getMockBuilder( \Aimeos\Client\JsonApi\Order\Standard::class )
 			->setConstructorArgs( [$this->context, 'order'] )
@@ -165,7 +175,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'order', $result['data']['type'] );
-		$this->assertEquals( 8, count( $result['data']['attributes'] ) );
+		$this->assertEquals( 24, count( $result['data']['attributes'] ) );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
@@ -321,7 +331,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetPaymentForm()
 	{
 		$basket = $this->getOrderBaseItem();
-		$order = \Aimeos\MShop::create( $this->context, 'order' )->create();
+		$order = \Aimeos\MShop::create( $this->context, 'order' )->create()->setBaseItem( $basket );
 
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Service\Standard::class )
 			->setConstructorArgs( [$this->context] )
@@ -332,7 +342,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->will( $this->returnValue( new \Aimeos\MShop\Common\Helper\Form\Standard() ) );
 
 		\Aimeos\Controller\Frontend::inject( '\Aimeos\Controller\Frontend\Service\Standard', $cntl );
-		$result = $this->access( 'getPaymentForm' )->invokeArgs( $this->object, [$basket, $order, []] );
+		$result = $this->access( 'getPaymentForm' )->invokeArgs( $this->object, [$order, []] );
 		\Aimeos\Controller\Frontend::inject( '\Aimeos\Controller\Frontend\Service\Standard', null );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Common\Helper\Form\Iface::class, $result );
@@ -342,7 +352,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetPaymentFormNoPayment()
 	{
 		$basket = \Aimeos\MShop::create( $this->context, 'order/base' )->create();
-		$order = \Aimeos\MShop::create( $this->context, 'order' )->create();
+		$order = \Aimeos\MShop::create( $this->context, 'order' )->create()->setBaseItem( $basket );
 
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Order\Standard::class )
 			->setConstructorArgs( [$this->context] )
@@ -352,7 +362,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$cntl->expects( $this->once() )->method( 'save' );
 
 		\Aimeos\Controller\Frontend::inject( '\Aimeos\Controller\Frontend\Order\Standard', $cntl );
-		$result = $this->access( 'getPaymentForm' )->invokeArgs( $this->object, [$basket, $order, []] );
+		$result = $this->access( 'getPaymentForm' )->invokeArgs( $this->object, [$order, []] );
 		\Aimeos\Controller\Frontend::inject( '\Aimeos\Controller\Frontend\Order\Standard', null );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Common\Helper\Form\Iface::class, $result );

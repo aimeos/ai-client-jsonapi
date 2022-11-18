@@ -222,10 +222,11 @@ class Standard
 			$basket = $this->getBasket( $payload->data->attributes->{'order.baseid'} );
 			$item = $this->createOrder( $payload->data->attributes->{'order.baseid'} );
 
-			$view->form = $this->getPaymentForm( $basket, $item, (array) $payload->data->attributes );
+			$view->form = $this->getPaymentForm( $item->setBaseItem( $basket ), (array) $payload->data->attributes );
 			$view->items = $item;
 			$view->total = 1;
 
+			\Aimeos\Controller\Frontend::create( $this->context(), 'order' )->save( $item );
 			$status = 201;
 		}
 		catch( \Aimeos\Client\JsonApi\Exception $e )
@@ -322,24 +323,23 @@ class Standard
 
 		$cntl = \Aimeos\Controller\Frontend::create( $context, 'basket' );
 
-		return $cntl->load( $baseId, ['order/base/service'], false );
+		return $cntl->get( $baseId, ['order/base/service'] );
 	}
 
 
 	/**
 	 * Returns the form helper object for building the payment form in the frontend
 	 *
-	 * @param \Aimeos\MShop\Order\Item\Base\Iface $basket Saved basket object including payment service object
 	 * @param \Aimeos\MShop\Order\Item\Iface $orderItem Saved order item created for the basket object
 	 * @param array $attributes Associative list of payment data pairs
-	 * @return \Aimeos\MShop\Common\Helper\Form\Iface|null Form object with URL, parameters, etc.
-	 * 	or null if no form data is required
+	 * @return \Aimeos\MShop\Common\Helper\Form\Iface|null Form object with URL, parameters, etc. or null if no form data is required
 	 */
-	protected function getPaymentForm( \Aimeos\MShop\Order\Item\Base\Iface $basket,
-		\Aimeos\MShop\Order\Item\Iface $orderItem, array $attributes ) : ?\Aimeos\MShop\Common\Helper\Form\Iface
+	protected function getPaymentForm( \Aimeos\MShop\Order\Item\Iface $orderItem, array $attributes ) : ?\Aimeos\MShop\Common\Helper\Form\Iface
 	{
 		$view = $this->view();
 		$context = $this->context();
+		$basket = $orderItem->getBaseItem();
+
 		$total = $basket->getPrice()->getValue() + $basket->getPrice()->getCosts();
 		$services = $basket->getService( \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_PAYMENT );
 
@@ -368,6 +368,8 @@ class Standard
 			$serviceCntl = \Aimeos\Controller\Frontend::create( $context, 'service' );
 			return $serviceCntl->process( $orderItem, $service->getServiceId(), $urls, $attributes );
 		}
+
+		return null;
 	}
 
 
