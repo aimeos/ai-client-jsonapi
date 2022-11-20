@@ -99,7 +99,7 @@ class TestHelper
 		$ctx->setConfig( $conf );
 
 
-		$dbm = \Aimeos\Base\DB\Factory::create( $conf->get( 'resource', [] ), 'DBAL' );
+		$dbm = new \Aimeos\Base\DB\Manager\Standard( $conf->get( 'resource', [] ), 'DBAL' );
 		$ctx->setDatabaseManager( $dbm );
 
 
