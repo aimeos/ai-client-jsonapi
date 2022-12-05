@@ -153,7 +153,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
 		$this->assertEquals( 1, count( $result['data']['relationships']['basket/address']['data'] ) );
-		$this->assertEquals( 'test', $result['included'][0]['attributes']['order.base.address.firstname'] );
+		$this->assertEquals( 'test', $result['included'][0]['attributes']['order.address.firstname'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -183,8 +183,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
 		$this->assertEquals( 1, count( $result['data']['relationships']['basket/address']['data'] ) );
-		$this->assertEquals( 'test', $result['included'][0]['attributes']['order.base.address.firstname'] );
-		$this->assertEquals( 'test', $result['included'][1]['attributes']['order.base.address.lastname'] );
+		$this->assertEquals( 'test', $result['included'][0]['attributes']['order.address.firstname'] );
+		$this->assertEquals( 'test', $result['included'][1]['attributes']['order.address.lastname'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -245,7 +245,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
 		$this->assertEquals( 1, count( $result['data']['relationships']['basket/address']['data'] ) );
-		$this->assertEquals( 'test', $result['included'][0]['attributes']['order.base.address.firstname'] );
+		$this->assertEquals( 'test', $result['included'][0]['attributes']['order.address.firstname'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -271,8 +271,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
 		$this->assertEquals( 2, count( $result['data']['relationships']['basket/address']['data'] ) );
-		$this->assertEquals( 'test', $result['included'][0]['attributes']['order.base.address.firstname'] );
-		$this->assertEquals( 'test', $result['included'][1]['attributes']['order.base.address.lastname'] );
+		$this->assertEquals( 'test', $result['included'][0]['attributes']['order.address.firstname'] );
+		$this->assertEquals( 'test', $result['included'][1]['attributes']['order.address.lastname'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}

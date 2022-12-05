@@ -28,7 +28,7 @@ foreach( (array) $fields as $resource => $list ) {
 }
 
 
-$entryFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) use ( $fields, $target, $cntl, $action, $config )
+$entryFcn = function( \Aimeos\MShop\Order\Item\Iface $item, $basketId ) use ( $fields, $target, $cntl, $action, $config )
 {
 	$allow = array( 'GET' );
 	$attributes = $item->toArray();
@@ -101,7 +101,7 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) use
 };
 
 
-$productFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) use ( $fields, $target, $cntl, $action, $config )
+$productFcn = function( \Aimeos\MShop\Order\Item\Iface $item, $basketId ) use ( $fields, $target, $cntl, $action, $config )
 {
 	$result = [];
 
@@ -114,7 +114,7 @@ $productFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) u
 			$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['basket/product'] );
 		}
 
-		if( $item->getId() === null && $orderProduct->getFlags() !== \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
+		if( $item->getId() === null && $orderProduct->getFlags() !== \Aimeos\MShop\Order\Item\Product\Base::FLAG_IMMUTABLE )
 		{
 			$params = ['resource' => 'basket', 'id' => $basketId, 'related' => 'product', 'relatedid' => $position];
 			$entry['links'] = array(
@@ -146,14 +146,14 @@ $productFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) u
 			$result = array_merge( $result, $this->jincluded( $product, $fields ) );
 		}
 
-		$result['order/base/product'][] = $entry;
+		$result['order/product'][] = $entry;
 	}
 
 	return $result;
 };
 
 
-$serviceFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) use ( $fields, $target, $cntl, $action, $config )
+$serviceFcn = function( \Aimeos\MShop\Order\Item\Iface $item, $basketId ) use ( $fields, $target, $cntl, $action, $config )
 {
 	$result = [];
 
@@ -189,7 +189,7 @@ $serviceFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) u
 				$result = array_merge( $result, $this->jincluded( $service, $fields ) );
 			}
 
-			$result['order/base/service'][] = $entry;
+			$result['order/service'][] = $entry;
 		}
 	}
 
@@ -197,7 +197,7 @@ $serviceFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) u
 };
 
 
-$addressFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) use ( $fields, $target, $cntl, $action, $config )
+$addressFcn = function( \Aimeos\MShop\Order\Item\Iface $item, $basketId ) use ( $fields, $target, $cntl, $action, $config )
 {
 	$list = [];
 
@@ -223,7 +223,7 @@ $addressFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) u
 				);
 			}
 
-			$list['order/base/address'][] = $entry;
+			$list['order/address'][] = $entry;
 		}
 	}
 
@@ -231,7 +231,7 @@ $addressFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) u
 };
 
 
-$couponFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) use ( $fields, $target, $cntl, $action, $config )
+$couponFcn = function( \Aimeos\MShop\Order\Item\Iface $item, $basketId ) use ( $fields, $target, $cntl, $action, $config )
 {
 	$coupons = [];
 
@@ -250,14 +250,14 @@ $couponFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item, $basketId ) us
 			);
 		}
 
-		$coupons['order/base/coupon'][] = $entry;
+		$coupons['order/coupon'][] = $entry;
 	}
 
 	return $coupons;
 };
 
 
-$customerFcn = function( \Aimeos\MShop\Order\Item\Base\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
+$customerFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
 {
 	$result = [];
 	$customer = $this->item->getCustomerItem();

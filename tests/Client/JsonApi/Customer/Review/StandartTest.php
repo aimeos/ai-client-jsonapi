@@ -355,8 +355,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$customerId = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
 		$this->context->setUserId( $customerId );
 
-		$manager = \Aimeos\MShop::create( $this->context, 'order/base/product' );
-		$filter = $manager->filter()->add( ['order.base.product.prodcode' => 'ABCD'] );
+		$manager = \Aimeos\MShop::create( $this->context, 'order/product' );
+		$filter = $manager->filter()->add( ['order.product.prodcode' => 'ABCD'] );
 		$item = $manager->search( $filter )->first( new \RuntimeException( 'Order product item not found' ) );
 
 		$params = ['id' => -1, 'related' => 'review'];
@@ -402,8 +402,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$customerId = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
 		$this->context->setUserId( $customerId );
 
-		$manager = \Aimeos\MShop::create( $this->context, 'order/base/product' );
-		$items = $manager->search( $manager->filter()->add( ['order.base.product.prodcode' => 'ABCD'] ) );
+		$manager = \Aimeos\MShop::create( $this->context, 'order/product' );
+		$items = $manager->search( $manager->filter()->add( ['order.product.prodcode' => 'ABCD'] ) );
 
 		$params = ['id' => -1, 'related' => 'review'];
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );

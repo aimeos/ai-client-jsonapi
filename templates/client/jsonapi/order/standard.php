@@ -38,79 +38,30 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Iface $item, \Aimeos\MShop\Common
 		$attributes = array_intersect_key( $attributes, $fields[$type] );
 	}
 
-	if( $baseItem = $item->getBaseItem() )
+	foreach( $item->getProducts() as $product ) {
+		$relationships['order/product']['data'][] = ['type' => 'order/product', 'id' => $product->getId()];
+	}
+
+	foreach( $item->getServices() as $list )
 	{
-		$baseattr = $baseItem->toArray();
-		$basetype = $baseItem->getResourceType();
-
-		if( isset( $fields[$basetype] ) ) {
-			$baseattr = array_intersect_key( $baseattr, $fields[$basetype] );
+		foreach( $list as $service ) {
+			$relationships['order/service']['data'][] = ['type' => 'order/service', 'id' => $service->getId()];
 		}
+	}
 
-		$attributes += $baseattr;
-		$attributes['product'] = $attributes['service'] = [];
-		$attributes['address'] = $attributes['coupon'] = [];
-
-		foreach( $baseItem->getProducts() as $product )
-		{
-			$entry = $product->toArray();
-			$relationships['order/base/product']['data'][] = ['type' => 'order/base/product', 'id' => $product->getId()];
-
-			if( isset( $fields[$product->getResourceType()] ) ) {
-				$entry = array_intersect_key( $entry, $fields[$product->getResourceType()] );
-			}
-
-			foreach( $product->getProducts() as $subproduct )
-			{
-				$relationships['order/base/product']['data'][] = ['type' => 'order/base/product', 'id' => $subproduct->getId()];
-
-				if( isset( $fields[$product->getResourceType()] ) ) {
-					$entry['product'][] = array_intersect_key( $subproduct->toArray(), $fields[$product->getResourceType()] );
-				} else {
-					$entry['product'][] = $subproduct->toArray();
-				}
-			}
-
-			$attributes['product'][] = $entry;
+	foreach( $item->getAddresses() as $list )
+	{
+		foreach( $list as $address ) {
+			$relationships['order/address']['data'][] = ['type' => 'order/address', 'id' => $address->getId()];
 		}
+	}
 
-		foreach( $baseItem->getServices() as $list )
-		{
-			foreach( $list as $service )
-			{
-				$relationships['order/base/service']['data'][] = ['type' => 'order/base/service', 'id' => $service->getId()];
+	foreach( $item->getCoupons() as $code => $x ) {
+		$relationships['order/coupon']['data'][] = ['type' => 'order/coupon', 'id' => $code];
+	}
 
-				if( isset( $fields[$service->getResourceType()] ) ) {
-					$attributes['service'][] = array_intersect_key( $service->toArray(), $fields[$service->getResourceType()] );
-				} else {
-					$attributes['service'][] = $service->toArray();
-				}
-			}
-		}
-
-		foreach( $baseItem->getAddresses() as $list )
-		{
-			foreach( $list as $address )
-			{
-				$relationships['order/base/address']['data'][] = ['type' => 'order/base/address', 'id' => $address->getId()];
-
-				if( isset( $fields[$address->getResourceType()] ) ) {
-					$attributes['address'][] = array_intersect_key( $address->toArray(), $fields[$address->getResourceType()] );
-				} else {
-					$attributes['address'][] = $address->toArray();
-				}
-			}
-		}
-
-		foreach( $baseItem->getCoupons() as $code => $x )
-		{
-			$relationships['order/base/coupon']['data'][] = ['type' => 'order/base/coupon', 'id' => $code];
-			$attributes['coupon'][] = $code;
-		}
-
-		if( $customer = $baseItem->getCustomerItem() ) {
-			$relationships['customer']['data'][] = ['type' => 'customer', 'id' => $customer->getId()];
-		}
+	if( $customer = $item->getCustomerItem() ) {
+		$relationships['customer']['data'][] = ['type' => 'customer', 'id' => $customer->getId()];
 	}
 
 	$entry = array(
@@ -144,42 +95,38 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Iface $item, \Aimeos\MShop\Common
 $productFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields )
 {
 	$result = [];
-	$baseItem = $item->getBaseItem();
 
-	if( $baseItem )
+	foreach( $item->getProducts() as $orderProduct )
 	{
-		foreach( $baseItem->getProducts() as $orderProduct )
-		{
-			$entry = ['id' => $orderProduct->getId(), 'type' => 'order/base/product'];
-			$entry['attributes'] = $orderProduct->toArray();
+		$entry = ['id' => $orderProduct->getId(), 'type' => 'order/product'];
+		$entry['attributes'] = $orderProduct->toArray();
 
-			if( isset( $fields['order/base/product'] ) ) {
-				$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['order/base/product'] );
-			}
-
-			foreach( $orderProduct->getProducts() as $subProduct )
-			{
-				$subEntry = $subProduct->toArray();
-
-				foreach( $subProduct->getAttributeItems() as $attribute ) {
-					$subEntry['attribute'][] = $attribute->toArray();
-				}
-
-				$entry['attributes']['product'][] = $subEntry;
-			}
-
-			foreach( $orderProduct->getAttributeItems() as $attribute ) {
-				$entry['attributes']['attribute'][] = $attribute->toArray();
-			}
-
-			if( $product = $orderProduct->getProductItem() )
-			{
-				$entry['relationships']['product']['data'][] = ['type' => 'product', 'id' => $product->getId()];
-				$result = array_merge( $result, $this->jincluded( $product, $fields ) );
-			}
-
-			$result['order/base/product'][] = $entry;
+		if( isset( $fields['order/product'] ) ) {
+			$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['order/product'] );
 		}
+
+		foreach( $orderProduct->getProducts() as $subProduct )
+		{
+			$subEntry = $subProduct->toArray();
+
+			foreach( $subProduct->getAttributeItems() as $attribute ) {
+				$subEntry['attribute'][] = $attribute->toArray();
+			}
+
+			$entry['attributes']['product'][] = $subEntry;
+		}
+
+		foreach( $orderProduct->getAttributeItems() as $attribute ) {
+			$entry['attributes']['attribute'][] = $attribute->toArray();
+		}
+
+		if( $product = $orderProduct->getProductItem() )
+		{
+			$entry['relationships']['product']['data'][] = ['type' => 'product', 'id' => $product->getId()];
+			$result = array_merge( $result, $this->jincluded( $product, $fields ) );
+		}
+
+		$result['order/product'][] = $entry;
 	}
 
 	return $result;
@@ -189,33 +136,29 @@ $productFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields )
 $serviceFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields )
 {
 	$result = [];
-	$baseItem = $item->getBaseItem();
 
-	if( $baseItem )
+	foreach( $item->getServices() as $type => $list )
 	{
-		foreach( $baseItem->getServices() as $type => $list )
+		foreach( $list as $orderService )
 		{
-			foreach( $list as $orderService )
-			{
-				$entry = ['id' => $orderService->getId(), 'type' => 'order/base/service'];
-				$entry['attributes'] = $orderService->toArray();
+			$entry = ['id' => $orderService->getId(), 'type' => 'order/service'];
+			$entry['attributes'] = $orderService->toArray();
 
-				if( isset( $fields['order/base/service'] ) ) {
-					$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['order/base/service'] );
-				}
-
-				foreach( $orderService->getAttributeItems() as $attribute ) {
-					$entry['attributes']['attribute'][] = $attribute->toArray();
-				}
-
-				if( $service = $orderService->getServiceItem() )
-				{
-					$entry['relationships']['service']['data'][] = ['type' => 'service', 'id' => $service->getId()];
-					$result = array_merge( $result, $this->jincluded( $service, $fields ) );
-				}
-
-				$result['order/base/service'][] = $entry;
+			if( isset( $fields['order/service'] ) ) {
+				$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['order/service'] );
 			}
+
+			foreach( $orderService->getAttributeItems() as $attribute ) {
+				$entry['attributes']['attribute'][] = $attribute->toArray();
+			}
+
+			if( $service = $orderService->getServiceItem() )
+			{
+				$entry['relationships']['service']['data'][] = ['type' => 'service', 'id' => $service->getId()];
+				$result = array_merge( $result, $this->jincluded( $service, $fields ) );
+			}
+
+			$result['order/service'][] = $entry;
 		}
 	}
 
@@ -226,23 +169,19 @@ $serviceFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields )
 $addressFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields )
 {
 	$list = [];
-	$baseItem = $item->getBaseItem();
 
-	if( $baseItem )
+	foreach( $item->getAddresses() as $type => $addresses )
 	{
-		foreach( $baseItem->getAddresses() as $type => $addresses )
+		foreach( $addresses as $address )
 		{
-			foreach( $addresses as $address )
-			{
-				$entry = ['id' => $address->getId(), 'type' => 'order/base/address'];
-				$entry['attributes'] = $address->toArray();
+			$entry = ['id' => $address->getId(), 'type' => 'order/address'];
+			$entry['attributes'] = $address->toArray();
 
-				if( isset( $fields['order/base/address'] ) ) {
-					$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['order/base/address'] );
-				}
-
-				$list['order/base/address'][] = $entry;
+			if( isset( $fields['order/address'] ) ) {
+				$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['order/address'] );
 			}
+
+			$list['order/address'][] = $entry;
 		}
 	}
 
@@ -253,13 +192,9 @@ $addressFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields )
 $couponFcn = function( \Aimeos\MShop\Order\Item\Iface $item )
 {
 	$coupons = [];
-	$baseItem = $item->getBaseItem();
 
-	if( $baseItem )
-	{
-		foreach( $baseItem->getCoupons() as $code => $list ) {
-			$coupons['order/base/coupon'][] = ['id' => $code, 'type' => 'order/base/coupon'];
-		}
+	foreach( $item->getCoupons() as $code => $list ) {
+		$coupons['order/coupon'][] = ['id' => $code, 'type' => 'order/coupon'];
 	}
 
 	return $coupons;
@@ -269,9 +204,8 @@ $couponFcn = function( \Aimeos\MShop\Order\Item\Iface $item )
 $customerFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
 {
 	$result = [];
-	$baseItem = $item->getBaseItem();
 
-	if( $baseItem && ( $customer = $baseItem->getCustomerItem() ) !== null && $customer->isAvailable() )
+	if( ( $customer = $item->getCustomerItem() ) !== null && $customer->isAvailable() )
 	{
 		$params = ['resource' => 'customer', 'id' => $customer->getId()];
 		$entry = ['id' => $customer->getId(), 'type' => 'customer'];

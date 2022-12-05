@@ -173,7 +173,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 'basket', $result['data']['type'] );
 		$this->assertArrayHasKey( 'basket/product', $result['data']['relationships'] );
 		$this->assertEquals( 1, count( $result['data']['relationships']['basket/product']['data'] ) );
-		$this->assertEquals( 2, $result['included'][0]['attributes']['order.base.product.quantity'] );
+		$this->assertEquals( 2, $result['included'][0]['attributes']['order.product.quantity'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -244,7 +244,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
 		$this->assertEquals( 1, count( $result['data']['relationships']['basket/product']['data'] ) );
-		$this->assertEquals( $prodId, $result['included'][0]['attributes']['order.base.product.productid'] );
+		$this->assertEquals( $prodId, $result['included'][0]['attributes']['order.product.productid'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -273,8 +273,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
 		$this->assertEquals( 2, count( $result['data']['relationships']['basket/product']['data'] ) );
-		$this->assertEquals( $prodId, $result['included'][0]['attributes']['order.base.product.productid'] );
-		$this->assertEquals( $prodId2, $result['included'][1]['attributes']['order.base.product.productid'] );
+		$this->assertEquals( $prodId, $result['included'][0]['attributes']['order.product.productid'] );
+		$this->assertEquals( $prodId2, $result['included'][1]['attributes']['order.product.productid'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -339,15 +339,15 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Returns a stored product item from the order
 	 *
-	 * @return \Aimeos\MShop\Order\Item\Base\Product\Iface Ordered product item
+	 * @return \Aimeos\MShop\Order\Item\Product\Iface Ordered product item
 	 */
 	protected function getOrderProductItem()
 	{
-		$manager = \Aimeos\MShop::create( $this->context, 'order/base/product' );
+		$manager = \Aimeos\MShop::create( $this->context, 'order/product' );
 		$search = $manager->filter()->slice( 0, 1 );
 
 		if( ( $item = $manager->search( $search )->first() ) === null ) {
-			throw new \Exception( 'No order/base/product item found' );
+			throw new \Exception( 'No order/product item found' );
 		}
 
 		return $item;

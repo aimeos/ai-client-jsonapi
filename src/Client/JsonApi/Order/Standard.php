@@ -215,14 +215,13 @@ class Standard
 				throw new \Aimeos\Client\JsonApi\Exception( 'Invalid JSON in body', 400 );
 			}
 
-			if( !isset( $payload->data->attributes->{'order.baseid'} ) ) {
-				throw new \Aimeos\Client\JsonApi\Exception( 'Required attribute "order.baseid" is missing', 400 );
+			if( !isset( $payload->data->attributes->{'order.id'} ) ) {
+				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'No order ID found' ), 400 );
 			}
 
-			$basket = $this->getBasket( $payload->data->attributes->{'order.baseid'} );
-			$item = $this->createOrder( $payload->data->attributes->{'order.baseid'} );
+			$item = $this->getOrder( $payload->data->attributes->{'order.id'} );
 
-			$view->form = $this->getPaymentForm( $item->setBaseItem( $basket ), (array) $payload->data->attributes );
+			$view->form = $this->getPaymentForm( $item, (array) $payload->data->attributes );
 			$view->items = $item;
 			$view->total = 1;
 
@@ -266,8 +265,8 @@ class Standard
 		$view = $this->view();
 
 		$view->attributes = [
-			'order.baseid' => [
-				'label' => 'ID of the stored basket (POST only)',
+			'order.id' => [
+				'label' => 'ID of the stored basket/order (POST only)',
 				'type' => 'string', 'default' => '', 'required' => true,
 			],
 		];
@@ -286,44 +285,24 @@ class Standard
 
 
 	/**
-	 * Adds and returns a new order item for the given order base ID
+	 * Returns the order object for the given ID
 	 *
-	 * @param string $baseId Unique order base ID
-	 * @return \Aimeos\MShop\Order\Item\Iface New order item
-	 */
-	protected function createOrder( string $baseId ) : \Aimeos\MShop\Order\Item\Iface
-	{
-		$context = $this->context();
-		$cntl = \Aimeos\Controller\Frontend::create( $context, 'order' );
-		$item = $cntl->add( $baseId, ['order.channel' => 'jsonapi'] )->store();
-
-		$context->session()->set( 'aimeos/orderid', $item->getId() );
-
-		return $item;
-	}
-
-
-	/**
-	 * Returns the basket object for the given ID
-	 *
-	 * @param string $basketId Unique order base ID
-	 * @return \Aimeos\MShop\Order\Item\Base\Iface Basket object including only the services
+	 * @param string $orderId Unique order ID
+	 * @return \Aimeos\MShop\Order\Item\Iface Order object including only the services
 	 * @throws \Aimeos\Client\JsonApi\Exception If basket ID is not the same as stored before in the current session
 	 */
-	protected function getBasket( string $basketId ) : \Aimeos\MShop\Order\Item\Base\Iface
+	protected function getOrder( string $orderId ) : \Aimeos\MShop\Order\Item\Iface
 	{
 		$context = $this->context();
-		$baseId = $context->session()->get( 'aimeos/order.baseid' );
+		$id = $context->session()->get( 'aimeos/order.id' );
 
-		if( $baseId != $basketId )
+		if( $id != $orderId )
 		{
-			$msg = sprintf( 'No basket for the "order.baseid" ("%1$s") found', $basketId );
+			$msg = sprintf( 'No order for the "order.id" ("%1$s") found', $orderId );
 			throw new \Aimeos\Client\JsonApi\Exception( $msg, 403 );
 		}
 
-		$cntl = \Aimeos\Controller\Frontend::create( $context, 'basket' );
-
-		return $cntl->get( $baseId, ['order/base/service'] );
+		return \Aimeos\Controller\Frontend::create( $context, 'basket' )->load( $id, ['order/service'], false );
 	}
 
 
@@ -338,12 +317,11 @@ class Standard
 	{
 		$view = $this->view();
 		$context = $this->context();
-		$basket = $orderItem->getBaseItem();
 
-		$total = $basket->getPrice()->getValue() + $basket->getPrice()->getCosts();
-		$services = $basket->getService( \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_PAYMENT );
+		$total = $orderItem->getPrice()->getValue() + $orderItem->getPrice()->getCosts();
+		$services = $orderItem->getService( \Aimeos\MShop\Order\Item\Service\Base::TYPE_PAYMENT );
 
-		if( $services === [] || $total <= '0.00' && $this->isSubscription( $basket->getProducts() ) === false )
+		if( $services === [] || $total <= '0.00' && $this->isSubscription( $orderItem->getProducts() ) === false )
 		{
 			$cntl = \Aimeos\Controller\Frontend::create( $context, 'order' );
 			$cntl->save( $orderItem->setStatusPayment( \Aimeos\MShop\Order\Item\Base::PAY_AUTHORIZED ) );
@@ -414,7 +392,7 @@ class Standard
 	/**
 	 * Tests if one of the products is a subscription
 	 *
-	 * @param \Aimeos\Map $products Ordered products implementing \Aimeos\MShop\Order\Item\Base\Product\Iface
+	 * @param \Aimeos\Map $products Ordered products implementing \Aimeos\MShop\Order\Item\Product\Iface
 	 * @return bool True if at least one product is a subscription, false if not
 	 */
 	protected function isSubscription( \Aimeos\Map $products ) : bool

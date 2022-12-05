@@ -37,13 +37,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDelete()
 	{
-		$body = '{"data": {"attributes": {"order.base.comment": "test"}}}';
+		$body = '{"data": {"attributes": {"order.comment": "test"}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $this->object->patch( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 'test', $result['data']['attributes']['order.base.comment'] );
+		$this->assertEquals( 'test', $result['data']['attributes']['order.comment'] );
 
 
 		$response = $this->object->delete( $request, $this->view->response() );
@@ -56,7 +56,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
 		$this->assertGreaterThan( 9, count( $result['data']['attributes'] ) );
-		$this->assertEquals( '', $result['data']['attributes']['order.base.comment'] );
+		$this->assertEquals( '', $result['data']['attributes']['order.comment'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -121,7 +121,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$user = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
 		$this->context->setUserId( $user->getId() );
 
-		$params = ['id' => $this->getOrderBaseItem()->getId()];
+		$params = ['id' => $this->getOrderItem()->getId()];
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
@@ -135,8 +135,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
 		$this->assertNotNull( $result['data']['id'] );
-		$this->assertEquals( 12, count( $result['data']['attributes'] ) );
-		$this->assertEquals( 'This is another comment.', $result['data']['attributes']['order.base.comment'] );
+		$this->assertEquals( 19, count( $result['data']['attributes'] ) );
+		$this->assertEquals( 'This is another comment.', $result['data']['attributes']['order.comment'] );
 		$this->assertEquals( 8, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -148,7 +148,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context->setUserId( null );
 
 		$params = array(
-			'id' => $this->getOrderBaseItem()->getId(),
+			'id' => $this->getOrderItem()->getId(),
 		);
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
@@ -162,7 +162,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertEquals( '', $result['data']['attributes']['order.base.customerid'] );
+		$this->assertEquals( '', $result['data']['attributes']['order.customerid'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -174,7 +174,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context->setUserId( $user->getId() );
 
 		$params = array(
-			'id' => $this->getOrderBaseItem()->getId(),
+			'id' => $this->getOrderItem()->getId(),
 			'include' => 'basket/product,customer',
 		);
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
@@ -207,12 +207,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context->setUserId( $user->getId() );
 
 		$params = array(
-			'id' => $this->getOrderBaseItem()->getId(),
+			'id' => $this->getOrderItem()->getId(),
 			'fields' => array(
-				'basket' => 'order.base.comment',
-				'basket/address' => 'order.base.address.firstname,order.base.address.lastname',
-				'basket/product' => 'order.base.product.name,order.base.product.price',
-				'basket/service' => 'order.base.service.name,order.base.service.price',
+				'basket' => 'order.comment',
+				'basket/address' => 'order.address.firstname,order.address.lastname',
+				'basket/product' => 'order.product.name,order.product.price',
+				'basket/service' => 'order.service.name,order.service.price',
 				'customer' => 'customer.id,customer.email'
 			),
 			'include' => 'basket/address,basket/product,basket/service,customer'
@@ -246,7 +246,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context->setUserId( $user->getId() );
 
 		$params = array(
-			'id' => $this->getOrderBaseItem()->getId(),
+			'id' => $this->getOrderItem()->getId(),
 			'include' => '',
 		);
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
@@ -296,7 +296,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatch()
 	{
-		$body = '{"data": {"attributes": {"order.base.comment": "test", "order.base.customerref": "abc"}}}	';
+		$body = '{"data": {"attributes": {"order.comment": "test", "order.customerref": "abc"}}}	';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $this->object->patch( $request, $this->view->response() );
@@ -310,8 +310,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
 		$this->assertGreaterThan( 10, count( $result['data']['attributes'] ) );
-		$this->assertEquals( 'test', $result['data']['attributes']['order.base.comment'] );
-		$this->assertEquals( 'abc', $result['data']['attributes']['order.base.customerref'] );
+		$this->assertEquals( 'test', $result['data']['attributes']['order.comment'] );
+		$this->assertEquals( 'abc', $result['data']['attributes']['order.customerref'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -370,7 +370,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$price = \Aimeos\MShop::create( $this->context, 'price' )->create();
 		$locale = \Aimeos\MShop::create( $this->context, 'locale' )->create();
 
-		$basket = $this->getMockBuilder( \Aimeos\MShop\Order\Item\Base\Standard::class )
+		$basket = $this->getMockBuilder( \Aimeos\MShop\Order\Item\Standard::class )
 			->setConstructorArgs( [$price, $locale] )
 			->setMethods( ['check'] )
 			->getMock();
@@ -380,7 +380,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$object = $this->object( ['get', 'store'], $this->returnValue( $basket ) );
 
 
-		$body = '{"data": {"attributes": {"order.base.comment": "test"}}}';
+		$body = '{"data": {"attributes": {"order.comment": "test"}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $object->post( $request, $this->view->response() );
@@ -456,19 +456,19 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 
 	/**
-	 * Returns a stored basket
+	 * Returns a stored order
 	 *
-	 * @return \Aimeos\MShop\Order\Item\Base\Iface Basket object
+	 * @return \Aimeos\MShop\Order\Item\Iface Order object
 	 */
-	protected function getOrderBaseItem()
+	protected function getOrderItem()
 	{
-		$manager = \Aimeos\MShop::create( $this->context, 'order/base' );
+		$manager = \Aimeos\MShop::create( $this->context, 'order' );
 
 		$search = $manager->filter();
-		$search->setConditions( $search->compare( '==', 'order.base.price', '672.00' ) );
+		$search->setConditions( $search->compare( '==', 'order.price', '672.00' ) );
 
-		if( ( $item = $manager->search( $search, ['order/base/product'] )->first() ) === null ) {
-			throw new \Exception( 'No order/base item with price "672.00" found' );
+		if( ( $item = $manager->search( $search, ['order/product'] )->first() ) === null ) {
+			throw new \Exception( 'No order item with price "672.00" found' );
 		}
 
 		return $item;

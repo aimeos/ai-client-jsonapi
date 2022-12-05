@@ -144,7 +144,7 @@ class JsonApi
 	 * \Aimeos\Client\JsonApi\Product\Type\Standard client.
 	 *
 	 * @param \Aimeos\MShop\ContextIface $context Context object required by clients
-	 * @param string $path Name of the client separated by slashes, e.g "order/base"
+	 * @param string $path Name of the client separated by slashes, e.g "order/product"
 	 * @param string|null $name Name of the client implementation ("Standard" if null)
 	 * @return \Aimeos\Client\JsonApi\Iface JSON client instance
 	 * @throws \Aimeos\Client\JsonApi\Exception If the given path is invalid
@@ -294,7 +294,7 @@ class JsonApi
 	 * @param \Aimeos\MShop\ContextIface $context Context object
 	 * @param string $classname Name of the client class
 	 * @param string $interface Name of the client interface
-	 * @param string $path Name of the client separated by slashes, e.g "order/base"
+	 * @param string $path Name of the client separated by slashes, e.g "order/product"
 	 * @return \Aimeos\Client\JsonApi\Iface Client object
 	 */
 	protected static function createComponent( \Aimeos\MShop\ContextIface $context,

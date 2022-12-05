@@ -205,7 +205,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 		$id = $view->param( 'id', 'default' );
 
 		$include = $view->param( 'include', 'basket/address,basket/coupon,basket/product,basket/service' );
-		$include = explode( ',', str_replace( 'basket', 'order/base', $include ) );
+		$include = explode( ',', str_replace( 'basket', 'order', $include ) );
 
 		try
 		{
@@ -298,11 +298,11 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 		try
 		{
 			$this->controller->setType( $view->param( 'id', 'default' ) );
-			$this->controller->get()->check();
+			$this->controller->get()->setChannel( 'jsonapi' )->check();
 			$this->clearCache();
 
 			$item = $this->controller->store();
-			$this->context()->session()->set( 'aimeos/order.baseid', $item->getId() );
+			$this->context()->session()->set( 'aimeos/order.id', $item->getId() );
 
 			$view->item = $item;
 			$status = 200;
@@ -340,11 +340,11 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 		$view = $this->view();
 
 		$view->attributes = [
-			'order.base.comment' => [
+			'order.comment' => [
 				'label' => 'Customer comment for the order',
 				'type' => 'string', 'default' => '', 'required' => false,
 			],
-			'order.base.customerref' => [
+			'order.customerref' => [
 				'label' => 'Own reference of the customer for the order',
 				'type' => 'string', 'default' => '', 'required' => false,
 			],
