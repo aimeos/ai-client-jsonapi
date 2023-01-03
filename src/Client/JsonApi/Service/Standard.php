@@ -153,7 +153,7 @@ class Standard
 			$ref = $view->param( 'include', ['media', 'price', 'text'] );
 
 			if( is_string( $ref ) ) {
-				$ref = explode( ',', $ref );
+				$ref = explode( ',', str_replace( '.', '/', $ref ) );
 			}
 
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'service' )->uses( $ref )

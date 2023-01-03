@@ -224,7 +224,7 @@ class Standard
 		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE;
 
 		if( is_string( $ref ) ) {
-			$ref = explode( ',', $ref );
+			$ref = explode( ',', str_replace( '.', '/', $ref ) );
 		}
 
 		if( in_array( 'catalog', $ref, true ) )

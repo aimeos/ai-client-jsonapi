@@ -205,7 +205,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 		$id = $view->param( 'id', 'default' );
 
 		$include = $view->param( 'include', 'basket/address,basket/coupon,basket/product,basket/service' );
-		$include = explode( ',', str_replace( 'basket', 'order', $include ) );
+		$include = explode( ',', str_replace( 'basket', 'order', str_replace( '.', '/', $include ) ) );
 
 		try
 		{

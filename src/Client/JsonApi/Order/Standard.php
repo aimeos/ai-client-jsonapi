@@ -150,7 +150,7 @@ class Standard
 		$ref = $view->param( 'include', [] );
 
 		if( is_string( $ref ) ) {
-			$ref = explode( ',', $ref );
+			$ref = explode( ',', str_replace( '.', '/', $ref ) );
 		}
 
 		try
