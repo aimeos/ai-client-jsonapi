@@ -97,10 +97,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'id' => $prodId,
 			'fields' => array(
 				'product' => 'product.id,product.label',
-				'product/lists' => 'product.lists.type'
+				'product.lists' => 'product.lists.type'
 			),
 			'sort' => 'product.id',
-			'include' => 'attribute,catalog,media,price,product,product/property,stock,supplier,text'
+			'include' => 'product.attribute,product.catalog,product.media,product.price,product,product.property,stock,product.supplier,product.text'
 		);
 
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
@@ -118,14 +118,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 7, count( $result['data']['relationships']['text']['data'] ) );
 		$this->assertEquals( 2, count( $result['data']['relationships']['price']['data'] ) );
 		$this->assertEquals( 3, count( $result['data']['relationships']['media']['data'] ) );
-		$this->assertEquals( 4, count( $result['data']['relationships']['product/property']['data'] ) );
+		$this->assertEquals( 4, count( $result['data']['relationships']['product.property']['data'] ) );
 		$this->assertEquals( 2, count( $result['data']['relationships']['product']['data'] ) );
 		$this->assertEquals( 6, count( $result['data']['relationships']['attribute']['data'] ) );
 		$this->assertEquals( 5, count( $result['data']['relationships']['catalog']['data'] ) );
 		$this->assertEquals( 1, count( $result['data']['relationships']['supplier']['data'] ) );
 		$this->assertEquals( 1, count( $result['data']['relationships']['stock']['data'] ) );
 		$this->assertEquals( 1, count( $result['data']['relationships']['text']['data'][0]['attributes'] ) );
-		$this->assertGreaterThanOrEqual( 71, count( $result['included'] ) );
+		$this->assertGreaterThanOrEqual( 43, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -140,7 +140,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 				'product' => 'product.id,product.code,product.label'
 			),
 			'sort' => '-code,-product.status',
-			'include' => 'attribute,text,product,product/property,catalog'
+			'include' => 'product.attribute,text,product,product.property,product.catalog'
 		);
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
@@ -157,7 +157,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 'product', $result['data'][0]['type'] );
 		$this->assertEquals( 3, count( $result['data'][0]['attributes'] ) );
 		$this->assertEquals( 7, count( $result['data'][0]['relationships']['text']['data'] ) );
-		$this->assertEquals( 4, count( $result['data'][0]['relationships']['product/property']['data'] ) );
+		$this->assertEquals( 4, count( $result['data'][0]['relationships']['product.property']['data'] ) );
 		$this->assertEquals( 6, count( $result['data'][0]['relationships']['attribute']['data'] ) );
 		$this->assertEquals( 2, count( $result['data'][0]['relationships']['product']['data'] ) );
 		$this->assertEquals( 5, count( $result['data'][0]['relationships']['catalog']['data'] ) );

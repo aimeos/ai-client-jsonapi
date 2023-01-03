@@ -152,7 +152,7 @@ class Standard
 		{
 			$body = (string) $request->getBody();
 			$relId = $view->param( 'relatedid' );
-			$ref = ( $inc = $view->param( 'include' ) ) ? explode( ',', $inc ) : [];
+			$ref = ( $ref = $view->param( 'include' ) ) ? explode( ',', str_replace( '.', '/', $ref ) ) : [];
 
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
 			$items = $cntl->uses( $ref )->get()->getListItems( $ref );
@@ -223,7 +223,7 @@ class Standard
 		try
 		{
 			$relId = $view->param( 'relatedid' );
-			$ref = ( $inc = $view->param( 'include' ) ) ? explode( ',', $inc ) : [];
+			$ref = ( $ref = $view->param( 'include' ) ) ? explode( ',', str_replace( '.', '/', $ref ) ) : [];
 
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
 			$items = $cntl->uses( $ref )->get()->getListItems( $ref );
@@ -283,7 +283,7 @@ class Standard
 			$status = 404;
 			$view->total = 0;
 			$relId = $view->param( 'relatedid' );
-			$ref = ( $inc = $view->param( 'include' ) ) ? explode( ',', $inc ) : [];
+			$ref = ( $ref = $view->param( 'include' ) ) ? explode( ',', str_replace( '.', '/', $ref ) ) : [];
 
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
 			$items = $cntl->uses( $ref )->get()->getListItems( $ref );
@@ -333,7 +333,7 @@ class Standard
 		try
 		{
 			$body = (string) $request->getBody();
-			$ref = ( $inc = $view->param( 'include' ) ) ? explode( ',', $inc ) : [];
+			$ref = ( $ref = $view->param( 'include' ) ) ? explode( ',', str_replace( '.', '/', $ref ) ) : [];
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' )->uses( $ref );
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {

@@ -80,7 +80,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 				'supplier' => 'supplier.id,supplier.address.firstname,supplier.address.lastname'
 			),
 			'sort' => 'supplier.id',
-			'include' => 'supplier/address'
+			'include' => 'supplier.address'
 		);
 
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
@@ -95,7 +95,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'supplier', $result['data']['type'] );
-		$this->assertEquals( 1, count( $result['data']['relationships']['supplier/address']['data'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['supplier.address']['data'] ) );
 		$this->assertEquals( 1, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -111,7 +111,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'fields' => array(
 				'supplier' => 'supplier.id,supplier.label,supplier.code'
 			),
-			'include' => 'media,text,supplier/address',
+			'include' => 'media,text,supplier.address',
 			'sort' => 'supplier.label,-supplier.id',
 		);
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );

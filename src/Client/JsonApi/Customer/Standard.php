@@ -186,7 +186,7 @@ class Standard
 
 		try
 		{
-			$ref = ( $inc = $view->param( 'include' ) ) ? explode( ',', $inc ) : [];
+			$ref = ( $ref = $view->param( 'include' ) ) ? explode( ',', str_replace( '.', '/', $ref ) ) : [];
 
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
 			$view->item = $cntl->uses( $ref )->get();

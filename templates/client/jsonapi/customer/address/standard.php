@@ -31,18 +31,18 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item ) use ( $f
 {
 	$id = $item->getId();
 	$attributes = $item->toArray();
-	$type = $item->getResourceType();
+	$rtype = str_replace( '/', '.', $item->getResourceType() );
 
 	$params = array( 'resource' => 'customer', 'id' => $item->getParentId(), 'related' => 'address', 'relatedid' => $id );
 	$basketParams = array( 'resource' => 'basket', 'id' => 'default', 'related' => 'address', 'relatedid' => 'delivery' );
 
-	if( isset( $fields[$type] ) ) {
-		$attributes = array_intersect_key( $attributes, $fields[$type] );
+	if( isset( $fields[$rtype] ) ) {
+		$attributes = array_intersect_key( $attributes, $fields[$rtype] );
 	}
 
 	$entry = array(
 		'id' => $id,
-		'type' => $type,
+		'type' => $rtype,
 		'links' => array(
 			'self' => array(
 				'href' => $this->url( $target, $cntl, $action, $params, [], $config ),

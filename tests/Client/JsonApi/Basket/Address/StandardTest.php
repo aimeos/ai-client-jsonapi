@@ -37,16 +37,16 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDelete()
 	{
-		$body = '{"data": {"type": "basket/address", "id": "payment", "attributes": {"firstname": "test"}}}';
+		$body = '{"data": {"type": "basket.address", "id": "payment", "attributes": {"firstname": "test"}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 1, count( $result['data']['relationships']['basket/address']['data'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket.address']['data'] ) );
 
 
-		$body = '{"data": {"type": "basket/address", "id": "payment"}}';
+		$body = '{"data": {"type": "basket.address", "id": "payment"}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $this->object->delete( $request, $this->view->response() );
@@ -58,7 +58,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertArrayNotHasKey( 'basket/address', $result['data']['relationships'] );
+		$this->assertArrayNotHasKey( 'basket.address', $result['data']['relationships'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -66,13 +66,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteById()
 	{
-		$body = '{"data": {"type": "basket/address", "id": "payment", "attributes": {"firstname": "test"}}}';
+		$body = '{"data": {"type": "basket.address", "id": "payment", "attributes": {"firstname": "test"}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 1, count( $result['data']['relationships']['basket/address']['data'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket.address']['data'] ) );
 
 
 		$params = array( 'id' => 'default', 'relatedid' => 'payment' );
@@ -135,7 +135,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatch()
 	{
-		$body = '{"data": {"type": "basket/address", "id": "payment", "attributes": {"firstname": "test"}}}';
+		$body = '{"data": {"type": "basket.address", "id": "payment", "attributes": {"firstname": "test"}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$params = array( 'id' => 'default', 'relatedid' => 'payment' );
@@ -152,7 +152,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertEquals( 1, count( $result['data']['relationships']['basket/address']['data'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket.address']['data'] ) );
 		$this->assertEquals( 'test', $result['included'][0]['attributes']['order.address.firstname'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -162,9 +162,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testPatchMultiple()
 	{
 		$body = '{"data": [{
-			"type": "basket/address", "id": "delivery", "attributes": {"firstname": "test"}
+			"type": "basket.address", "id": "delivery", "attributes": {"firstname": "test"}
 		}, {
-			"type": "basket/address", "id": "delivery", "attributes": {"lastname": "test"}
+			"type": "basket.address", "id": "delivery", "attributes": {"lastname": "test"}
 		}]}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
@@ -182,7 +182,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertEquals( 1, count( $result['data']['relationships']['basket/address']['data'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket.address']['data'] ) );
 		$this->assertEquals( 'test', $result['included'][0]['attributes']['order.address.firstname'] );
 		$this->assertEquals( 'test', $result['included'][1]['attributes']['order.address.lastname'] );
 
@@ -231,7 +231,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPost()
 	{
-		$body = '{"data": {"type": "basket/address", "id": "payment", "attributes": {"firstname": "test"}}}';
+		$body = '{"data": {"type": "basket.address", "id": "payment", "attributes": {"firstname": "test"}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $this->object->post( $request, $this->view->response() );
@@ -244,7 +244,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertEquals( 1, count( $result['data']['relationships']['basket/address']['data'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket.address']['data'] ) );
 		$this->assertEquals( 'test', $result['included'][0]['attributes']['order.address.firstname'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -254,9 +254,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testPostMultiple()
 	{
 		$body = '{"data": [{
-			"type": "basket/address", "id": "payment", "attributes": {"firstname": "test"}
+			"type": "basket.address", "id": "payment", "attributes": {"firstname": "test"}
 		}, {
-			"type": "basket/address", "id": "delivery", "attributes": {"lastname": "test"}
+			"type": "basket.address", "id": "delivery", "attributes": {"lastname": "test"}
 		}]}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
@@ -270,7 +270,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertEquals( 2, count( $result['data']['relationships']['basket/address']['data'] ) );
+		$this->assertEquals( 2, count( $result['data']['relationships']['basket.address']['data'] ) );
 		$this->assertEquals( 'test', $result['included'][0]['attributes']['order.address.firstname'] );
 		$this->assertEquals( 'test', $result['included'][1]['attributes']['order.address.lastname'] );
 

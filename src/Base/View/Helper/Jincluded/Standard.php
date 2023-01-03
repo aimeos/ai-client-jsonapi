@@ -151,8 +151,8 @@ class Standard extends \Aimeos\Base\View\Helper\Base implements Iface
 			{
 				if( ( $refItem = $listItem->getRefItem() ) !== null && $refItem->isAvailable() )
 				{
-					$ltype = $listItem->getResourceType();
-					$rtype = $refItem->getResourceType();
+					$ltype = str_replace( '/', '.', $listItem->getResourceType() );
+					$rtype = str_replace( '/', '.', $refItem->getResourceType() );
 					$attributes = $listItem->toArray();
 
 					if( isset( $fields[$ltype] ) ) {
@@ -173,7 +173,7 @@ class Standard extends \Aimeos\Base\View\Helper\Base implements Iface
 				if( $propItem->isAvailable() )
 				{
 					$propId = $propItem->getId();
-					$rtype = $propItem->getResourceType();
+					$rtype = str_replace( '/', '.', $propItem->getResourceType() );
 					$entry['relationships'][$rtype]['data'][] = ['id' => $propId, 'type' => $rtype];
 					$this->map( $propItem, $fields, $fcn );
 				}
@@ -187,7 +187,7 @@ class Standard extends \Aimeos\Base\View\Helper\Base implements Iface
 				if( $stockItem->isAvailable() )
 				{
 					$stockId = $stockItem->getId();
-					$rtype = $stockItem->getResourceType();
+					$rtype = str_replace( '/', '.', $stockItem->getResourceType() );
 					$entry['relationships'][$rtype]['data'][] = ['id' => $stockId, 'type' => $rtype];
 					$this->map( $stockItem, $fields, $fcn );
 				}

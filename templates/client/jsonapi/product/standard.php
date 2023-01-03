@@ -134,24 +134,24 @@ $entryFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, $t
 
 	foreach( $item->getPropertyItems() as $propertyItem )
 	{
-		$type = $propertyItem->getResourceType();
-		$entry['relationships'][$type]['data'][] = array( 'id' => $propertyItem->getId(), 'type' => $type );
+		$rtype = str_replace( '/', '.', $propertyItem->getResourceType() );
+		$entry['relationships'][$rtype]['data'][] = array( 'id' => $propertyItem->getId(), 'type' => $rtype );
 	}
 
 	foreach( $item->getListItems() as $listItem )
 	{
 		if( ( $refItem = $listItem->getRefItem() ) !== null && $refItem->isAvailable() )
 		{
-			$ltype = $listItem->getResourceType();
-			$type = $refItem->getResourceType();
+			$ltype = str_replace( '/', '.', $listItem->getResourceType() );
+			$rtype = str_replace( '/', '.', $refItem->getResourceType() );
 			$attributes = $listItem->toArray();
 
 			if( isset( $fields[$ltype] ) ) {
 				$attributes = array_intersect_key( $attributes, $fields[$ltype] );
 			}
 
-			$data = array( 'id' => $refItem->getId(), 'type' => $type, 'attributes' => $attributes );
-			$entry['relationships'][$type]['data'][] = $data;
+			$data = array( 'id' => $refItem->getId(), 'type' => $rtype, 'attributes' => $attributes );
+			$entry['relationships'][$rtype]['data'][] = $data;
 		}
 	}
 

@@ -137,7 +137,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$user = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
 		$this->context->setUserId( $user->getId() );
 
-		$params = ['include' => 'customer/address,customer/property'];
+		$params = ['include' => 'customer.address,customer.property'];
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
@@ -145,15 +145,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'customer', $result['data']['type'] );
-		$this->assertEquals( 1, count( $result['data']['relationships']['customer/address']['data'] ) );
-		$this->assertEquals( 1, count( $result['data']['relationships']['customer/property']['data'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['customer.address']['data'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['customer.property']['data'] ) );
 		$this->assertEquals( 2, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );

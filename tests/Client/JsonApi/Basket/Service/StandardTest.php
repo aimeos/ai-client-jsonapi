@@ -40,16 +40,16 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
 		$servId = $manager->find( 'unitdeliverycode', [], 'service', 'delivery' )->getId();
 
-		$body = '{"data": {"type": "basket/service", "id": "delivery", "attributes": {"service.id": ' . $servId . '}}}';
+		$body = '{"data": {"type": "basket.service", "id": "delivery", "attributes": {"service.id": ' . $servId . '}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 1, count( $result['data']['relationships']['basket/service']['data'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket.service']['data'] ) );
 
 
-		$body = '{"data": {"type": "basket/service", "id": "delivery"}}';
+		$body = '{"data": {"type": "basket.service", "id": "delivery"}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $this->object->delete( $request, $this->view->response() );
@@ -61,7 +61,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertArrayNotHasKey( 'basket/service', $result['data']['relationships'] );
+		$this->assertArrayNotHasKey( 'basket.service', $result['data']['relationships'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -72,13 +72,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
 		$servId = $manager->find( 'unitdeliverycode', [], 'service', 'delivery' )->getId();
 
-		$body = '{"data": {"type": "basket/service", "id": "delivery", "attributes": {"service.id": ' . $servId . '}}}';
+		$body = '{"data": {"type": "basket.service", "id": "delivery", "attributes": {"service.id": ' . $servId . '}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 1, count( $result['data']['relationships']['basket/service']['data'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket.service']['data'] ) );
 
 
 		$params = array( 'id' => 'default', 'relatedid' => 'delivery' );
@@ -94,7 +94,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertArrayNotHasKey( 'basket/service', $result['data']['relationships'] );
+		$this->assertArrayNotHasKey( 'basket.service', $result['data']['relationships'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -145,7 +145,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$servId = $manager->find( 'directdebit-test', [], 'service', 'payment' )->getId();
 		$servId2 = $manager->find( 'unitpaymentcode', [], 'service', 'payment' )->getId();
 
-		$body = '{"data": {"type": "basket/service", "id": "payment", "attributes": {
+		$body = '{"data": {"type": "basket.service", "id": "payment", "attributes": {
 			"service.id": "' . $servId . '",
 			"directdebit.accountowner": "test",
 			"directdebit.accountno": "1234",
@@ -161,7 +161,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 'directdebit-test', $result['included'][0]['attributes']['order.service.code'] );
 
 
-		$body = '{"data": {"type": "basket/service", "id": "payment", "attributes": {"service.id": ' . $servId2 . '}}}';
+		$body = '{"data": {"type": "basket.service", "id": "payment", "attributes": {"service.id": ' . $servId2 . '}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$params = array( 'id' => 'default', 'relatedid' => 'payment' );
@@ -177,7 +177,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertEquals( 1, count( $result['data']['relationships']['basket/service']['data'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket.service']['data'] ) );
 		$this->assertEquals( 'unitpaymentcode', $result['included'][0]['attributes']['order.service.code'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -191,7 +191,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$servId2 = $manager->find( 'unitpaymentcode', [], 'service', 'payment' )->getId();
 
 		$body = '{"data": [{
-			"type": "basket/service", "id": "payment", "attributes": {
+			"type": "basket.service", "id": "payment", "attributes": {
 				"service.id": "' . $servId . '",
 				"directdebit.accountowner": "test",
 				"directdebit.accountno": "1234",
@@ -199,7 +199,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 				"directdebit.bankname": "test"
 			}
 		}, {
-			"type": "basket/service", "id": "payment", "attributes": {"service.id": ' . $servId2 . '}
+			"type": "basket.service", "id": "payment", "attributes": {"service.id": ' . $servId2 . '}
 		}]}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
@@ -216,7 +216,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertEquals( 1, count( $result['data']['relationships']['basket/service']['data'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket.service']['data'] ) );
 		$this->assertEquals( 'directdebit-test', $result['included'][0]['attributes']['order.service.code'] );
 		$this->assertEquals( 'unitpaymentcode', $result['included'][1]['attributes']['order.service.code'] );
 
@@ -268,7 +268,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
 		$servId = $manager->find( 'unitdeliverycode', [], 'service', 'delivery' )->getId();
 
-		$body = '{"data": {"type": "basket/service", "id": "delivery", "attributes": {"service.id": ' . $servId . '}}}';
+		$body = '{"data": {"type": "basket.service", "id": "delivery", "attributes": {"service.id": ' . $servId . '}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $this->object->post( $request, $this->view->response() );
@@ -280,7 +280,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertEquals( 1, count( $result['data']['relationships']['basket/service']['data'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket.service']['data'] ) );
 		$this->assertEquals( 'unitdeliverycode', $result['included'][0]['attributes']['order.service.code'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -294,9 +294,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$servId2 = $manager->find( 'unitpaymentcode', [], 'service', 'payment' )->getId();
 
 		$body = '{"data": [{
-			"type": "basket/service", "id": "delivery", "attributes": {"service.id": ' . $servId . '}
+			"type": "basket.service", "id": "delivery", "attributes": {"service.id": ' . $servId . '}
 		}, {
-			"type": "basket/service", "id": "payment", "attributes": {"service.id": ' . $servId2 . '}
+			"type": "basket.service", "id": "payment", "attributes": {"service.id": ' . $servId2 . '}
 		}]}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
@@ -310,7 +310,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertEquals( 2, count( $result['data']['relationships']['basket/service']['data'] ) );
+		$this->assertEquals( 2, count( $result['data']['relationships']['basket.service']['data'] ) );
 		$this->assertEquals( 'unitdeliverycode', $result['included'][0]['attributes']['order.service.code'] );
 		$this->assertEquals( 'unitpaymentcode', $result['included'][1]['attributes']['order.service.code'] );
 

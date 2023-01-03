@@ -48,36 +48,36 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Iface $item, $basketId ) use ( $f
 
 
 	$relationships = [];
-	$types = explode( ',', $this->param( 'include', 'basket/product,basket/service,basket/address,basket/coupon' ) );
+	$types = explode( ',', $this->param( 'include', 'basket.product,basket.service,basket.address,basket.coupon' ) );
 
-	if( in_array( 'basket/product', $types ) )
+	if( in_array( 'basket.product', $types ) )
 	{
 		foreach( $item->getProducts() as $position => $list ) {
-			$relationships['basket/product']['data'][] = ['type' => 'basket/product', 'id' => $position];
+			$relationships['basket.product']['data'][] = ['type' => 'basket.product', 'id' => $position];
 		}
 	}
 
-	if( in_array( 'basket/service', $types ) )
+	if( in_array( 'basket.service', $types ) )
 	{
 		foreach( $item->getServices() as $type => $list )
 		{
 			if( count( $list ) > 0 ) {
-				$relationships['basket/service']['data'][] = ['type' => 'basket/service', 'id' => $type];
+				$relationships['basket.service']['data'][] = ['type' => 'basket.service', 'id' => $type];
 			}
 		}
 	}
 
-	if( in_array( 'basket/address', $types ) )
+	if( in_array( 'basket.address', $types ) )
 	{
 		foreach( $item->getAddresses() as $type => $list ) {
-			$relationships['basket/address']['data'][] = ['type' => 'basket/address', 'id' => $type];
+			$relationships['basket.address']['data'][] = ['type' => 'basket.address', 'id' => $type];
 		}
 	}
 
-	if( in_array( 'basket/coupon', $types ) )
+	if( in_array( 'basket.coupon', $types ) )
 	{
 		foreach( $item->getCoupons() as $code => $list ) {
-			$relationships['basket/coupon']['data'][] = ['type' => 'basket/coupon', 'id' => $code];
+			$relationships['basket.coupon']['data'][] = ['type' => 'basket.coupon', 'id' => $code];
 		}
 	}
 
@@ -107,11 +107,11 @@ $productFcn = function( \Aimeos\MShop\Order\Item\Iface $item, $basketId ) use ( 
 
 	foreach( $item->getProducts() as $position => $orderProduct )
 	{
-		$entry = ['id' => $position, 'type' => 'basket/product'];
+		$entry = ['id' => $position, 'type' => 'basket.product'];
 		$entry['attributes'] = $orderProduct->toArray();
 
-		if( isset( $fields['basket/product'] ) ) {
-			$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['basket/product'] );
+		if( isset( $fields['basket.product'] ) ) {
+			$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['basket.product'] );
 		}
 
 		if( $item->getId() === null && $orderProduct->getFlags() !== \Aimeos\MShop\Order\Item\Product\Base::FLAG_IMMUTABLE )
@@ -161,11 +161,11 @@ $serviceFcn = function( \Aimeos\MShop\Order\Item\Iface $item, $basketId ) use ( 
 	{
 		foreach( $list as $orderService )
 		{
-			$entry = ['id' => $type, 'type' => 'basket/service'];
+			$entry = ['id' => $type, 'type' => 'basket.service'];
 			$entry['attributes'] = $orderService->toArray();
 
-			if( isset( $fields['basket/service'] ) ) {
-				$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['basket/service'] );
+			if( isset( $fields['basket.service'] ) ) {
+				$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['basket.service'] );
 			}
 
 			if( $item->getId() === null )
@@ -205,11 +205,11 @@ $addressFcn = function( \Aimeos\MShop\Order\Item\Iface $item, $basketId ) use ( 
 	{
 		foreach( $addresses as $address )
 		{
-			$entry = ['id' => $type, 'type' => 'basket/address'];
+			$entry = ['id' => $type, 'type' => 'basket.address'];
 			$entry['attributes'] = $address->toArray();
 
-			if( isset( $fields['basket/address'] ) ) {
-				$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['basket/address'] );
+			if( isset( $fields['basket.address'] ) ) {
+				$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['basket.address'] );
 			}
 
 			if( $item->getId() === null )
@@ -237,7 +237,7 @@ $couponFcn = function( \Aimeos\MShop\Order\Item\Iface $item, $basketId ) use ( $
 
 	foreach( $item->getCoupons() as $code => $list )
 	{
-		$entry = ['id' => $code, 'type' => 'basket/coupon'];
+		$entry = ['id' => $code, 'type' => 'basket.coupon'];
 
 		if( $item->getId() === null )
 		{
@@ -310,19 +310,19 @@ $customerFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields, $
 		<?php if( isset( $this->item ) ) : ?>
 			<?php if( $this->item->getId() === null ) : ?>
 				,
-				"basket/product": {
+				"basket.product": {
 					"href": "<?= $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $basketId, 'related' => 'product'], [], $config ); ?>",
 					"allow": ["DELETE", "POST"]
 				},
-				"basket/service": {
+				"basket.service": {
 					"href": "<?= $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $basketId, 'related' => 'service'], [], $config ); ?>",
 					"allow": ["DELETE", "POST"]
 				},
-				"basket/address": {
+				"basket.address": {
 					"href": "<?= $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $basketId, 'related' => 'address'], [], $config ); ?>",
 					"allow": ["DELETE", "POST"]
 				},
-				"basket/coupon": {
+				"basket.coupon": {
 					"href": "<?= $this->url( $target, $cntl, $action, ['resource' => 'basket', 'id' => $basketId, 'related' => 'coupon'], [], $config ); ?>",
 					"allow": ["DELETE", "POST"]
 				}
@@ -342,21 +342,21 @@ $customerFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields, $
 	<?php elseif( isset( $this->item ) ) : ?>
 		<?php
 			$included = [];
-			$types = explode( ',', $this->param( 'include', 'basket/product,basket/service,basket/address,basket/coupon' ) );
+			$types = explode( ',', $this->param( 'include', 'basket.product,basket.service,basket.address,basket.coupon' ) );
 
-			if( in_array( 'basket/product', $types ) ) {
+			if( in_array( 'basket.product', $types ) ) {
 				$included = array_replace_recursive( $included, $productFcn( $this->item, $basketId ) );
 			}
 
-			if( in_array( 'basket/service', $types ) ) {
+			if( in_array( 'basket.service', $types ) ) {
 				$included = array_replace_recursive( $included, $serviceFcn( $this->item, $basketId ) );
 			}
 
-			if( in_array( 'basket/address', $types ) ) {
+			if( in_array( 'basket.address', $types ) ) {
 				$included = array_replace_recursive( $included, $addressFcn( $this->item, $basketId ) );
 			}
 
-			if( in_array( 'basket/coupon', $types ) ) {
+			if( in_array( 'basket.coupon', $types ) ) {
 				$included = array_replace_recursive( $included, $couponFcn( $this->item, $basketId ) );
 			}
 

@@ -32,16 +32,16 @@ $entryFcn = function( \Aimeos\MShop\Common\Item\Lists\Iface $item ) use ( $field
 	$relid = $item->getId();
 	$id = $item->getParentId();
 	$attributes = $item->toArray();
-	$type = 'customer/lists';
 	$params = array( 'resource' => 'customer', 'id' => $id, 'related' => 'relationships', 'relatedid' => $relid );
+	$rtype = 'customer.lists';
 
-	if( isset( $fields[$type] ) ) {
-		$attributes = array_intersect_key( $attributes, $fields[$type] );
+	if( isset( $fields[$rtype] ) ) {
+		$attributes = array_intersect_key( $attributes, $fields[$rtype] );
 	}
 
 	$entry = array(
 		'id' => $relid,
-		'type' => $type,
+		'type' => $rtype,
 		'links' => array(
 			'self' => array(
 				'href' => $this->url( $target, $cntl, $action, $params, [], $config ),

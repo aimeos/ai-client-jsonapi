@@ -73,7 +73,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$params = [
 			'id' => $item->getId(),
-			'include' => 'order,order/product,order/service,order/address,order/coupon,customer',
+			'include' => 'order,order.product,order.service,order.address,order.coupon,customer',
 			'fields' => ['customer' => 'customer.id,customer.email']
 		];
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );

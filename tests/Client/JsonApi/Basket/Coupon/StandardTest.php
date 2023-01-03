@@ -39,16 +39,16 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->addProduct( 'CNC' );
 
-		$body = '{"data": {"type": "basket/coupon", "id": "GHIJ"}}';
+		$body = '{"data": {"type": "basket.coupon", "id": "GHIJ"}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 1, count( $result['data']['relationships']['basket/coupon']['data'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket.coupon']['data'] ) );
 
 
-		$body = '{"data": {"type": "basket/coupon", "id": "GHIJ"}}';
+		$body = '{"data": {"type": "basket.coupon", "id": "GHIJ"}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $this->object->delete( $request, $this->view->response() );
@@ -60,7 +60,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertArrayNotHasKey( 'basket/coupon', $result['data']['relationships'] );
+		$this->assertArrayNotHasKey( 'basket.coupon', $result['data']['relationships'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -70,13 +70,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->addProduct( 'CNC' );
 
-		$body = '{"data": {"type": "basket/coupon", "id": "GHIJ"}}';
+		$body = '{"data": {"type": "basket.coupon", "id": "GHIJ"}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 1, count( $result['data']['relationships']['basket/coupon']['data'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket.coupon']['data'] ) );
 
 
 		$params = array( 'id' => 'default', 'relatedid' => 'GHIJ' );
@@ -92,7 +92,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertArrayNotHasKey( 'basket/coupon', $result['data']['relationships'] );
+		$this->assertArrayNotHasKey( 'basket.coupon', $result['data']['relationships'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -141,7 +141,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->addProduct( 'CNC' );
 
-		$body = '{"data": {"type": "basket/coupon", "id": "GHIJ"}}';
+		$body = '{"data": {"type": "basket.coupon", "id": "GHIJ"}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $this->object->post( $request, $this->view->response() );
@@ -154,7 +154,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertEquals( 1, count( $result['data']['relationships']['basket/coupon']['data'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['basket.coupon']['data'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -166,9 +166,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->addProduct( 'CNC' );
 
 		$body = '{"data": [{
-			"type": "basket/coupon", "id": "90AB"
+			"type": "basket.coupon", "id": "90AB"
 		}, {
-			"type": "basket/coupon", "id": "GHIJ"
+			"type": "basket.coupon", "id": "GHIJ"
 		}]}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
@@ -181,7 +181,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
-		$this->assertEquals( 2, count( $result['data']['relationships']['basket/coupon']['data'] ) );
+		$this->assertEquals( 2, count( $result['data']['relationships']['basket.coupon']['data'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}

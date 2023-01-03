@@ -30,18 +30,18 @@ foreach( (array) $fields as $resource => $list ) {
 $entryFcn = function( \Aimeos\MShop\Review\Item\Iface $item ) use ( $fields, $target, $cntl, $action, $config )
 {
 	$relid = $item->getId();
-	$type = 'review';
 	$attributes = $item->toArray();
 	$id = $this->get( 'customerid' );
 	$params = array( 'resource' => 'customer', 'id' => $id, 'related' => 'review', 'relatedid' => $relid );
+	$rtype = 'review';
 
-	if( isset( $fields[$type] ) ) {
-		$attributes = array_intersect_key( $attributes, $fields[$type] );
+	if( isset( $fields[$rtype] ) ) {
+		$attributes = array_intersect_key( $attributes, $fields[$rtype] );
 	}
 
 	$entry = array(
 		'id' => $relid,
-		'type' => $type,
+		'type' => $rtype,
 		'links' => array(
 			'self' => array(
 				'href' => $this->url( $target, $cntl, $action, $params, [], $config ),

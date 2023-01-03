@@ -175,7 +175,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$params = array(
 			'id' => $this->getOrderItem()->getId(),
-			'include' => 'basket/product,customer',
+			'include' => 'basket.product,customer',
 		);
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
@@ -192,8 +192,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 'basket', $result['data']['type'] );
 		$this->assertEquals( 2, count( $result['data']['relationships'] ) );
 		$this->assertArrayHasKey( 'customer', $result['data']['relationships'] );
-		$this->assertArrayHasKey( 'basket/product', $result['data']['relationships'] );
-		$this->assertEquals( 2, count( $result['data']['relationships']['basket/product']['data'] ) );
+		$this->assertArrayHasKey( 'basket.product', $result['data']['relationships'] );
+		$this->assertEquals( 2, count( $result['data']['relationships']['basket.product']['data'] ) );
 		$this->assertEquals( 1, count( $result['data']['relationships']['customer']['data'] ) );
 		$this->assertEquals( 3, count( $result['included'] ) );
 
@@ -210,12 +210,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'id' => $this->getOrderItem()->getId(),
 			'fields' => array(
 				'basket' => 'order.comment',
-				'basket/address' => 'order.address.firstname,order.address.lastname',
-				'basket/product' => 'order.product.name,order.product.price',
-				'basket/service' => 'order.service.name,order.service.price',
+				'basket.address' => 'order.address.firstname,order.address.lastname',
+				'basket.product' => 'order.product.name,order.product.price',
+				'basket.service' => 'order.service.name,order.service.price',
 				'customer' => 'customer.id,customer.email'
 			),
-			'include' => 'basket/address,basket/product,basket/service,customer'
+			'include' => 'basket.address,basket.product,basket.service,customer'
 		);
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );

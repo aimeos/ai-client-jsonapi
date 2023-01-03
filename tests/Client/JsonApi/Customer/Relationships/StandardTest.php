@@ -165,7 +165,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 2, $result['meta']['total'] );
 		$this->assertNotNull( $result['data'][0]['id'] );
-		$this->assertEquals( 'customer/lists', $result['data'][0]['type'] );
+		$this->assertEquals( 'customer.lists', $result['data'][0]['type'] );
 		$this->assertGreaterThan( 8, count( $result['data'][0]['attributes'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -181,7 +181,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'id' => $customer->getId(),
 			'related' => 'relationships',
 			'relatedid' => $customer->getListItems()->first()->getId(),
-			'fields' => array( 'customer/lists' => 'customer.lists.id,customer.lists.refid' ),
+			'fields' => array( 'customer.lists' => 'customer.lists.id,customer.lists.refid' ),
 			'include' => 'product',
 		);
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
@@ -197,7 +197,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( 1, $result['meta']['total'] );
-		$this->assertEquals( 'customer/lists', $result['data']['type'] );
+		$this->assertEquals( 'customer.lists', $result['data']['type'] );
 		$this->assertEquals( 2, count( $result['data']['attributes'] ) );
 		$this->assertNotNull( $result['data']['id'] );
 
@@ -286,7 +286,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( 1, $result['meta']['total'] );
-		$this->assertEquals( 'customer/lists', $result['data']['type'] );
+		$this->assertEquals( 'customer.lists', $result['data']['type'] );
 		$this->assertGreaterThan( 8, count( $result['data']['attributes'] ) );
 		$this->assertEquals( '-2', $result['data']['attributes']['customer.lists.refid'] );
 
@@ -370,7 +370,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( 1, $result['meta']['total'] );
-		$this->assertEquals( 'customer/lists', $result['data'][0]['type'] );
+		$this->assertEquals( 'customer.lists', $result['data'][0]['type'] );
 		$this->assertEquals( '-1', $result['data'][0]['attributes']['customer.lists.refid'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -409,7 +409,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 2, $result['meta']['total'] );
 		$this->assertNotNull( $result['data'][0]['id'] );
-		$this->assertEquals( 'customer/lists', $result['data'][0]['type'] );
+		$this->assertEquals( 'customer.lists', $result['data'][0]['type'] );
 		$this->assertLessThan( 0, $result['data'][0]['attributes']['customer.lists.refid'] );
 		$this->assertLessThan( 0, $result['data'][1]['attributes']['customer.lists.refid'] );
 

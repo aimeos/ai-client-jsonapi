@@ -59,18 +59,18 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Iface $item ) use ( $fields, $
 
 	foreach( $item->getAddressItems() as $addrItem )
 	{
-		$type = $addrItem->getResourceType();
-		$entry['relationships'][$type]['data'][] = array( 'id' => $addrItem->getId(), 'type' => $type );
+		$rtype = str_replace( '/', '.', $addrItem->getResourceType() );
+		$entry['relationships'][$rtype]['data'][] = array( 'id' => $addrItem->getId(), 'type' => $rtype );
 	}
 
 	foreach( $item->getListItems() as $listId => $listItem )
 	{
-		$type = $listItem->getDomain();
-		$params = array( 'resource' => $type, 'id' => $id, 'related' => 'relationships', 'relatedid' => $listId );
+		$rtype = str_replace( '/', '.', $listItem->getDomain() );
+		$params = array( 'resource' => $rtype, 'id' => $id, 'related' => 'relationships', 'relatedid' => $listId );
 
-		$entry['relationships'][$type]['data'][] = [
+		$entry['relationships'][$rtype]['data'][] = [
 			'id' => $listItem->getRefId(),
-			'type' => $type,
+			'type' => $rtype,
 			'attributes' => $listItem->toArray(),
 			'links' => [
 				'self' => [
@@ -83,8 +83,8 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Iface $item ) use ( $fields, $
 
 	foreach( $item->getPropertyItems() as $propItem )
 	{
-		$propType = $propItem->getResourceType();
-		$entry['relationships'][$propType]['data'][] = ['id' => $propItem->getId(), 'type' => $propType];
+		$rtype = str_replace( '/', '.', $propItem->getResourceType() );
+		$entry['relationships'][$rtype]['data'][] = ['id' => $propItem->getId(), 'type' => $rtype];
 	}
 
 	return $entry;
@@ -167,7 +167,7 @@ $custPropFcn = function( \Aimeos\MShop\Common\Item\Property\Iface $item, array $
 	<?php elseif( isset( $this->item ) ) : ?>
 		,"data": <?= json_encode( $entryFcn( $this->item ), $pretty ); ?>
 
-		,"included": <?= map( $this->jincluded( $this->item, $fields, ['customer/address' => $custAddrFcn, 'customer/property' => $custPropFcn] ) )->flat( 1 )->toJson( $pretty ) ?>
+		,"included": <?= map( $this->jincluded( $this->item, $fields, ['customer.address' => $custAddrFcn, 'customer.property' => $custPropFcn] ) )->flat( 1 )->toJson( $pretty ) ?>
 
 	<?php endif; ?>
 

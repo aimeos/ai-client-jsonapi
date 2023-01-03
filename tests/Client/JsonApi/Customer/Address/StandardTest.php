@@ -47,7 +47,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$body = '{"data": {"type": "customer/address", "id": ' . $customer->getAddressItems()->first()->getId() . '}}';
+		$body = '{"data": {"type": "customer.address", "id": ' . $customer->getAddressItems()->first()->getId() . '}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 
@@ -148,7 +148,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( 1, $result['meta']['total'] );
-		$this->assertEquals( 'customer/address', $result['data'][0]['type'] );
+		$this->assertEquals( 'customer.address', $result['data'][0]['type'] );
 		$this->assertNotNull( $result['data'][0]['id'] );
 		$this->assertGreaterThan( 21, count( $result['data'][0]['attributes'] ) );
 
@@ -166,7 +166,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'id' => $customer->getId(),
 			'related' => 'address',
 			'relatedid' => $id,
-			'fields' => ['customer/address' => 'customer.address.id,customer.address.firstname'],
+			'fields' => ['customer.address' => 'customer.address.id,customer.address.firstname'],
 		);
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
@@ -180,7 +180,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( 1, $result['meta']['total'] );
-		$this->assertEquals( 'customer/address', $result['data']['type'] );
+		$this->assertEquals( 'customer.address', $result['data']['type'] );
 		$this->assertEquals( 2, count( $result['data']['attributes'] ) );
 		$this->assertNotNull( $result['data']['id'] );
 
@@ -251,7 +251,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( 1, $result['meta']['total'] );
-		$this->assertEquals( 'customer/address', $result['data']['type'] );
+		$this->assertEquals( 'customer.address', $result['data']['type'] );
 		$this->assertGreaterThan( 21, count( $result['data']['attributes'] ) );
 		$this->assertEquals( 'test', $result['data']['attributes']['customer.address.lastname'] );
 
@@ -319,7 +319,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$body = '{"data": {"type": "customer/address", "attributes": {"customer.address.firstname": "test"}}}';
+		$body = '{"data": {"type": "customer.address", "attributes": {"customer.address.firstname": "test"}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 
@@ -334,7 +334,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( 1, $result['meta']['total'] );
-		$this->assertEquals( 'customer/address', $result['data'][0]['type'] );
+		$this->assertEquals( 'customer.address', $result['data'][0]['type'] );
 		$this->assertEquals( 'test', $result['data'][0]['attributes']['customer.address.firstname'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -354,8 +354,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->view->addHelper( 'param', $helper );
 
 		$body = '{"data": [
-			{"type": "customer/address", "attributes": {"customer.address.firstname": "test"}},
-			{"type": "customer/address", "attributes": {"customer.address.lastname": "test"}}
+			{"type": "customer.address", "attributes": {"customer.address.firstname": "test"}},
+			{"type": "customer.address", "attributes": {"customer.address.lastname": "test"}}
 		]}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
@@ -372,7 +372,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 2, $result['meta']['total'] );
 		$this->assertNotNull( $result['data'][1]['id'] );
-		$this->assertEquals( 'customer/address', $result['data'][1]['type'] );
+		$this->assertEquals( 'customer.address', $result['data'][1]['type'] );
 		$this->assertEquals( 'test', $result['data'][0]['attributes']['customer.address.firstname'] );
 		$this->assertEquals( 'test', $result['data'][1]['attributes']['customer.address.lastname'] );
 
