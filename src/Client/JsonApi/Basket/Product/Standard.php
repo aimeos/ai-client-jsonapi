@@ -327,14 +327,13 @@ class Standard
 				$item = $cntl->get( $entry->attributes->{'product.id'} );
 
 				$qty = ( isset( $entry->attributes->quantity ) ? $entry->attributes->quantity : 1 );
-				$supplier = ( isset( $entry->attributes->supplier ) ? $entry->attributes->supplier : '' );
 				$stock = ( isset( $entry->attributes->stocktype ) ? $entry->attributes->stocktype : 'default' );
 				$varIds = ( isset( $entry->attributes->variant ) ? (array) $entry->attributes->variant : [] );
 				$confIds = ( isset( $entry->attributes->config ) ? get_object_vars( $entry->attributes->config ) : [] );
 				$custIds = ( isset( $entry->attributes->custom ) ? get_object_vars( $entry->attributes->custom ) : [] );
 				$siteId = ( isset( $entry->attributes->siteid ) ? $entry->attributes->siteid : null );
 
-				$this->controller->addProduct( $item, $qty, $varIds, $confIds, $custIds, $stock, $supplier, $siteId );
+				$this->controller->addProduct( $item, $qty, $varIds, $confIds, $custIds, $stock, $siteId );
 			}
 
 
