@@ -120,27 +120,20 @@ class Base
 	 * @param \Aimeos\MShop\ContextIface $context Context instance with necessary objects
 	 * @param string $path Name of the client, e.g "product"
 	 * @return \Aimeos\Client\JsonApi\Iface Client object
+	 * @throws \LogicException If class can't be instantiated
 	 */
 	protected static function addDecorators( \Aimeos\Client\JsonApi\Iface $client, array $decorators, string $classprefix,
 			\Aimeos\MShop\ContextIface $context, string $path ) : \Aimeos\Client\JsonApi\Iface
 	{
+		$interface = \Aimeos\Client\JsonApi\Common\Decorator\Iface::class;
+
 		foreach( $decorators as $name )
 		{
-			if( ctype_alnum( $name ) === false )
-			{
-				$classname = is_string( $name ) ? $classprefix . $name : '<not a string>';
-				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid class name "%1$s"', $classname ), 404 );
+			if( ctype_alnum( $name ) === false ) {
+				throw new \LogicException( sprintf( 'Invalid class name "%1$s"', $name ), 400 );
 			}
 
-			$classname = $classprefix . $name;
-
-			if( class_exists( $classname ) === false ) {
-				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Class "%1$s" not found', $classname ), 404 );
-			}
-
-			$client = new $classname( $client, $context, $path );
-
-			\Aimeos\MW\Common\Base::checkClass( '\\Aimeos\\Client\\JsonApi\\Common\\Decorator\\Iface', $client );
+			$client = \Aimeos\Utils::create( $classprefix . $name, [$client, $context, $path], $interface );
 		}
 
 		return $client;
@@ -162,14 +155,6 @@ class Base
 			return self::$objects[$classname];
 		}
 
-		if( class_exists( $classname ) === false ) {
-			throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Class "%1$s" not found', $classname ), 404 );
-		}
-
-		$client = new $classname( $context, $path );
-
-		\Aimeos\MW\Common\Base::checkClass( $interface, $client );
-
-		return $client;
+		return \Aimeos\Utils::create( $classname, [$context, $path], $interface );
 	}
 }

@@ -256,32 +256,20 @@ class JsonApi
 	 * @param array $decorators List of decorator names
 	 * @param string $classprefix Decorator class prefix, e.g. "\Aimeos\Client\JsonApi\Product\Decorator\"
 	 * @return \Aimeos\Client\JsonApi\Iface Client object
+	 * @throws \LogicException If class can't be instantiated
 	 */
 	protected static function addDecorators( \Aimeos\MShop\ContextIface $context, \Aimeos\Client\JsonApi\Iface $client,
 		string $path, array $decorators, string $classprefix ) : \Aimeos\Client\JsonApi\Iface
 	{
+		$interface = \Aimeos\Client\JsonApi\Common\Decorator\Iface::class;
+
 		foreach( $decorators as $name )
 		{
-			if( ctype_alnum( $name ) === false )
-			{
-				$classname = is_string( $name ) ? $classprefix . $name : '<not a string>';
-				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Invalid class name "%1$s"', $classname ), 400 );
+			if( ctype_alnum( $name ) === false ) {
+				throw new \LogicException( sprintf( 'Invalid class name "%1$s"', $name ), 400 );
 			}
 
-			$classname = $classprefix . $name;
-
-			if( class_exists( $classname ) === false ) {
-				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Class "%1$s" not found', $classname ), 404 );
-			}
-
-			$interface = '\\Aimeos\\Client\\JsonApi\\Common\\Decorator\\Iface';
-			$client = new $classname( $client, $context, $path );
-
-			if( !( $client instanceof $interface ) )
-			{
-				$msg = sprintf( 'Class "%1$s" does not implement "%2$s"', $classname, $interface );
-				throw new \Aimeos\Client\JsonApi\Exception( $msg, 400 );
-			}
+			$client = \Aimeos\Utils::create( $classprefix . $name, [$client, $context, $path], $interface );
 		}
 
 		return $client;
@@ -304,17 +292,7 @@ class JsonApi
 			return self::$objects[$classname];
 		}
 
-		if( class_exists( $classname ) === false ) {
-			throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Class "%1$s" not found', $classname ), 404 );
-		}
-
-		$client = new $classname( $context );
-
-		if( !( $client instanceof $interface ) )
-		{
-			$msg = sprintf( 'Class "%1$s" does not implement "%2$s"', $classname, $interface );
-			throw new \Aimeos\Client\JsonApi\Exception( $msg, 400 );
-		}
+		$client = \Aimeos\Utils::create( $classname, [$context], $interface );
 
 		return self::addComponentDecorators( $context, $client, $path );
 	}
