@@ -58,7 +58,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$object = $this->getMockBuilder( \Aimeos\Client\JsonApi\Standard::class )
 			->setConstructorArgs( [$this->context, ''] )
-			->setMethods( ['context'] )
+			->onlyMethods( ['context'] )
 			->getMock();
 
 		$object->expects( $this->once() )->method( 'context' )

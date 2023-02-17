@@ -188,7 +188,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Review\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['list'] )
+			->onlyMethods( ['list'] )
 			->getMock();
 
 		$cntl->expects( $this->once() )->method( 'list' )
@@ -208,7 +208,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Review\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['list'] )
+			->onlyMethods( ['list'] )
 			->getMock();
 
 		$cntl->expects( $this->once() )->method( 'list' )
@@ -228,7 +228,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Review\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['list'] )
+			->onlyMethods( ['list'] )
 			->getMock();
 
 		$cntl->expects( $this->once() )->method( 'list' )

@@ -206,7 +206,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Subscription\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( [$method] )
+			->onlyMethods( [$method] )
 			->getMock();
 
 		$cntl->expects( $this->once() )->method( $method )->will( $result );

@@ -142,7 +142,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$manager = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['save'] )
+			->onlyMethods( ['save'] )
 			->getMock();
 
 		$manager->expects( $this->once() )->method( 'save' )->will( $this->returnArgument( 0 ) );
@@ -151,7 +151,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$object = $this->getMockBuilder( \Aimeos\Client\JsonApi\Order\Standard::class )
 			->setConstructorArgs( [$this->context, 'order'] )
-			->setMethods( ['getOrder', 'getPaymentForm'] )
+			->onlyMethods( ['getOrder', 'getPaymentForm'] )
 			->getMock();
 
 		$object->setView( $this->view );
@@ -312,7 +312,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Service\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['process'] )
+			->onlyMethods( ['process'] )
 			->getMock();
 
 		$cntl->expects( $this->once() )->method( 'process' )
@@ -332,7 +332,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Order\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['save'] )
+			->onlyMethods( ['save'] )
 			->getMock();
 
 		$cntl->expects( $this->once() )->method( 'save' );
@@ -365,7 +365,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Order\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( [$method] )
+			->onlyMethods( [$method] )
 			->getMock();
 
 		$cntl->expects( $this->once() )->method( $method )->will( $result );

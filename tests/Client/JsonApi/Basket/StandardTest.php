@@ -372,7 +372,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$basket = $this->getMockBuilder( \Aimeos\MShop\Order\Item\Standard::class )
 			->setConstructorArgs( [$price, $locale] )
-			->setMethods( ['check'] )
+			->onlyMethods( ['check'] )
 			->getMock();
 
 		$basket->expects( $this->once() )->method( 'check' )->will( $this->returnSelf() );
@@ -487,7 +487,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( $methods )
+			->onlyMethods( $methods )
 			->getMock();
 
 		foreach( $methods as $method ) {
