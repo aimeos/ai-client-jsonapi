@@ -1,6 +1,7 @@
-.phpunit.result.cache
-coveralls.json
 node_modules
+.phpunit.result.cache
+.phpunit.cache
+coveralls.json
+coverage.xml
 *.log
 *.ser
-
