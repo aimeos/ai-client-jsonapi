@@ -19,7 +19,7 @@ namespace Aimeos\Base\View\Helper\Jincluded;
  */
 class Standard extends \Aimeos\Base\View\Helper\Base implements Iface
 {
-	private $map;
+	private array $map = [];
 
 
 	/**
@@ -30,10 +30,8 @@ class Standard extends \Aimeos\Base\View\Helper\Base implements Iface
 	 * @param array $fcn Associative list of resource types as keys and anonymous functions for generating the array entries as values
 	 * @return array List of entries to include in the JSON:API response
 	 */
-	public function transform( $item, array $fields, array $fcn = [] )
+	public function transform( $item, array $fields, array $fcn = [] ) : array
 	{
-		$this->map = [];
-
 		if( is_map( $item ) || is_array( $item ) )
 		{
 			foreach( $item as $entry ) {

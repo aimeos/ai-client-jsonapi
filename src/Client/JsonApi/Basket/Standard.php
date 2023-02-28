@@ -135,7 +135,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 */
 
 
-	private $controller;
+	private \Aimeos\Controller\Frontend\Basket\Iface $controller;
 
 
 	/**

@@ -26,8 +26,8 @@ abstract class Base
 	use \Aimeos\Macro\Macroable;
 
 
-	private $view;
-	private $context;
+	private \Aimeos\MShop\ContextIface $context;
+	private ?\Aimeos\Base\View\Iface $view = null;
 
 
 	/**

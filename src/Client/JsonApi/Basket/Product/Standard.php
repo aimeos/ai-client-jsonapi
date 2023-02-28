@@ -137,7 +137,7 @@ class Standard
 	 */
 
 
-	private $controller;
+	private \Aimeos\Controller\Frontend\Basket\Iface $controller;
 
 
 	/**

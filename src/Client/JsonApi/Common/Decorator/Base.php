@@ -24,7 +24,7 @@ abstract class Base
 	extends \Aimeos\Client\JsonApi\Base
 	implements \Aimeos\Client\JsonApi\Common\Decorator\Iface
 {
-	private $client;
+	private \Aimeos\Client\JsonApi\Iface $client;
 
 
 	/**
