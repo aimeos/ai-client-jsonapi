@@ -388,14 +388,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function getOrderItem()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'order' );
+		$search = $manager->filter()->add( 'order.price', '==', '672.00' );
+		$ref = ['order/address', 'order/coupon', 'order/product', 'order/service'];
 
-		$search = $manager->filter();
-		$search->setConditions( $search->compare( '==', 'order.price', '672.00' ) );
-
-		if( ( $item = $manager->search( $search )->first() ) === null ) {
-			throw new \Exception( 'No order item with price "672.00" found' );
-		}
-
-		return $manager->load( $item->getId() );
+		return $manager->search( $search, $ref )->first( new \Exception( 'No order item found' ) );
 	}
 }
