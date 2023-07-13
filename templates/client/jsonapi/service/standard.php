@@ -62,7 +62,7 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, \Aimeos\Map $price
 				'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
 				'allow' => ['GET'],
 			),
-			'basket/service' => array(
+			'basket.service' => array(
 				'href' => $this->url( $target, $cntl, $action, $basketParams, [], $config ),
 				'allow' => ['POST'],
 				'meta' => $metadata,

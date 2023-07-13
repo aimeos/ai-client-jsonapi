@@ -101,7 +101,7 @@ $custAddrFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item, array 
 			'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
 			'allow' => ['DELETE', 'GET', 'PATCH'],
 		],
-		'basket/address' => [
+		'basket.address' => [
 			'href' => $this->url( $target, $cntl, $action, $basketParams, [], $config ),
 			'allow' => ['POST'],
 		],

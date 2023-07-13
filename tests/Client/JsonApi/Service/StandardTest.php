@@ -86,8 +86,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 3, count( $result['data']['attributes'] ) );
 		$this->assertArrayHasKey( 'price.costs', $result['data']['attributes']['price'] );
 		$this->assertEquals( 'directdebit-test', $result['data']['attributes']['service.code'] );
-		$this->assertEquals( 4, count( $result['data']['links']['basket/service']['meta'] ) );
-		$this->assertArrayHasKey( 'code', $result['data']['links']['basket/service']['meta']['directdebit.accountowner'] );
+		$this->assertEquals( 4, count( $result['data']['links']['basket.service']['meta'] ) );
+		$this->assertArrayHasKey( 'code', $result['data']['links']['basket.service']['meta']['directdebit.accountowner'] );
 		$this->assertEquals( 0, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );

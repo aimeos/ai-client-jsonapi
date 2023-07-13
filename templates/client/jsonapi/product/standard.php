@@ -124,7 +124,7 @@ $entryFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, $t
 				'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
 				'allow' => array( 'GET' ),
 			),
-			'basket/product' => array(
+			'basket.product' => array(
 				'href' => $this->url( $target, $cntl, $action, $basketParams, [], $config ),
 				'allow' => ['POST'],
 			),

@@ -146,7 +146,7 @@ $productFcn = function( \Aimeos\MShop\Order\Item\Iface $item, $basketId ) use ( 
 			$result = array_merge( $result, $this->jincluded( $product, $fields ) );
 		}
 
-		$result['order/product'][] = $entry;
+		$result['order.product'][] = $entry;
 	}
 
 	return $result;
@@ -189,7 +189,7 @@ $serviceFcn = function( \Aimeos\MShop\Order\Item\Iface $item, $basketId ) use ( 
 				$result = array_merge( $result, $this->jincluded( $service, $fields ) );
 			}
 
-			$result['order/service'][] = $entry;
+			$result['order.service'][] = $entry;
 		}
 	}
 
@@ -223,7 +223,7 @@ $addressFcn = function( \Aimeos\MShop\Order\Item\Iface $item, $basketId ) use ( 
 				);
 			}
 
-			$list['order/address'][] = $entry;
+			$list['order.address'][] = $entry;
 		}
 	}
 
@@ -250,7 +250,7 @@ $couponFcn = function( \Aimeos\MShop\Order\Item\Iface $item, $basketId ) use ( $
 			);
 		}
 
-		$coupons['order/coupon'][] = $entry;
+		$coupons['order.coupon'][] = $entry;
 	}
 
 	return $coupons;

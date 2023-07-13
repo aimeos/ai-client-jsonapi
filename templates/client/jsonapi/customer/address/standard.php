@@ -48,7 +48,7 @@ $entryFcn = function( \Aimeos\MShop\Customer\Item\Address\Iface $item ) use ( $f
 				'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
 				'allow' => array( 'DELETE', 'GET', 'PATCH' ),
 			),
-			'basket/address' => array(
+			'basket.address' => array(
 				'href' => $this->url( $target, $cntl, $action, $basketParams, [], $config ),
 				'allow' => ['POST'],
 			),

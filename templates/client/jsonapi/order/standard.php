@@ -39,25 +39,25 @@ $entryFcn = function( \Aimeos\MShop\Order\Item\Iface $item, \Aimeos\MShop\Common
 	}
 
 	foreach( $item->getProducts() as $product ) {
-		$relationships['order/product']['data'][] = ['type' => 'order/product', 'id' => $product->getId()];
+		$relationships['order.product']['data'][] = ['type' => 'order.product', 'id' => $product->getId()];
 	}
 
 	foreach( $item->getServices() as $list )
 	{
 		foreach( $list as $service ) {
-			$relationships['order/service']['data'][] = ['type' => 'order/service', 'id' => $service->getId()];
+			$relationships['order.service']['data'][] = ['type' => 'order.service', 'id' => $service->getId()];
 		}
 	}
 
 	foreach( $item->getAddresses() as $list )
 	{
 		foreach( $list as $address ) {
-			$relationships['order/address']['data'][] = ['type' => 'order/address', 'id' => $address->getId()];
+			$relationships['order.address']['data'][] = ['type' => 'order.address', 'id' => $address->getId()];
 		}
 	}
 
 	foreach( $item->getCoupons() as $code => $x ) {
-		$relationships['order/coupon']['data'][] = ['type' => 'order/coupon', 'id' => $code];
+		$relationships['order.coupon']['data'][] = ['type' => 'order.coupon', 'id' => $code];
 	}
 
 	if( $customer = $item->getCustomerItem() ) {
@@ -98,11 +98,11 @@ $productFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields )
 
 	foreach( $item->getProducts() as $orderProduct )
 	{
-		$entry = ['id' => $orderProduct->getId(), 'type' => 'order/product'];
+		$entry = ['id' => $orderProduct->getId(), 'type' => 'order.product'];
 		$entry['attributes'] = $orderProduct->toArray();
 
-		if( isset( $fields['order/product'] ) ) {
-			$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['order/product'] );
+		if( isset( $fields['order.product'] ) ) {
+			$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['order.product'] );
 		}
 
 		foreach( $orderProduct->getProducts() as $subProduct )
@@ -126,7 +126,7 @@ $productFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields )
 			$result = array_merge( $result, $this->jincluded( $product, $fields ) );
 		}
 
-		$result['order/product'][] = $entry;
+		$result['order.product'][] = $entry;
 	}
 
 	return $result;
@@ -141,11 +141,11 @@ $serviceFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields )
 	{
 		foreach( $list as $orderService )
 		{
-			$entry = ['id' => $orderService->getId(), 'type' => 'order/service'];
+			$entry = ['id' => $orderService->getId(), 'type' => 'order.service'];
 			$entry['attributes'] = $orderService->toArray();
 
-			if( isset( $fields['order/service'] ) ) {
-				$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['order/service'] );
+			if( isset( $fields['order.service'] ) ) {
+				$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['order.service'] );
 			}
 
 			foreach( $orderService->getAttributeItems() as $attribute ) {
@@ -158,7 +158,7 @@ $serviceFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields )
 				$result = array_merge( $result, $this->jincluded( $service, $fields ) );
 			}
 
-			$result['order/service'][] = $entry;
+			$result['order.service'][] = $entry;
 		}
 	}
 
@@ -174,14 +174,14 @@ $addressFcn = function( \Aimeos\MShop\Order\Item\Iface $item ) use ( $fields )
 	{
 		foreach( $addresses as $address )
 		{
-			$entry = ['id' => $address->getId(), 'type' => 'order/address'];
+			$entry = ['id' => $address->getId(), 'type' => 'order.address'];
 			$entry['attributes'] = $address->toArray();
 
-			if( isset( $fields['order/address'] ) ) {
-				$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['order/address'] );
+			if( isset( $fields['order.address'] ) ) {
+				$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['order.address'] );
 			}
 
-			$list['order/address'][] = $entry;
+			$list['order.address'][] = $entry;
 		}
 	}
 
@@ -194,7 +194,7 @@ $couponFcn = function( \Aimeos\MShop\Order\Item\Iface $item )
 	$coupons = [];
 
 	foreach( $item->getCoupons() as $code => $list ) {
-		$coupons['order/coupon'][] = ['id' => $code, 'type' => 'order/coupon'];
+		$coupons['order.coupon'][] = ['id' => $code, 'type' => 'order.coupon'];
 	}
 
 	return $coupons;
