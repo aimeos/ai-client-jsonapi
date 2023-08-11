@@ -38,21 +38,19 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetItem()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'locale' );
+		$search = $manager->filter()->add( 'locale.status', '==', 1 )
+			->add( 'locale.languageid', '==', 'en' )
+			->add( 'locale.currencyid', '==', 'EUR' )
+			->slice( 0, 1 );
 
-		$search = $manager->filter()->slice( 0, 1 );
-		$search->setConditions( $search->compare( '==', 'locale.status', 1 ) );
-		$search->setSortations( [$search->sort( '+', 'locale.position' )] );
-
-		if( ( $item = $manager->search( $search )->first() ) === null ) {
-			throw new \Exception( 'No locale item found' );
-		}
+		$item = $manager->search( $search )->first( new \Exception( 'No locale item found' ) );
 
 
 		$params = array(
 			'id' => $item->getId(),
 			'fields' => array(
 				'locale' => 'locale.id,locale.languageid,locale.currencyid'
-			)
+			),
 		);
 
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
