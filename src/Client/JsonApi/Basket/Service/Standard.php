@@ -249,11 +249,11 @@ class Standard
 
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'service' );
 
-			if( $relId = $view->param( 'relatedid' ) ) {
-				$this->controller->deleteService( $relId );
+			if( $type = $view->param( 'relatedid' ) ) {
+				$this->controller->deleteService( $type );
 			}
 
-			foreach( $payload->data as $entry )
+			foreach( $payload->data as $pos => $entry )
 			{
 				if( !isset( $entry->id ) ) {
 					throw new \Aimeos\Client\JsonApi\Exception( 'Service type (ID) is missing', 400 );
@@ -270,7 +270,7 @@ class Standard
 				$item = $cntl->uses( ['media', 'price', 'text'] )->get( $entry->attributes->{'service.id'} );
 				unset( $entry->attributes->{'service.id'} );
 
-				$this->controller->addService( $item, (array) $entry->attributes );
+				$this->controller->addService( $item, (array) $entry->attributes, $pos );
 			}
 
 
