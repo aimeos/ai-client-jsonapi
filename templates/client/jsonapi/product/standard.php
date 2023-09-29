@@ -199,8 +199,8 @@ $includeFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, 
 
 	if( $siteItem = $item->getSiteItem() )
 	{
-		$params = ['resource' => 'locale.site', 'id' => $id];
-		$entry = ['id' => $id, 'type' => 'locale.site'];
+		$params = ['resource' => 'locale.site', 'id' => $siteItem->getId()];
+		$entry = ['id' => $siteItem->getId(), 'type' => 'locale.site'];
 		$entry['attributes'] = $siteItem->toArray();
 
 		if( isset( $fields['locale.site'] ) ) {
@@ -214,7 +214,7 @@ $includeFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, 
 			),
 		);
 
-		$result['locale.site'][$id] = $entry;
+		$result['locale.site'][$siteItem->getId()] = $entry;
 	}
 
 	return $result;
