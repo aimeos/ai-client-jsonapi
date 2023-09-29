@@ -162,6 +162,10 @@ $entryFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, $t
 		}
 	}
 
+	if( $siteItem = $item->getSiteItem() ) {
+		$entry['relationships']['locale.site']['data'][] = array( 'id' => $siteItem->getId(), 'type' => 'locale.site' );
+	}
+
 	return $entry;
 };
 
@@ -191,6 +195,26 @@ $includeFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, 
 
 			$result['stock'][$id] = $entry;
 		}
+	}
+
+	if( $siteItem = $item->getSiteItem() )
+	{
+		$params = ['resource' => 'locale.site', 'id' => $id];
+		$entry = ['id' => $id, 'type' => 'locale.site'];
+		$entry['attributes'] = $siteItem->toArray();
+
+		if( isset( $fields['locale.site'] ) ) {
+			$entry['attributes'] = array_intersect_key( $entry['attributes'], $fields['locale.site'] );
+		}
+
+		$entry['links'] = array(
+			'self' => array(
+				'href' => $this->url( $target, $cntl, $action, $params, [], $config ),
+				'allow' => ['GET'],
+			),
+		);
+
+		$result['locale.site'][$id] = $entry;
 	}
 
 	return $result;
