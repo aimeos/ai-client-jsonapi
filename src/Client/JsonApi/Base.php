@@ -207,7 +207,7 @@ abstract class Base
 			$details['title'] = $this->context->translate( $domain, $e->getMessage() );
 		} else {
 			$details['title'] = $this->context->translate( 'admin', 'An error occured and has been added to the logs' );
-			$this->context->logger()->log( $e->getTraceAsString() . PHP_EOL . $e->getMessage() );
+			$this->context->logger()->log( $e->getMessage() . PHP_EOL . $e->getTraceAsString() );
 		}
 
 		/** client/jsonapi/debug
@@ -225,8 +225,8 @@ abstract class Base
 		 */
 		if( $this->context->config()->get( 'client/jsonapi/debug', false ) == true )
 		{
-			$details['detail'] = $e->getTraceAsString();
 			$details['title'] = $e->getMessage();
+			$details['detail'] = $e->getTraceAsString();
 		}
 
 		return [$details]; // jsonapi.org requires a list of error objects
