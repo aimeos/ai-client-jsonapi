@@ -41,7 +41,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = $manager->create( ['review.domain' => 'product', 'review.refid' => '-1', 'review.customerid' => '-1'] );
 		$item = $manager->save( $item->setId( null ) );
 
-		$this->context->setUserId( -1 );
+		$this->context->setUser( null );
 
 
 		$params = ['id' => -1, 'related' => 'review'];
@@ -71,7 +71,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = $manager->create( ['review.domain' => 'product', 'review.refid' => '-1', 'review.customerid' => '-1'] );
 		$item = $manager->save( $item->setId( null ) );
 
-		$this->context->setUserId( -1 );
+		$this->context->setUser( null );
 
 
 		$params = ['id' => -1, 'related' => 'review', 'relatedid' => $item->getId()];
@@ -131,7 +131,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGet()
 	{
 		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
-		$this->context->setUserId( $customer->getId() );
+		$this->context->setUser( $customer );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -152,7 +152,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetById()
 	{
 		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
-		$this->context->setUserId( $customer->getId() );
+		$this->context->setUser( $customer );
 
 		$manager = \Aimeos\MShop::create( $this->context, 'review' );
 		$item = $manager->search( $manager->filter()->add( 'review.customerid', '==', $customer->getId() ) )->first();
@@ -246,8 +246,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatch()
 	{
-		$customerId = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
-		$this->context->setUserId( $customerId );
+		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
+		$this->context->setUser( $customer );
 		$item = $this->getReviewItem();
 
 
@@ -257,7 +257,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$body = '{"data": {"type": "review", "id": "-1", "attributes": {
 			"review.orderproductid": "' . $item->getOrderProductId() . '",
-			"review.customerid": "' . $customerId . '",
+			"review.customerid": "' . $customer->getId() . '",
 			"review.domain": "product",
 			"review.name": "test user",
 			"review.comment": "test comment",
@@ -293,7 +293,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatchDenied()
 	{
-		$this->context->setUserId( -1 );
+		$this->context->setUser( null );
 
 		$params = ['id' => -2, 'related' => 'review', 'relatedid' => -1];
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
@@ -352,8 +352,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPost()
 	{
-		$customerId = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
-		$this->context->setUserId( $customerId );
+		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
+		$this->context->setUser( $customer );
 
 		$manager = \Aimeos\MShop::create( $this->context, 'order/product' );
 		$filter = $manager->filter()->add( ['order.product.prodcode' => 'ABCD'] );
@@ -365,7 +365,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$body = '{"data": {"type": "review", "attributes": {
 			"review.orderproductid": "' . $item->getId() . '",
-			"review.customerid": "' . $customerId . '",
+			"review.customerid": "' . $customer->getId() . '",
 			"review.domain": "product",
 			"review.name": "test user",
 			"review.comment": "test comment",
@@ -399,8 +399,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostMultiple()
 	{
-		$customerId = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
-		$this->context->setUserId( $customerId );
+		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
+		$this->context->setUser( $customer );
 
 		$manager = \Aimeos\MShop::create( $this->context, 'order/product' );
 		$items = $manager->search( $manager->filter()->add( ['order.product.prodcode' => 'ABCD'] ) );
@@ -412,7 +412,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$body = '{"data": [{
 			"type": "review", "attributes": {
 				"review.orderproductid": "' . $items->first()->getId() . '",
-				"review.customerid": "' . $customerId . '",
+				"review.customerid": "' . $customer->getId() . '",
 				"review.domain": "product",
 				"review.comment": "test comment"
 			}

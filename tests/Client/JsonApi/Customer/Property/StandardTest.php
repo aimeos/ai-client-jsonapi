@@ -40,7 +40,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
 		$customer = $custManager->find( 'test@example.com', ['customer/property'] )->setCode( 'unittest-jsonapi' );
 		$customer = $custManager->save( $customer->setId( null ) );
-		$this->context->setUserId( $customer->getId() );
+		$this->context->setUser( $customer );
 
 
 		$params = ['id' => $customer->getId()];
@@ -71,7 +71,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
 		$customer = $custManager->find( 'test@example.com', ['customer/property'] )->setCode( 'unittest-jsonapi' );
 		$customer = $custManager->save( $customer->setId( null ) );
-		$this->context->setUserId( $customer->getId() );
+		$this->context->setUser( $customer );
 
 
 		$params = ['id' => $customer->getId(), 'relatedid' => $customer->getPropertyItems()->first()->getId()];
@@ -133,7 +133,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGet()
 	{
 		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
-		$this->context->setUserId( $customer->getId() );
+		$this->context->setUser( $customer );
 
 		$params = ['id' => $customer->getId()];
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
@@ -160,7 +160,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com', ['customer/property'] );
 		$id = $customer->getPropertyItems()->first()->getId();
-		$this->context->setUserId( $customer->getId() );
+		$this->context->setUser( $customer );
 
 		$params = array(
 			'id' => $customer->getId(),
@@ -229,7 +229,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
 		$customer = $custManager->find( 'test@example.com', ['customer/property'] )->setCode( 'unittest-jsonapi' );
 		$customer = $custManager->save( $customer->setId( null ) );
-		$this->context->setUserId( $customer->getId() );
+		$this->context->setUser( $customer );
 
 
 		$params = ['id' => $customer->getId(), 'relatedid' => $customer->getPropertyItems()->first()->getId()];
@@ -312,7 +312,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
 		$customer = $custManager->create()->setCode( 'unittest-jsonapi' );
 		$customer = $custManager->save( $customer );
-		$this->context->setUserId( $customer->getId() );
+		$this->context->setUser( $customer );
 
 
 		$params = ['id' => $customer->getId()];
@@ -347,7 +347,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
 		$customer = $custManager->create()->setCode( 'unittest-jsonapi' );
 		$customer = $custManager->save( $customer );
-		$this->context->setUserId( $customer->getId() );
+		$this->context->setUser( $customer );
 
 
 		$params = ['id' => $customer->getId()];

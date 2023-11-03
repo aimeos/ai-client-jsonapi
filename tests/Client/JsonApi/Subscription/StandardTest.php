@@ -24,7 +24,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->view = $this->context->view();
 
 		$user = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
-		$this->context->setUserId( $user->getId() );
+		$this->context->setUser( $user );
 
 		$this->object = new \Aimeos\Client\JsonApi\Subscription\Standard( $this->context );
 		$this->object->setView( $this->view );

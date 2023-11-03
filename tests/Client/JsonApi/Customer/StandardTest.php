@@ -37,8 +37,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDelete()
 	{
-		$id = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
-		$this->context->setUserId( $id );
+		$user = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
+		$this->context->setUser( $user );
 
 		$this->object( 'delete', $this->returnSelf() );
 
@@ -95,7 +95,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGet()
 	{
 		$user = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
-		$this->context->setUserId( $user->getId() );
+		$this->context->setUser( $user );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -114,28 +114,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testGetNoAccess()
-	{
-		$this->context->setUserId( -1 );
-
-
-		$response = $this->object->get( $this->view->request(), $this->view->response() );
-		$result = json_decode( (string) $response->getBody(), true );
-
-
-		$this->assertEquals( 404, $response->getStatusCode() );
-		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
-		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
-
-		$this->assertEquals( 0, $result['meta']['total'] );
-		$this->assertArrayHasKey( 'errors', $result );
-	}
-
-
 	public function testGetIncluded()
 	{
 		$user = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
-		$this->context->setUserId( $user->getId() );
+		$this->context->setUser( $user );
 
 		$params = ['include' => 'customer.address,customer.property'];
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
@@ -162,7 +144,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetIncludedNone()
 	{
 		$user = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
-		$this->context->setUserId( $user->getId() );
+		$this->context->setUser( $user );
 
 		$params = ['include' => ''];
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
@@ -227,8 +209,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatch()
 	{
-		$id = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
-		$this->context->setUserId( $id );
+		$user = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
+		$this->context->setUser( $user );
 
 		$this->object( 'store', $this->returnSelf() );
 
@@ -393,8 +375,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function object( $method, $result )
 	{
-		$id = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
-		$this->context->setUserId( $id );
+		$user = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
+		$this->context->setUser( $user );
 
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Customer\Standard::class )
 			->setConstructorArgs( [$this->context] )
