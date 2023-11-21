@@ -197,6 +197,7 @@ abstract class Base
 	 *
 	 * @param \Exception $e Thrown exception
 	 * @param string|null $domain Translation domain
+	 * @param string|null $msg Additional error details
 	 * @return array Associative list with "title" and "detail" key (if debug config is enabled)
 	 */
 	protected function getErrorDetails( \Exception $e, string $domain = null ) : array
@@ -208,6 +209,10 @@ abstract class Base
 		} else {
 			$details['title'] = $this->context->translate( 'admin', 'An error occured and has been added to the logs' );
 			$this->context->logger()->log( $e->getMessage() . PHP_EOL . $e->getTraceAsString() );
+		}
+
+		if( $e instanceof \Aimeos\MShop\Plugin\Provider\Exception ) {
+			$details['detail'] = join( "\n", $this->translatePluginErrorCodes( $e->getErrorCodes() ) );
 		}
 
 		/** client/jsonapi/debug
@@ -226,7 +231,7 @@ abstract class Base
 		if( $this->context->config()->get( 'client/jsonapi/debug', false ) == true )
 		{
 			$details['title'] = $e->getMessage();
-			$details['detail'] = $e->getTraceAsString();
+			$details['detail'] = ( isset( $details['detail'] ) ? $details['detail'] . "\n" : '' ) . $e->getTraceAsString();
 		}
 
 		return [$details]; // jsonapi.org requires a list of error objects
