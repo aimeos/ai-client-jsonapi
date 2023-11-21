@@ -239,21 +239,6 @@ abstract class Base
 
 
 	/**
-	 * Initializes the criteria object based on the given parameter
-	 *
-	 * @param \Aimeos\Base\Criteria\Iface $criteria Criteria object
-	 * @param array $params List of criteria data with condition, sorting and paging
-	 * @return \Aimeos\Base\Criteria\Iface Initialized criteria object
-	 */
-	protected function initCriteria( \Aimeos\Base\Criteria\Iface $criteria, array $params ) : \Aimeos\Base\Criteria\Iface
-	{
-		return $criteria->order( $params['sort'] ?? [] )
-			->add( $criteria->parse( $params['filter'] ?? [] ) )
-			->slice( $params['page']['offset'] ?? 0, $params['page']['limit'] ?? 25 );
-	}
-
-
-	/**
 	 * Returns the available REST verbs and the available parameters
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
@@ -261,7 +246,7 @@ abstract class Base
 	 * @param string $allow Allowed HTTP methods
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function getOptionsResponse( ServerRequestInterface $request, ResponseInterface $response, string $allow ) : \Psr\Http\Message\ResponseInterface
+	protected function getOptionsResponse( ServerRequestInterface $request, ResponseInterface $response, string $allow ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view = $this->view();
 
@@ -275,6 +260,21 @@ abstract class Base
 			->withHeader( 'Content-Type', 'application/vnd.api+json' )
 			->withBody( $view->response()->createStreamFromString( $body ) )
 			->withStatus( 200 );
+	}
+
+
+	/**
+	 * Initializes the criteria object based on the given parameter
+	 *
+	 * @param \Aimeos\Base\Criteria\Iface $criteria Criteria object
+	 * @param array $params List of criteria data with condition, sorting and paging
+	 * @return \Aimeos\Base\Criteria\Iface Initialized criteria object
+	 */
+	protected function initCriteria( \Aimeos\Base\Criteria\Iface $criteria, array $params ) : \Aimeos\Base\Criteria\Iface
+	{
+		return $criteria->order( $params['sort'] ?? [] )
+			->add( $criteria->parse( $params['filter'] ?? [] ) )
+			->slice( $params['page']['offset'] ?? 0, $params['page']['limit'] ?? 25 );
 	}
 
 
