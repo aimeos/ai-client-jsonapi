@@ -52,6 +52,6 @@ class Base extends \Aimeos\Client\JsonApi\Base
 			}
 		}
 
-		return $errors;
+		return array_unique( $errors );
 	}
 }

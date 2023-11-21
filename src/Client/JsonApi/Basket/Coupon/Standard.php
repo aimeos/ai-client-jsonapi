@@ -203,8 +203,7 @@ class Standard
 		catch( \Aimeos\MShop\Plugin\Provider\Exception $e )
 		{
 			$status = 409;
-			$errors = $this->translatePluginErrorCodes( $e->getErrorCodes() );
-			$view->errors = $this->getErrorDetails( $e, 'mshop' ) + $errors;
+			$view->errors = $this->getErrorDetails( $e, 'mshop' );
 		}
 		catch( \Aimeos\MShop\Exception $e )
 		{
@@ -263,8 +262,7 @@ class Standard
 		catch( \Aimeos\MShop\Plugin\Provider\Exception $e )
 		{
 			$status = 409;
-			$errors = $this->translatePluginErrorCodes( $e->getErrorCodes() );
-			$view->errors = $this->getErrorDetails( $e, 'mshop' ) + $errors;
+			$view->errors = $this->getErrorDetails( $e, 'mshop' );
 		}
 		catch( \Aimeos\MShop\Exception $e )
 		{
