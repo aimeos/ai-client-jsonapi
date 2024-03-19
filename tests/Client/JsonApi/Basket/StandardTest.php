@@ -12,7 +12,6 @@ namespace Aimeos\Client\JsonApi\Basket;
 class StandardTest extends \PHPUnit\Framework\TestCase
 {
 	private $context;
-	private $object;
 	private $view;
 
 
@@ -22,16 +21,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->context = \TestHelper::context();
 		$this->view = $this->context->view();
-
-		$this->object = new \Aimeos\Client\JsonApi\Basket\Standard( $this->context );
-		$this->object->setView( $this->view );
 	}
 
 
 	protected function tearDown() : void
 	{
 		\Aimeos\Controller\Frontend::cache( false );
-		unset( $this->view, $this->object, $this->context );
+		unset( $this->view, $this->context );
 	}
 
 
@@ -40,13 +36,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$body = '{"data": {"attributes": {"order.comment": "test"}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$response = $this->object->patch( $request, $this->view->response() );
+		$response = $this->object()->patch( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 'test', $result['data']['attributes']['order.comment'] );
 
 
-		$response = $this->object->delete( $request, $this->view->response() );
+		$response = $this->object()->delete( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 200, $response->getStatusCode() );
@@ -64,9 +60,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeletePluginException()
 	{
-		$object = $this->object( 'setType', $this->throwException( new \Aimeos\MShop\Plugin\Provider\Exception() ) );
+		$this->controller( 'setType' )->expects( $this->once() )->method( 'setType' )
+			->will( $this->throwException( new \Aimeos\MShop\Plugin\Provider\Exception() ) );
 
-		$response = $object->delete( $this->view->request(), $this->view->response() );
+		$response = $this->object()->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 409, $response->getStatusCode() );
@@ -76,9 +73,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteMShopException()
 	{
-		$object = $this->object( 'setType', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$this->controller( 'setType' )->expects( $this->once() )->method( 'setType' )
+			->will( $this->throwException( new \Aimeos\MShop\Exception() ) );
 
-		$response = $object->delete( $this->view->request(), $this->view->response() );
+		$response = $this->object()->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 404, $response->getStatusCode() );
@@ -88,9 +86,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteException()
 	{
-		$object = $this->object( 'setType', $this->throwException( new \Exception() ) );
+		$this->controller( 'setType' )->expects( $this->once() )->method( 'setType' )
+			->will( $this->throwException( new \Exception() ) );
 
-		$response = $object->delete( $this->view->request(), $this->view->response() );
+		$response = $this->object()->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -101,7 +100,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$response = $this->object()->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 200, $response->getStatusCode() );
@@ -125,7 +124,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$response = $this->object()->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 200, $response->getStatusCode() );
@@ -153,7 +152,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$response = $this->object()->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 200, $response->getStatusCode() );
@@ -180,7 +179,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$response = $this->object()->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -220,7 +219,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$response = $this->object()->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 200, $response->getStatusCode() );
@@ -252,7 +251,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$response = $this->object()->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 200, $response->getStatusCode() );
@@ -270,9 +269,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetMShopException()
 	{
-		$object = $this->object( 'setType', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$this->controller( 'setType' )->expects( $this->once() )->method( 'setType' )
+			->will( $this->throwException( new \Aimeos\MShop\Exception() ) );
 
-		$response = $object->get( $this->view->request(), $this->view->response() );
+		$response = $this->object()->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -283,9 +283,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetException()
 	{
-		$object = $this->object( 'setType', $this->throwException( new \Exception() ) );
+		$this->controller( 'setType' )->expects( $this->once() )->method( 'setType' )
+			->will( $this->throwException( new \Exception() ) );
 
-		$response = $object->get( $this->view->request(), $this->view->response() );
+		$response = $this->object()->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -299,7 +300,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$body = '{"data": {"attributes": {"order.comment": "test", "order.customerref": "abc"}}}	';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$response = $this->object->patch( $request, $this->view->response() );
+		$response = $this->object()->patch( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -319,12 +320,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatchPluginException()
 	{
-		$object = $this->object( 'setType', $this->throwException( new \Aimeos\MShop\Plugin\Provider\Exception() ) );
+		$this->controller( 'setType' )->expects( $this->once() )->method( 'setType' )
+			->will( $this->throwException( new \Aimeos\MShop\Plugin\Provider\Exception() ) );
 
 		$body = '{"data": {"attributes": []}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$response = $object->patch( $request, $this->view->response() );
+		$response = $this->object()->patch( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -335,12 +337,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatchMShopException()
 	{
-		$object = $this->object( 'setType', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$this->controller( 'setType' )->expects( $this->once() )->method( 'setType' )
+			->will( $this->throwException( new \Aimeos\MShop\Exception() ) );
 
 		$body = '{"data": {"attributes": []}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$response = $object->patch( $request, $this->view->response() );
+		$response = $this->object()->patch( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -351,12 +354,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatchException()
 	{
-		$object = $this->object( 'setType', $this->throwException( new \Exception() ) );
+		$this->controller( 'setType' )->expects( $this->once() )->method( 'setType' )
+			->will( $this->throwException( new \Exception() ) );
 
 		$body = '{"data": {"attributes": []}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$response = $object->patch( $request, $this->view->response() );
+		$response = $this->object()->patch( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -375,15 +379,17 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->onlyMethods( ['check'] )
 			->getMock();
 
-		$basket->expects( $this->once() )->method( 'check' )->will( $this->returnSelf() );
+		$basket->expects( $this->once() )->method( 'check' )->willReturnSelf();
 
-		$object = $this->object( ['get', 'store'], $this->returnValue( $basket ) );
+		$cntl = $this->controller( ['get', 'store'] );
+		$cntl->expects( $this->once() )->method( 'get' )->willReturn( $basket );
+		$cntl->expects( $this->once() )->method( 'store' )->willReturn( $basket );
 
 
 		$body = '{"data": {"attributes": {"order.comment": "test"}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$response = $object->post( $request, $this->view->response() );
+		$response = $this->object()->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 200, $response->getStatusCode() );
@@ -401,9 +407,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostPluginException()
 	{
-		$object = $this->object( 'get', $this->throwException( new \Aimeos\MShop\Plugin\Provider\Exception() ) );
+		$this->controller( 'get' )->expects( $this->once() )->method( 'get' )
+			->will( $this->throwException( new \Aimeos\MShop\Plugin\Provider\Exception() ) );
 
-		$response = $object->post( $this->view->request(), $this->view->response() );
+		$response = $this->object()->post( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -414,9 +421,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostMShopException()
 	{
-		$object = $this->object( 'get', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$this->controller( 'get' )->expects( $this->once() )->method( 'get' )
+			->will( $this->throwException( new \Aimeos\MShop\Exception() ) );
 
-		$response = $object->post( $this->view->request(), $this->view->response() );
+		$response = $this->object()->post( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -427,9 +435,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostException()
 	{
-		$object = $this->object( 'get', $this->throwException( new \Exception() ) );
+		$this->controller( 'get' )->expects( $this->once() )->method( 'get' )
+			->will( $this->throwException( new \Exception() ) );
 
-		$response = $object->post( $this->view->request(), $this->view->response() );
+		$response = $this->object()->post( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -440,7 +449,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testOptions()
 	{
-		$response = $this->object->options( $this->view->request(), $this->view->response() );
+		$response = $this->object()->options( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 200, $response->getStatusCode() );
@@ -476,26 +485,31 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 
 	/**
-	 * Returns a test object with a mocked basket controller
+	 * Returns a mocked basket controller
 	 *
-	 * @param array|string $method Basket controller method name to mock
-	 * @param mixed $result Return value of the mocked method
+	 * @param array|string $methods Basket controller method name to mock
+	 * @return Mocked basket controller
 	 */
-	protected function object( $method, $result )
+	protected function controller( $methods )
 	{
-		$methods = (array) $method;
-
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->onlyMethods( $methods )
+			->onlyMethods( (array) $methods )
 			->getMock();
 
-		foreach( $methods as $method ) {
-			$cntl->expects( $this->once() )->method( $method )->will( $result );
-		}
+		\Aimeos\Controller\Frontend::inject( \Aimeos\Controller\Frontend\Basket\Standard::class, $cntl );
 
-		\Aimeos\Controller\Frontend::inject( '\Aimeos\Controller\Frontend\Basket\Standard', $cntl );
+		return $cntl;
+	}
 
+
+	/**
+	 * Returns the JSON API client object
+	 *
+	 * @return \Aimeos\Client\JsonApi\Basket\Standard JSON API client object
+	 */
+	protected function object()
+	{
 		$object = new \Aimeos\Client\JsonApi\Basket\Standard( $this->context );
 		$object->setView( $this->view );
 

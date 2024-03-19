@@ -9,6 +9,11 @@
 namespace Aimeos\Client\JsonApi\Common\Decorator;
 
 
+class Example extends Base
+{
+}
+
+
 class BaseTest extends \PHPUnit\Framework\TestCase
 {
 	private $object;
@@ -21,13 +26,11 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$context = \TestHelper::context();
 		$this->view = $context->view();
 
-		$this->stub = $this->getMockBuilder( '\\Aimeos\\Client\\JsonApi\\Standard' )
+		$this->stub = $this->getMockBuilder( \Aimeos\Client\JsonApi\Standard::class )
 			->setConstructorArgs( [$context, 'attribute'] )
 			->getMock();
 
-		$this->object = $this->getMockBuilder( '\\Aimeos\\Client\\JsonApi\\Common\\Decorator\Base' )
-			->setConstructorArgs( [$this->stub, $context, ''] )
-			->getMockForAbstractClass();
+		$this->object = new \Aimeos\Client\JsonApi\Common\Decorator\Example( $this->stub, $context, '' );
 	}
 
 
@@ -39,7 +42,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testDelete()
 	{
-		$this->stub->expects( $this->once() )->method( 'delete' )->will( $this->returnArgument( 1 ) );
+		$this->stub->expects( $this->once() )->method( 'delete' )->willReturnArgument( 1 );
 		$response = $this->view->response();
 
 		$this->assertSame( $response, $this->object->delete( $this->view->request(), $response ) );
@@ -48,7 +51,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$this->stub->expects( $this->once() )->method( 'get' )->will( $this->returnArgument( 1 ) );
+		$this->stub->expects( $this->once() )->method( 'get' )->willReturnArgument( 1 );
 		$response = $this->view->response();
 
 		$this->assertSame( $response, $this->object->get( $this->view->request(), $response ) );
@@ -57,7 +60,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatch()
 	{
-		$this->stub->expects( $this->once() )->method( 'patch' )->will( $this->returnArgument( 1 ) );
+		$this->stub->expects( $this->once() )->method( 'patch' )->willReturnArgument( 1 );
 		$response = $this->view->response();
 
 		$this->assertSame( $response, $this->object->patch( $this->view->request(), $response ) );
@@ -66,7 +69,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testPost()
 	{
-		$this->stub->expects( $this->once() )->method( 'post' )->will( $this->returnArgument( 1 ) );
+		$this->stub->expects( $this->once() )->method( 'post' )->willReturnArgument( 1 );
 		$response = $this->view->response();
 
 		$this->assertSame( $response, $this->object->post( $this->view->request(), $response ) );
@@ -75,7 +78,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testPut()
 	{
-		$this->stub->expects( $this->once() )->method( 'put' )->will( $this->returnArgument( 1 ) );
+		$this->stub->expects( $this->once() )->method( 'put' )->willReturnArgument( 1 );
 		$response = $this->view->response();
 
 		$this->assertSame( $response, $this->object->put( $this->view->request(), $response ) );
@@ -84,7 +87,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testOptions()
 	{
-		$this->stub->expects( $this->once() )->method( 'options' )->will( $this->returnArgument( 1 ) );
+		$this->stub->expects( $this->once() )->method( 'options' )->willReturnArgument( 1 );
 		$response = $this->view->response();
 
 		$this->assertSame( $response, $this->object->options( $this->view->request(), $response ) );

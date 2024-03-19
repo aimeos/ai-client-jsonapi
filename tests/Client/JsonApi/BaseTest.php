@@ -9,6 +9,11 @@
 namespace Aimeos\Client\JsonApi;
 
 
+class Example extends Base
+{
+}
+
+
 class BaseTest extends \PHPUnit\Framework\TestCase
 {
 	private $context;
@@ -21,9 +26,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$this->context = \TestHelper::context();
 		$this->view = $this->context->view();
 
-		$this->object = $this->getMockBuilder( \Aimeos\Client\JsonApi\Base::class )
-			->setConstructorArgs( [$this->context, 'test'] )
-			->getMockForAbstractClass();
+		$this->object = new \Aimeos\Client\JsonApi\Example( $this->context, 'test' );
 
 		$this->object->setView( $this->view );
 	}

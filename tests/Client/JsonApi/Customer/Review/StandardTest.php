@@ -496,7 +496,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function object( $method, $result )
 	{
-		$object = $this->getMockForAbstractClass( \Psr\Http\Message\ServerRequestInterface::class );
+		$object = $this->createMock( \Psr\Http\Message\ServerRequestInterface::class );
 		$object->expects( $this->once() )->method( $method )->will( $result );
 
 		return $object;

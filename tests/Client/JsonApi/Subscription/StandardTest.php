@@ -12,7 +12,6 @@ namespace Aimeos\Client\JsonApi\Subscription;
 class StandardTest extends \PHPUnit\Framework\TestCase
 {
 	private $context;
-	private $object;
 	private $view;
 
 
@@ -23,18 +22,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context = \TestHelper::context();
 		$this->view = $this->context->view();
 
-		$user = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
-		$this->context->setUser( $user );
-
-		$this->object = new \Aimeos\Client\JsonApi\Subscription\Standard( $this->context );
-		$this->object->setView( $this->view );
+		$this->context->setUser( \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' ) );
 	}
 
 
 	protected function tearDown() : void
 	{
 		\Aimeos\Controller\Frontend::cache( false );
-		unset( $this->view, $this->object, $this->context );
+		unset( $this->view, $this->context );
 	}
 
 
@@ -45,10 +40,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
+		$this->controller( 'cancel' )->expects( $this->once() )->method( 'cancel' )->willReturn( $item );
 
-		$object = $this->object( 'cancel', $this->returnValue( $item ) );
 
-		$response = $object->delete( $this->view->request(), $this->view->response() );
+		$response = $this->object()->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 200, $response->getStatusCode() );
@@ -64,9 +59,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testCancelControllerException()
 	{
-		$object = $this->object( 'cancel', $this->throwException( new \Aimeos\Controller\Frontend\Exception() ) );
+		$this->controller( 'cancel' )->expects( $this->once() )->method( 'cancel' )
+			->will( $this->throwException( new \Aimeos\Controller\Frontend\Exception() ) );
 
-		$response = $object->delete( $this->view->request(), $this->view->response() );
+		$response = $this->object()->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 403, $response->getStatusCode() );
@@ -76,9 +72,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testCancelMShopException()
 	{
-		$object = $this->object( 'cancel', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$this->controller( 'cancel' )->expects( $this->once() )->method( 'cancel' )
+			->will( $this->throwException( new \Aimeos\MShop\Exception() ) );
 
-		$response = $object->delete( $this->view->request(), $this->view->response() );
+		$response = $this->object()->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 404, $response->getStatusCode() );
@@ -88,9 +85,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testCancelException()
 	{
+		$this->controller( 'cancel' )->expects( $this->once() )->method( 'cancel' )
+			->will( $this->throwException( new \Exception() ) );
 		$object = $this->object( 'cancel', $this->throwException( new \Exception() ) );
 
-		$response = $object->delete( $this->view->request(), $this->view->response() );
+		$response = $this->object()->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 500, $response->getStatusCode() );
@@ -108,7 +107,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->view->addHelper( 'param', $helper );
 
 
-		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$response = $this->object()->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 200, $response->getStatusCode() );
@@ -129,7 +128,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->view->addHelper( 'param', $helper );
 
 
-		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$response = $this->object()->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 200, $response->getStatusCode() );
@@ -145,9 +144,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetControllerException()
 	{
-		$object = $this->object( 'search', $this->throwException( new \Aimeos\Controller\Frontend\Exception() ) );
+		$this->controller( 'search' )->expects( $this->once() )->method( 'search' )
+			->will( $this->throwException( new \Aimeos\Controller\Frontend\Exception() ) );
 
-		$response = $object->get( $this->view->request(), $this->view->response() );
+		$response = $this->object()->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 403, $response->getStatusCode() );
@@ -157,9 +157,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetMShopException()
 	{
-		$object = $this->object( 'search', $this->throwException( new \Aimeos\MShop\Exception() ) );
+		$this->controller( 'search' )->expects( $this->once() )->method( 'search' )
+			->will( $this->throwException( new \Aimeos\MShop\Exception() ) );
 
-		$response = $object->get( $this->view->request(), $this->view->response() );
+		$response = $this->object()->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 404, $response->getStatusCode() );
@@ -169,9 +170,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetException()
 	{
-		$object = $this->object( 'search', $this->throwException( new \Exception() ) );
+		$this->controller( 'search' )->expects( $this->once() )->method( 'search' )
+			->will( $this->throwException( new \Exception() ) );
 
-		$response = $object->get( $this->view->request(), $this->view->response() );
+		$response = $this->object()->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 500, $response->getStatusCode() );
@@ -181,7 +183,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testOptions()
 	{
-		$response = $this->object->options( $this->view->request(), $this->view->response() );
+		$response = $this->object()->options( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 200, $response->getStatusCode() );
@@ -193,31 +195,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertArrayNotHasKey( 'filter', $result['meta'] );
 		$this->assertArrayNotHasKey( 'sort', $result['meta'] );
 		$this->assertArrayNotHasKey( 'errors', $result );
-	}
-
-
-	/**
-	 * Returns a test object with a mocked subscription controller
-	 *
-	 * @param string $method Subscription controller method name to mock
-	 * @param mixed $result Return value of the mocked method
-	 */
-	protected function object( $method, $result )
-	{
-		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Subscription\Standard::class )
-			->setConstructorArgs( [$this->context] )
-			->onlyMethods( [$method] )
-			->getMock();
-
-		$cntl->expects( $this->once() )->method( $method )->will( $result );
-
-		\Aimeos\Controller\Frontend::inject( '\Aimeos\Controller\Frontend\Subscription\Standard', $cntl );
-
-		$object = new \Aimeos\Client\JsonApi\Subscription\Standard( $this->context, 'subscription' );
-		$object->setView( $this->view );
-
-
-		return $object;
 	}
 
 
@@ -233,5 +210,38 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		}
 
 		return $item;
+	}
+
+
+	/**
+	 * Returns a mocked subscription controller
+	 *
+	 * @param array|string $methods Subscription controller method name to mock
+	 * @return Mocked subscription controller
+	 */
+	protected function controller( $methods )
+	{
+		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Subscription\Standard::class )
+			->setConstructorArgs( [$this->context] )
+			->onlyMethods( (array) $methods )
+			->getMock();
+
+		\Aimeos\Controller\Frontend::inject( \Aimeos\Controller\Frontend\Subscription\Standard::class, $cntl );
+
+		return $cntl;
+	}
+
+
+	/**
+	 * Returns the JSON API client object
+	 *
+	 * @return \Aimeos\Client\JsonApi\Subscription\Standard JSON API client object
+	 */
+	protected function object()
+	{
+		$object = new \Aimeos\Client\JsonApi\Subscription\Standard( $this->context );
+		$object->setView( $this->view );
+
+		return $object;
 	}
 }
