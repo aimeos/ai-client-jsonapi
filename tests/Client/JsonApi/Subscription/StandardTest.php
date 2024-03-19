@@ -87,7 +87,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->controller( 'cancel' )->expects( $this->once() )->method( 'cancel' )
 			->will( $this->throwException( new \Exception() ) );
-		$object = $this->object( 'cancel', $this->throwException( new \Exception() ) );
 
 		$response = $this->object()->delete( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -217,7 +216,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 * Returns a mocked subscription controller
 	 *
 	 * @param array|string $methods Subscription controller method name to mock
-	 * @return Mocked subscription controller
+	 * @return \Aimeos\Controller\Frontend\Subscription\Standard Mocked subscription controller
 	 */
 	protected function controller( $methods )
 	{

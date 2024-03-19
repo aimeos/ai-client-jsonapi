@@ -488,7 +488,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 * Returns a mocked basket controller
 	 *
 	 * @param array|string $methods Basket controller method name to mock
-	 * @return Mocked basket controller
+	 * @return \Aimeos\Controller\Frontend\Basket\Standard Mocked basket controller
 	 */
 	protected function controller( $methods )
 	{

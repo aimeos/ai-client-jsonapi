@@ -369,7 +369,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 * Returns a mocked order controller
 	 *
 	 * @param array|string $methods Order controller method name to mock
-	 * @return Mocked order controller
+	 * @return \Aimeos\Controller\Frontend\Order\Standard Mocked order controller
 	 */
 	protected function controller( $methods )
 	{

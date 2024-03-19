@@ -365,7 +365,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 * Returns a mocked customer controller
 	 *
 	 * @param array|string $methods Customer controller method name to mock
-	 * @return Mocked customer controller
+	 * @return \Aimeos\Controller\Frontend\Customer\Standard Mocked customer controller
 	 */
 	protected function controller( $methods )
 	{
