@@ -32,8 +32,12 @@ $entryFcn = function( \Aimeos\MShop\Common\Item\Lists\Iface $item ) use ( $field
 	$relid = $item->getId();
 	$id = $item->getParentId();
 	$attributes = $item->toArray();
-	$params = array( 'resource' => 'customer', 'id' => $id, 'related' => 'relationships', 'relatedid' => $relid );
+	$params = ['resource' => 'customer', 'id' => $id, 'related' => 'relationships', 'relatedid' => $relid];
 	$rtype = 'customer.lists';
+
+	if( $include = $this->param( 'include' ) ) {
+		$params['include'] = $include;
+	}
 
 	if( isset( $fields[$rtype] ) ) {
 		$attributes = array_intersect_key( $attributes, $fields[$rtype] );
