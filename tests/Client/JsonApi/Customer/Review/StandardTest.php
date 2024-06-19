@@ -41,7 +41,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = $manager->create( ['review.domain' => 'product', 'review.refid' => '-1', 'review.customerid' => '-1'] );
 		$item = $manager->save( $item->setId( null ) );
 
-		$this->context->setUser( null );
+		$this->context->setUser( \Aimeos\MShop::create( $this->context, 'customer' )->create()->setId( -1 ) );
 
 
 		$params = ['id' => -1, 'related' => 'review'];
@@ -71,7 +71,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = $manager->create( ['review.domain' => 'product', 'review.refid' => '-1', 'review.customerid' => '-1'] );
 		$item = $manager->save( $item->setId( null ) );
 
-		$this->context->setUser( null );
+		$this->context->setUser( \Aimeos\MShop::create( $this->context, 'customer' )->create()->setId( -1 ) );
 
 
 		$params = ['id' => -1, 'related' => 'review', 'relatedid' => $item->getId()];
