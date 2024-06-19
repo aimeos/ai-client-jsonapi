@@ -302,7 +302,7 @@ class Standard
 			throw new \Aimeos\Client\JsonApi\Exception( $msg, 403 );
 		}
 
-		return \Aimeos\Controller\Frontend::create( $context, 'basket' )->load( $id, ['order/service'], false );
+		return \Aimeos\Controller\Frontend::create( $context, 'basket' )->load( $id, ['order/address', 'order/service'], false );
 	}
 
 
