@@ -109,7 +109,7 @@ class Standard extends \Aimeos\Base\View\Helper\Base implements Iface
 	protected function map( \Aimeos\MShop\Common\Item\Iface $item, array $fields, array $fcn = [] )
 	{
 		$id = $item->getId();
-		$type = $item->getResourceType();
+		$type = str_replace( '/', '.', $item->getResourceType() );
 
 		if( isset( $this->map[$type][$id] ) || !$item->isAvailable() ) {
 			return;
@@ -135,7 +135,7 @@ class Standard extends \Aimeos\Base\View\Helper\Base implements Iface
 			{
 				if( $childItem->isAvailable() )
 				{
-					$rtype = $childItem->getResourceType();
+					$rtype = str_replace( '/', '.', $childItem->getResourceType() );
 					$rtype = ( $pos = strrpos( $rtype, '/' ) ) !== false ? substr( $rtype, $pos + 1 ) : $rtype;
 					$entry['relationships'][$rtype]['data'][] = ['id' => $childItem->getId(), 'type' => $rtype];
 					$this->map( $childItem, $fields, $fcn );
