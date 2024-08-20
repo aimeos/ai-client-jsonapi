@@ -14,6 +14,7 @@ return [
 			'site' => 'site',
 			'service' => 'service',
 			'stock' => 'stock',
+			'subscription' => 'subscription',
 			'supplier' => 'supplier',
 		],
 	],
