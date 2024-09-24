@@ -68,7 +68,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$params = array(
 			'id' => $item->getId(),
 			'fields' => array( 'service' => 'service.id,service.code' ),
-			'include' => '',
+			'include' => 'service.type',
 		);
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
@@ -88,7 +88,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 'directdebit-test', $result['data']['attributes']['service.code'] );
 		$this->assertEquals( 4, count( $result['data']['links']['basket.service']['meta'] ) );
 		$this->assertArrayHasKey( 'code', $result['data']['links']['basket.service']['meta']['directdebit.accountowner'] );
-		$this->assertEquals( 0, count( $result['included'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['service.type']['data'] ) );
+		$this->assertEquals( 1, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}

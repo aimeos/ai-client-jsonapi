@@ -250,7 +250,13 @@ class Standard
 	 */
 	protected function getItem( \Aimeos\Base\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$view->items = \Aimeos\Controller\Frontend::create( $this->context(), 'stock' )->get( $view->param( 'id' ) );
+		$ref = $view->param( 'include', [] );
+
+		if( is_string( $ref ) ) {
+			$ref = explode( ',', str_replace( '.', '/', $ref ) );
+		}
+
+		$view->items = \Aimeos\Controller\Frontend::create( $this->context(), 'stock' )->uses( $ref )->get( $view->param( 'id' ) );
 		$view->total = 1;
 
 		return $response;
@@ -283,7 +289,13 @@ class Standard
 
 		unset( $params['s_prodid'], $params['s_prodcode'], $params['s_typecode'] );
 
-		$items = \Aimeos\Controller\Frontend::create( $this->context(), 'stock' )
+		$ref = $view->param( 'include', [] );
+
+		if( is_string( $ref ) ) {
+			$ref = explode( ',', str_replace( '.', '/', $ref ) );
+		}
+
+		$items = \Aimeos\Controller\Frontend::create( $this->context(), 'stock' )->uses( $ref )
 			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 100 ) )
 			->product( $prodIds )->type( $view->param( 'filter/s_typecode' ) )
 			->sort( $view->param( 'sort' ) )->parse( $params )

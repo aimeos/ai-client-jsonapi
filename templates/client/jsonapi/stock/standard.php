@@ -60,6 +60,14 @@ $entryFcn = function( \Aimeos\MShop\Stock\Item\Iface $item ) use ( $fields, $tar
 		'attributes' => $attributes,
 	);
 
+	if( $typeItem = $item->getTypeItem() )
+	{
+		$entry['relationships'][$type . '.type']['data'][] = [
+			'id' => $typeItem->getId(),
+			'type' => $type . '.type',
+		];
+	}
+
 	return $entry;
 };
 
@@ -105,6 +113,7 @@ $entryFcn = function( \Aimeos\MShop\Stock\Item\Iface $item ) use ( $fields, $tar
 		<?php
 			$data = [];
 			$items = $this->get( 'items', map() );
+			$included = $this->jincluded( $items, $fields );
 
 			if( is_map( $items ) )
 			{
@@ -119,6 +128,8 @@ $entryFcn = function( \Aimeos\MShop\Stock\Item\Iface $item ) use ( $fields, $tar
 		 ?>
 
 		,"data": <?= json_encode( $data, $pretty ); ?>
+
+		,"included": <?= map( $included )->flat( 1 )->toJson( $pretty ) ?>
 
 	<?php endif; ?>
 

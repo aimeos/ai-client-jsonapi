@@ -132,6 +132,14 @@ $entryFcn = function( \Aimeos\MShop\Product\Item\Iface $item ) use ( $fields, $t
 		'attributes' => $attributes,
 	);
 
+	if( $typeItem = $item->getTypeItem() )
+	{
+		$entry['relationships'][$type . '.type']['data'][] = [
+			'id' => $typeItem->getId(),
+			'type' => $type . '.type',
+		];
+	}
+
 	foreach( $item->getPropertyItems() as $propertyItem )
 	{
 		$rtype = str_replace( '/', '.', $propertyItem->getResourceType() );

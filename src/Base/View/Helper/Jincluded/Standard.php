@@ -90,6 +90,10 @@ class Standard extends \Aimeos\Base\View\Helper\Base implements Iface
 			}
 		}
 
+		if( $item instanceof \Aimeos\MShop\Common\Item\TypeRef\Iface && ( $typeItem = $item->getTypeItem() ) ) {
+			$this->map( $typeItem, $fields, $fcn );
+		}
+
 		if( $item instanceof \Aimeos\MShop\Product\Item\Iface )
 		{
 			foreach( $item->getStockItems() as $stockItem ) {

@@ -48,7 +48,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 				'attribute' => 'attribute.id,attribute.label'
 			),
 			'sort' => 'attribute.id',
-			'include' => 'media,price,text'
+			'include' => 'media,price,text,attribute.type'
 		);
 
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
@@ -66,7 +66,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 3, count( $result['data']['relationships']['text']['data'] ) );
 		$this->assertEquals( 1, count( $result['data']['relationships']['price']['data'] ) );
 		$this->assertEquals( 1, count( $result['data']['relationships']['media']['data'] ) );
-		$this->assertEquals( 5, count( $result['included'] ) );
+		$this->assertEquals( 1, count( $result['data']['relationships']['attribute.type']['data'] ) );
+		$this->assertEquals( 6, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}

@@ -45,7 +45,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'fields' => array(
 				'stock' => 'stock.id,stock.productid,stock.stocklevel'
 			),
-			'sort' => 'stock.id'
+			'sort' => 'stock.id',
+			'include' => 'stock.type'
 		);
 
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
@@ -62,6 +63,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 'stock', $result['data']['type'] );
 		$this->assertEquals( 3, count( $result['data']['attributes'] ) );
 		$this->assertNotEquals( '', $result['data']['attributes']['stock.productid'] );
+		$this->assertEquals( 1, count( $result['data']['relationships']['stock.type']['data'] ) );
+		$this->assertEquals( 1, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}

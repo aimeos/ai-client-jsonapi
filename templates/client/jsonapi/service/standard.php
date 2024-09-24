@@ -71,6 +71,14 @@ $entryFcn = function( \Aimeos\MShop\Service\Item\Iface $item, \Aimeos\Map $price
 		'attributes' => $attributes,
 	);
 
+	if( $typeItem = $item->getTypeItem() )
+	{
+		$entry['relationships'][$type . '.type']['data'][] = [
+			'id' => $typeItem->getId(),
+			'type' => $type . '.type',
+		];
+	}
+
 	foreach( $item->getListItems() as $listItem )
 	{
 		if( ( $refItem = $listItem->getRefItem() ) !== null && $refItem->isAvailable() )

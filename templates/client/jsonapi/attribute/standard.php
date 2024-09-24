@@ -60,11 +60,19 @@ $entryFcn = function( \Aimeos\MShop\Attribute\Item\Iface $item ) use ( $fields, 
 		'attributes' => $attributes,
 	);
 
+	if( $typeItem = $item->getTypeItem() )
+	{
+		$entry['relationships'][$type . '.type']['data'][] = [
+			'id' => $typeItem->getId(),
+			'type' => $type . '.type',
+		];
+	}
+
 	foreach( $item->getPropertyItems() as $propItem )
 	{
-		$entry['relationships']['attribute.property']['data'][] = [
+		$entry['relationships'][$type . '.property']['data'][] = [
 			'id' => $propItem->getId(),
-			'type' => 'attribute.property',
+			'type' => $type . '.property',
 		];
 	}
 
