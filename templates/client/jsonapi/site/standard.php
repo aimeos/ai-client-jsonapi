@@ -37,7 +37,7 @@ $entryFcn = function( \Aimeos\MShop\Locale\Item\Site\Iface $item ) use ( $fields
 
 	$id = $item->getId();
 	$type = $item->getResourceType();
-	$params = array( 'resource' => $type, 'id' => $item->getId() );
+	$params = array( 'resource' => 'site', 'id' => $item->getId() );
 	$attributes = $item->toArray();
 
 	if( isset( $fields[$type] ) ) {
