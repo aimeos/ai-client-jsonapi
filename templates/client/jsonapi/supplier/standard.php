@@ -94,7 +94,12 @@ $entryFcn = function( \Aimeos\MShop\Supplier\Item\Iface $item ) use ( $fields, $
 	"meta": {
 		"total": <?= $total; ?>,
 		"prefix": <?= json_encode( $this->get( 'prefix' ) ); ?>,
-		"content-baseurl": "<?= $this->config( 'resource/fs/baseurl' ); ?>"
+		"content-baseurl": "<?= $this->config( 'resource/fs/baseurl' ); ?>",
+		"content-baseurls": {
+			"fs-media": "<?= $this->config( 'resource/fs-media/baseurl' ) ?>",
+			"fs-mimeicon": "<?= $this->config( 'resource/fs-mimeicon/baseurl' ) ?>",
+			"fs-theme": "<?= $this->config( 'resource/fs-theme/baseurl' ) ?>"
+		}
 		<?php if( $this->csrf()->name() != '' ) : ?>
 			, "csrf": {
 				"name": "<?= $this->csrf()->name(); ?>",
