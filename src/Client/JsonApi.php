@@ -150,7 +150,7 @@ class JsonApi
 	 * @throws \Aimeos\Client\JsonApi\Exception If the given path is invalid
 	 */
 	public static function create( \Aimeos\MShop\ContextIface $context,
-		string $path, string $name = null ) : \Aimeos\Client\JsonApi\Iface
+		string $path, ?string $name = null ) : \Aimeos\Client\JsonApi\Iface
 	{
 		empty( $path = trim( $path, '/' ) ) ?: $path .= '/';
 
@@ -180,7 +180,7 @@ class JsonApi
 	 * @param string $classname Full name of the class for which the object should be returned
 	 * @param \Aimeos\Client\JsonApi\Iface|null $client JSON API client object
 	 */
-	public static function inject( string $classname, \Aimeos\Client\JsonApi\Iface $client = null )
+	public static function inject( string $classname, ?\Aimeos\Client\JsonApi\Iface $client = null )
 	{
 		self::$objects['\\' . ltrim( $classname, '\\' )] = $client;
 	}

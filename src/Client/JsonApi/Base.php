@@ -200,7 +200,7 @@ abstract class Base
 	 * @param string|null $msg Additional error details
 	 * @return array Associative list with "title" and "detail" key (if debug config is enabled)
 	 */
-	protected function getErrorDetails( \Exception $e, string $domain = null ) : array
+	protected function getErrorDetails( \Exception $e, ?string $domain = null ) : array
 	{
 		$details = [];
 

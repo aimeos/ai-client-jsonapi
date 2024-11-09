@@ -26,7 +26,7 @@ foreach( (array) $fields as $resource => $list ) {
 }
 
 
-$entryFcn = function( \Aimeos\MShop\Order\Item\Iface $item, \Aimeos\MShop\Common\Helper\Form\Iface $form = null ) use ( $fields, $target, $cntl, $action, $config )
+$entryFcn = function( \Aimeos\MShop\Order\Item\Iface $item, ?\Aimeos\MShop\Common\Helper\Form\Iface $form = null ) use ( $fields, $target, $cntl, $action, $config )
 {
 	$relationships = [];
 	$id = $item->getId();
