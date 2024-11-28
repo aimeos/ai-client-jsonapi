@@ -182,6 +182,17 @@ class Standard extends \Aimeos\Base\View\Helper\Base implements Iface
 			}
 		}
 
+		if( $item instanceof \Aimeos\MShop\Common\Item\TypeRef\Iface )
+		{
+			if( $typeItem = $item->getTypeItem() )
+			{
+				$typeId = $typeItem->getId();
+				$rtype = str_replace( '/', '.', $typeItem->getResourceType() );
+				$entry['relationships'][$rtype]['data'][] = ['id' => $typeId, 'type' => $rtype];
+				$this->map( $typeItem, $fields, $fcn );
+			}
+		}
+
 		if( $item instanceof \Aimeos\MShop\Product\Item\Iface )
 		{
 			foreach( $item->getStockItems() as $stockItem )
