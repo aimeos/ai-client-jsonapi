@@ -295,8 +295,10 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 
 		try
 		{
+			$userId = (string) $this->context()->user()?->getId();
+
 			$this->controller->setType( $view->param( 'id', 'default' ) );
-			$this->controller->get()->setChannel( 'jsonapi' )->check();
+			$this->controller->get()->setChannel( 'jsonapi' )->setCustomerId( $userId )->check();
 			$this->clearCache();
 
 			$item = $this->controller->store();
