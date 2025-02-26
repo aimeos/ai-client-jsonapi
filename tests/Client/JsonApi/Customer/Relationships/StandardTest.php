@@ -261,7 +261,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
 		$customer = $custManager->find( 'test@example.com', ['product'] )->setCode( 'unittest-jsonapi' );
 		$customer = $custManager->save( $customer->setId( null ) );
-		$id = $customer->getListItems( 'product' )->first()->getId();
+		$id = $customer->getListItems( 'product', 'favorite' )->first()->getId();
 		$this->context->setUser( $customer );
 
 
@@ -270,7 +270,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->view->addHelper( 'param', $helper );
 
 		$body = '{"data": {"type": "product", "attributes": {
-			"customer.lists.domain": "product", "customer.lists.type": "favorite", "customer.lists.refid": "-2"
+			"customer.lists.config": {"key": "value"}
 		}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
@@ -288,7 +288,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'customer.lists', $result['data']['type'] );
 		$this->assertGreaterThan( 8, count( $result['data']['attributes'] ) );
-		$this->assertEquals( '-2', $result['data']['attributes']['customer.lists.refid'] );
+		$this->assertEquals( ['key' => 'value'], $result['data']['attributes']['customer.lists.config'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
