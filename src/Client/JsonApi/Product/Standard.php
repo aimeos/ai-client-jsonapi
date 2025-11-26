@@ -314,9 +314,22 @@ class Standard
 	 */
 	protected function aggregate( \Aimeos\Base\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$view->data = $this->getController( $view )->sort()
-			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 10000 ) )
-			->aggregate( $view->param( 'aggregate' ) );
+		$cntl = $this->getController( $view )->sort()
+			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 10000 ) );
+
+		switch( $view->param( 'aggregate' ) )
+		{
+			case 'price:min':
+				$name = $cntl->function( 'index.price:value', [$this->context()->locale()->getCurrencyId()] );
+				$view->data = $cntl->compare( '!=', $name, null )->aggregate( 'product.status', 'agg:' . $name, 'min' );
+				break;
+			case 'price:max':
+				$name = $cntl->function( 'index.price:value', [$this->context()->locale()->getCurrencyId()] );
+				$view->data = $cntl->compare( '!=', $name, null )->aggregate( 'product.status', 'agg:' . $name, 'max' );
+				break;
+			default:
+				$view->data = $cntl->aggregate( $view->param( 'aggregate' ) );
+		}
 
 		return $response;
 	}
