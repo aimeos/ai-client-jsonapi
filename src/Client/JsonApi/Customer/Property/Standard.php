@@ -222,7 +222,7 @@ class Standard
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
 			$items = $cntl->uses( ['customer/property'] )->get()->getPropertyItems();
 
-			if( ( $relId = $view->param( 'relatedid' ) ) == null )
+			if( !( $relId = $view->param( 'relatedid' ) ) )
 			{
 				$view->items = $items;
 				$view->total = count( $items );

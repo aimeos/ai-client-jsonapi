@@ -150,9 +150,9 @@ class Standard
 
 		try
 		{
-			if( $view->param( 'aggregate' ) != '' ) {
+			if( $view->param( 'aggregate' ) ) {
 				$response = $this->aggregate( $view, $request, $response );
-			} elseif( $view->param( 'id' ) != '' ) {
+			} elseif( $view->param( 'id' ) ) {
 				$response = $this->getItem( $view, $request, $response );
 			} else {
 				$response = $this->getItems( $view, $request, $response );
@@ -171,7 +171,7 @@ class Standard
 			$view->errors = $this->getErrorDetails( $e );
 		}
 
-		if( $view->param( 'aggregate' ) != '' )
+		if( $view->param( 'aggregate' ) )
 		{
 			/** client/jsonapi/product/template-aggregate
 			 * Relative path to the product aggregate JSON API template

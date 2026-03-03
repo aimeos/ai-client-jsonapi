@@ -192,7 +192,7 @@ class Standard
 		{
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'subscription' );
 
-			if( ( $id = $view->param( 'id' ) ) != '' )
+			if( $id = $view->param( 'id' ) )
 			{
 				$view->items = $cntl->get( $id );
 				$view->total = 1;

@@ -151,13 +151,12 @@ class Standard
 		try
 		{
 			$body = (string) $request->getBody();
-			$relId = $view->param( 'relatedid' );
 			$ref = ( $ref = $view->param( 'include' ) ) ? explode( ',', str_replace( '.', '/', $ref ) ) : [];
 
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
 			$items = $cntl->uses( $ref )->get()->getListItems( $ref );
 
-			if( $relId == null )
+			if( !( $relId = $view->param( 'relatedid' ) ) )
 			{
 				if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
 					throw new \Aimeos\Client\JsonApi\Exception( 'Invalid JSON in body', 400 );

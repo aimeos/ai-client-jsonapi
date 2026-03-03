@@ -162,7 +162,7 @@ class Standard
 			$basketCntl = \Aimeos\Controller\Frontend::create( $this->context(), 'basket' );
 			$basket = $basketCntl->get();
 
-			if( ( $id = $view->param( 'id' ) ) != '' )
+			if( $id = $view->param( 'id' ) )
 			{
 				$provider = $cntl->getProvider( $id );
 

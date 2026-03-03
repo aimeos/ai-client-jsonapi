@@ -157,7 +157,7 @@ class Standard
 		{
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'order' )->uses( $ref );
 
-			if( ( $id = $view->param( 'id' ) ) != '' )
+			if( $id = $view->param( 'id' ) )
 			{
 				$view->items = $cntl->get( $id );
 				$view->total = 1;
@@ -296,7 +296,7 @@ class Standard
 		$context = $this->context();
 		$id = $context->session()->get( 'aimeos/order.id' );
 
-		if( $id != $orderId )
+		if( $id !== $orderId )
 		{
 			$msg = sprintf( 'No order for the "order.id" ("%1$s") found', $orderId );
 			throw new \Aimeos\Client\JsonApi\Exception( $msg, 403 );

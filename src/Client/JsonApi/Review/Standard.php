@@ -150,9 +150,9 @@ class Standard
 
 		try
 		{
-			if( $view->param( 'aggregate' ) != '' ) {
+			if( $view->param( 'aggregate' ) ) {
 				$response = $this->aggregate( $view, $request, $response );
-			} elseif( $view->param( 'id' ) != '' ) {
+			} elseif( $view->param( 'id' ) ) {
 				$response = $this->getItem( $view, $request, $response );
 			} else {
 				$response = $this->getItems( $view, $request, $response );
@@ -314,7 +314,7 @@ class Standard
 	 */
 	protected function render( ResponseInterface $response, \Aimeos\Base\View\Iface $view, $status ) : \Psr\Http\Message\ResponseInterface
 	{
-		if( $view->param( 'aggregate' ) != '' )
+		if( $view->param( 'aggregate' ) )
 		{
 			/** client/jsonapi/review/template-aggregate
 			 * Relative path to the review aggregate JSON API template

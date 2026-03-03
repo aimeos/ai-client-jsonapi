@@ -209,7 +209,7 @@ class Standard
 		{
 			$cntl = \Aimeos\Controller\Frontend::create( $context, 'review' );
 
-			if( ( $relId = $view->param( 'relatedid' ) ) == null )
+			if( !( $relId = $view->param( 'relatedid' ) ) )
 			{
 				$total = 0;
 				$view->items = $cntl->parse( $view->param( 'filter', [] ) )->list( $total );
