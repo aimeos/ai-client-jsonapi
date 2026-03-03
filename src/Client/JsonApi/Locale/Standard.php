@@ -150,7 +150,7 @@ class Standard
 
 		try
 		{
-			if( $view->param( 'id' ) != '' ) {
+			if( $view->param( 'id' ) ) {
 				$response = $this->getItem( $view, $request, $response );
 			} else {
 				$response = $this->getItems( $view, $request, $response );

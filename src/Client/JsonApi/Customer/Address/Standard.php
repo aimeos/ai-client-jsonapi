@@ -222,7 +222,7 @@ class Standard
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
 			$item = $cntl->uses( ['customer/address'] )->get();
 
-			if( ( $relId = $view->param( 'relatedid' ) ) == null )
+			if( !( $relId = $view->param( 'relatedid' ) ) )
 			{
 				$view->items = $item->getAddressItems();
 				$view->total = count( $view->items );
