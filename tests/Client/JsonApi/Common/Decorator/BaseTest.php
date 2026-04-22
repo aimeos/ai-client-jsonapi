@@ -94,6 +94,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	#[\PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations]
 	public function testGetClient()
 	{
 		$result = $this->access( 'getClient' )->invokeArgs( $this->object, [] );
