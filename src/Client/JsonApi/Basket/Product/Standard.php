@@ -53,7 +53,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyProduct"!
 	 *
-	 * @param string Last part of the class name
+	 * @type string Last part of the class name
 	 * @since 2017.03
 	 * @category Developer
 	 */
@@ -76,7 +76,7 @@ class Standard
 	 * common decorators ("\Aimeos\Client\JsonApi\Common\Decorator\*") added via
 	 * "client/jsonapi/common/decorators/default" for the JSON API client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -102,7 +102,7 @@ class Standard
 	 * "\Aimeos\Client\JsonApi\Common\Decorator\Decorator1" only to the
 	 * "basket" JsonApi client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -128,7 +128,7 @@ class Standard
 	 * "\Aimeos\Client\JsonApi\Basket\Product\Decorator\Decorator2" only to the
 	 * "basket product" JsonApi client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -149,7 +149,7 @@ class Standard
 	{
 		parent::__construct( $context );
 
-		$this->controller = \Aimeos\Controller\Frontend::create( $this->context(), 'basket' );
+		$this->controller = \Aimeos\Controller\Frontend::create( $this->context(), 'basket' ); // @phpstan-ignore assign.propertyType
 	}
 
 
@@ -167,6 +167,7 @@ class Standard
 		try
 		{
 			$this->clearCache();
+			// @phpstan-ignore-next-line
 			$this->controller->setType( $view->param( 'id', 'default' ) );
 
 			$relId = $view->param( 'relatedid' );
@@ -188,11 +189,13 @@ class Standard
 						throw new \Aimeos\Client\JsonApi\Exception( 'Position (ID) is missing', 400 );
 					}
 
+					// @phpstan-ignore-next-line
 					$this->controller->deleteProduct( $entry->id );
 				}
 			}
 			else
 			{
+				// @phpstan-ignore-next-line
 				$this->controller->deleteProduct( $relId );
 			}
 
@@ -234,6 +237,7 @@ class Standard
 		try
 		{
 			$this->clearCache();
+			// @phpstan-ignore-next-line
 			$this->controller->setType( $view->param( 'id', 'default' ) );
 
 			$body = (string) $request->getBody();
@@ -250,14 +254,15 @@ class Standard
 			foreach( $payload->data as $entry )
 			{
 				if( $relId !== '' && $relId !== null ) {
-					$entry->id = $relId;
+					$entry->id = $relId; // @phpstan-ignore property.notFound
 				}
 
-				if( !isset( $entry->id ) ) {
+				if( !isset( $entry->id ) ) { // @phpstan-ignore property.notFound
 					throw new \Aimeos\Client\JsonApi\Exception( 'Position (ID) is missing', 400 );
 				}
 
 				$qty = ( isset( $entry->attributes->quantity ) ? $entry->attributes->quantity : 1 );
+				// @phpstan-ignore-next-line
 				$this->controller->updateProduct( $entry->id, $qty );
 			}
 
@@ -298,6 +303,7 @@ class Standard
 		try
 		{
 			$this->clearCache();
+			// @phpstan-ignore-next-line
 			$this->controller->setType( $view->param( 'id', 'default' ) );
 
 			$body = (string) $request->getBody();
@@ -327,10 +333,13 @@ class Standard
 				$qty = ( isset( $entry->attributes->quantity ) ? $entry->attributes->quantity : 1 );
 				$stock = ( isset( $entry->attributes->stocktype ) ? $entry->attributes->stocktype : 'default' );
 				$varIds = ( isset( $entry->attributes->variant ) ? (array) $entry->attributes->variant : [] );
+				// @phpstan-ignore-next-line
 				$confIds = ( isset( $entry->attributes->config ) ? get_object_vars( $entry->attributes->config ) : [] );
+				// @phpstan-ignore-next-line
 				$custIds = ( isset( $entry->attributes->custom ) ? get_object_vars( $entry->attributes->custom ) : [] );
 				$siteId = ( isset( $entry->attributes->siteid ) ? $entry->attributes->siteid : null );
 
+				// @phpstan-ignore-next-line
 				$this->controller->addProduct( $item, $qty, $varIds, $confIds, $custIds, $stock, $siteId );
 			}
 

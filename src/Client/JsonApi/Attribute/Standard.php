@@ -53,7 +53,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyAttribute"!
 	 *
-	 * @param string Last part of the class name
+	 * @type string Last part of the class name
 	 * @since 2017.03
 	 * @category Developer
 	 */
@@ -76,7 +76,7 @@ class Standard
 	 * common decorators ("\Aimeos\Client\JsonApi\Common\Decorator\*") added via
 	 * "client/jsonapi/common/decorators/default" for the JSON API client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -102,7 +102,7 @@ class Standard
 	 * "\Aimeos\Client\JsonApi\Common\Decorator\Decorator1" only to the
 	 * "attribute" JsonApi client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -128,7 +128,7 @@ class Standard
 	 * "\Aimeos\Client\JsonApi\Attribute\Decorator\Decorator2" only to the
 	 * "attribute" JsonApi client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -184,7 +184,7 @@ class Standard
 		 * you've implemented an alternative client class as well, "standard"
 		 * should be replaced by the name of the new class.
 		 *
-		 * @param string Relative path to the template creating the body for the GET method of the JSON API
+		 * @type string Relative path to the template creating the body for the GET method of the JSON API
 		 * @since 2017.03
 		 * @category Developer
 		 */
@@ -263,7 +263,7 @@ class Standard
 		 * order for the attribute types can be enforced that is different
 		 * from the standard order.
 		 *
-		 * @param array List of attribute type codes
+		 * @type array List of attribute type codes
 		 * @since 2017.03
 		 * @category Developer
 		 */
@@ -280,6 +280,7 @@ class Standard
 
 		$items = \Aimeos\Controller\Frontend::create( $this->context(), 'attribute' )
 			->uses( $ref )->sort( $view->param( 'sort', 'position' ) )->type( $attrTypes )
+			// @phpstan-ignore-next-line
 			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 25 ) )
 			->parse( (array) $view->param( 'filter', [] ) )
 			->search( $total );

@@ -53,7 +53,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyService"!
 	 *
-	 * @param string Last part of the class name
+	 * @type string Last part of the class name
 	 * @since 2017.03
 	 * @category Developer
 	 */
@@ -76,7 +76,7 @@ class Standard
 	 * common decorators ("\Aimeos\Client\JsonApi\Common\Decorator\*") added via
 	 * "client/jsonapi/common/decorators/default" for the JSON API client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -102,7 +102,7 @@ class Standard
 	 * "\Aimeos\Client\JsonApi\Common\Decorator\Decorator1" only to the
 	 * "service" JsonApi client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -128,7 +128,7 @@ class Standard
 	 * "\Aimeos\Client\JsonApi\Service\Decorator\Decorator2" only to the
 	 * "service" JsonApi client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -157,6 +157,7 @@ class Standard
 			}
 
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'service' )->uses( $ref )
+				// @phpstan-ignore-next-line
 				->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 100 ) );
 
 			$basketCntl = \Aimeos\Controller\Frontend::create( $this->context(), 'basket' );
@@ -168,8 +169,8 @@ class Standard
 
 				if( $provider->isAvailable( $basket ) === true )
 				{
-					$view->prices = map( [$id => $provider->calcPrice( $basket )] );
-					$view->attributes = [$id => $provider->getConfigFE( $basket )];
+					$view->prices = map( [(string) $id => $provider->calcPrice( $basket )] ); // @phpstan-ignore array.invalidKey
+					$view->attributes = [(string) $id => $provider->getConfigFE( $basket )]; // @phpstan-ignore array.invalidKey
 					$view->items = $provider->getServiceItem();
 					$view->total = 1;
 				}
@@ -225,7 +226,7 @@ class Standard
 		 * you've implemented an alternative client class as well, "standard"
 		 * should be replaced by the name of the new class.
 		 *
-		 * @param string Relative path to the template creating the body for the GET method of the JSON API
+		 * @type string Relative path to the template creating the body for the GET method of the JSON API
 		 * @since 2017.03
 		 * @category Developer
 		 */

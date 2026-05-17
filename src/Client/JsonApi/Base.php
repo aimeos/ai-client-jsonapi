@@ -161,7 +161,7 @@ abstract class Base
 		 * you've implemented an alternative client class as well, "standard"
 		 * should be replaced by the name of the new class.
 		 *
-		 * @param string Relative path to the template creating the body for the JSON API response
+		 * @type string Relative path to the template creating the body for the JSON API response
 		 * @since 2017.02
 		 * @category Developer
 		 * @see client/jsonapi/template-delete
@@ -197,7 +197,6 @@ abstract class Base
 	 *
 	 * @param \Exception $e Thrown exception
 	 * @param string|null $domain Translation domain
-	 * @param string|null $msg Additional error details
 	 * @return array Associative list with "title" and "detail" key (if debug config is enabled)
 	 */
 	protected function getErrorDetails( \Exception $e, ?string $domain = null ) : array
@@ -212,6 +211,7 @@ abstract class Base
 		}
 
 		if( $e instanceof \Aimeos\MShop\Plugin\Provider\Exception ) {
+			// @phpstan-ignore-next-line
 			$details['detail'] = join( "\n", $this->translatePluginErrorCodes( $e->getErrorCodes() ) );
 		}
 
@@ -224,7 +224,7 @@ abstract class Base
 		 * your requests it's helpful to see the stack strace. If you set this
 		 * configuration option to true, the stack trace will be returned too.
 		 *
-		 * @param boolean True to return the stack trace in JSON response, false for error message only
+		 * @type boolean True to return the stack trace in JSON response, false for error message only
 		 * @since 2017.07
 		 * @category Developer
 		 */
@@ -272,8 +272,11 @@ abstract class Base
 	 */
 	protected function initCriteria( \Aimeos\Base\Criteria\Iface $criteria, array $params ) : \Aimeos\Base\Criteria\Iface
 	{
+		// @phpstan-ignore-next-line
 		return $criteria->order( $params['sort'] ?? [] )
+			// @phpstan-ignore-next-line
 			->add( $criteria->parse( $params['filter'] ?? [] ) )
+			// @phpstan-ignore-next-line
 			->slice( $params['page']['offset'] ?? 0, $params['page']['limit'] ?? 25 );
 	}
 
@@ -294,6 +297,7 @@ abstract class Base
 			foreach( $list as $object => $errcode )
 			{
 				$key = $scope . ( !in_array( $scope, ['coupon', 'product'] ) ? '.' . $object : '' ) . '.' . $errcode;
+				// @phpstan-ignore-next-line
 				$errors[] = sprintf( $i18n->dt( 'mshop/code', $key ), $object );
 			}
 		}

@@ -53,7 +53,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MySubscription"!
 	 *
-	 * @param string Last part of the class name
+	 * @type string Last part of the class name
 	 * @since 2017.03
 	 * @category Developer
 	 */
@@ -76,7 +76,7 @@ class Standard
 	 * common decorators ("\Aimeos\Client\JsonApi\Common\Decorator\*") added via
 	 * "client/jsonapi/common/decorators/default" for the JSON API client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -102,7 +102,7 @@ class Standard
 	 * "\Aimeos\Client\JsonApi\Common\Decorator\Decorator1" only to the
 	 * "subscription" JsonApi client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -128,7 +128,7 @@ class Standard
 	 * "\Aimeos\Client\JsonApi\Subscription\Decorator\Decorator2" only to the
 	 * "subscription" JsonApi client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -200,6 +200,7 @@ class Standard
 			else
 			{
 				$total = 0;
+				// @phpstan-ignore-next-line
 				$items = $cntl->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 25 ) )
 					->sort( $view->param( 'sort' ) )->parse( $view->param( 'filter', [] ) )->search( $total );
 
@@ -279,7 +280,7 @@ class Standard
 		 * you've implemented an alternative client class as well, "standard"
 		 * should be replaced by the name of the new class.
 		 *
-		 * @param string Relative path to the template creating the body of the JSON API
+		 * @type string Relative path to the template creating the body of the JSON API
 		 * @since 2017.03
 		 * @category Developer
 		 */

@@ -53,7 +53,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyOrder"!
 	 *
-	 * @param string Last part of the class name
+	 * @type string Last part of the class name
 	 * @since 2017.03
 	 * @category Developer
 	 */
@@ -76,7 +76,7 @@ class Standard
 	 * common decorators ("\Aimeos\Client\JsonApi\Common\Decorator\*") added via
 	 * "client/jsonapi/common/decorators/default" for the JSON API client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -102,7 +102,7 @@ class Standard
 	 * "\Aimeos\Client\JsonApi\Common\Decorator\Decorator1" only to the
 	 * "order" JsonApi client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -128,7 +128,7 @@ class Standard
 	 * "\Aimeos\Client\JsonApi\Order\Decorator\Decorator2" only to the
 	 * "order" JsonApi client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -166,6 +166,7 @@ class Standard
 			{
 				$total = 0;
 				$items = $cntl->sort( $view->param( 'sort', '-order.id' ) )
+					// @phpstan-ignore-next-line
 					->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 48 ) )
 					->parse( (array) $view->param( 'filter', [] ) )
 					->search( $total );
@@ -219,6 +220,7 @@ class Standard
 				throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'No order ID found' ), 400 );
 			}
 
+			// @phpstan-ignore-next-line
 			$item = $this->getOrder( $payload->data->attributes->{'order.id'} );
 
 			$view->form = $this->getPaymentForm( $item, (array) $payload->data->attributes );
@@ -249,6 +251,7 @@ class Standard
 			$view->errors = $this->getErrorDetails( $e );
 		}
 
+		// @phpstan-ignore-next-line
 		return $this->render( $response, $view, $status );
 	}
 
@@ -302,6 +305,7 @@ class Standard
 			throw new \Aimeos\Client\JsonApi\Exception( $msg, 403 );
 		}
 
+		// @phpstan-ignore return.type
 		return \Aimeos\Controller\Frontend::create( $context, 'basket' )->load( $id, ['order/address', 'order/service'], false );
 	}
 
@@ -318,7 +322,7 @@ class Standard
 		$view = $this->view();
 		$context = $this->context();
 
-		$total = $orderItem->getPrice()->getValue() + $orderItem->getPrice()->getCosts();
+		$total = $orderItem->getPrice()->getValue() + $orderItem->getPrice()->getCosts(); // @phpstan-ignore binaryOp.invalid
 		$services = $orderItem->getService( \Aimeos\MShop\Order\Item\Service\Base::TYPE_PAYMENT );
 
 		if( $services === [] || $total <= '0.00' && $this->isSubscription( $orderItem->getProducts() ) === false )
@@ -344,6 +348,7 @@ class Standard
 			}
 
 			$serviceCntl = \Aimeos\Controller\Frontend::create( $context, 'service' );
+			// @phpstan-ignore return.type
 			return $serviceCntl->process( $orderItem, $service->getServiceId(), $urls, $attributes );
 		}
 
@@ -366,6 +371,7 @@ class Standard
 		$action = $view->config( 'client/html/checkout/confirm/url/action', 'confirm' );
 		$config = $view->config( 'client/html/checkout/confirm/url/config', $config );
 
+		// @phpstan-ignore-next-line
 		return $view->url( $target, $cntl, $action, $params, [], $config );
 	}
 
@@ -385,6 +391,7 @@ class Standard
 		$action = $view->config( 'client/html/checkout/update/url/action', 'update' );
 		$config = $view->config( 'client/html/checkout/update/url/config', $config );
 
+		// @phpstan-ignore-next-line
 		return $view->url( $target, $cntl, $action, $params, [], $config );
 	}
 
@@ -433,7 +440,7 @@ class Standard
 		 * you've implemented an alternative client class as well, "standard"
 		 * should be replaced by the name of the new class.
 		 *
-		 * @param string Relative path to the template creating the body of the JSON API
+		 * @type string Relative path to the template creating the body of the JSON API
 		 * @since 2017.03
 		 * @category Developer
 		 */

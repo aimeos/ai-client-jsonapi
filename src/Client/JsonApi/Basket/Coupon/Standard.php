@@ -53,7 +53,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyCoupon"!
 	 *
-	 * @param string Last part of the class name
+	 * @type string Last part of the class name
 	 * @since 2017.03
 	 * @category Developer
 	 */
@@ -76,7 +76,7 @@ class Standard
 	 * common decorators ("\Aimeos\Client\JsonApi\Common\Decorator\*") added via
 	 * "client/jsonapi/common/decorators/default" for the JSON API client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -102,7 +102,7 @@ class Standard
 	 * "\Aimeos\Client\JsonApi\Common\Decorator\Decorator1" only to the
 	 * "basket" JsonApi client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -128,7 +128,7 @@ class Standard
 	 * "\Aimeos\Client\JsonApi\Basket\Coupon\Decorator\Decorator2" only to the
 	 * "basket coupon" JsonApi client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -149,7 +149,7 @@ class Standard
 	{
 		parent::__construct( $context );
 
-		$this->controller = \Aimeos\Controller\Frontend::create( $this->context(), 'basket' );
+		$this->controller = \Aimeos\Controller\Frontend::create( $this->context(), 'basket' ); // @phpstan-ignore assign.propertyType
 	}
 
 
@@ -167,6 +167,7 @@ class Standard
 		try
 		{
 			$this->clearCache();
+			// @phpstan-ignore-next-line
 			$this->controller->setType( $view->param( 'id', 'default' ) );
 
 			$relId = $view->param( 'relatedid' );
@@ -188,11 +189,13 @@ class Standard
 						throw new \Aimeos\Client\JsonApi\Exception( 'Type (ID) is missing', 400 );
 					}
 
+					// @phpstan-ignore-next-line
 					$this->controller->deleteCoupon( $entry->id );
 				}
 			}
 			else
 			{
+				// @phpstan-ignore-next-line
 				$this->controller->deleteCoupon( $relId );
 			}
 
@@ -234,6 +237,7 @@ class Standard
 		try
 		{
 			$this->clearCache();
+			// @phpstan-ignore-next-line
 			$this->controller->setType( $view->param( 'id', 'default' ) );
 
 			$body = (string) $request->getBody();
@@ -252,6 +256,7 @@ class Standard
 					throw new \Aimeos\Client\JsonApi\Exception( 'Coupon code is missing', 400 );
 				}
 
+				// @phpstan-ignore-next-line
 				$this->controller->addCoupon( $entry->id );
 			}
 

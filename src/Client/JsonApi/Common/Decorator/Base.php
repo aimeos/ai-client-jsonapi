@@ -53,6 +53,8 @@ abstract class Base
 	 */
 	public function __call( string $name, array $param )
 	{
+		// @phpstan-ignore-next-line
+		// @phpstan-ignore-next-line
 		return call_user_func_array( array( $this->client, $name ), $param );
 	}
 

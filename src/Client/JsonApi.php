@@ -48,7 +48,7 @@ class JsonApi
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyCntl"!
 	 *
-	 * @param string Last part of the class name
+	 * @type string Last part of the class name
 	 * @since 2015.12
 	 * @category Developer
 	 */
@@ -71,7 +71,7 @@ class JsonApi
 	 * common decorators ("\Aimeos\Client\JsonApi\Common\Decorator\*") added via
 	 * "client/jsonapi/common/decorators/default" for the JSON API client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2016.01
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -97,7 +97,7 @@ class JsonApi
 	 * "\Aimeos\Client\Jsonadm\Common\Decorator\Decorator1" only to the
 	 * "product" Jsonadm client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2016.01
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -123,7 +123,7 @@ class JsonApi
 	 * "\Aimeos\Client\Jsonadm\Product\Decorator\Decorator2" only to the
 	 * "product" Jsonadm client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2016.01
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -132,7 +132,7 @@ class JsonApi
 	 */
 
 
-	private static $objects = [];
+	private static array $objects = [];
 
 
 	/**
@@ -162,7 +162,7 @@ class JsonApi
 		$classname = 'Aimeos\\Client\\JsonApi\\' . str_replace( '/', '\\', ucwords( $path, '/' ) ) . $name;
 
 		if( class_exists( $classname ) === false ) {
-			throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Class "%1$s" not found', $classname, 404 ) );
+			throw new \Aimeos\Client\JsonApi\Exception( sprintf( 'Class "%1$s" not found', $classname ) );
 		}
 
 		$client = self::createComponent( $context, $classname, $interface, $path );
@@ -180,7 +180,7 @@ class JsonApi
 	 * @param string $classname Full name of the class for which the object should be returned
 	 * @param \Aimeos\Client\JsonApi\Iface|null $client JSON API client object
 	 */
-	public static function inject( string $classname, ?\Aimeos\Client\JsonApi\Iface $client = null )
+	public static function inject( string $classname, ?\Aimeos\Client\JsonApi\Iface $client = null ) : void
 	{
 		self::$objects['\\' . ltrim( $classname, '\\' )] = $client;
 	}
@@ -201,10 +201,12 @@ class JsonApi
 		$localClass = str_replace( '/', '\\', ucwords( $path, '/' ) );
 
 		$classprefix = '\\Aimeos\\Client\\JsonApi\\' . $localClass . 'Decorator\\';
+		// @phpstan-ignore-next-line
 		$decorators = array_reverse( $config->get( 'client/jsonapi/' . $path . 'decorators/local', [] ) );
 		$client = self::addDecorators( $context, $client, $path, $decorators, $classprefix );
 
 		$classprefix = '\\Aimeos\\Client\\JsonApi\\Common\\Decorator\\';
+		// @phpstan-ignore-next-line
 		$decorators = array_reverse( $config->get( 'client/jsonapi/' . $path . 'decorators/global', [] ) );
 		$client = self::addDecorators( $context, $client, $path, $decorators, $classprefix );
 
@@ -226,15 +228,17 @@ class JsonApi
 		 * "\Aimeos\Client\JsonApi\Common\Decorator\Decorator1" and
 		 * "\Aimeos\Client\JsonApi\Common\Decorator\Decorator2".
 		 *
-		 * @param array List of decorator names
+		 * @type array List of decorator names
 		 * @since 2015.12
 		 * @category Developer
 		 */
+		// @phpstan-ignore-next-line
 		$decorators = array_reverse( $config->get( 'client/jsonapi/common/decorators/default', [] ) );
 		$excludes = $config->get( 'client/jsonapi/' . $path . 'decorators/excludes', [] );
 
 		foreach( $decorators as $key => $name )
 		{
+			// @phpstan-ignore-next-line
 			if( in_array( $name, $excludes ) ) {
 				unset( $decorators[$key] );
 			}
@@ -266,12 +270,14 @@ class JsonApi
 		foreach( $decorators as $name )
 		{
 			if( ctype_alnum( $name ) === false ) {
+				// @phpstan-ignore-next-line
 				throw new \LogicException( sprintf( 'Invalid class name "%1$s"', $name ), 400 );
 			}
 
 			$client = \Aimeos\Utils::create( $classprefix . $name, [$client, $context, $path], $interface );
 		}
 
+		// @phpstan-ignore return.type
 		return $client;
 	}
 
@@ -289,11 +295,13 @@ class JsonApi
 		string $classname, string $interface, string $path ) : \Aimeos\Client\JsonApi\Iface
 	{
 		if( isset( self::$objects[$classname] ) ) {
+			// @phpstan-ignore return.type
 			return self::$objects[$classname];
 		}
 
 		$client = \Aimeos\Utils::create( $classname, [$context], $interface );
 
+		// @phpstan-ignore-next-line
 		return self::addComponentDecorators( $context, $client, $path );
 	}
 }

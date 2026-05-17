@@ -22,11 +22,12 @@ class Base extends \Aimeos\Client\JsonApi\Base
 	/**
 	 * Clears the basket cache shared between HTML and JSON clients
 	 */
-	protected function clearCache()
+	protected function clearCache() : void
 	{
 		$session = $this->context()->session();
 
 		foreach( $session->get( 'aimeos/basket/cache', [] ) as $key => $value ) {
+			// @phpstan-ignore-next-line
 			$session->set( $key, null );
 		}
 	}

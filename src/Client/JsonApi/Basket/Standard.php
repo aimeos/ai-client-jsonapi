@@ -51,7 +51,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyBasket"!
 	 *
-	 * @param string Last part of the class name
+	 * @type string Last part of the class name
 	 * @since 2017.03
 	 * @category Developer
 	 */
@@ -74,7 +74,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 * common decorators ("\Aimeos\Client\JsonApi\Common\Decorator\*") added via
 	 * "client/jsonapi/common/decorators/default" for the JSON API client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -100,7 +100,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 * "\Aimeos\Client\JsonApi\Common\Decorator\Decorator1" only to the
 	 * "basket" JsonApi client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -126,7 +126,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 * "\Aimeos\Client\JsonApi\Basket\Decorator\Decorator2" only to the
 	 * "basket" JsonApi client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -147,7 +147,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	{
 		parent::__construct( $context );
 
-		$this->controller = \Aimeos\Controller\Frontend::create( $this->context(), 'basket' );
+		$this->controller = \Aimeos\Controller\Frontend::create( $this->context(), 'basket' ); // @phpstan-ignore assign.propertyType
 	}
 
 
@@ -168,6 +168,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 
 			$status = 200;
 			$type = $view->param( 'id', 'default' );
+			// @phpstan-ignore-next-line
 			$view->item = $this->controller->setType( $type )->clear()->get();
 		}
 		catch( \Aimeos\MShop\Plugin\Provider\Exception $e )
@@ -204,16 +205,19 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 		$id = $view->param( 'id', 'default' );
 
 		$include = $view->param( 'include', 'basket/address,basket/coupon,basket/product,basket/service' );
+		// @phpstan-ignore-next-line
 		$include = explode( ',', str_replace( 'basket', 'order', str_replace( '.', '/', $include ) ) );
 
 		try
 		{
 			try
 			{
+				// @phpstan-ignore-next-line
 				$view->item = $this->controller->load( $id, $include );
 			}
 			catch( \Aimeos\MShop\Exception $e )
 			{
+				// @phpstan-ignore-next-line
 				$view->item = $this->controller->setType( $id )->get();
 				$allow = true;
 			}
@@ -256,6 +260,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 				throw new \Aimeos\Client\JsonApi\Exception( 'Invalid JSON in body', 400 );
 			}
 
+			// @phpstan-ignore-next-line
 			$basket = $this->controller->setType( $view->param( 'id', 'default' ) )
 				->add( (array) $payload->data->attributes )->save()->get();
 
@@ -297,6 +302,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 		{
 			$userId = (string) $this->context()->user()?->getId();
 
+			// @phpstan-ignore-next-line
 			$this->controller->setType( $view->param( 'id', 'default' ) );
 			$this->controller->get()->setChannel( 'jsonapi' )->setCustomerId( $userId )->check();
 			$this->clearCache();
@@ -388,7 +394,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 		 * you've implemented an alternative client class as well, "standard"
 		 * should be replaced by the name of the new class.
 		 *
-		 * @param string Relative path to the template creating the body for the JSON API
+		 * @type string Relative path to the template creating the body for the JSON API
 		 * @since 2017.04
 		 * @category Developer
 		 */

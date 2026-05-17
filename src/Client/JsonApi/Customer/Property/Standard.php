@@ -53,7 +53,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyProperty"!
 	 *
-	 * @param string Last part of the class name
+	 * @type string Last part of the class name
 	 * @since 2017.03
 	 * @category Developer
 	 */
@@ -76,7 +76,7 @@ class Standard
 	 * common decorators ("\Aimeos\Client\JsonApi\Common\Decorator\*") added via
 	 * "client/jsonapi/common/decorators/default" for the JSON API client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -102,7 +102,7 @@ class Standard
 	 * "\Aimeos\Client\JsonApi\Common\Decorator\Decorator1" only to the
 	 * "customer" JsonApi client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -128,7 +128,7 @@ class Standard
 	 * "\Aimeos\Client\JsonApi\Customer\Property\Decorator\Decorator2" only to the
 	 * "customer property" JsonApi client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -225,6 +225,7 @@ class Standard
 			if( !( $relId = $view->param( 'relatedid' ) ) )
 			{
 				$view->items = $items;
+				// @phpstan-ignore-next-line
 				$view->total = count( $items );
 			}
 			else
@@ -348,6 +349,7 @@ class Standard
 			}
 
 			$view->items = $cntl->store()->get()->getPropertyItems();
+			// @phpstan-ignore-next-line
 			$view->total = count( $view->items );
 			$status = 201;
 		}
@@ -435,7 +437,7 @@ class Standard
 		 * you've implemented an alternative client class as well, "standard"
 		 * should be replaced by the name of the new class.
 		 *
-		 * @param string Relative path to the template creating the body for the JSON API
+		 * @type string Relative path to the template creating the body for the JSON API
 		 * @since 2017.07
 		 * @category Developer
 		 */

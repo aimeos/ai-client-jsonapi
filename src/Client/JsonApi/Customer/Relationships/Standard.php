@@ -53,7 +53,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyRelationships"!
 	 *
-	 * @param string Last part of the class name
+	 * @type string Last part of the class name
 	 * @since 2017.03
 	 * @category Developer
 	 */
@@ -76,7 +76,7 @@ class Standard
 	 * common decorators ("\Aimeos\Client\JsonApi\Common\Decorator\*") added via
 	 * "client/jsonapi/common/decorators/default" for the JSON API client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -102,7 +102,7 @@ class Standard
 	 * "\Aimeos\Client\JsonApi\Common\Decorator\Decorator1" only to the
 	 * "customer" JsonApi client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -128,7 +128,7 @@ class Standard
 	 * "\Aimeos\Client\JsonApi\Customer\Relationships\Decorator\Decorator2" only to the
 	 * "customer relationships" JsonApi client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -151,6 +151,7 @@ class Standard
 		try
 		{
 			$body = (string) $request->getBody();
+			// @phpstan-ignore-next-line
 			$ref = ( $ref = $view->param( 'include' ) ) ? explode( ',', str_replace( '.', '/', $ref ) ) : [];
 
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
@@ -222,6 +223,7 @@ class Standard
 		try
 		{
 			$relId = $view->param( 'relatedid' );
+			// @phpstan-ignore-next-line
 			$ref = ( $ref = $view->param( 'include' ) ) ? explode( ',', str_replace( '.', '/', $ref ) ) : [];
 
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
@@ -230,6 +232,7 @@ class Standard
 			if( $relId === null )
 			{
 				$view->items = $items;
+				// @phpstan-ignore-next-line
 				$view->total = count( $items );
 			}
 			else
@@ -282,6 +285,7 @@ class Standard
 			$status = 404;
 			$view->total = 0;
 			$relId = $view->param( 'relatedid' );
+			// @phpstan-ignore-next-line
 			$ref = ( $ref = $view->param( 'include' ) ) ? explode( ',', str_replace( '.', '/', $ref ) ) : [];
 
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
@@ -332,6 +336,7 @@ class Standard
 		try
 		{
 			$body = (string) $request->getBody();
+			// @phpstan-ignore-next-line
 			$ref = ( $ref = $view->param( 'include' ) ) ? explode( ',', str_replace( '.', '/', $ref ) ) : [];
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' )->uses( $ref );
 
@@ -354,6 +359,7 @@ class Standard
 			}
 
 			$view->items = $cntl->store()->get()->getListItems( $ref );
+			// @phpstan-ignore-next-line
 			$view->total = count( $view->items );
 			$status = 201;
 		}
@@ -457,7 +463,7 @@ class Standard
 		 * you've implemented an alternative client class as well, "standard"
 		 * should be replaced by the name of the new class.
 		 *
-		 * @param string Relative path to the template creating the body for the JSON API
+		 * @type string Relative path to the template creating the body for the JSON API
 		 * @since 2017.07
 		 * @category Developer
 		 */

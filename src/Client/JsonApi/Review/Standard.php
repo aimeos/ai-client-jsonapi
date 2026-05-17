@@ -53,7 +53,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyReview"!
 	 *
-	 * @param string Last part of the class name
+	 * @type string Last part of the class name
 	 * @since 2017.03
 	 * @category Developer
 	 */
@@ -76,7 +76,7 @@ class Standard
 	 * common decorators ("\Aimeos\Client\JsonApi\Common\Decorator\*") added via
 	 * "client/jsonapi/common/decorators/default" for the JSON API client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2020.10
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -102,7 +102,7 @@ class Standard
 	 * "\Aimeos\Client\JsonApi\Common\Decorator\Decorator1" only to the
 	 * "review" JsonApi client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2020.10
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -128,7 +128,7 @@ class Standard
 	 * "\Aimeos\Client\JsonApi\Review\Decorator\Decorator2" only to the
 	 * "review" JsonApi client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2020.10
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -238,7 +238,9 @@ class Standard
 	protected function aggregate( \Aimeos\Base\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$view->data = $this->getController( $view )->sort()
+			// @phpstan-ignore-next-line
 			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 10000 ) )
+			// @phpstan-ignore-next-line
 			->aggregate( $view->param( 'aggregate' ) );
 
 		return $response;
@@ -261,7 +263,9 @@ class Standard
 		$params = (array) $view->param( 'filter', [] );
 		unset( $params['f_domain'], $params['f_refid'] );
 
+		// @phpstan-ignore return.type
 		return $cntl->sort( $view->param( 'sort', '-ctime' ) )->parse( $params )
+			// @phpstan-ignore-next-line
 			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 10 ) );
 	}
 
@@ -331,7 +335,7 @@ class Standard
 			 * you've implemented an alternative client class as well, "standard"
 			 * should be replaced by the name of the new class.
 			 *
-			 * @param string Relative path to the template creating the list of aggregated review counts
+			 * @type string Relative path to the template creating the list of aggregated review counts
 			 * @since 2020.10
 			 * @category Developer
 			 */
@@ -355,7 +359,7 @@ class Standard
 			 * you've implemented an alternative client class as well, "standard"
 			 * should be replaced by the name of the new class.
 			 *
-			 * @param string Relative path to the template creating the body of the JSON API
+			 * @type string Relative path to the template creating the body of the JSON API
 			 * @since 2017.03
 			 * @category Developer
 			 */

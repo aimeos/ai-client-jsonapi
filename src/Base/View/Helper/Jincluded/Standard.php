@@ -54,13 +54,14 @@ class Standard extends \Aimeos\Base\View\Helper\Base implements Iface
 	 * @param array $fields Associative list of resource types as keys and field names to output as values
 	 * @param array $fcn Associative list of resource types as keys and anonymous functions for generating the array entries as values
 	 */
-	protected function entry( \Aimeos\MShop\Common\Item\Iface $item, array $fields, array $fcn = [] )
+	protected function entry( \Aimeos\MShop\Common\Item\Iface $item, array $fields, array $fcn = [] ) : void
 	{
 		if( $item instanceof \Aimeos\MShop\Common\Item\Tree\Iface )
 		{
 			foreach( $item->getChildren() as $catItem )
 			{
 				if( $catItem->isAvailable() ) {
+					// @phpstan-ignore-next-line
 					$this->map( $catItem, $fields, $fcn );
 				}
 			}
@@ -69,6 +70,7 @@ class Standard extends \Aimeos\Base\View\Helper\Base implements Iface
 		if( $item instanceof \Aimeos\MShop\Common\Item\AddressRef\Iface )
 		{
 			foreach( $item->getAddressItems() as $addrItem ) {
+				// @phpstan-ignore-next-line
 				$this->map( $addrItem, $fields, $fcn );
 			}
 		}
@@ -78,6 +80,7 @@ class Standard extends \Aimeos\Base\View\Helper\Base implements Iface
 			foreach( $item->getListItems() as $listItem )
 			{
 				if( $refItem = $listItem->getRefItem() ) {
+					// @phpstan-ignore-next-line
 					$this->map( $refItem, $fields, $fcn );
 				}
 			}
@@ -86,6 +89,7 @@ class Standard extends \Aimeos\Base\View\Helper\Base implements Iface
 		if( $item instanceof \Aimeos\MShop\Common\Item\PropertyRef\Iface )
 		{
 			foreach( $item->getPropertyItems() as $propItem ) {
+				// @phpstan-ignore-next-line
 				$this->map( $propItem, $fields, $fcn );
 			}
 		}
@@ -97,6 +101,7 @@ class Standard extends \Aimeos\Base\View\Helper\Base implements Iface
 		if( $item instanceof \Aimeos\MShop\Product\Item\Iface )
 		{
 			foreach( $item->getStockItems() as $stockItem ) {
+				// @phpstan-ignore-next-line
 				$this->map( $stockItem, $fields, $fcn );
 			}
 		}
@@ -110,7 +115,7 @@ class Standard extends \Aimeos\Base\View\Helper\Base implements Iface
 	 * @param array $fields Associative list of resource types as keys and field names to output as values
 	 * @param array $fcn Associative list of resource types as keys and anonymous functions for generating the array entries as values
 	 */
-	protected function map( \Aimeos\MShop\Common\Item\Iface $item, array $fields, array $fcn = [] )
+	protected function map( \Aimeos\MShop\Common\Item\Iface $item, array $fields, array $fcn = [] ) : void
 	{
 		$id = $item->getId();
 		$type = str_replace( '/', '.', $item->getResourceType() );
@@ -122,6 +127,7 @@ class Standard extends \Aimeos\Base\View\Helper\Base implements Iface
 		$attributes = $item->toArray();
 
 		if( isset( $fields[$type] ) ) {
+			// @phpstan-ignore-next-line
 			$attributes = array_intersect_key( $attributes, $fields[$type] );
 		}
 
@@ -139,9 +145,11 @@ class Standard extends \Aimeos\Base\View\Helper\Base implements Iface
 			{
 				if( $childItem->isAvailable() )
 				{
+					// @phpstan-ignore-next-line
 					$rtype = str_replace( '/', '.', $childItem->getResourceType() );
 					$rtype = ( $pos = strrpos( $rtype, '/' ) ) !== false ? substr( $rtype, $pos + 1 ) : $rtype;
 					$entry['relationships'][$rtype]['data'][] = ['id' => $childItem->getId(), 'type' => $rtype];
+					// @phpstan-ignore-next-line
 					$this->map( $childItem, $fields, $fcn );
 				}
 			}
@@ -153,16 +161,20 @@ class Standard extends \Aimeos\Base\View\Helper\Base implements Iface
 			{
 				if( ( $refItem = $listItem->getRefItem() ) !== null && $refItem->isAvailable() )
 				{
+					// @phpstan-ignore-next-line
 					$ltype = str_replace( '/', '.', $listItem->getResourceType() );
+					// @phpstan-ignore-next-line
 					$rtype = str_replace( '/', '.', $refItem->getResourceType() );
 					$attributes = $listItem->toArray();
 
 					if( isset( $fields[$ltype] ) ) {
+						// @phpstan-ignore-next-line
 						$attributes = array_intersect_key( $attributes, $fields[$ltype] );
 					}
 
 					$data = ['id' => $refItem->getId(), 'type' => $rtype, 'attributes' => $attributes];
 					$entry['relationships'][$rtype]['data'][] = $data;
+					// @phpstan-ignore-next-line
 					$this->map( $refItem, $fields, $fcn );
 				}
 			}
@@ -175,8 +187,10 @@ class Standard extends \Aimeos\Base\View\Helper\Base implements Iface
 				if( $propItem->isAvailable() )
 				{
 					$propId = $propItem->getId();
+					// @phpstan-ignore-next-line
 					$rtype = str_replace( '/', '.', $propItem->getResourceType() );
 					$entry['relationships'][$rtype]['data'][] = ['id' => $propId, 'type' => $rtype];
+					// @phpstan-ignore-next-line
 					$this->map( $propItem, $fields, $fcn );
 				}
 			}
@@ -200,8 +214,10 @@ class Standard extends \Aimeos\Base\View\Helper\Base implements Iface
 				if( $stockItem->isAvailable() )
 				{
 					$stockId = $stockItem->getId();
+					// @phpstan-ignore-next-line
 					$rtype = str_replace( '/', '.', $stockItem->getResourceType() );
 					$entry['relationships'][$rtype]['data'][] = ['id' => $stockId, 'type' => $rtype];
+					// @phpstan-ignore-next-line
 					$this->map( $stockItem, $fields, $fcn );
 				}
 			}

@@ -53,7 +53,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyCatalog"!
 	 *
-	 * @param string Last part of the class name
+	 * @type string Last part of the class name
 	 * @since 2017.03
 	 * @category Developer
 	 */
@@ -76,7 +76,7 @@ class Standard
 	 * common decorators ("\Aimeos\Client\JsonApi\Common\Decorator\*") added via
 	 * "client/jsonapi/common/decorators/default" for the JSON API client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -102,7 +102,7 @@ class Standard
 	 * "\Aimeos\Client\JsonApi\Common\Decorator\Decorator1" only to the
 	 * "catalog" JsonApi client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -128,7 +128,7 @@ class Standard
 	 * "\Aimeos\Client\JsonApi\Catalog\Decorator\Decorator2" only to the
 	 * "catalog" JsonApi client.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -179,7 +179,7 @@ class Standard
 		 * you've implemented an alternative client class as well, "standard"
 		 * should be replaced by the name of the new class.
 		 *
-		 * @param string Relative path to the template creating the body for the GET method of the JSON API
+		 * @type string Relative path to the template creating the body for the GET method of the JSON API
 		 * @since 2017.03
 		 * @category Developer
 		 */
@@ -241,12 +241,13 @@ class Standard
 			 * recommended for small category trees with a limited node size
 			 * (less than 50).
 			 *
-			 * @param bool True for category tree, false for first level only
+			 * @type bool True for category tree, false for first level only
 			 * @since 2020.10
 			 * @see controller/frontend/catalog/levels-always
 			 * @see controller/frontend/catalog/levels-only
 			 * @see client/html/catalog/filter/tree/deep
 			 */
+			// @phpstan-ignore-next-line
 			$deep = $view->config( 'client/jsonapi/catalog/deep', false );
 
 			$level = $deep ? \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE : \Aimeos\MW\Tree\Manager\Base::LEVEL_LIST;
@@ -254,6 +255,7 @@ class Standard
 
 		$total = 1;
 		$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'catalog' )->uses( $ref )
+			// @phpstan-ignore-next-line
 			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 100 ) );
 
 		if( ( $cond = (array) $view->param( 'filter', [] ) ) === [] ) {
