@@ -280,9 +280,11 @@ class Standard
 	 */
 	protected function getItem( \Aimeos\Base\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'review' );
-
-		$view->items = $cntl->get( $view->param( 'id' ) );
+		$view->items = $this->getController( $view )
+			->compare( '==', 'review.id', $view->param( 'id' ) )
+			->slice( 0, 1 )
+			->search()
+			->first( new \Aimeos\MShop\Exception( 'Review not found', 404 ) );
 		$view->total = 1;
 
 		return $response;

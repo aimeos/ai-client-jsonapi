@@ -92,6 +92,39 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testDeleteNoUser()
+	{
+		$manager = \Aimeos\MShop::create( $this->context, 'review' );
+		$refid = 'no-owner-' . bin2hex( random_bytes( 4 ) );
+		$item = $manager->create( [
+			'review.domain' => 'product',
+			'review.refid' => $refid,
+			'review.customerid' => null,
+			'review.comment' => 'no-owner canary',
+			'review.rating' => 5,
+			'review.status' => 1,
+			'review.name' => 'no-owner canary'
+		] );
+		$item = $manager->save( $item->setId( null ) );
+
+		$this->context->setUser( null );
+
+		$params = ['id' => -1, 'related' => 'review', 'relatedid' => $item->getId()];
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->delete( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 403, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
+		$this->assertArrayHasKey( 'errors', $result );
+		$manager->delete( $item->getId() );
+	}
+
+
 	public function testDeleteControllerException()
 	{
 		$mock = $this->object( 'getBody', $this->throwException( new \Aimeos\Controller\Frontend\Review\Exception() ) );
@@ -146,6 +179,25 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertGreaterThan( 3, count( $result['data'][0]['attributes'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
+	public function testGetNoUser()
+	{
+		$this->context->setUser( null );
+
+		$params = ['id' => -1, 'related' => 'review'];
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 403, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
+		$this->assertArrayHasKey( 'errors', $result );
 	}
 
 
@@ -313,6 +365,31 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( 0, $result['meta']['total'] );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testPostNoUser()
+	{
+		$this->context->setUser( null );
+
+		$params = ['id' => -1, 'related' => 'review'];
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$body = '{"data": {"type": "review", "attributes": {
+			"review.domain": "product",
+			"review.comment": "nouser-canary"
+		}}}';
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
+
+
+		$response = $this->object->post( $request, $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 403, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 		$this->assertArrayHasKey( 'errors', $result );
 	}
 
