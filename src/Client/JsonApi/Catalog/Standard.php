@@ -245,7 +245,6 @@ class Standard
 			 * @since 2020.10
 			 * @see controller/frontend/catalog/levels-always
 			 * @see controller/frontend/catalog/levels-only
-			 * @see client/html/catalog/filter/tree/deep
 			 */
 			// @phpstan-ignore-next-line
 			$deep = $view->config( 'client/jsonapi/catalog/deep', false );
