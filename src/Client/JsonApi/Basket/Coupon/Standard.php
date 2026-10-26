@@ -53,7 +53,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyCoupon"!
 	 *
-	 * @type string Last part of the class name
+	 * @param string Last part of the class name
 	 * @since 2017.03
 	 * @category Developer
 	 */
@@ -76,7 +76,7 @@ class Standard
 	 * common decorators ("\Aimeos\Client\JsonApi\Common\Decorator\*") added via
 	 * "client/jsonapi/common/decorators/default" for the JSON API client.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -102,7 +102,7 @@ class Standard
 	 * "\Aimeos\Client\JsonApi\Common\Decorator\Decorator1" only to the
 	 * "basket" JsonApi client.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -128,7 +128,7 @@ class Standard
 	 * "\Aimeos\Client\JsonApi\Basket\Coupon\Decorator\Decorator2" only to the
 	 * "basket coupon" JsonApi client.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default

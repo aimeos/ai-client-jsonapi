@@ -161,7 +161,7 @@ abstract class Base
 		 * you've implemented an alternative client class as well, "standard"
 		 * should be replaced by the name of the new class.
 		 *
-		 * @type string Relative path to the template creating the body for the JSON API response
+		 * @param string Relative path to the template creating the body for the JSON API response
 		 * @since 2017.02
 		 * @category Developer
 		 * @see client/jsonapi/template-delete
@@ -224,7 +224,7 @@ abstract class Base
 		 * your requests it's helpful to see the stack strace. If you set this
 		 * configuration option to true, the stack trace will be returned too.
 		 *
-		 * @type boolean True to return the stack trace in JSON response, false for error message only
+		 * @param boolean True to return the stack trace in JSON response, false for error message only
 		 * @since 2017.07
 		 * @category Developer
 		 */

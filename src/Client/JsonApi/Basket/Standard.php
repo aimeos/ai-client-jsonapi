@@ -51,7 +51,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyBasket"!
 	 *
-	 * @type string Last part of the class name
+	 * @param string Last part of the class name
 	 * @since 2017.03
 	 * @category Developer
 	 */
@@ -74,7 +74,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 * common decorators ("\Aimeos\Client\JsonApi\Common\Decorator\*") added via
 	 * "client/jsonapi/common/decorators/default" for the JSON API client.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -100,7 +100,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 * "\Aimeos\Client\JsonApi\Common\Decorator\Decorator1" only to the
 	 * "basket" JsonApi client.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -126,7 +126,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 	 * "\Aimeos\Client\JsonApi\Basket\Decorator\Decorator2" only to the
 	 * "basket" JsonApi client.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -394,7 +394,7 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 		 * you've implemented an alternative client class as well, "standard"
 		 * should be replaced by the name of the new class.
 		 *
-		 * @type string Relative path to the template creating the body for the JSON API
+		 * @param string Relative path to the template creating the body for the JSON API
 		 * @since 2017.04
 		 * @category Developer
 		 */

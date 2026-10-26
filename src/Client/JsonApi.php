@@ -48,7 +48,7 @@ class JsonApi
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyCntl"!
 	 *
-	 * @type string Last part of the class name
+	 * @param string Last part of the class name
 	 * @since 2015.12
 	 * @category Developer
 	 */
@@ -71,7 +71,7 @@ class JsonApi
 	 * common decorators ("\Aimeos\Client\JsonApi\Common\Decorator\*") added via
 	 * "client/jsonapi/common/decorators/default" for the JSON API client.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2016.01
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -97,7 +97,7 @@ class JsonApi
 	 * "\Aimeos\Client\Jsonadm\Common\Decorator\Decorator1" only to the
 	 * "product" Jsonadm client.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2016.01
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -123,7 +123,7 @@ class JsonApi
 	 * "\Aimeos\Client\Jsonadm\Product\Decorator\Decorator2" only to the
 	 * "product" Jsonadm client.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2016.01
 	 * @category Developer
 	 * @see client/jsonapi/common/decorators/default
@@ -228,7 +228,7 @@ class JsonApi
 		 * "\Aimeos\Client\JsonApi\Common\Decorator\Decorator1" and
 		 * "\Aimeos\Client\JsonApi\Common\Decorator\Decorator2".
 		 *
-		 * @type array List of decorator names
+		 * @param array List of decorator names
 		 * @since 2015.12
 		 * @category Developer
 		 */

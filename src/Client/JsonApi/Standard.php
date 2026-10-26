@@ -50,7 +50,7 @@ class Standard
 		 * you've implemented an alternative client class as well, "standard"
 		 * should be replaced by the name of the new class.
 		 *
-		 * @type string Relative path to the template creating the body for the JSON API GET response
+		 * @param string Relative path to the template creating the body for the JSON API GET response
 		 * @since 2017.05
 		 * @category Developer
 		 * @see client/jsonapi/template-options
@@ -93,7 +93,7 @@ class Standard
 			 * by the HTTP OPTIONS method, you have to add its name in lower case
 			 * to the existing configuration.
 			 *
-			 * @type array List of resource names
+			 * @param array List of resource names
 			 * @since 2017.03
 			 * @category Developer
 			 */
@@ -124,7 +124,7 @@ class Standard
 		 * you've implemented an alternative client class as well, "standard"
 		 * should be replaced by the name of the new class.
 		 *
-		 * @type string Relative path to the template creating the body for the OPTIONS method of the JSON API
+		 * @param string Relative path to the template creating the body for the OPTIONS method of the JSON API
 		 * @since 2017.02
 		 * @category Developer
 		 * @see client/jsonapi/template-get
