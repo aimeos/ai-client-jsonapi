@@ -166,7 +166,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 2, $result['meta']['total'] );
 		$this->assertNotNull( $result['data'][0]['id'] );
 		$this->assertEquals( 'customer.lists', $result['data'][0]['type'] );
-		$this->assertGreaterThan( 8, count( $result['data'][0]['attributes'] ) );
+		$this->assertGreaterThan( 7, count( $result['data'][0]['attributes'] ) );
+		$this->assertArrayNotHasKey( 'customer.lists.config', $result['data'][0]['attributes'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -287,8 +288,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'customer.lists', $result['data']['type'] );
-		$this->assertGreaterThan( 8, count( $result['data']['attributes'] ) );
-		$this->assertEquals( ['key' => 'value'], $result['data']['attributes']['customer.lists.config'] );
+		$this->assertGreaterThan( 7, count( $result['data']['attributes'] ) );
+		$this->assertArrayNotHasKey( 'customer.lists.config', $result['data']['attributes'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -481,6 +482,96 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
+
+	public function testGetNotAllowed()
+	{
+		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
+		$victim = $custManager->find( 'test@example.com' );
+		$customer = $custManager->create()->setCode( 'unittest-jsonapi' );
+		$listItem = $custManager->createListItem()->setType( 'default' )->setRefId( $victim->getId() );
+		$customer = $custManager->save( $customer->addListItem( 'customer', $listItem ) );
+		$this->context->setUser( $customer );
+
+
+		$params = ['id' => $customer->getId(), 'include' => 'customer'];
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$custManager->delete( $customer->getId() );
+
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 0, $result['meta']['total'] );
+		$this->assertEquals( 0, count( $result['included'] ?? [] ) );
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
+	public function testPatchNotAllowed()
+	{
+		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
+		$customer = $custManager->find( 'test@example.com', ['product'] )->setCode( 'unittest-jsonapi' );
+		$customer = $custManager->save( $customer->setId( null ) );
+		$id = $customer->getListItems( 'product', 'favorite' )->first()->getId();
+		$this->context->setUser( $customer );
+
+
+		$params = ['id' => $customer->getId(), 'relatedid' => $id, 'include' => 'product'];
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$body = '{"data": {"type": "product", "attributes": {
+			"customer.lists.domain": "service", "customer.lists.refid": "-1"
+		}}}';
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
+
+
+		$response = $this->object->patch( $request, $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$stored = $custManager->get( $customer->getId(), ['product', 'service'] );
+		$custManager->delete( $customer->getId() );
+
+
+		$this->assertEquals( 403, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
+		$this->assertEquals( 0, count( $stored->getListItems( 'service' ) ) );
+		$this->assertNotNull( $stored->getListItems( 'product' )->get( $id ) );
+	}
+
+
+	public function testPostNotAllowed()
+	{
+		$custManager = \Aimeos\MShop::create( $this->context, 'customer' );
+		$customer = $custManager->save( $custManager->create()->setCode( 'unittest-jsonapi' ) );
+		$this->context->setUser( $customer );
+
+
+		$params = ['id' => $customer->getId(), 'include' => 'product,service'];
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$body = '{"data": [{"type": "product", "attributes": {
+			"customer.lists.domain": "product", "customer.lists.type": "favorite", "customer.lists.refid": "-1"
+		}}, {"type": "service", "attributes": {
+			"customer.lists.domain": "service", "customer.lists.type": "default", "customer.lists.refid": "-1"
+		}}]}';
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
+
+		$response = $this->object->post( $request, $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$stored = $custManager->get( $customer->getId(), ['product', 'service'] );
+		$custManager->delete( $customer->getId() );
+
+
+		$this->assertEquals( 403, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
+		$this->assertEquals( 0, count( $stored->getListItems() ) );
+	}
 
 	/**
 	 * Returns a test object with a mocked customer controller
