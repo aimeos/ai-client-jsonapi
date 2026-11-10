@@ -186,11 +186,8 @@ class Standard
 
 		try
 		{
-			// @phpstan-ignore-next-line
-			$ref = ( $ref = $view->param( 'include' ) ) ? explode( ',', str_replace( '.', '/', $ref ) ) : [];
-
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
-			$view->item = $cntl->uses( $ref )->get();
+			$view->item = $cntl->uses( $this->refs() )->get();
 			$status = 200;
 		}
 		catch( \Aimeos\Controller\Frontend\Customer\Exception $e )
@@ -227,14 +224,11 @@ class Standard
 		try
 		{
 			$body = (string) $request->getBody();
-			// @phpstan-ignore-next-line
-			$ref = ( $inc = $view->param( 'include' ) ) ? explode( ',', $inc ) : [];
-
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data->attributes ) ) {
 				throw new \Aimeos\Client\JsonApi\Exception( 'Invalid JSON in body', 400 );
 			}
 
-			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' )->uses( $ref );
+			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' )->uses( $this->refs() );
 			$view->item = $cntl->add( (array) $payload->data->attributes )->store()->get();
 			$status = 200;
 		}
@@ -426,6 +420,41 @@ class Standard
 			->withHeader( 'Content-Type', 'application/vnd.api+json' )
 			->withBody( $view->response()->createStreamFromString( $body ) )
 			->withStatus( 200 );
+	}
+
+
+	/**
+	 * Returns the requested domains which are allowed to be included
+	 *
+	 * @return string[] List of domain names
+	 */
+	protected function refs() : array
+	{
+		$view = $this->view();
+
+		/** client/jsonapi/customer/domains
+		 * Domains which can be included when retrieving the customer data
+		 *
+		 * Customers can request the referenced items of their account using the
+		 * "include" parameter. Only the domains listed in this setting are
+		 * fetched, so internal data like orders, services or other customers
+		 * can't be retrieved via items referenced by the customer item. The
+		 * domains are also used for the items referenced by the related items,
+		 * e.g. the images and prices of the products a customer has bookmarked.
+		 *
+		 * @param array List of domain names
+		 * @since 2026.10
+		 * @see client/jsonapi/customer/relationships/domains
+		 */
+		$domains = $view->config( 'client/jsonapi/customer/domains', [
+			'customer/address', 'customer/property', 'attribute', 'catalog', 'media',
+			'price', 'product', 'product/property', 'stock', 'supplier', 'text'
+		] );
+
+		$include = $view->param( 'include', '' );
+		$ref = is_string( $include ) && $include !== '' ? explode( ',', str_replace( '.', '/', $include ) ) : [];
+
+		return array_values( array_intersect( $ref, (array) $domains ) );
 	}
 
 
