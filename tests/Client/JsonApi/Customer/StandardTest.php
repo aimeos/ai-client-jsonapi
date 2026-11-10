@@ -174,8 +174,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 200, $response->getStatusCode() );
-		$this->assertEquals( ['customer.address'], array_keys( $result['data']['relationships'] ) );
-		$this->assertEquals( ['customer.address'], array_values( array_unique( array_column( $result['included'], 'type' ) ) ) );
+		$this->assertEquals( ['customer/address'], array_keys( $result['data']['relationships'] ) );
+		$this->assertEquals( ['customer/address'], array_values( array_unique( array_column( $result['included'], 'type' ) ) ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
