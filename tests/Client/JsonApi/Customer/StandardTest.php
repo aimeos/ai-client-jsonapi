@@ -162,12 +162,15 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetIncludedNotAllowed()
 	{
+		$user = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
+		$this->context->setUserId( $user->getId() );
+
 		$params = ['include' => 'customer.address,customer,order,service,group'];
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 
-		$response = $this->object()->get( $this->view->request(), $this->view->response() );
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$this->assertEquals( 200, $response->getStatusCode() );
