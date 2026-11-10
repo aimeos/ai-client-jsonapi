@@ -152,7 +152,7 @@ class Standard
 		{
 			$body = (string) $request->getBody();
 			$relId = $view->param( 'relatedid' );
-			$ref = ( $inc = $view->param( 'include' ) ) ? explode( ',', $inc ) : [];
+			$ref = $this->refs();
 
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
 			$items = $cntl->uses( $ref )->get()->getListItems( $ref );
@@ -223,7 +223,7 @@ class Standard
 		try
 		{
 			$relId = $view->param( 'relatedid' );
-			$ref = ( $inc = $view->param( 'include' ) ) ? explode( ',', $inc ) : [];
+			$ref = $this->refs();
 
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
 			$items = $cntl->uses( $ref )->get()->getListItems( $ref );
@@ -283,7 +283,7 @@ class Standard
 			$status = 404;
 			$view->total = 0;
 			$relId = $view->param( 'relatedid' );
-			$ref = ( $inc = $view->param( 'include' ) ) ? explode( ',', $inc ) : [];
+			$ref = $this->refs();
 
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' );
 			$items = $cntl->uses( $ref )->get()->getListItems( $ref );
@@ -291,7 +291,7 @@ class Standard
 			if( isset( $items[$relId] ) )
 			{
 				$attributes = (array) $payload->data->attributes;
-				$listItem = $items[$relId]->fromArray( $attributes );
+				$listItem = $this->check( $items[$relId]->fromArray( $attributes ) );
 				$cntl->addListItem( $listItem->getDomain(), $listItem )->store();
 
 				$view->items = $listItem;
@@ -333,7 +333,7 @@ class Standard
 		try
 		{
 			$body = (string) $request->getBody();
-			$ref = ( $inc = $view->param( 'include' ) ) ? explode( ',', $inc ) : [];
+			$ref = $this->refs();
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'customer' )->uses( $ref );
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
@@ -350,7 +350,7 @@ class Standard
 					throw new \Aimeos\Client\JsonApi\Exception( 'Attributes are missing', 400 );
 				}
 
-				$listItem = $cntl->createListItem( (array) $entry->attributes );
+				$listItem = $this->check( $cntl->createListItem( (array) $entry->attributes ) );
 				$cntl->addListItem( $listItem->getDomain(), $listItem );
 			}
 
@@ -430,6 +430,60 @@ class Standard
 			->withHeader( 'Content-Type', 'application/vnd.api+json' )
 			->withBody( $view->response()->createStreamFromString( $body ) )
 			->withStatus( 200 );
+	}
+
+
+	/**
+	 * Checks if the customer is allowed to add or change relationships to the domain of the list item
+	 *
+	 * @param \Aimeos\MShop\Common\Item\Lists\Iface $listItem Customer list item
+	 * @return \Aimeos\MShop\Common\Item\Lists\Iface Unchanged customer list item
+	 * @throws \Aimeos\Client\JsonApi\Exception If the domain isn't allowed
+	 */
+	protected function check( \Aimeos\MShop\Common\Item\Lists\Iface $listItem ) : \Aimeos\MShop\Common\Item\Lists\Iface
+	{
+		/** client/jsonapi/customer/relationships/domains
+		 * Domains customers are allowed to add relationships for
+		 *
+		 * Customers can bookmark items, e.g. products as favorites, by adding
+		 * relationships to their account. The referenced items are fetched by
+		 * their ID without checking if they belong to the customer, so only
+		 * domains whose items are public must be listed. Relationships to other
+		 * domains are rejected when they are added or changed.
+		 *
+		 * @param array List of domain names
+		 * @since 2026.10
+		 * @see client/jsonapi/customer/domains
+		 */
+		$domains = $this->view()->config( 'client/jsonapi/customer/relationships/domains', ['product'] );
+
+		if( !in_array( $listItem->getDomain(), (array) $domains, true ) )
+		{
+			$msg = sprintf( 'Relationships to "%1$s" items are not allowed', $listItem->getDomain() );
+			throw new \Aimeos\Client\JsonApi\Exception( $msg, 403 );
+		}
+
+		return $listItem;
+	}
+
+
+	/**
+	 * Returns the requested domains which are allowed to be included
+	 *
+	 * @return string[] List of domain names
+	 */
+	protected function refs() : array
+	{
+		$view = $this->view();
+		$domains = $view->config( 'client/jsonapi/customer/domains', [
+			'customer/address', 'customer/property', 'attribute', 'catalog', 'media',
+			'price', 'product', 'product/property', 'stock', 'supplier', 'text'
+		] );
+
+		$include = $view->param( 'include', '' );
+		$ref = is_string( $include ) && $include !== '' ? explode( ',', str_replace( '.', '/', $include ) ) : [];
+
+		return array_values( array_intersect( $ref, (array) $domains ) );
 	}
 
 
