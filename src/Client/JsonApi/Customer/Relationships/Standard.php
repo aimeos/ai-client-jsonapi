@@ -290,8 +290,14 @@ class Standard
 
 			if( isset( $items[$relId] ) )
 			{
+				$refId = $items[$relId]->getRefId();
 				$attributes = (array) $payload->data->attributes;
 				$listItem = $this->check( $items[$relId]->fromArray( $attributes ) );
+
+				if( $listItem->getRefId() !== $refId ) {
+					$listItem->setRefItem( null ); // otherwise, the ID of the old referenced item is stored again
+				}
+
 				$cntl->addListItem( $listItem->getDomain(), $listItem )->store();
 
 				$view->items = $listItem;
