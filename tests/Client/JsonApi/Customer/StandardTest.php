@@ -133,6 +133,24 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testGetIncludedNotAllowed()
+	{
+		$params = ['include' => 'customer.address,customer,order,service,group'];
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+
+		$response = $this->object()->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( ['customer.address'], array_keys( $result['data']['relationships'] ) );
+		$this->assertEquals( ['customer.address'], array_values( array_unique( array_column( $result['included'], 'type' ) ) ) );
+
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
 	public function testGetIncludedNone()
 	{
 		$params = ['include' => ''];
