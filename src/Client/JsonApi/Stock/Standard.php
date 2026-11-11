@@ -297,7 +297,7 @@ class Standard
 
 		$items = \Aimeos\Controller\Frontend::create( $this->context(), 'stock' )->uses( $ref )
 			// @phpstan-ignore-next-line
-			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 100 ) )
+			->slice( max( (int) $view->param( 'page/offset', 0 ), 0 ), max( (int) $view->param( 'page/limit', 100 ), 1 ) )
 			->product( $prodIds )->type( $view->param( 'filter/s_typecode' ) )
 			->sort( $view->param( 'sort' ) )->parse( $params )
 			->search( $total );

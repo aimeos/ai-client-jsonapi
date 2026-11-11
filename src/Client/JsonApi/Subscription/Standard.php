@@ -201,7 +201,7 @@ class Standard
 			{
 				$total = 0;
 				// @phpstan-ignore-next-line
-				$items = $cntl->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 25 ) )
+				$items = $cntl->slice( max( (int) $view->param( 'page/offset', 0 ), 0 ), max( (int) $view->param( 'page/limit', 25 ), 1 ) )
 					->sort( $view->param( 'sort' ) )->parse( $view->param( 'filter', [] ) )->search( $total );
 
 				$view->items = $items;

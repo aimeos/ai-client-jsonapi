@@ -258,7 +258,7 @@ class Standard
 
 		$suppliers = \Aimeos\Controller\Frontend::create( $this->context(), 'supplier' )
 			// @phpstan-ignore-next-line
-			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 25 ) )
+			->slice( max( (int) $view->param( 'page/offset', 0 ), 0 ), max( (int) $view->param( 'page/limit', 25 ), 1 ) )
 			->sort( $view->param( 'sort' ) )->parse( $view->param( 'filter', [] ) )
 			->uses( $ref )->search( $total );
 
