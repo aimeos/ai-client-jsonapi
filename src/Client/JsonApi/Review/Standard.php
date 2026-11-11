@@ -239,7 +239,7 @@ class Standard
 	{
 		$view->data = $this->getController( $view )->sort()
 			// @phpstan-ignore-next-line
-			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 10000 ) )
+			->slice( max( (int) $view->param( 'page/offset', 0 ), 0 ), max( (int) $view->param( 'page/limit', 10000 ), 1 ) )
 			// @phpstan-ignore-next-line
 			->aggregate( $view->param( 'aggregate' ) );
 
@@ -266,7 +266,7 @@ class Standard
 		// @phpstan-ignore return.type
 		return $cntl->sort( $view->param( 'sort', '-ctime' ) )->parse( $params )
 			// @phpstan-ignore-next-line
-			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 10 ) );
+			->slice( max( (int) $view->param( 'page/offset', 0 ), 0 ), max( (int) $view->param( 'page/limit', 10 ), 1 ) );
 	}
 
 

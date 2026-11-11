@@ -246,7 +246,7 @@ class Standard
 		$view->items = \Aimeos\Controller\Frontend::create( $this->context(), 'locale' )
 			->sort( $view->param( 'sort', 'position' ) )->parse( $view->param( 'filter', [] ) )
 			// @phpstan-ignore-next-line
-			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 25 ) )
+			->slice( max( (int) $view->param( 'page/offset', 0 ), 0 ), max( (int) $view->param( 'page/limit', 25 ), 1 ) )
 			->search( $total );
 		$view->total = $total;
 

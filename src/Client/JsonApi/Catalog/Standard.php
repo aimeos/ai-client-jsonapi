@@ -255,7 +255,7 @@ class Standard
 		$total = 1;
 		$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'catalog' )->uses( $ref )
 			// @phpstan-ignore-next-line
-			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 100 ) );
+			->slice( max( (int) $view->param( 'page/offset', 0 ), 0 ), max( (int) $view->param( 'page/limit', 100 ), 1 ) );
 
 		if( ( $cond = (array) $view->param( 'filter', [] ) ) === [] ) {
 			$view->items = $cntl->root( $view->param( 'id' ) )->getTree( $level );

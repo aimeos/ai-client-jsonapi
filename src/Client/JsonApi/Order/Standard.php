@@ -167,7 +167,7 @@ class Standard
 				$total = 0;
 				$items = $cntl->sort( $view->param( 'sort', '-order.id' ) )
 					// @phpstan-ignore-next-line
-					->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 48 ) )
+					->slice( max( (int) $view->param( 'page/offset', 0 ), 0 ), max( (int) $view->param( 'page/limit', 48 ), 1 ) )
 					->parse( (array) $view->param( 'filter', [] ) )
 					->search( $total );
 

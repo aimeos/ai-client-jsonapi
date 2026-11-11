@@ -281,7 +281,7 @@ class Standard
 		$items = \Aimeos\Controller\Frontend::create( $this->context(), 'attribute' )
 			->uses( $ref )->sort( $view->param( 'sort', 'position' ) )->type( $attrTypes )
 			// @phpstan-ignore-next-line
-			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 25 ) )
+			->slice( max( (int) $view->param( 'page/offset', 0 ), 0 ), max( (int) $view->param( 'page/limit', 25 ), 1 ) )
 			->parse( (array) $view->param( 'filter', [] ) )
 			->search( $total );
 

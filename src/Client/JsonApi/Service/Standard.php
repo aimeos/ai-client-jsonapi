@@ -158,7 +158,7 @@ class Standard
 
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'service' )->uses( $ref )
 				// @phpstan-ignore-next-line
-				->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 100 ) );
+				->slice( max( (int) $view->param( 'page/offset', 0 ), 0 ), max( (int) $view->param( 'page/limit', 100 ), 1 ) );
 
 			$basketCntl = \Aimeos\Controller\Frontend::create( $this->context(), 'basket' );
 			$basket = $basketCntl->get();

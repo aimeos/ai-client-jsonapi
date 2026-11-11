@@ -316,7 +316,7 @@ class Standard
 	{
 		$cntl = $this->getController( $view )->sort()
 			// @phpstan-ignore-next-line
-			->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 10000 ) );
+			->slice( max( (int) $view->param( 'page/offset', 0 ), 0 ), max( (int) $view->param( 'page/limit', 10000 ), 1 ) );
 
 		switch( $view->param( 'aggregate' ) )
 		{
@@ -396,7 +396,7 @@ class Standard
 		unset( $params['f_attrid'], $params['f_optid'], $params['f_oneid'] );
 
 		// @phpstan-ignore-next-line
-		return $cntl->parse( $params )->slice( $view->param( 'page/offset', 0 ), $view->param( 'page/limit', 48 ) );
+		return $cntl->parse( $params )->slice( max( (int) $view->param( 'page/offset', 0 ), 0 ), max( (int) $view->param( 'page/limit', 48 ), 1 ) );
 	}
 
 
