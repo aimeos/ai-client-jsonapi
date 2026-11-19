@@ -301,11 +301,48 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetBasket()
 	{
-		$basketId = $this->getOrderBaseItem()->getId();
-		$this->context->session()->set( 'aimeos/order.baseid', $basketId );
+		$basket = \Aimeos\MShop::create( $this->context, 'order/base' )->create( ['order.base.ctime' => date( 'Y-m-d H:i:s' )] );
+		$this->context->session()->set( 'aimeos/order.baseid', '123' );
 
-		$result = $this->access( 'getBasket' )->invokeArgs( $this->object, [$basketId] );
-		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Iface::class, $result );
+		$basketMock = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
+			->setConstructorArgs( [$this->context] )
+			->onlyMethods( ['load'] )
+			->getMock();
+
+		$basketMock->expects( $this->once() )->method( 'load' )->willReturn( $basket );
+
+		\Aimeos\Controller\Frontend::inject( \Aimeos\Controller\Frontend\Basket\Standard::class, $basketMock );
+
+		$result = $this->access( 'getBasket' )->invokeArgs( $this->object, ['123'] );
+		$this->assertSame( $basket, $result );
+	}
+
+
+	public function testGetBasketExpired()
+	{
+		$ctime = date( 'Y-m-d H:i:s', time() - 86400 - 60 );
+		$basket = \Aimeos\MShop::create( $this->context, 'order/base' )->create( ['order.base.ctime' => $ctime] );
+		$this->context->session()->set( 'aimeos/order.baseid', '123' );
+
+		$basketMock = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
+			->setConstructorArgs( [$this->context] )
+			->onlyMethods( ['load'] )
+			->getMock();
+
+		$basketMock->expects( $this->once() )->method( 'load' )->willReturn( $basket );
+
+		\Aimeos\Controller\Frontend::inject( \Aimeos\Controller\Frontend\Basket\Standard::class, $basketMock );
+
+		try
+		{
+			$this->access( 'getBasket' )->invokeArgs( $this->object, ['123'] );
+			$this->fail( 'Exception expected' );
+		}
+		catch( \Aimeos\Client\JsonApi\Exception $e )
+		{
+			$this->assertEquals( 403, $e->getCode() );
+			$this->assertNull( $this->context->session()->get( 'aimeos/order.baseid' ) );
+		}
 	}
 
 

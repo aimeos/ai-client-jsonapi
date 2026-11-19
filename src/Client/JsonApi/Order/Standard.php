@@ -307,7 +307,7 @@ class Standard
 	 *
 	 * @param string $basketId Unique order base ID
 	 * @return \Aimeos\MShop\Order\Item\Base\Iface Basket object including only the services
-	 * @throws \Aimeos\Client\JsonApi\Exception If basket ID is not the same as stored before in the current session
+	 * @throws \Aimeos\Client\JsonApi\Exception If basket ID is not the same as stored before in the current session or the basket is expired
 	 */
 	protected function getBasket( string $basketId ) : \Aimeos\MShop\Order\Item\Base\Iface
 	{
@@ -321,8 +321,18 @@ class Standard
 		}
 
 		$cntl = \Aimeos\Controller\Frontend::create( $context, 'basket' );
+		$basket = $cntl->load( $baseId, ['order/base/service'], false );
 
-		return $cntl->load( $baseId, ['order/base/service'], false );
+		// limits of coupons, products and services aren't checked again for older stored baskets
+		if( (string) $basket->getTimeCreated() < \Aimeos\MShop::create( $context, 'order' )->unfinished() )
+		{
+			$context->session()->set( 'aimeos/order.baseid', null );
+
+			$msg = $context->translate( 'client', 'Your order has expired, please check out again' );
+			throw new \Aimeos\Client\JsonApi\Exception( $msg, 403 );
+		}
+
+		return $basket;
 	}
 
 
