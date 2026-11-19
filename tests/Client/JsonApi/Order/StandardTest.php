@@ -306,6 +306,34 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testGetOrderExpired()
+	{
+		$order = \Aimeos\MShop::create( $this->context, 'order' )->create( ['order.ctime' => date( 'Y-m-d H:i:s', time() - 86400 - 60 )] )
+			->setId( '-1' )->setStatusPayment( \Aimeos\MShop\Order\Item\Base::PAY_UNFINISHED );
+
+		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
+			->setConstructorArgs( [$this->context] )
+			->onlyMethods( ['load'] )
+			->getMock();
+
+		$cntl->expects( $this->once() )->method( 'load' )->willReturn( $order );
+		\Aimeos\Controller\Frontend::inject( \Aimeos\Controller\Frontend\Basket\Standard::class, $cntl );
+
+		$this->context->session()->set( 'aimeos/order.id', '-1' );
+
+		try
+		{
+			$this->access( 'getOrder' )->invokeArgs( $this->object, ['-1'] );
+			$this->fail( 'Exception expected' );
+		}
+		catch( \Aimeos\Client\JsonApi\Exception $e )
+		{
+			$this->assertEquals( 409, $e->getCode() );
+			$this->assertNull( $this->context->session()->get( 'aimeos/order.id' ) );
+		}
+	}
+
+
 	public function testGetPaymentForm()
 	{
 		$order = $this->getOrderItem();

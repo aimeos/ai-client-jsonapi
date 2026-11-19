@@ -302,7 +302,17 @@ class Standard
 			throw new \Aimeos\Client\JsonApi\Exception( $msg, 403 );
 		}
 
-		return \Aimeos\Controller\Frontend::create( $context, 'basket' )->load( $id, ['order/address', 'order/service'], false );
+		$item = \Aimeos\Controller\Frontend::create( $context, 'basket' )->load( $id, ['order/address', 'order/service'], false );
+
+		if( !\Aimeos\Controller\Frontend::create( $context, 'order' )->payable( $item ) )
+		{
+			$context->session()->set( 'aimeos/order.id', null );
+
+			$msg = $context->translate( 'client', 'Your order has expired, please check out again' );
+			throw new \Aimeos\Client\JsonApi\Exception( $msg, 409 );
+		}
+
+		return $item;
 	}
 
 
