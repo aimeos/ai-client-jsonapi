@@ -379,7 +379,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->onlyMethods( ['check'] )
 			->getMock();
 
-		$basket->expects( $this->once() )->method( 'check' )->willReturnSelf();
+		$basket->expects( $this->never() )->method( 'check' );
 
 		$cntl = $this->controller( ['get', 'store'] );
 		$cntl->expects( $this->once() )->method( 'get' )->willReturn( $basket );
