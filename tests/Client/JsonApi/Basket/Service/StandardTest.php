@@ -217,8 +217,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
 		$this->assertEquals( 1, count( $result['data']['relationships']['basket/service']['data'] ) );
-		$this->assertEquals( 'directdebit-test', $result['included'][0]['attributes']['order.base.service.code'] );
-		$this->assertEquals( 'unitpaymentcode', $result['included'][1]['attributes']['order.base.service.code'] );
+		$this->assertEquals( ['unitpaymentcode'], array_column( array_column( $result['included'], 'attributes' ), 'order.base.service.code' ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
