@@ -217,8 +217,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'basket', $result['data']['type'] );
 		$this->assertEquals( 1, count( $result['data']['relationships']['basket.service']['data'] ) );
-		$this->assertEquals( 'directdebit-test', $result['included'][0]['attributes']['order.service.code'] );
-		$this->assertEquals( 'unitpaymentcode', $result['included'][1]['attributes']['order.service.code'] );
+		$this->assertEquals( ['unitpaymentcode'], array_column( array_column( $result['included'], 'attributes' ), 'order.service.code' ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -315,6 +314,37 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 'unitpaymentcode', $result['included'][1]['attributes']['order.service.code'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
+	public function testPostDuplicate()
+	{
+		$manager = \Aimeos\MShop::create( $this->context, 'service' );
+		$servId = $manager->find( 'unitdeliverycode', [], 'service', 'delivery' )->getId();
+
+		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
+			->setConstructorArgs( [$this->context] )
+			->onlyMethods( ['addService'] )
+			->getMock();
+
+		$cntl->expects( $this->once() )->method( 'addService' )
+			->with( $this->anything(), ['test' => 2] )->willReturnSelf();
+
+		\Aimeos\Controller\Frontend::inject( '\Aimeos\Controller\Frontend\Basket\Standard', $cntl );
+
+		$object = new \Aimeos\Client\JsonApi\Basket\Service\Standard( $this->context );
+		$object->setView( $this->view );
+
+		$body = '{"data": [{
+			"type": "basket.service", "id": "delivery", "attributes": {"service.id": ' . $servId . ', "test": 1}
+		}, {
+			"type": "basket.service", "id": "delivery", "attributes": {"service.id": ' . $servId . ', "test": 2}
+		}]}';
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
+
+		$response = $object->post( $request, $this->view->response() );
+
+		$this->assertEquals( 201, $response->getStatusCode() );
 	}
 
 

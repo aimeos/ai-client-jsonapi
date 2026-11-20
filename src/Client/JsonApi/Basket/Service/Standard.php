@@ -250,6 +250,7 @@ class Standard
 				$payload->data = [$payload->data];
 			}
 
+			$entries = $this->entries( $payload->data );
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'service' );
 
 			if( $type = $view->param( 'relatedid' ) ) {
@@ -257,20 +258,8 @@ class Standard
 				$this->controller->deleteService( $type );
 			}
 
-			foreach( $payload->data as $pos => $entry )
+			foreach( $entries as $pos => $entry )
 			{
-				if( !isset( $entry->id ) ) {
-					throw new \Aimeos\Client\JsonApi\Exception( 'Service type (ID) is missing', 400 );
-				}
-
-				if( !isset( $entry->attributes ) ) {
-					throw new \Aimeos\Client\JsonApi\Exception( 'Service attributes are missing', 400 );
-				}
-
-				if( !isset( $entry->attributes->{'service.id'} ) ) {
-					throw new \Aimeos\Client\JsonApi\Exception( 'Service ID in attributes is missing', 400 );
-				}
-
 				$item = $cntl->uses( ['media', 'price', 'text'] )->get( $entry->attributes->{'service.id'} );
 				unset( $entry->attributes->{'service.id'} );
 
@@ -329,22 +318,11 @@ class Standard
 				$payload->data = [$payload->data];
 			}
 
+			$entries = $this->entries( $payload->data );
 			$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'service' );
 
-			foreach( $payload->data as $entry )
+			foreach( $entries as $entry )
 			{
-				if( !isset( $entry->id ) ) {
-					throw new \Aimeos\Client\JsonApi\Exception( 'Service type (ID) is missing', 400 );
-				}
-
-				if( !isset( $entry->attributes ) ) {
-					throw new \Aimeos\Client\JsonApi\Exception( 'Service attributes are missing', 400 );
-				}
-
-				if( !isset( $entry->attributes->{'service.id'} ) ) {
-					throw new \Aimeos\Client\JsonApi\Exception( 'Service ID in attributes is missing', 400 );
-				}
-
 				$item = $cntl->uses( ['media', 'price', 'text'] )->get( $entry->attributes->{'service.id'} );
 				unset( $entry->attributes->{'service.id'} );
 
@@ -404,6 +382,38 @@ class Standard
 			->withHeader( 'Content-Type', 'application/vnd.api+json' )
 			->withBody( $view->response()->createStreamFromString( $body ) )
 			->withStatus( 200 );
+	}
+
+
+	/**
+	 * Validates the service entries and returns only the last entry for each service
+	 *
+	 * @param array $data List of service entries from the request payload
+	 * @return array Unique service entries with the position of the first occurrence as key
+	 * @throws \Aimeos\Client\JsonApi\Exception If an entry is invalid
+	 */
+	protected function entries( array $data ) : array
+	{
+		$map = $list = [];
+
+		foreach( $data as $pos => $entry )
+		{
+			if( !isset( $entry->id ) ) {
+				throw new \Aimeos\Client\JsonApi\Exception( 'Service type (ID) is missing', 400 );
+			}
+
+			if( !isset( $entry->attributes ) ) {
+				throw new \Aimeos\Client\JsonApi\Exception( 'Service attributes are missing', 400 );
+			}
+
+			if( !is_scalar( $entry->attributes->{'service.id'} ?? null ) ) {
+				throw new \Aimeos\Client\JsonApi\Exception( 'Service ID in attributes is missing', 400 );
+			}
+
+			$list[$map[(string) $entry->attributes->{'service.id'}] ??= $pos] = $entry;
+		}
+
+		return $list;
 	}
 
 
