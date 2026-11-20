@@ -227,7 +227,7 @@ class Standard
 			$ref = explode( ',', str_replace( '.', '/', $ref ) );
 		}
 
-		if( in_array( 'catalog', $ref, true ) )
+		if( array_key_exists( 'catalog', \Aimeos\Utils::refs( $ref ) ) )
 		{
 			/** client/jsonapi/catalog/deep
 			 * Load the category tree instead of the nodes of the first level only

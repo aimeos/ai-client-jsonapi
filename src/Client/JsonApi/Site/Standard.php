@@ -227,7 +227,7 @@ class Standard
 			$ref = explode( ',', str_replace( '.', '/', $ref ) );
 		}
 
-		if( in_array( 'locale/site', $ref, true ) )
+		if( array_key_exists( 'locale/site', \Aimeos\Utils::refs( $ref ) ) )
 		{
 			/** client/jsonapi/site/deep
 			 * Load the site tree instead of the nodes of the first level only
